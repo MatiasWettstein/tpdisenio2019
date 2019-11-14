@@ -2,7 +2,6 @@ package tp.disenio.pantallas;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
@@ -10,7 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import tp.disenio.gestores.GestorPantallas;
-import tp.disenio.pantallas.Marco;
 
 public class PantallaPrincipal {
 	/**
@@ -29,11 +27,9 @@ public class PantallaPrincipal {
 		// ------ BOTONES -------
 		JButton altaC = new JButton("ALTA CLIENTE");
 
-		ActionListener altaCliente = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GestorPantallas.PantallaDarAltaCliente();
-				marco1.dispose();
-			}
+		ActionListener altaCliente = e -> {
+			GestorPantallas.PantallaDarAltaCliente();
+			marco1.dispose();
 		};
 		altaC.addActionListener(altaCliente);
 		altaC.setFont(new Font("Serif", Font.BOLD, 12));
@@ -42,23 +38,16 @@ public class PantallaPrincipal {
 		//
 		JButton consultaC = new JButton("CONSULTAR CLIENTE");
 
-		ActionListener consultaCliente = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GestorPantallas.PantallaConsultarCliente();
-				marco1.dispose();
-			}
-		};
+		ActionListener consultaCliente = e -> marco1.dispose();
 		consultaC.addActionListener(consultaCliente);
 		consultaC.setFont(new Font("Serif", Font.BOLD, 12));
 		consultaC.setBounds(300, 81, 200, 50);
 
 		//
 		JButton altaP = new JButton("ALTA POLIZA");
-		ActionListener altaPoliza = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GestorPantallas.PantallaDarAltaPoliza();
-				marco1.dispose();
-			}
+		ActionListener altaPoliza = e -> {
+			GestorPantallas.PantallaDarAltaPoliza();
+			marco1.dispose();
 		};
 		altaP.addActionListener(altaPoliza);
 		altaP.setFont(new Font("Serif", Font.BOLD, 12));
@@ -67,36 +56,21 @@ public class PantallaPrincipal {
 
 		//
 		JButton consultaP = new JButton("CONSULTAR POLIZA");
-		ActionListener consultaPoliza = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GestorPantallas.PantallaConsultarPoliza();
-				marco1.dispose();
-			}
-		};
+		ActionListener consultaPoliza = e -> marco1.dispose();
 		consultaP.addActionListener(consultaPoliza);
 		consultaP.setFont(new Font("Serif", Font.BOLD, 12));
 		consultaP.setBounds(300, 180, 200, 50);
 
 		//
 		JButton registrarP = new JButton("REGISTRAR PAGO DE POLIZA");
-		ActionListener pagoPoliza = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GestorPantallas.PantallaRegistrarPagoPoliza();
-				marco1.dispose();
-			}
-		};
+		ActionListener pagoPoliza = e -> marco1.dispose();
 		registrarP.addActionListener(pagoPoliza);
 		registrarP.setFont(new Font("Serif", Font.BOLD, 12));
 		registrarP.setBounds(536, 180, 250, 50);
 
 		//
 		JButton factoresC = new JButton("ACTUALIZAR FACTORES DE CARACTERISTICAS");
-		ActionListener actualizarFactores = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GestorPantallas.PantallaActualizarCaracteristicas();
-				marco1.dispose();
-			}
-		};
+		ActionListener actualizarFactores = e -> marco1.dispose();
 		factoresC.addActionListener(actualizarFactores);
 		factoresC.setFont(new Font("Serif", Font.BOLD, 12));
 		factoresC.setBounds(50, 366, 350, 50);
@@ -104,12 +78,7 @@ public class PantallaPrincipal {
 
 		//
 		JButton generarPR = new JButton ("GENERAR PROPUESTA DE RENOVACION");
-		ActionListener generarPropuesta = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GestorPantallas.PantallaGenerarPropuestaRenovacion();
-				marco1.dispose();
-			}
-		};
+		ActionListener generarPropuesta = e -> marco1.dispose();
 		generarPR.addActionListener(generarPropuesta);
 		generarPR.setFont(new Font("Serif", Font.BOLD, 12));
 		generarPR.setBounds(50, 255, 300, 50);
@@ -117,12 +86,7 @@ public class PantallaPrincipal {
 
 		//
 		JButton generarListadoPR = new JButton("GENERAR LISTADO DE PROPUESTA DE RENOVACION");
-		ActionListener generarListado = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GestorPantallas.PantallaGenerarListadoPropuestas();
-				marco1.dispose();
-			}
-		};
+		ActionListener generarListado = e -> marco1.dispose();
 		generarListadoPR.addActionListener(generarListado);
 		generarListadoPR.setFont(new Font("Serif", Font.BOLD, 12));
 		generarListadoPR.setBounds(386, 255, 400, 50);
@@ -131,17 +95,12 @@ public class PantallaPrincipal {
 
 		//
 		JButton informe = new JButton("GENERAR INFORME DE RESULTADO MENSUAL");
-		ActionListener informeM = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GestorPantallas.PantallaGenerarInformeMensual();
-				marco1.dispose();
-			}
-		};
+		ActionListener informeM = e -> marco1.dispose();
 		informe.addActionListener(informeM);
 		informe.setFont(new Font("Serif", Font.BOLD, 12));
 		informe.setBounds(436, 366, 350, 50);
 		// ---------------------------
-		
+
 		// --------- ETIQUETAS ------
 		JLabel sectorC = new JLabel("CLIENTE");
 		sectorC.setFont(new Font("Serif", Font.BOLD, 20));
@@ -153,7 +112,7 @@ public class PantallaPrincipal {
 		sectorI.setFont(new Font("Serif", Font.BOLD, 20));
 		sectorI.setBounds(50, 319, 500, 50);
 		//---------------------------
-		
+
 		// -------- PANEL -----------
 		marco1.getContentPane().add(altaC);
 		marco1.getContentPane().add(consultaC);

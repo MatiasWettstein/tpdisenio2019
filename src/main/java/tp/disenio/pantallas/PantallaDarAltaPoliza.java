@@ -2,13 +2,10 @@ package tp.disenio.pantallas;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.sql.Date;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -31,13 +28,11 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
-import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.clases.Cliente;
-import tp.disenio.clases.Hijo;
-import tp.disenio.enumerators.*;
-import tp.disenio.gestores.GestorCliente;
+import tp.disenio.enumerators.EstadoCivil;
+import tp.disenio.enumerators.TipoDocumento;
 import tp.disenio.gestores.GestorPantallas;
 
 public class PantallaDarAltaPoliza {
@@ -90,7 +85,7 @@ public class PantallaDarAltaPoliza {
 	 * @wbp.parser.entryPoint
 	 */
 	static Cliente c;
-	static ArrayList<HijoDTO> listaHijos = new ArrayList <HijoDTO>();
+	static ArrayList<HijoDTO> listaHijos = new ArrayList <>();
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -101,8 +96,8 @@ public class PantallaDarAltaPoliza {
 		marco1.getContentPane().setBackground(new Color (192, 192, 192));
 		marco1.setLocationRelativeTo(null);
 		marco1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		
-		
+
+
 		JScrollPane scrollPaneCliente = new JScrollPane();
 		scrollPaneCliente.setBounds(25, 62, 1267, 43);
 		marco1.getContentPane().add(scrollPaneCliente);
@@ -116,7 +111,7 @@ public class PantallaDarAltaPoliza {
 		domicilio.setLocation(25, 109);
 		domicilio.setFont(new Font("Serif", Font.BOLD, 19));
 		marco1.getContentPane().add(domicilio);
-		
+
 		//
 		JLabel provincia = new JLabel("(*) Provincia");
 		provincia.setSize(135, 27);
@@ -226,36 +221,36 @@ public class PantallaDarAltaPoliza {
 		hijos.setFont(new Font("Serif", Font.BOLD, 19));
 		marco1.getContentPane().add(hijos);
 		// -------------------------------------------------------------------------
-		
-		
+
+
 		// ------------- COMBOBOX ----------
 		final JComboBox provinciaCombo = new JComboBox();
 		provinciaCombo.setMaximumRowCount(23);
-		provinciaCombo.setModel(new DefaultComboBoxModel(Provincias.values()));
+		//provinciaCombo.setModel(new DefaultComboBoxModel(Provincias.values()));
 		provinciaCombo.setBounds(144, 158, 222, 20);
 		marco1.getContentPane().add(provinciaCombo);
 
 		final JComboBox localidadCombo = new JComboBox();
 		localidadCombo.setMaximumRowCount(150);
-		localidadCombo.setModel(new DefaultComboBoxModel(Localidades.values()));
+		//localidadCombo.setModel(new DefaultComboBoxModel(Localidades.values()));
 		localidadCombo.setBounds(565, 158, 222, 20);
 		marco1.getContentPane().add(localidadCombo);
 
 		final JComboBox marcaCombo = new JComboBox();
 		marcaCombo.setBounds(111, 240, 196, 20);
-		marcaCombo.setModel(new DefaultComboBoxModel(Marcas.values()));
+		//marcaCombo.setModel(new DefaultComboBoxModel(Marcas.values()));
 		marco1.getContentPane().add(marcaCombo);
 
 		final JComboBox modeloCombo = new JComboBox();
 		modeloCombo.setBounds(417, 240, 196, 20);
-		modeloCombo.setModel(new DefaultComboBoxModel(Modelos.values()));
+		//modeloCombo.setModel(new DefaultComboBoxModel(Modelos.values()));
 		marco1.getContentPane().add(modeloCombo);
-		
+
 		final JComboBox siniestrosCombo = new JComboBox();
 		siniestrosCombo.setBounds(345, 406, 196, 20);
 		marco1.getContentPane().add(siniestrosCombo);
-		siniestrosCombo.setModel(new DefaultComboBoxModel(NroSiniestrosEnum.values()));
-		
+		//siniestrosCombo.setModel(new DefaultComboBoxModel(NroSiniestrosEnum.values()));
+
 		// ----------- CAMPOS DE TEXTO ------------
 		anioText = new JTextField();
 		anioText.setBounds(714, 240, 196, 20);
@@ -280,11 +275,11 @@ public class PantallaDarAltaPoliza {
 		motorTexto.setBounds(111, 287, 196, 20);
 		marco1.getContentPane().add(motorTexto);
 		motorTexto.setColumns(10);
-		motorTexto.addKeyListener(new KeyAdapter() { // EL MOTOR PUEDEN SER HASTA 12 CARACTERES 
+		motorTexto.addKeyListener(new KeyAdapter() { // EL MOTOR PUEDEN SER HASTA 12 CARACTERES
 			@Override
 			public void keyTyped(KeyEvent e) {
 				int max = 12;
-				 if(motorTexto.getText().length() > max+1) {
+				if(motorTexto.getText().length() > max+1) {
 					e.consume();
 					String shortened = motorTexto.getText().substring(0, max);
 					motorTexto.setText(shortened);
@@ -298,11 +293,11 @@ public class PantallaDarAltaPoliza {
 		chasisText.setBounds(417, 287, 196, 20);
 		marco1.getContentPane().add(chasisText);
 		chasisText.setColumns(10);
-		chasisText.addKeyListener(new KeyAdapter() { // EL CHASIS PUEDEN SER HASTA 17 CARACTERES 
+		chasisText.addKeyListener(new KeyAdapter() { // EL CHASIS PUEDEN SER HASTA 17 CARACTERES
 			@Override
 			public void keyTyped(KeyEvent e) {
 				int max = 17;
-				 if(chasisText.getText().length() > max+1) {
+				if(chasisText.getText().length() > max+1) {
 					e.consume();
 					String shortened = chasisText.getText().substring(0, max);
 					chasisText.setText(shortened);
@@ -317,11 +312,11 @@ public class PantallaDarAltaPoliza {
 		patenteText.setBounds(714, 286, 196, 20);
 		marco1.getContentPane().add(patenteText);
 		patenteText.setColumns(10);
-		patenteText.addKeyListener(new KeyAdapter() { // LA PATENTE PUEDEN SER HASTA 7 CARACTERES 
+		patenteText.addKeyListener(new KeyAdapter() { // LA PATENTE PUEDEN SER HASTA 7 CARACTERES
 			@Override
 			public void keyTyped(KeyEvent e) {
 				int max = 7;
-				 if(patenteText.getText().length() > max+1) {
+				if(patenteText.getText().length() > max+1) {
 					e.consume();
 					String shortened = patenteText.getText().substring(0, max);
 					patenteText.setText(shortened);
@@ -330,21 +325,21 @@ public class PantallaDarAltaPoliza {
 				}
 			}
 		});
-		
+
 
 		final JSpinner kmSpinner = new JSpinner();
 		kmSpinner.setToolTipText("");
 		kmSpinner.setBounds(1060, 286, 197, 20);
 		marco1.getContentPane().add(kmSpinner);
-		
+
 		// ----------- FORMATTED TEXT FIELD ---------------
 		MaskFormatter mascara = null;
 		try {
-			mascara = new MaskFormatter("$######,##"); 
+			mascara = new MaskFormatter("$######,##");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+
 		mascara.setPlaceholderCharacter('_');
 
 		JFormattedTextField sumaFormattedTextField = new JFormattedTextField(mascara);
@@ -354,15 +349,15 @@ public class PantallaDarAltaPoliza {
 
 		// ------------------------------------
 
-		 // ----------- RADIO BUTTON ------------------
-		
-							//GARAGE 
+		// ----------- RADIO BUTTON ------------------
+
+		//GARAGE
 		final JRadioButton garageRdbtnSi = new JRadioButton("SI");
 		garageRdbtnSi.setBackground(Color.LIGHT_GRAY);
 		garageRdbtnSi.setBounds(198, 361, 49, 23);
 		marco1.getContentPane().add(garageRdbtnSi);
 		garageRdbtnSi.setActionCommand("SI");
-		
+
 		final JRadioButton garageRdbtnNo = new JRadioButton("NO");
 		garageRdbtnNo.setBackground(Color.LIGHT_GRAY);
 		garageRdbtnNo.setBounds(243, 361, 49, 23);
@@ -420,9 +415,9 @@ public class PantallaDarAltaPoliza {
 		final ButtonGroup grupoTuerca = new ButtonGroup();
 		grupoTuerca.add(tuercasRdbtnSi);
 		grupoTuerca.add(tuercasRdbtnNo);
-		
+
 		// --------- SCROLL PANE ----------------
-		
+
 		JScrollPane scrollPaneHijos = new JScrollPane();
 		scrollPaneHijos.setBounds(284, 471, 693, 168);
 		marco1.getContentPane().add(scrollPaneHijos);
@@ -433,134 +428,120 @@ public class PantallaDarAltaPoliza {
 
 		tablaHijos.setModel(modelhijos);
 		scrollPaneHijos.setViewportView(tablaHijos);
-		
-		
+
+
 		// ---------- BOTONES ------------
 		JButton buscarC = new JButton("BUSCAR CLIENTE");
-		ActionListener buscarCliente = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GestorPantallas.buscarcliente();
-			}
-		};
+		ActionListener buscarCliente = e -> GestorPantallas.buscarcliente();
 		buscarC.addActionListener(buscarCliente);
 		buscarC.setFont(new Font("Serif", Font.BOLD, 12));
 		buscarC.setBounds(25, 10, 222, 33);
 		marco1.getContentPane().add(buscarC);
-		
+
 		//
 		JButton altaC = new JButton ("DAR DE ALTA CLIENTE");
-		ActionListener altaCliente = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GestorPantallas.PantallaDarAltaCliente(); //hay que ver si esta es la forma porque no se como hacer que te devuelva a esta pntalla desp
-				marco1.dispose();
-			}
+		ActionListener altaCliente = e -> {
+			GestorPantallas.PantallaDarAltaCliente(); //hay que ver si esta es la forma porque no se como hacer que te devuelva a esta pntalla desp
+			marco1.dispose();
 		};
 		altaC.addActionListener(altaCliente);
 		altaC.setFont(new Font("Serif", Font.BOLD, 12));
 		altaC.setBounds(1070, 10, 222, 33);
 		marco1.getContentPane().add(altaC);
-		
+
 		//
 		JButton agregarH = new JButton("AGREGAR DECLARACIÓN DE HIJO");
 		agregarH.setFont(new Font("Serif", Font.BOLD, 12));
 		agregarH.setSize(236, 33);
 		agregarH.setLocation(25, 471);
-		ActionListener altaHijo = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GestorPantallas.agregarHijos();  //metodo del gestor que me trae a otro metodo de esta clase
-
-			}
-		};
+		ActionListener altaHijo = e -> GestorPantallas.agregarHijos();
 		agregarH.addActionListener(altaHijo);
 		marco1.getContentPane().add(agregarH);
-		
+
 		//
 		JButton quitarH = new JButton("QUITAR DECLARACIÓN DE HIJO");
 		quitarH.setFont(new Font("Serif", Font.BOLD, 12));
 		quitarH.setSize(236, 33);
 		quitarH.setLocation(25, 515);
-		quitarH.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				HijoDTO H_aux = new HijoDTO();
-				H_aux = listaHijos.get(tablaHijos.getSelectedRow());
-				modelhijos.removeRow(tablaHijos.getSelectedRow());
-				listaHijos.remove(H_aux);
-				
-			}
+		quitarH.addActionListener(e -> {
+			HijoDTO H_aux = new HijoDTO();
+			H_aux = listaHijos.get(tablaHijos.getSelectedRow());
+			modelhijos.removeRow(tablaHijos.getSelectedRow());
+			listaHijos.remove(H_aux);
+
 		});
 		marco1.getContentPane().add(quitarH);
-		
+
 		//
 		JButton aceptar = new JButton("ACEPTAR");
 		aceptar.setFont(new Font("Serif", Font.BOLD, 12));
 		aceptar.setSize(143, 33);
 		aceptar.setLocation(1021, 627);
-		ActionListener acept = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-				//HAGO LAS VALIDACIONES CUANDO SE APRIETA EL BOTON ACEPTAR
-				
-				
-				boolean provincia = true; 
-				boolean localidad = true;
-				boolean marca = true;
-				boolean modelo = true;
-				boolean anio = true; 
-				boolean motor = true;
-				boolean chasis = true; 
-				boolean patente = true;
-				boolean kmAnio = true; 
-				boolean nroSiniestros = true;
-				LocalDate fechaActual = LocalDate.now();
-				String error = ""; 
-				
-				
-				//valido la provincia
-				if (provinciaCombo.getSelectedItem().toString() == "Seleccionar_Provincia") {
-					provincia = false; 
-					error += "Debe seleciconar una provincia \n";
+		ActionListener acept = e -> {
+
+
+			//HAGO LAS VALIDACIONES CUANDO SE APRIETA EL BOTON ACEPTAR
+
+
+			boolean provincia1 = true;
+			boolean localidad1 = true;
+			boolean marca1 = true;
+			boolean modelo1 = true;
+			boolean anio1 = true;
+			boolean motor1 = true;
+			boolean chasis1 = true;
+			boolean patente1 = true;
+			boolean kmAnio1 = true;
+			boolean nroSiniestros = true;
+			LocalDate fechaActual = LocalDate.now();
+			String error = "";
+
+
+			//valido la provincia
+			if (provinciaCombo.getSelectedItem().toString() == "Seleccionar_Provincia") {
+				provincia1 = false;
+				error += "Debe seleciconar una provincia \n";
+			}
+			//valido la localidad
+			if (localidadCombo.getSelectedItem().toString() == "Seleccionar_Localidad") {
+				localidad1 = false;
+				error += "Debe seleciconar una localidad \n";
+			}
+			//valido la marca
+			if (marcaCombo.getSelectedItem().toString() == "Seleccionar_Marca") {
+				marca1 = false;
+				error += "Debe seleciconar una Marca \n";
+			}
+			//valido el modelo
+			if (modeloCombo.getSelectedItem().toString() == "Seleccionar_Modelo") {
+				modelo1 = false;
+				error += "Debe seleciconar un Modelo\n";
+			}
+			//valido el año
+			try {
+				if (Integer.parseInt(anioText.getText()) > fechaActual.getYear()) { // el año es mayor al año actual
+					anio1 = false;
+					error += "El año ingresado no es valido \n";
 				}
-				//valido la localidad
-				if (localidadCombo.getSelectedItem().toString() == "Seleccionar_Localidad") {
-					localidad = false; 
-					error += "Debe seleciconar una localidad \n";
-				}
-				//valido la marca
-				if (marcaCombo.getSelectedItem().toString() == "Seleccionar_Marca") {
-					marca = false; 
-					error += "Debe seleciconar una Marca \n";
-				}
-				//valido el modelo
-				if (modeloCombo.getSelectedItem().toString() == "Seleccionar_Modelo") {
-					modelo = false; 
-					error += "Debe seleciconar un Modelo\n";
-				}
-				//valido el año 
-				try {
-						if (Integer.parseInt(anioText.getText()) > fechaActual.getYear()) { // el año es mayor al año actual 
-							anio = false;
-							error += "El año ingresado no es valido \n";
-						}
-					}
-				catch (Exception exception) {
-					error += "Debe ingresar una fecha \n";
-				}
-				//valido los siniestros 
-				if (siniestrosCombo.getSelectedItem().toString() == "Seleccionar_Nro_Siniestros") {
-					nroSiniestros=false;
-					error += "Debe seleccionar un Número de siniestros \n";
-				}
-				
-				
-				
-				if (error != null) { //muestro los mensajes de error 
-					JOptionPane.showMessageDialog(null, error);
-				}
-				
-				
-				if (provincia && localidad && marca && modelo && anio && motor && chasis && patente && kmAnio && nroSiniestros) { //si todo sale bien tengo que hacer esta llamada a la otra pantalla 
-								
+			}
+			catch (Exception exception) {
+				error += "Debe ingresar una fecha \n";
+			}
+			//valido los siniestros
+			if (siniestrosCombo.getSelectedItem().toString() == "Seleccionar_Nro_Siniestros") {
+				nroSiniestros=false;
+				error += "Debe seleccionar un Número de siniestros \n";
+			}
+
+
+
+			if (error != null) { //muestro los mensajes de error
+				JOptionPane.showMessageDialog(null, error);
+			}
+
+
+			if (provincia1 && localidad1 && marca1 && modelo1 && anio1 && motor1 && chasis1 && patente1 && kmAnio1 && nroSiniestros) { //si todo sale bien tengo que hacer esta llamada a la otra pantalla
+
 				PolizaDTO pDTO = new PolizaDTO();
 				//pDTO.setHijos(listaHijos);
 				//pDTO.setProvincia(provinciaCombo.getSelectedItem().toString());
@@ -572,24 +553,23 @@ public class PantallaDarAltaPoliza {
 				//pDTO.setChasis(chasisText.getText().toString());
 				//pDTO.setPatente(patenteText.getText().toString());
 				//pDTO.setKmPorAnio("0");
-				
+
 				if (grupoAlarma.getSelection().getActionCommand() == "SI") { //ALARMA
 					//pDTO.setAlarma(true);
 				} else //pDTO.setAlarma(false);
-				
-				if (grupoGarage.getSelection().getActionCommand() == "SI") { //GARAGE
-					//pDTO.setGarage(true);
-				} else //pDTO.setGarage(false);
-				if (grupoDisp.getSelection().getActionCommand() == "SI") { //DISPOSITVO
-					//pDTO.setDispositivoR(true);
-				} else //pDTO.setDispositivoR(false);
-				if (grupoTuerca.getSelection().getActionCommand() == "SI") { //TUERCAS
-					//pDTO.setTuercas(true);
-				} else //pDTO.setTuercas(false);
-	
-				GestorPantallas.Pantalla2Alta(c, pDTO);  
-				marco1.dispose(); 
-				}
+
+					if (grupoGarage.getSelection().getActionCommand() == "SI") { //GARAGE
+						//pDTO.setGarage(true);
+					} else //pDTO.setGarage(false);
+						if (grupoDisp.getSelection().getActionCommand() == "SI") { //DISPOSITVO
+							//pDTO.setDispositivoR(true);
+						} else //pDTO.setDispositivoR(false);
+							if (grupoTuerca.getSelection().getActionCommand() == "SI") { //TUERCAS
+								//pDTO.setTuercas(true);
+							} else //pDTO.setTuercas(false);
+
+								GestorPantallas.Pantalla2Alta(c, pDTO);
+				marco1.dispose();
 			}
 		};
 		aceptar.addActionListener(acept);
@@ -600,19 +580,17 @@ public class PantallaDarAltaPoliza {
 		cancelar.setFont(new Font("Serif", Font.BOLD, 12));
 		cancelar.setSize(143, 33);
 		cancelar.setLocation(1174, 627);
-		ActionListener cancel = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GestorPantallas.PantallaPrincipal(); // si cancelo vuelvo a la pantalla de MENU
-				marco1.dispose();
-			}
+		ActionListener cancel = e -> {
+			GestorPantallas.PantallaPrincipal(); // si cancelo vuelvo a la pantalla de MENU
+			marco1.dispose();
 		};
 		cancelar.addActionListener(cancel);
 		marco1.getContentPane().add(cancelar);
-	
-	
+
+
 	}
 
-	static ArrayList<Cliente> lista = new ArrayList <Cliente>();
+	static ArrayList<Cliente> lista = new ArrayList <>();
 	private static JTextField textApellido;
 
 	/**
@@ -625,13 +603,13 @@ public class PantallaDarAltaPoliza {
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(new Color (192, 192, 192));
 		// -----------------------------------------------------------------
-		
+
 		// ----------------- ETIQUETAS -------------------------------------
 		JLabel lblNroCliente = new JLabel("Nro. Cliente");
 		lblNroCliente.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblNroCliente.setBounds(25, 35, 205, 31);
 		marco1.getContentPane().add(lblNroCliente);
-		
+
 		JLabel lblTipoDocumento = new JLabel("Tipo documento");
 		lblTipoDocumento.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblTipoDocumento.setBounds(389, 35, 205, 31);
@@ -641,13 +619,13 @@ public class PantallaDarAltaPoliza {
 		lblNroDocumento.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblNroDocumento.setBounds(764, 35, 205, 31);
 		marco1.getContentPane().add(lblNroDocumento);
-		
+
 		JLabel lblNombreCliente = new JLabel("Nombre Cliente");
 		lblNombreCliente.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblNombreCliente.setBounds(25, 103, 205, 31);
 		marco1.getContentPane().add(lblNombreCliente);
 		// -----------------------------------------------------------------
-		
+
 		// ------------------- CAMPOS DE TEXTO -----------------------------
 		textNroCliente = new JTextField();
 		textNroCliente.setBounds(161, 43, 196, 20);
@@ -658,7 +636,7 @@ public class PantallaDarAltaPoliza {
 		textNroDoc.setColumns(10);
 		textNroDoc.setBounds(918, 43, 196, 20);
 		marco1.getContentPane().add(textNroDoc);
-		
+
 		textNombre = new JTextField();
 		textNombre.setColumns(10);
 		textNombre.setBounds(162, 111, 196, 20);
@@ -669,14 +647,14 @@ public class PantallaDarAltaPoliza {
 		textApellido.setBounds(534, 111, 196, 20);
 		marco1.getContentPane().add(textApellido);
 		// -----------------------------------------------------------------
-		
+
 		// --------------- COMBO BOX ---------------------------------------
 		final JComboBox comboTipoDoc = new JComboBox();
 		comboTipoDoc.setBounds(534, 43, 196, 20);
 		comboTipoDoc.setModel(new DefaultComboBoxModel(TipoDocumento.values()));
 		marco1.getContentPane().add(comboTipoDoc);
 		// -----------------------------------------------------------------
-		
+
 		// --------------------------SCROLL PANE ---------------------------
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(25, 258, 1089, 138);
@@ -691,78 +669,74 @@ public class PantallaDarAltaPoliza {
 						"Nro. Cliente", "Apellido", "Nombre", "Tipo Documento", "Nro. Documento", "Domicilio"
 				}
 				)
-					{
+		{
 
-						private static final long serialVersionUID = 1L;
-						@Override
-						public boolean isCellEditable(int i, int i1) {
-							return false;
-						}
-					}	);
-		
+			private static final long serialVersionUID = 1L;
+			@Override
+			public boolean isCellEditable(int i, int i1) {
+				return false;
+			}
+		}	);
+
 		scrollPane.setViewportView(table);
 		// -----------------------------------------------------------------
-		
+
 		// ------------------------ BOTONES --------------------------------
 		JButton botonBuscar = new JButton("BUSCAR");
 		botonBuscar.setFont(new Font("Serif", Font.BOLD, 12));
-		ActionListener accionBuscar = new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				GestorCliente gc = GestorCliente.getInstance();
-				lista=gc.BuscarClientes(comboTipoDoc.getSelectedItem().toString(), textNroDoc.getText().toString(), textApellido.getText().toString(), textNombre.getText().toString(), textNroCliente.getText().toString());
-				int cantCliente = lista.size();
-				int fila =0;
-				Object[][] listaMuestra = new Object[cantCliente][6];
-				for(Cliente c:lista) {
+		/*ActionListener accionBuscar = e -> {
+			GestorCliente gc = GestorCliente.getInstance();
+			lista=gc.BuscarClientes(comboTipoDoc.getSelectedItem().toString(), textNroDoc.getText().toString(), textApellido.getText().toString(), textNombre.getText().toString(), textNroCliente.getText().toString());
+			int cantCliente = lista.size();
+			int fila =0;
+			Object[][] listaMuestra = new Object[cantCliente][6];
+			for(Cliente c:lista) {
 
-					listaMuestra[fila][0] = c.nroCliente();
-					listaMuestra[fila][1] = c.apellido();
-					listaMuestra[fila][2] = c.nombre();
-					listaMuestra[fila][3] = c.tipoDoc();
-					listaMuestra[fila][4] = c.documento();
-					listaMuestra[fila][5] = c.direccion().getCalle() + " " + c.direccion().getNumero();
-					fila++;
-
-				}
-
-				DefaultTableModel model = new DefaultTableModel(listaMuestra,new String[] {"Nro. Cliente", "Apellido", "Nombre", "Tipo Documento", "Nro. Documento", "Domicilio"}) {
-
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public boolean isCellEditable(int i, int i1) {
-						return false;
-					}
-				};
-				table.setModel(model);
+				listaMuestra[fila][0] = c.nroCliente();
+				listaMuestra[fila][1] = c.apellido();
+				listaMuestra[fila][2] = c.nombre();
+				listaMuestra[fila][3] = c.tipoDoc();
+				listaMuestra[fila][4] = c.documento();
+				listaMuestra[fila][5] = c.direccion().getCalle() + " " + c.direccion().getNumero();
+				fila++;
 
 			}
-		};
 
-		botonBuscar.addActionListener(accionBuscar);
+			DefaultTableModel model = new DefaultTableModel(listaMuestra,new String[] {"Nro. Cliente", "Apellido", "Nombre", "Tipo Documento", "Nro. Documento", "Domicilio"}) {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isCellEditable(int i, int i1) {
+					return false;
+				}
+			};
+			table.setModel(model);
+
+		};*/
+
+		//	botonBuscar.addActionListener(accionBuscar);
 		botonBuscar.setBounds(25, 180, 143, 33);
 
 		marco1.getContentPane().add(botonBuscar);
 		//
 		JButton btnAceptar = new JButton("ACEPTAR");
-		btnAceptar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				c = lista.get(table.getSelectedRow());
-				System.out.println(c);
-				if(c!=null) {
-					model.setValueAt(c.nroCliente(), 0, 0);
-					model.setValueAt(c.apellido(), 0, 1);
-					model.setValueAt(c.nombre(), 0, 2);
-					model.setValueAt(c.tipoDoc(), 0, 3);
-					model.setValueAt(c.documento(), 0, 4);
-					model.setValueAt(c.direccion().getCalle() + " " + c.direccion().getNumero(), 0, 5);
+		/*btnAceptar.addActionListener(e -> {
+			c = lista.get(table.getSelectedRow());
+			System.out.println(c);
+			if(c!=null) {
+				model.setValueAt(c.nroCliente(), 0, 0);
+				model.setValueAt(c.apellido(), 0, 1);
+				model.setValueAt(c.nombre(), 0, 2);
+				model.setValueAt(c.tipoDoc(), 0, 3);
+				model.setValueAt(c.documento(), 0, 4);
+				model.setValueAt(c.direccion().getCalle() + " " + c.direccion().getNumero(), 0, 5);
 
-				}
-
-
-				marco1.dispose();
 			}
-		});
+
+
+			marco1.dispose();
+		});*/
 		btnAceptar.setFont(new Font("Serif", Font.BOLD, 12));
 		btnAceptar.setBounds(888, 527, 143, 33);
 		marco1.getContentPane().add(btnAceptar);
@@ -771,12 +745,8 @@ public class PantallaDarAltaPoliza {
 		btnCancelar.setFont(new Font("Serif", Font.BOLD, 12));
 		btnCancelar.setBounds(1041, 527, 143, 33);
 		marco1.getContentPane().add(btnCancelar);
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-							marco1.dispose();
-			}
-		});
-		
+		btnCancelar.addActionListener(e -> marco1.dispose());
+
 
 		JLabel lblApellidoCliente = new JLabel("Apellido Cliente");
 		lblApellidoCliente.setFont(new Font("Serif", Font.PLAIN, 18));
@@ -805,35 +775,35 @@ public class PantallaDarAltaPoliza {
 		fechaN.setSize(222, 33);
 		fechaN.setLocation(37, 62);
 		marco1.getContentPane().add(fechaN);
-		
+
 		JLabel lblSexo = new JLabel("(*) Sexo");
 		lblSexo.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblSexo.setBounds(37, 151, 180, 33);
 		marco1.getContentPane().add(lblSexo);
-		
+
 		JLabel lblEstadoCivil = new JLabel("(*) Estado Civil");
 		lblEstadoCivil.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblEstadoCivil.setBounds(37, 227, 180, 33);
 		marco1.getContentPane().add(lblEstadoCivil);
 
 		// -----------------------------------------------------------------
-		
+
 		// --------------------- FORMATTED TEXT FIELD ----------------------
-		
+
 		MaskFormatter mascara = null;
 		try {
-			mascara = new MaskFormatter("##/##/####"); 
+			mascara = new MaskFormatter("##/##/####");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		
+
 		mascara.setPlaceholderCharacter('_');
 		final JFormattedTextField fechaNFormattedTextField = new JFormattedTextField(mascara);
 		fechaNFormattedTextField.setValue("");
 		fechaNFormattedTextField.setBounds(232, 69, 196, 25);
 		marco1.getContentPane().add(fechaNFormattedTextField);
 		// -----------------------------------------------------------------
-		
+
 		// --------------- RADIO BUTTON ------------------------------------
 		JRadioButton sexoRdbtnFemenino = new JRadioButton("FEMENINO");
 		sexoRdbtnFemenino.setFont(new Font("Tahoma", Font.PLAIN, 13));
@@ -854,89 +824,87 @@ public class PantallaDarAltaPoliza {
 		grupoSexo.add(sexoRdbtnFemenino);
 		grupoSexo.add(rdbtnMasculino);
 		// -----------------------------------------------------------------
-		
+
 		// ------------------- COMBO BOX -----------------------------------
 		final JComboBox comboBox = new JComboBox();
 		comboBox.setBounds(232, 234, 203, 25);
 		comboBox.setModel(new DefaultComboBoxModel(EstadoCivil.values()));
 		marco1.getContentPane().add(comboBox);
 		// -----------------------------------------------------------------
-		
+
 		// ------------------- BOTONES -------------------------------------
 		JButton btnAceptar = new JButton("ACEPTAR");
 		btnAceptar.setFont(new Font("Serif", Font.BOLD, 12));
 		btnAceptar.setBounds(383, 493, 143, 33);
 		marco1.getContentPane().add(btnAceptar);
-		btnAceptar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) { //SE HACEN LAS VALIDACIONES CUANDO SE PRESIONA ACEPTAR 
-				//la idea es recolectar en el ArrayList errores, todos los errores que surjan de validacion y pasarselo para que la pantalla de error muestre un popup
-				boolean fechaValida = true;
-				boolean edadHijo = true;
-				boolean campoCompleto = true; 
-				boolean estadoCivil = true;
-				
-				String error = "";
-				String fechaVacia = "__/__/____"; 
-							
-				if ((fechaNFormattedTextField.getText()).equals(fechaVacia)){
-					campoCompleto = false; 
-					error += "No se completó el campo Fecha de Nacimiento que es obligatorio \n";
-				}             
-				
-				if (campoCompleto == true ) { //si se completó el campo fecha
-					String fecha = fechaNFormattedTextField.getText();
-					
-					//VERIFICO QUE SEA UNA FECHA VALIDA 
-			        try { 
+		btnAceptar.addActionListener(e -> { //SE HACEN LAS VALIDACIONES CUANDO SE PRESIONA ACEPTAR
+			//la idea es recolectar en el ArrayList errores, todos los errores que surjan de validacion y pasarselo para que la pantalla de error muestre un popup
+			boolean fechaValida = true;
+			boolean edadHijo = true;
+			boolean campoCompleto = true;
+			boolean estadoCivil = true;
+
+			String error = "";
+			String fechaVacia = "__/__/____";
+
+			if (fechaNFormattedTextField.getText().equals(fechaVacia)){
+				campoCompleto = false;
+				error += "No se completó el campo Fecha de Nacimiento que es obligatorio \n";
+			}
+
+			if (campoCompleto == true ) { //si se completó el campo fecha
+				String fecha = fechaNFormattedTextField.getText();
+
+				//VERIFICO QUE SEA UNA FECHA VALIDA
+				try {
 					DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-					LocalDate fechaNac = LocalDate.parse(fecha, fmt);	
+					LocalDate fechaNac = LocalDate.parse(fecha, fmt);
 					LocalDate ahora = LocalDate.now();
 					Period periodo = Period.between(fechaNac, ahora);
-						//VERIFICO QUE LA EDAD ESTE ENTRE 18 y 30 AÑOS
-						if (periodo.getYears() < 18 || periodo.getYears() > 30) {
-							edadHijo = false;
-							error += "La edad del hijo no está entre los 18 y 30 años \n";
-					 	}
-			        }
-			        catch (Exception exx) {
-			        	fechaValida = false;
-			        	error += "La fecha ingresada es inválida\n";
-			        	
-			        }
-				}
-				
-				HijoDTO hijoDTO = new HijoDTO();
-				try { // SI NO SE SELECCIONÓ EL SEXO DEBERÍA MOSTRAR UN MENSAJE DE ERROR Y DAR LA OPORTUNIDAD DE VOLVER A SELECCIONAR
-					hijoDTO.setSexo(grupoSexo.getSelection().getActionCommand());
-					
+					//VERIFICO QUE LA EDAD ESTE ENTRE 18 y 30 AÑOS
+					if (periodo.getYears() < 18 || periodo.getYears() > 30) {
+						edadHijo = false;
+						error += "La edad del hijo no está entre los 18 y 30 años \n";
 					}
-					catch (Exception excep) {
-						
-						error += "No se completó el campo Sexo que es obligatorio \n";
-					}
-				
-				if (comboBox.getSelectedItem().toString() == "Seleccione_Estado_Civil") {
-					estadoCivil = false; 
-					error += "No se completó el campo Estado Civil \n";
 				}
-				
-				if (error == "") {
-					JOptionPane.showMessageDialog(null, "Hijo agregado con exito");
-				}JOptionPane.showMessageDialog(null, error);
-				
-				if (fechaValida && edadHijo && campoCompleto && estadoCivil) {
-					 hijoDTO.setEstadoCivil(comboBox.getSelectedItem().toString());
-					 hijoDTO.setFechaNac(fechaNFormattedTextField.getText());
-					 Object[] aux = {hijoDTO.getFechaNac(),hijoDTO.getSexo(),hijoDTO.getEstadoCivil()};
-					 listaHijos.add(hijoDTO);
-					 modelhijos.addRow(aux);
-					 marco1.dispose();
-				 }
-				/*crear un arreglo de hijos global en donde se guardaran los hijos declarados hasta que se cree la poliza para 
-				asi poder mostrarlos en la tabla, el metodo eliminar debe agarrar la ubicacion del hijo en la tabla y borrarlo de la lista.
-				*/
-				
+				catch (Exception exx) {
+					fechaValida = false;
+					error += "La fecha ingresada es inválida\n";
+
+				}
 			}
+
+			HijoDTO hijoDTO = new HijoDTO();
+			try { // SI NO SE SELECCIONÓ EL SEXO DEBERÍA MOSTRAR UN MENSAJE DE ERROR Y DAR LA OPORTUNIDAD DE VOLVER A SELECCIONAR
+				hijoDTO.setSexo(grupoSexo.getSelection().getActionCommand());
+
+			}
+			catch (Exception excep) {
+
+				error += "No se completó el campo Sexo que es obligatorio \n";
+			}
+
+			if (comboBox.getSelectedItem().toString() == "Seleccione_Estado_Civil") {
+				estadoCivil = false;
+				error += "No se completó el campo Estado Civil \n";
+			}
+
+			if (error == "") {
+				JOptionPane.showMessageDialog(null, "Hijo agregado con exito");
+			}JOptionPane.showMessageDialog(null, error);
+
+			if (fechaValida && edadHijo && campoCompleto && estadoCivil) {
+				hijoDTO.setEstadoCivil(comboBox.getSelectedItem().toString());
+				hijoDTO.setFechaNac(fechaNFormattedTextField.getText());
+				Object[] aux = {hijoDTO.getFechaNac(),hijoDTO.getSexo(),hijoDTO.getEstadoCivil()};
+				listaHijos.add(hijoDTO);
+				modelhijos.addRow(aux);
+				marco1.dispose();
+			}
+			/*crear un arreglo de hijos global en donde se guardaran los hijos declarados hasta que se cree la poliza para
+			asi poder mostrarlos en la tabla, el metodo eliminar debe agarrar la ubicacion del hijo en la tabla y borrarlo de la lista.
+			 */
+
 		}
 				);
 
@@ -947,11 +915,7 @@ public class PantallaDarAltaPoliza {
 		btnCancelar.setFont(new Font("Serif", Font.BOLD, 12));
 		btnCancelar.setBounds(536, 493, 143, 33);
 		marco1.getContentPane().add(btnCancelar);
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-							marco1.dispose();
-			}
-		});
+		btnCancelar.addActionListener(e -> marco1.dispose());
 		// -----------------------------------------------------------------
 
 	}
