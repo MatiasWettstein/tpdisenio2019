@@ -14,7 +14,7 @@ public class DAOCliente {
 
 
 
-	public static Object[] buscarCliente(String NroCliente, String TipoDoc, String NroDoc, String Nombre, String Apellido){
+	public static ArrayList<ClienteDTO> buscarCliente(String NroCliente, String TipoDoc, String NroDoc, String Nombre, String Apellido){
 
 		ArrayList<ClienteDTO> Clientes= new ArrayList<>();
 		ResultSet rs = null;
@@ -79,7 +79,7 @@ public class DAOCliente {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return Clientes.toArray();
+		return Clientes;
 
 
 	}
