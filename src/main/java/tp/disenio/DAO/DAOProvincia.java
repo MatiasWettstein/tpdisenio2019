@@ -35,7 +35,7 @@ public class DAOProvincia {
 			PreparedStatement st = con.prepareStatement("select id_provincia, nombre from provincia");
 			rs = st.executeQuery();
 			while(rs.next()) {
-				System.out.println(rs.getString(2) + " " + rs.getInt("id_provincia"));
+				
 				Provincia prov = new Provincia();
 				prov.setNombre(rs.getString(2));
 				prov.setId_provincia(rs.getInt("id_provincia"));

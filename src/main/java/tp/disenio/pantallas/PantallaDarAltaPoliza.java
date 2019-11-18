@@ -3,6 +3,7 @@ package tp.disenio.pantallas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
@@ -33,6 +34,7 @@ import tp.disenio.DAO.DAOProvincia;
 import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
+import tp.disenio.clases.Provincia;
 import tp.disenio.enumerators.EstadoCivil;
 import tp.disenio.enumerators.TipoDocumento;
 import tp.disenio.gestores.GestorCliente;
@@ -228,6 +230,7 @@ public class PantallaDarAltaPoliza {
 
 		// ------------- COMBOBOX ----------
 		final JComboBox provinciaCombo = new JComboBox();
+
 		provinciaCombo.setMaximumRowCount(23);
 		provinciaCombo.setModel(new DefaultComboBoxModel(DAOProvincia.listaProvincia()));
 		provinciaCombo.setBounds(144, 158, 222, 20);
@@ -238,19 +241,13 @@ public class PantallaDarAltaPoliza {
 		localidadCombo.setBounds(565, 158, 222, 20);
 		marco1.getContentPane().add(localidadCombo);
 
+		provinciaCombo.addItemListener(arg0 -> {
+			if (arg0.getStateChange() == ItemEvent.SELECTED) {
 
-		provinciaCombo.addActionListener(arg0 -> {
-			String provinciaSeleccionada = provinciaCombo.getSelectedItem().toString();
-			System.out.println(provinciaSeleccionada);
-			DefaultComboBoxModel ola = new DefaultComboBoxModel(DAOLocalidad.listaLocalidad(provinciaSeleccionada));
-			localidadCombo.setModel(ola);
+				DefaultComboBoxModel ola = new DefaultComboBoxModel(DAOLocalidad.listaLocalidad((Provincia) provinciaCombo.getSelectedItem()));
+				localidadCombo.setModel(ola);
+			}
 		});
-
-
-
-
-
-
 
 		final JComboBox marcaCombo = new JComboBox();
 		marcaCombo.setBounds(111, 240, 196, 20);
@@ -698,7 +695,6 @@ public class PantallaDarAltaPoliza {
 		// -----------------------------------------------------------------
 
 		// ------------------------ BOTONES --------------------------------
-
 		JButton botonBuscar = new JButton("BUSCAR");
 		botonBuscar.setFont(new Font("Serif", Font.BOLD, 12));
 		ActionListener accionBuscar = e -> {
@@ -734,21 +730,22 @@ public class PantallaDarAltaPoliza {
 		botonBuscar.setBounds(25, 180, 143, 33);
 
 		marco1.getContentPane().add(botonBuscar);
-		//
 		JButton btnAceptar = new JButton("ACEPTAR");
 		btnAceptar.addActionListener(e -> {
-			c = lista.get(table.getSelectedRow());
-			System.out.println(c);
-			if(c!=null) {
-				model.setValueAt(c.getNroCliente(), 0, 0);
-				model.setValueAt(c.getApellido(), 0, 1);
-				model.setValueAt(c.getNombre(), 0, 2);
-				model.setValueAt(c.getTipoDoc(), 0, 3);
-				model.setValueAt(c.getDocumento(), 0, 4);
 
-			}
-
-			marco1.dispose();
+			if(table.getSelectedRow() >= 0) {
+				c = lista.get(table.getSelectedRow());
+				if(c==null) {
+					marco1.dispose();
+				}else {
+					model.setValueAt(c.getNroCliente(), 0, 0);
+					model.setValueAt(c.getApellido(), 0, 1);
+					model.setValueAt(c.getNombre(), 0, 2);
+					model.setValueAt(c.getTipoDoc(), 0, 3);
+					model.setValueAt(c.getDocumento(), 0, 4);
+					marco1.dispose();
+				}
+			} else marco1.dispose();
 		});
 		btnAceptar.setFont(new Font("Serif", Font.BOLD, 12));
 		btnAceptar.setBounds(888, 527, 143, 33);
@@ -798,14 +795,13 @@ public class PantallaDarAltaPoliza {
 		lblEstadoCivil.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblEstadoCivil.setBounds(37, 227, 180, 33);
 		marco1.getContentPane().add(lblEstadoCivil);
-
 		// -----------------------------------------------------------------
 
 		// --------------------- FORMATTED TEXT FIELD ----------------------
 
 		MaskFormatter mascara = null;
 		try {
-			mascara = new MaskFormatter("##/##/####");
+			mascara = new MaskFormatter("##-##-####");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -858,7 +854,7 @@ public class PantallaDarAltaPoliza {
 			boolean estadoCivil = true;
 
 			String error = "";
-			String fechaVacia = "__/__/____";
+			String fechaVacia = "__-__-____";
 
 			if (fechaNFormattedTextField.getText().equals(fechaVacia)){
 				campoCompleto = false;

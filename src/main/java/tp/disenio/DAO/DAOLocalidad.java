@@ -7,20 +7,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import tp.disenio.clases.Localidad;
+import tp.disenio.clases.Provincia;
 import tp.disenio.gestores.GestorDB;
 
 public class DAOLocalidad {
 
-	 //hay que pasarle el id de la provincia por parámetro para buscarlo 
-	public static Object[] listaLocalidad(String nombreProvincia){
+	public static Object[] listaLocalidad(Provincia prov){
 
 		ArrayList<Localidad> Localidades= new ArrayList<>();
 		ResultSet rs = null;
 		ResultSet provincia = null;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
-		
-		
+
+
 		try {
 			con = gdb.crearConexion();
 		} catch (ClassNotFoundException e1) {
@@ -31,25 +31,13 @@ public class DAOLocalidad {
 			e1.printStackTrace();
 		}
 		try {
-			
-			String consulta1= "Select id_provincia from provincia where nombre = ";
-			consulta1 += nombreProvincia;
-			PreparedStatement st1 = con.prepareStatement(consulta1);
-			provincia = st1.executeQuery();
-			String id_provincia = "";
-			
-			if (provincia.next()) id_provincia = provincia.getString(1);
-			
-			System.out.println(id_provincia);
-			
-			
-			String consulta2 = "select id_localidad, nombre, porcentaje, codigo_postal from localidad where provincia = " ;
-			consulta2 += id_provincia;
-			
+
+			int idProv = prov.getId_provincia();
+
+			String consulta2 = "select id_localidad, nombre, porcentaje, codigo_postal from localidad where provincia = " + idProv;
 			PreparedStatement st2 = con.prepareStatement(consulta2);
 			rs = st2.executeQuery();
 			while(rs.next()) {
-				//System.out.println(rs.getString(2) + " " + rs.getInt("id_provincia"));
 				Localidad loc = new Localidad();
 				loc.setNombre(rs.getString(2));
 				loc.setId_localidad(rs.getInt("id_localidad"));
