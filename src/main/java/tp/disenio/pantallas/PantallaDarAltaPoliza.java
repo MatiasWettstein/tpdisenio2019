@@ -29,28 +29,25 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
-<<<<<<< HEAD
 
 import tp.disenio.DAO.DAOProvincia;
 
 import tp.disenio.DAO.DAOCliente;
 import tp.disenio.DAO.DAOLocalidad;
-=======
->>>>>>> 475f1058bad0bf117b7c6fbb32a490405acc3ee7
 import tp.disenio.DAO.DAOProvincia;
 import tp.disenio.DTO.ClienteDTO;
 
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
-<<<<<<< HEAD
+
 import tp.disenio.clases.Cliente;
 import tp.disenio.clases.Provincia;
-=======
->>>>>>> 475f1058bad0bf117b7c6fbb32a490405acc3ee7
 import tp.disenio.enumerators.EstadoCivil;
 import tp.disenio.enumerators.TipoDocumento;
 import tp.disenio.gestores.GestorCliente;
 import tp.disenio.gestores.GestorPantallas;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class PantallaDarAltaPoliza {
 	private static JTable tablaCliente = new JTable();
@@ -242,6 +239,7 @@ public class PantallaDarAltaPoliza {
 
 		// ------------- COMBOBOX ----------
 		final JComboBox provinciaCombo = new JComboBox();
+	
 		provinciaCombo.setMaximumRowCount(23);
 		provinciaCombo.setModel(new DefaultComboBoxModel(DAOProvincia.listaProvincia()));
 		provinciaCombo.setBounds(144, 158, 222, 20);
@@ -253,14 +251,15 @@ public class PantallaDarAltaPoliza {
 		marco1.getContentPane().add(localidadCombo);
 
 		
-		provinciaCombo.addActionListener(new ActionListener() {
-			   public void actionPerformed(ActionEvent arg0) {
-				   String provinciaSeleccionada = provinciaCombo.getSelectedItem().toString();
-				   System.out.println(provinciaSeleccionada);
-				   DefaultComboBoxModel ola = new DefaultComboBoxModel(DAOLocalidad.listaLocalidad(provinciaSeleccionada));
-				   localidadCombo.setModel(ola); 
-			   } });
-		
+		provinciaCombo.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				if (arg0.getStateChange() == ItemEvent.SELECTED) {
+					
+					 DefaultComboBoxModel ola = new DefaultComboBoxModel(DAOLocalidad.listaLocalidad((Provincia) provinciaCombo.getSelectedItem()));
+					 localidadCombo.setModel(ola); 
+				}
+			}
+		});
 		
 		
 		
@@ -714,7 +713,7 @@ public class PantallaDarAltaPoliza {
 
 		// ------------------------ BOTONES --------------------------------
 		
-		/*JButton botonBuscar = new JButton("BUSCAR");
+		JButton botonBuscar = new JButton("BUSCAR");
 		botonBuscar.setFont(new Font("Serif", Font.BOLD, 12));
 		ActionListener accionBuscar = e -> {
 
@@ -745,11 +744,11 @@ public class PantallaDarAltaPoliza {
 			table.setModel(model);
 		};
 
-		//botonBuscar.addActionListener(accionBuscar);
-		//botonBuscar.setBounds(25, 180, 143, 33);
+		botonBuscar.addActionListener(accionBuscar);
+		botonBuscar.setBounds(25, 180, 143, 33);
 
-		//marco1.getContentPane().add(botonBuscar);
-		//
+		marco1.getContentPane().add(botonBuscar);
+		
 		JButton btnAceptar = new JButton("ACEPTAR");
 		btnAceptar.addActionListener(e -> {
 			c = lista.get(table.getSelectedRow());

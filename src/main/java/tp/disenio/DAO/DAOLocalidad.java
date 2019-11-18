@@ -7,12 +7,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import tp.disenio.clases.Localidad;
+import tp.disenio.clases.Provincia;
 import tp.disenio.gestores.GestorDB;
 
 public class DAOLocalidad {
 
-	 //hay que pasarle el id de la provincia por parámetro para buscarlo 
-	public static Object[] listaLocalidad(String nombreProvincia){
+	public static Object[] listaLocalidad(Provincia prov){
 
 		ArrayList<Localidad> Localidades= new ArrayList<>();
 		ResultSet rs = null;
@@ -32,20 +32,9 @@ public class DAOLocalidad {
 		}
 		try {
 			
-			String consulta1= "Select id_provincia from provincia where nombre = ";
-			consulta1 += nombreProvincia;
-			PreparedStatement st1 = con.prepareStatement(consulta1);
-			provincia = st1.executeQuery();
-			String id_provincia = "";
+			int idProv = prov.getId_provincia();
 			
-			if (provincia.next()) id_provincia = provincia.getString(1);
-			
-			System.out.println(id_provincia);
-			
-			
-			String consulta2 = "select id_localidad, nombre, porcentaje, codigo_postal from localidad where provincia = " ;
-			consulta2 += id_provincia;
-			
+			String consulta2 = "select id_localidad, nombre, porcentaje, codigo_postal from localidad where provincia = " + idProv;
 			PreparedStatement st2 = con.prepareStatement(consulta2);
 			rs = st2.executeQuery();
 			while(rs.next()) {
