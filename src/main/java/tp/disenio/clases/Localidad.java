@@ -6,7 +6,6 @@ public class Localidad {
 	private String codigoPostal;
 	private String nombre;
 	private float porcentaje;
-	private String idUsuario;
 	private Provincia provincia;
 
 	
@@ -41,12 +40,6 @@ public class Localidad {
 		this.porcentaje = porcentaje;
 	}
 
-	public String getIdUsuario() {
-		return idUsuario;
-	}
-	public void setIdUsuario(String idUsuario) {
-		this.idUsuario = idUsuario;
-	}
 	public Provincia getProvincia() {
 		return provincia;
 	}
