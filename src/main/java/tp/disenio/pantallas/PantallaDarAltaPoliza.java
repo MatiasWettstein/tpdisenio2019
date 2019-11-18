@@ -28,6 +28,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
+import tp.disenio.DAO.DAOProvincia;
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.clases.Cliente;
@@ -226,10 +227,12 @@ public class PantallaDarAltaPoliza {
 		// ------------- COMBOBOX ----------
 		final JComboBox provinciaCombo = new JComboBox();
 		provinciaCombo.setMaximumRowCount(23);
-		//provinciaCombo.setModel(new DefaultComboBoxModel(Provincias.values()));
+		provinciaCombo.setModel(new DefaultComboBoxModel(DAOProvincia.listaProvincia()));
 		provinciaCombo.setBounds(144, 158, 222, 20);
 		marco1.getContentPane().add(provinciaCombo);
 
+		
+		
 		final JComboBox localidadCombo = new JComboBox();
 		localidadCombo.setMaximumRowCount(150);
 		//localidadCombo.setModel(new DefaultComboBoxModel(Localidades.values()));

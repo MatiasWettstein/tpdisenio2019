@@ -19,6 +19,8 @@ public class DAOProvincia {
 		ResultSet rs = null;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
+		
+		
 		try {
 			con = gdb.crearConexion();
 		} catch (ClassNotFoundException e1) {
