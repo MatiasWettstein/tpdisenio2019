@@ -245,11 +245,18 @@ public class PantallaDarAltaPoliza {
 		provinciaCombo.setBounds(144, 158, 222, 20);
 		marco1.getContentPane().add(provinciaCombo);
 		
+		provinciaCombo.setRenderer(new MyComboBoxRenderer("SELECCIONE PROVINCIA"));
+        provinciaCombo.setSelectedIndex(-1);
+        
 		final JComboBox localidadCombo = new JComboBox();
 		localidadCombo.setMaximumRowCount(150);
 		localidadCombo.setBounds(565, 158, 222, 20);
 		marco1.getContentPane().add(localidadCombo);
 
+	
+
+		
+		
 		
 		provinciaCombo.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent arg0) {
