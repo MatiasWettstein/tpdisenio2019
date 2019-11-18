@@ -29,20 +29,27 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
+<<<<<<< HEAD
 
 import tp.disenio.DAO.DAOProvincia;
 
 import tp.disenio.DAO.DAOCliente;
 import tp.disenio.DAO.DAOLocalidad;
+=======
+>>>>>>> 475f1058bad0bf117b7c6fbb32a490405acc3ee7
 import tp.disenio.DAO.DAOProvincia;
 import tp.disenio.DTO.ClienteDTO;
 
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
+<<<<<<< HEAD
 import tp.disenio.clases.Cliente;
 import tp.disenio.clases.Provincia;
+=======
+>>>>>>> 475f1058bad0bf117b7c6fbb32a490405acc3ee7
 import tp.disenio.enumerators.EstadoCivil;
 import tp.disenio.enumerators.TipoDocumento;
+import tp.disenio.gestores.GestorCliente;
 import tp.disenio.gestores.GestorPantallas;
 
 public class PantallaDarAltaPoliza {
@@ -94,7 +101,7 @@ public class PantallaDarAltaPoliza {
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	static Cliente c;
+	static ClienteDTO c;
 	static ArrayList<HijoDTO> listaHijos = new ArrayList <>();
 	/**
 	 * @wbp.parser.entryPoint
@@ -711,7 +718,7 @@ public class PantallaDarAltaPoliza {
 		botonBuscar.setFont(new Font("Serif", Font.BOLD, 12));
 		ActionListener accionBuscar = e -> {
 
-			lista = DAOCliente.buscarCliente(textNroCliente.getText(), comboTipoDoc.getSelectedItem().toString(), textNroDoc.getText(), textNombre.getText(), textApellido.getText());
+			lista = GestorCliente.buscarCliente(textNroCliente.getText(), comboTipoDoc.getSelectedItem().toString(), textNroDoc.getText(), textNombre.getText(), textApellido.getText());
 			int cantCliente = lista.size();
 			int fila =0;
 			Object[][] listaMuestra = new Object[cantCliente][6];
@@ -737,35 +744,6 @@ public class PantallaDarAltaPoliza {
 			};
 			table.setModel(model);
 		};
-		/*ActionListener accionBuscar = e -> {
-			GestorCliente gc = GestorCliente.getInstance();
-			lista=gc.BuscarClientes(comboTipoDoc.getSelectedItem().toString(), textNroDoc.getText().toString(), textApellido.getText().toString(), textNombre.getText().toString(), textNroCliente.getText().toString());
-			int cantCliente = lista.size();
-			int fila =0;
-			Object[][] listaMuestra = new Object[cantCliente][6];
-			for(Cliente c:lista) {
-
-				listaMuestra[fila][0] = c.nroCliente();
-				listaMuestra[fila][1] = c.apellido();
-				listaMuestra[fila][2] = c.nombre();
-				listaMuestra[fila][3] = c.tipoDoc();
-				listaMuestra[fila][4] = c.documento();
-				fila++;
-
-			}
-
-			DefaultTableModel model = new DefaultTableModel(listaMuestra,new String[] {"Nro. Cliente", "Apellido", "Nombre", "Tipo Documento", "Nro. Documento"}) {
-
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public boolean isCellEditable(int i, int i1) {
-					return false;
-				}
-			};
-			table.setModel(model);
-
-		};*/
 
 		//botonBuscar.addActionListener(accionBuscar);
 		//botonBuscar.setBounds(25, 180, 143, 33);
@@ -773,22 +751,21 @@ public class PantallaDarAltaPoliza {
 		//marco1.getContentPane().add(botonBuscar);
 		//
 		JButton btnAceptar = new JButton("ACEPTAR");
-		/*btnAceptar.addActionListener(e -> {
+		btnAceptar.addActionListener(e -> {
 			c = lista.get(table.getSelectedRow());
 			System.out.println(c);
 			if(c!=null) {
-				model.setValueAt(c.nroCliente(), 0, 0);
-				model.setValueAt(c.apellido(), 0, 1);
-				model.setValueAt(c.nombre(), 0, 2);
-				model.setValueAt(c.tipoDoc(), 0, 3);
-				model.setValueAt(c.documento(), 0, 4);
-				model.setValueAt(c.direccion().getCalle() + " " + c.direccion().getNumero(), 0, 5);
+				model.setValueAt(c.getNroCliente(), 0, 0);
+				model.setValueAt(c.getApellido(), 0, 1);
+				model.setValueAt(c.getNombre(), 0, 2);
+				model.setValueAt(c.getTipoDoc(), 0, 3);
+				model.setValueAt(c.getDocumento(), 0, 4);
 
 			}
 
 
 			marco1.dispose();
-		});*/
+		});
 		btnAceptar.setFont(new Font("Serif", Font.BOLD, 12));
 		btnAceptar.setBounds(888, 527, 143, 33);
 		marco1.getContentPane().add(btnAceptar);

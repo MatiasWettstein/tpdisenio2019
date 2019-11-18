@@ -1,12 +1,16 @@
 package tp.disenio.gestores;
 
-import java.util.ArrayList;
-
 import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.DTO.PolizaDTO;
-import tp.disenio.clases.Cliente;
-import tp.disenio.clases.Hijo;
-import tp.disenio.pantallas.*;
+import tp.disenio.pantallas.PantallaDarAltaCliente;
+import tp.disenio.pantallas.PantallaDarAltaCliente2;
+import tp.disenio.pantallas.PantallaDarAltaPoliza;
+import tp.disenio.pantallas.PantallaDarAltaPoliza2;
+import tp.disenio.pantallas.PantallaDarAltaPoliza3Mensual;
+import tp.disenio.pantallas.PantallaDarAltaPoliza3Semestral;
+import tp.disenio.pantallas.PantallaInicio;
+import tp.disenio.pantallas.PantallaLogin;
+import tp.disenio.pantallas.PantallaPrincipal;
 
 public class GestorPantallas {
 
@@ -32,7 +36,7 @@ public class GestorPantallas {
 		PantallaDarAltaPoliza.agregarhijo();
 	}
 
-	public static void Pantalla2Alta(Cliente c, PolizaDTO p) {
+	public static void Pantalla2Alta(ClienteDTO c, PolizaDTO p) {
 		PantallaDarAltaPoliza2.start(c, p);
 
 	}
@@ -56,13 +60,13 @@ public class GestorPantallas {
 
 
 	public static void buscarcliente() {
-		PantallaDarAltaPoliza.buscarcliente();		
+		PantallaDarAltaPoliza.buscarcliente();
 	}
 
 
-	
 
 
 
-	
+
+
 }

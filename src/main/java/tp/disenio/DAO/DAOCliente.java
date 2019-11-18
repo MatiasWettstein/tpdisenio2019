@@ -7,6 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import tp.disenio.clases.Cliente;
+import tp.disenio.clases.Direccion;
+import tp.disenio.clases.Localidad;
+import tp.disenio.clases.Provincia;
 import tp.disenio.gestores.GestorDB;
 
 public class DAOCliente {
@@ -55,17 +58,41 @@ public class DAOCliente {
 					Consulta += " nrodoc = " + NroDoc ;
 				}
 			}
-			System.out.println(Consulta);
 			PreparedStatement st = con.prepareStatement(Consulta);
 			rs = st.executeQuery();
-			PreparedStatement dir = con.prepareStatement("select * from direccion where id_direccion = " + rs.getString(15));
-			dirrs = dir.executeQuery();
-			PreparedStatement loc = con.prepareStatement("select * from localidad where id_localidad = " + dirrs.getString(6));
-			locrs = loc.executeQuery();
-			PreparedStatement prov = con.prepareStatement("select * from provincia where id_provincia = " + locrs.getString(5));
-			provrs = prov.executeQuery();
 
 			while(rs.next()) {
+
+				PreparedStatement dir = con.prepareStatement("select * from direccion where id_direccion = " + rs.getString(15));
+				dirrs = dir.executeQuery();
+				dirrs.next();
+				PreparedStatement loc = con.prepareStatement("select * from localidad where id_localidad = " + dirrs.getString(6));
+				locrs = loc.executeQuery();
+				locrs.next();
+				PreparedStatement prov = con.prepareStatement("select * from provincia where id_provincia = " + locrs.getString(5));
+				provrs = prov.executeQuery();
+				provrs.next();
+
+				Provincia provincia = new Provincia();
+
+				provincia.setId_provincia(provrs.getInt(1));
+				provincia.setNombre(provrs.getString(2));
+				provincia.setPais();
+
+				Localidad localidad = new Localidad();
+
+				localidad.setNombre(locrs.getString(2));
+				localidad.setPorcentaje(locrs.getFloat(3));
+				localidad.setCodigoPostal(locrs.getString(4));
+				localidad.setProvincia(provincia);
+
+				Direccion direccion = new Direccion();
+				direccion.setCalle(dirrs.getString(2));
+				direccion.setNumero(dirrs.getString(3));
+				direccion.setDpto(dirrs.getString(4));
+				direccion.setPiso(dirrs.getString(5));
+				direccion.setLocalidad(localidad);
+
 				Cliente cliente = new Cliente();
 
 				cliente.setNroCliente(rs.getString(1));
@@ -83,6 +110,7 @@ public class DAOCliente {
 				cliente.setEstadoCivil(rs.getString(13));
 				cliente.setAnioRegistro(rs.getString(14));
 				cliente.setTipoDocumento(rs.getString(16));
+				cliente.setDireccion(direccion);
 
 				Clientes.add(cliente);
 			}
