@@ -15,6 +15,8 @@ public class ClienteDTO {
 	private String cuil;
 	private String condicionIVA;
 	private String estadoCivil;
+	private String tipoC;
+	private String estadoCliente;
 
 	public String getNroCliente() {
 		return nroCliente;
@@ -95,5 +97,17 @@ public class ClienteDTO {
 	}
 	public void setEstadoCivil(String estadoCivil) {
 		this.estadoCivil = estadoCivil;
+	}
+	public String getTipoC() {
+		return tipoC;
+	}
+	public void setTipoC(String tipoC) {
+		this.tipoC = tipoC;
+	}
+	public String getEstadoCliente() {
+		return estadoCliente;
+	}
+	public void setEstadoCliente(String estadoCliente) {
+		this.estadoCliente = estadoCliente;
 	}
 }
