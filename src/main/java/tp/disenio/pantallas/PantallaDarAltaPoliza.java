@@ -28,7 +28,13 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
+<<<<<<< HEAD
 import tp.disenio.DAO.DAOProvincia;
+=======
+import tp.disenio.DAO.DAOCliente;
+import tp.disenio.DAO.DAOProvincia;
+import tp.disenio.DTO.ClienteDTO;
+>>>>>>> ab1ce4966d094f6ef2087e823e8a19b086101d0f
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.clases.Cliente;
@@ -40,10 +46,10 @@ public class PantallaDarAltaPoliza {
 	private static JTable tablaCliente = new JTable();
 	final static DefaultTableModel model = new DefaultTableModel(
 			new Object[][] {
-				{null, null, null, null, null, null},
+				{null, null, null, null, null},
 			},
 			new String[] {
-					"Nro. Cliente", "Apellido", "Nombre", "Tipo Documento", "Nro. Documento", "Domicilio"
+					"Nro. Cliente", "Apellido", "Nombre", "Tipo Documento", "Nro. Documento"
 			}
 			){
 
@@ -593,7 +599,7 @@ public class PantallaDarAltaPoliza {
 
 	}
 
-	static ArrayList<Cliente> lista = new ArrayList <>();
+	static ArrayList<ClienteDTO> lista = new ArrayList <>();
 	private static JTextField textApellido;
 
 	/**
@@ -666,10 +672,10 @@ public class PantallaDarAltaPoliza {
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 				new Object[][] {
-					{null, null, null, null, null, null},
+					{null, null, null, null, null},
 				},
 				new String[] {
-						"Nro. Cliente", "Apellido", "Nombre", "Tipo Documento", "Nro. Documento", "Domicilio"
+						"Nro. Cliente", "Apellido", "Nombre", "Tipo Documento", "Nro. Documento"
 				}
 				)
 		{
@@ -687,6 +693,34 @@ public class PantallaDarAltaPoliza {
 		// ------------------------ BOTONES --------------------------------
 		JButton botonBuscar = new JButton("BUSCAR");
 		botonBuscar.setFont(new Font("Serif", Font.BOLD, 12));
+		ActionListener accionBuscar = e -> {
+
+			lista = DAOCliente.buscarCliente(textNroCliente.getText(), comboTipoDoc.getSelectedItem().toString(), textNroDoc.getText(), textNombre.getText(), textApellido.getText());
+			int cantCliente = lista.size();
+			int fila =0;
+			Object[][] listaMuestra = new Object[cantCliente][6];
+			for(ClienteDTO c:lista) {
+
+				listaMuestra[fila][0] = c.getNroCliente();
+				listaMuestra[fila][1] = c.getApellido();
+				listaMuestra[fila][2] = c.getNombre();
+				listaMuestra[fila][3] = c.getTipoDoc();
+				listaMuestra[fila][4] = c.getDocumento();
+				fila++;
+
+			}
+
+			DefaultTableModel model = new DefaultTableModel(listaMuestra,new String[] {"Nro. Cliente", "Apellido", "Nombre", "Tipo Documento", "Nro. Documento"}) {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isCellEditable(int i, int i1) {
+					return false;
+				}
+			};
+			table.setModel(model);
+		};
 		/*ActionListener accionBuscar = e -> {
 			GestorCliente gc = GestorCliente.getInstance();
 			lista=gc.BuscarClientes(comboTipoDoc.getSelectedItem().toString(), textNroDoc.getText().toString(), textApellido.getText().toString(), textNombre.getText().toString(), textNroCliente.getText().toString());
@@ -700,12 +734,11 @@ public class PantallaDarAltaPoliza {
 				listaMuestra[fila][2] = c.nombre();
 				listaMuestra[fila][3] = c.tipoDoc();
 				listaMuestra[fila][4] = c.documento();
-				listaMuestra[fila][5] = c.direccion().getCalle() + " " + c.direccion().getNumero();
 				fila++;
 
 			}
 
-			DefaultTableModel model = new DefaultTableModel(listaMuestra,new String[] {"Nro. Cliente", "Apellido", "Nombre", "Tipo Documento", "Nro. Documento", "Domicilio"}) {
+			DefaultTableModel model = new DefaultTableModel(listaMuestra,new String[] {"Nro. Cliente", "Apellido", "Nombre", "Tipo Documento", "Nro. Documento"}) {
 
 				private static final long serialVersionUID = 1L;
 
@@ -718,7 +751,7 @@ public class PantallaDarAltaPoliza {
 
 		};*/
 
-		//	botonBuscar.addActionListener(accionBuscar);
+		botonBuscar.addActionListener(accionBuscar);
 		botonBuscar.setBounds(25, 180, 143, 33);
 
 		marco1.getContentPane().add(botonBuscar);
