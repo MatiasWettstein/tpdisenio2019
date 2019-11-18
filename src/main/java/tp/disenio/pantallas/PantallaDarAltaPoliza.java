@@ -2,6 +2,7 @@ package tp.disenio.pantallas;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
@@ -28,16 +29,18 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
-<<<<<<< HEAD
+
 import tp.disenio.DAO.DAOProvincia;
-=======
+
 import tp.disenio.DAO.DAOCliente;
+import tp.disenio.DAO.DAOLocalidad;
 import tp.disenio.DAO.DAOProvincia;
 import tp.disenio.DTO.ClienteDTO;
->>>>>>> ab1ce4966d094f6ef2087e823e8a19b086101d0f
+
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.clases.Cliente;
+import tp.disenio.clases.Provincia;
 import tp.disenio.enumerators.EstadoCivil;
 import tp.disenio.enumerators.TipoDocumento;
 import tp.disenio.gestores.GestorPantallas;
@@ -236,15 +239,27 @@ public class PantallaDarAltaPoliza {
 		provinciaCombo.setModel(new DefaultComboBoxModel(DAOProvincia.listaProvincia()));
 		provinciaCombo.setBounds(144, 158, 222, 20);
 		marco1.getContentPane().add(provinciaCombo);
-
-		
 		
 		final JComboBox localidadCombo = new JComboBox();
 		localidadCombo.setMaximumRowCount(150);
-		//localidadCombo.setModel(new DefaultComboBoxModel(Localidades.values()));
 		localidadCombo.setBounds(565, 158, 222, 20);
 		marco1.getContentPane().add(localidadCombo);
 
+		
+		provinciaCombo.addActionListener(new ActionListener() {
+			   public void actionPerformed(ActionEvent arg0) {
+				   String provinciaSeleccionada = provinciaCombo.getSelectedItem().toString();
+				   System.out.println(provinciaSeleccionada);
+				   DefaultComboBoxModel ola = new DefaultComboBoxModel(DAOLocalidad.listaLocalidad(provinciaSeleccionada));
+				   localidadCombo.setModel(ola); 
+			   } });
+		
+		
+		
+		
+		
+		
+		
 		final JComboBox marcaCombo = new JComboBox();
 		marcaCombo.setBounds(111, 240, 196, 20);
 		//marcaCombo.setModel(new DefaultComboBoxModel(Marcas.values()));
@@ -691,7 +706,8 @@ public class PantallaDarAltaPoliza {
 		// -----------------------------------------------------------------
 
 		// ------------------------ BOTONES --------------------------------
-		JButton botonBuscar = new JButton("BUSCAR");
+		
+		/*JButton botonBuscar = new JButton("BUSCAR");
 		botonBuscar.setFont(new Font("Serif", Font.BOLD, 12));
 		ActionListener accionBuscar = e -> {
 
@@ -751,10 +767,10 @@ public class PantallaDarAltaPoliza {
 
 		};*/
 
-		botonBuscar.addActionListener(accionBuscar);
-		botonBuscar.setBounds(25, 180, 143, 33);
+		//botonBuscar.addActionListener(accionBuscar);
+		//botonBuscar.setBounds(25, 180, 143, 33);
 
-		marco1.getContentPane().add(botonBuscar);
+		//marco1.getContentPane().add(botonBuscar);
 		//
 		JButton btnAceptar = new JButton("ACEPTAR");
 		/*btnAceptar.addActionListener(e -> {

@@ -174,6 +174,7 @@ public class PantallaDarAltaCliente {
 		comboBox_Provincia.setBounds(449, 381, 193, 20);
 		marco1.getContentPane().add(comboBox_Provincia);
 		comboBox_Provincia.setModel(new DefaultComboBoxModel(DAOProvincia.listaProvincia()));
+		
 		JComboBox comboBox_Localidad = new JComboBox();
 		comboBox_Localidad.setBounds(795, 381, 193, 20);
 		marco1.getContentPane().add(comboBox_Localidad);
