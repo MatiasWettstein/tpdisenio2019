@@ -514,9 +514,14 @@ public class PantallaDarAltaCliente {
 			}
 
 			//VALIDO SEXO
+			try { 
+				String aux_sexo = sexo.getSelectedItem().toString();			
 			
+			}
+			catch (Exception eApellido) {
+				errores += "El campo 'Sexo' es obligatorio  \n";
+			}
 			
-
 			//VALIDO FECH NAC
 			//VALIDO CALLE
 			//VALIDO NUMERO
@@ -525,8 +530,22 @@ public class PantallaDarAltaCliente {
 			//VALIDO PAIS
 			//VALIDO LOCALIDAD
 			//VALIDO COND IVA
+			try { 
+				String estadoC = comboBox_EstadoCivil.getSelectedItem().toString();			
+			}
+			catch (Exception eApellido) {
+				errores += "El campo 'Cond IVA' es obligatorio  \n";
+			}
+			
 			//VALIDO CORREO ELECTRONICO
 			//VALIDO ESTADO CIVIL
+			try { 
+				String estadoC = comboBox_EstadoCivil.getSelectedItem().toString();			
+			}
+			catch (Exception eApellido) {
+				errores += "El campo 'Estado Civil' es obligatorio  \n";
+			}
+			
 			//VALIDO PROFESION
 			//VALIDO AÑO REGISTRO
 
