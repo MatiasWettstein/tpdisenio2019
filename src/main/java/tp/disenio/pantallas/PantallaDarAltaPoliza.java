@@ -285,11 +285,7 @@ public class PantallaDarAltaPoliza {
 			}
 		});
 
-<<<<<<< HEAD
-=======
 
-	
->>>>>>> 7c791b7ab313a09199bc682ed9694b8c9affaf93
 		final JComboBox anioCombo = new JComboBox();
 		anioCombo.setBounds(714, 240, 196, 20);
 		marco1.getContentPane().add(anioCombo);
@@ -303,11 +299,7 @@ public class PantallaDarAltaPoliza {
 				anioCombo.setSelectedIndex(-1);
 			}
 		});
-<<<<<<< HEAD
-=======
-		
-		
->>>>>>> 7c791b7ab313a09199bc682ed9694b8c9affaf93
+
 
 		// ----------- FORMATTED TEXT FIELD ---------------
 		MaskFormatter mascara = null;
@@ -360,11 +352,6 @@ public class PantallaDarAltaPoliza {
 		});
 		marco1.getContentPane().add(anioText);
 		anioText.setColumns(10);
-<<<<<<< HEAD
-=======
-
->>>>>>> 7c791b7ab313a09199bc682ed9694b8c9affaf93
-
 		motorTexto = new JTextField();
 		motorTexto.setBounds(111, 287, 196, 20);
 		marco1.getContentPane().add(motorTexto);
@@ -564,9 +551,7 @@ public class PantallaDarAltaPoliza {
 		aceptar.setLocation(1021, 627);
 		ActionListener acept = e -> {
 
-
 			//HAGO LAS VALIDACIONES CUANDO SE APRIETA EL BOTON ACEPTAR
-
 
 			LocalDate fechaActual = LocalDate.now();
 			String error = "";
@@ -574,7 +559,6 @@ public class PantallaDarAltaPoliza {
 			boolean errores = false;
 			boolean flag_motor = true;
 			boolean flag_chasis = true;
-
 
 			//valido la provincia -- Estos try y catch son para NullPointerException o sea para cuando no se completó el campo.
 			try {
@@ -638,6 +622,10 @@ public class PantallaDarAltaPoliza {
 			if (errores == false && flag_chasis && flag_motor ) {
 
 				PolizaDTO pDTO = new PolizaDTO();
+
+
+
+
 
 				pDTO.setListaHijos(listaHijos);
 				pDTO.setProvincia(provinciaCombo.getSelectedItem().toString());

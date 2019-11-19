@@ -1,81 +1,43 @@
 package tp.disenio.DTO;
 
-import java.util.ArrayList;
-import java.util.Date;
-
-import tp.disenio.clases.*;
-
 public class PolizaDTO {
-	
-	private int nroPoliza; 
-	private String localidad;
-	private String provincia; 
-	private String marca;
-	private String modelo;
-	private String motor;
-	private String chasis; 
-	private String anio_vehiculo;
-	private String patente;
-	private float kmPorAnio;
-	private boolean garage;
-	private boolean alarma;
-	private boolean dispR;
-	private boolean tuercas;
-	private String siniestros;
-	private ArrayList<HijoDTO> listaHijos;
-	private String tipo_cobertura;
-	private String inicio_vigencia;
-	private String fin_vigencia; 
-	private String estado_poliza;
 
-	
-	public String getLocalidad() {
-		return localidad;
+	private int nroPoliza; //
+	private String inicio_vigencia;//
+	private String fin_vigencia; //
+	private String estado_poliza;//
+	private String forma_pago;//
+	private float kmPorAnio;//
+
+	public int getNroPoliza() {
+		return nroPoliza;
 	}
-	public void setLocalidad(String localidad) {
-		this.localidad = localidad;
+	public void setNroPoliza(int nroPoliza) {
+		this.nroPoliza = nroPoliza;
 	}
-	public String getProvincia() {
-		return provincia;
+	public String getInicio_vigencia() {
+		return inicio_vigencia;
 	}
-	public void setProvincia(String provincia) {
-		this.provincia = provincia;
+	public void setInicio_vigencia(String inicio_vigencia) {
+		this.inicio_vigencia = inicio_vigencia;
 	}
-	public String getMarca() {
-		return marca;
+	public String getFin_vigencia() {
+		return fin_vigencia;
 	}
-	public void setMarca(String marca) {
-		this.marca = marca;
+	public void setFin_vigencia(String fin_vigencia) {
+		this.fin_vigencia = fin_vigencia;
 	}
-	public String getModelo() {
-		return modelo;
+	public String getEstado_poliza() {
+		return estado_poliza;
 	}
-	public void setModelo(String modelo) {
-		this.modelo = modelo;
+	public void setEstado_poliza(String estado_poliza) {
+		this.estado_poliza = estado_poliza;
 	}
-	public String getMotor() {
-		return motor;
+	public String getForma_pago() {
+		return forma_pago;
 	}
-	public void setMotor(String motor) {
-		this.motor = motor;
-	}
-	public String getChasis() {
-		return chasis;
-	}
-	public void setChasis(String chasis) {
-		this.chasis = chasis;
-	}
-	public String getAnio_vehiculo() {
-		return anio_vehiculo;
-	}
-	public void setAnio_vehiculo(String string) {
-		this.anio_vehiculo = string;
-	}
-	public String getPatente() {
-		return patente;
-	}
-	public void setPatente(String patente) {
-		this.patente = patente;
+	public void setForma_pago(String forma_pago) {
+		this.forma_pago = forma_pago;
 	}
 	public float getKmPorAnio() {
 		return kmPorAnio;
@@ -83,44 +45,6 @@ public class PolizaDTO {
 	public void setKmPorAnio(float kmPorAnio) {
 		this.kmPorAnio = kmPorAnio;
 	}
-	public boolean isGarage() {
-		return garage;
-	}
-	public void setGarage(boolean garage) {
-		this.garage = garage;
-	}
-	public boolean isAlarma() {
-		return alarma;
-	}
-	public void setAlarma(boolean alarma) {
-		this.alarma = alarma;
-	}
-	public boolean isDispR() {
-		return dispR;
-	}
-	public void setDispR(boolean dispR) {
-		this.dispR = dispR;
-	}
-	public boolean isTuercas() {
-		return tuercas;
-	}
-	public void setTuercas(boolean tuercas) {
-		this.tuercas = tuercas;
-	}
-	public String getSiniestros() {
-		return siniestros;
-	}
-	public void setSiniestros(String siniestros) {
-		this.siniestros = siniestros;
-	}
-	public ArrayList<HijoDTO> getListaHijos() {
-		return listaHijos;
-	}
-	public void setListaHijos(ArrayList<HijoDTO> listaHijos) {
-		this.listaHijos = listaHijos;
-	}
-	 	
-	
-	
-	
+
+
 }
