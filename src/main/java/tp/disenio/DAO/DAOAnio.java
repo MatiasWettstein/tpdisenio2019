@@ -6,20 +6,20 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import tp.disenio.clases.Localidad;
 import tp.disenio.clases.Marca;
 import tp.disenio.clases.Modelo;
 import tp.disenio.gestores.GestorDB;
 
-public class DAOModelo {
+public class DAOAnio {
 
-	public static Object[] listaModelos(Marca marca){
+	public static Object obtenerSumaAsegurada(Modelo modelo){
 
-		ArrayList<Modelo> modelos = new ArrayList<>();
+		float sumaAsegurada=0;
 		ResultSet rs = null;
-		ResultSet provincia = null;
+		ResultSet anio = null;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
+		
 
 
 		try {
@@ -32,19 +32,29 @@ public class DAOModelo {
 			e1.printStackTrace();
 		}
 		try {
-
-			int idMarca = marca.getIdMarca();
-
-			String consulta2 = "select id_modelo, porcentaje, nombre from modelo where marca = " + idMarca;
+			
+			int idModelo = modelo.getIdModelo();
+			String consulta1 = "select * from modelo where id_modelo = " + idModelo;
+			
+			PreparedStatement st1 = con.prepareStatement(consulta1);
+			anio = st1.executeQuery();
+			int idAnio=0;
+			
+			while (anio.next()) {
+				idAnio = anio.getInt("anio");
+			}
+			System.out.println("ID MODELO" + idModelo + "\n");
+			System.out.println("ID ANIO" + idAnio);
+			
+			
+			String consulta2 = "select suma_asegurada from anio where id_anio = " + idAnio;
 			PreparedStatement st2 = con.prepareStatement(consulta2);
 			rs = st2.executeQuery();
+			
 			while(rs.next()) {
-				Modelo mod = new Modelo();
-				mod.setIdModelo(rs.getInt("id_modelo"));
-				mod.setNombre(rs.getString("nombre"));
-				mod.setPorcentaje(rs.getFloat(2));
-				modelos.add(mod);
+				sumaAsegurada = rs.getFloat("suma_asegurada");
 			}
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -57,8 +67,13 @@ public class DAOModelo {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return modelos.toArray();
+		
+		if (sumaAsegurada == 0) System.out.println("NO FUNCIONA");
+		
+		return sumaAsegurada; 
 
 
 	}
+	
+	
 }

@@ -30,6 +30,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
+import tp.disenio.DAO.DAOAnio;
 import tp.disenio.DAO.DAOLocalidad;
 import tp.disenio.DAO.DAOMarca;
 import tp.disenio.DAO.DAOModelo;
@@ -38,6 +39,7 @@ import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.clases.Marca;
+import tp.disenio.clases.Modelo;
 import tp.disenio.clases.Provincia;
 import tp.disenio.enumerators.EstadoCivil;
 import tp.disenio.enumerators.TipoDocumento;
@@ -269,11 +271,16 @@ public class PantallaDarAltaPoliza {
 		modeloCombo.setBounds(417, 240, 196, 20);
 		marco1.getContentPane().add(modeloCombo);
 		
+		
+
+		
 		marcaCombo.addItemListener(arg0 -> {
 			if (arg0.getStateChange() == ItemEvent.SELECTED) {
 
 				DefaultComboBoxModel model = new DefaultComboBoxModel(DAOModelo.listaModelos((Marca) marcaCombo.getSelectedItem()));
 				modeloCombo.setModel(model);
+				modeloCombo.setRenderer(new MyComboBoxRenderer("SELECCIONE MODELO"));
+				modeloCombo.setSelectedIndex(-1);
 			}
 		});
 
@@ -282,6 +289,35 @@ public class PantallaDarAltaPoliza {
 		marco1.getContentPane().add(siniestrosCombo);
 		//siniestrosCombo.setModel(new DefaultComboBoxModel(NroSiniestrosEnum.values()));
 
+		// ----------- FORMATTED TEXT FIELD ---------------
+		MaskFormatter mascara = null;
+		try {
+			mascara = new MaskFormatter("$######,##");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		mascara.setPlaceholderCharacter('_');
+
+		JFormattedTextField sumaFormattedTextField = new JFormattedTextField();
+		sumaFormattedTextField.setEditable(false);
+		sumaFormattedTextField.setBounds(1060, 240, 197, 20);
+		marco1.getContentPane().add(sumaFormattedTextField);
+		
+		modeloCombo.addItemListener(arg0 -> {
+			if (arg0.getStateChange() == ItemEvent.SELECTED) {
+				Modelo auxx = new Modelo();
+				auxx = (Modelo) modeloCombo.getSelectedItem();
+				sumaFormattedTextField.setValue(DAOAnio.obtenerSumaAsegurada(auxx));
+			}
+		});
+		
+		
+		
+
+		// ------------------------------------
+		
+		
 		// ----------- CAMPOS DE TEXTO ------------
 		anioText = new JTextField();
 		anioText.setBounds(714, 240, 196, 20);
@@ -359,27 +395,12 @@ public class PantallaDarAltaPoliza {
 
 		// ------- JSPINNER -----------------------
 		
-		final JSpinner kmSpinner = new JSpinner(new SpinnerNumberModel(100000, 100000, 9000000, 10000));
+		final JSpinner kmSpinner = new JSpinner(new SpinnerNumberModel(10000, 10000, 9000000, 10000));
 		kmSpinner.setToolTipText("");
 		kmSpinner.setBounds(1060, 286, 197, 20);
 		marco1.getContentPane().add(kmSpinner);
 
-		// ----------- FORMATTED TEXT FIELD ---------------
-		MaskFormatter mascara = null;
-		try {
-			mascara = new MaskFormatter("$######,##");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		mascara.setPlaceholderCharacter('_');
-
-		JFormattedTextField sumaFormattedTextField = new JFormattedTextField(mascara);
-		sumaFormattedTextField.setEditable(false);
-		sumaFormattedTextField.setBounds(1060, 240, 197, 20);
-		marco1.getContentPane().add(sumaFormattedTextField);
-
-		// ------------------------------------
+	
 
 		// ----------- RADIO BUTTON ------------------
 
