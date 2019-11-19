@@ -286,6 +286,21 @@ public class PantallaDarAltaPoliza {
 		});
 
 	
+		final JComboBox anioCombo = new JComboBox();
+		anioCombo.setBounds(714, 240, 196, 20);
+		marco1.getContentPane().add(anioCombo);
+		
+		modeloCombo.addItemListener(arg0 -> {
+			if (arg0.getStateChange() == ItemEvent.SELECTED) {
+
+				DefaultComboBoxModel model = new DefaultComboBoxModel(DAOAnio.listaAnios((Modelo) modeloCombo.getSelectedItem()));
+				anioCombo.setModel(model);
+				anioCombo.setRenderer(new MyComboBoxRenderer("SELECCIONE AÑO"));
+				anioCombo.setSelectedIndex(-1);
+			}
+		});
+		
+		
 		// ----------- FORMATTED TEXT FIELD ---------------
 		MaskFormatter mascara = null;
 		try {
@@ -309,6 +324,8 @@ public class PantallaDarAltaPoliza {
 			}
 		});
 		
+		
+		
 		// ------------------------------------
 		
 		
@@ -318,25 +335,7 @@ public class PantallaDarAltaPoliza {
 		SiniestroText.setEnabled(false);
 		SiniestroText.setBounds(345, 406, 196, 20);
 		marco1.getContentPane().add(SiniestroText);
-		
-		anioText = new JTextField();
-		anioText.setBounds(714, 240, 196, 20);
-		anioText.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				int max = 3;
-				if(e.getKeyChar()!='1' && e.getKeyChar()!='2' && e.getKeyChar()!='3' && e.getKeyChar()!='4' && e.getKeyChar()!='5' && e.getKeyChar()!='6' && e.getKeyChar()!='7' && e.getKeyChar()!='8' && e.getKeyChar()!='9' && e.getKeyChar()!='0') e.consume();
-				else if(anioText.getText().length() > max+1) {
-					e.consume();
-					String shortened = anioText.getText().substring(0, max);
-					anioText.setText(shortened);
-				}else if(anioText.getText().length() > max) {
-					e.consume();
-				}
-			}
-		});
-		marco1.getContentPane().add(anioText);
-		anioText.setColumns(10);
+	
 
 		motorTexto = new JTextField();
 		motorTexto.setBounds(111, 287, 196, 20);
