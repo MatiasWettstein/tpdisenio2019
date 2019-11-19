@@ -285,12 +285,10 @@ public class PantallaDarAltaPoliza {
 			}
 		});
 
-<<<<<<< HEAD
-	
 		final JComboBox anioCombo = new JComboBox();
 		anioCombo.setBounds(714, 240, 196, 20);
 		marco1.getContentPane().add(anioCombo);
-		
+
 		modeloCombo.addItemListener(arg0 -> {
 			if (arg0.getStateChange() == ItemEvent.SELECTED) {
 
@@ -300,11 +298,7 @@ public class PantallaDarAltaPoliza {
 				anioCombo.setSelectedIndex(-1);
 			}
 		});
-		
-		
-=======
 
->>>>>>> ae92deb070a1b563a7b843aeda6cd5f76fef16e9
 		// ----------- FORMATTED TEXT FIELD ---------------
 		MaskFormatter mascara = null;
 		try {
@@ -327,13 +321,7 @@ public class PantallaDarAltaPoliza {
 				sumaFormattedTextField.setValue(DAOAnio.obtenerSumaAsegurada(auxx));
 			}
 		});
-<<<<<<< HEAD
-		
-		
-		
-=======
 
->>>>>>> ae92deb070a1b563a7b843aeda6cd5f76fef16e9
 		// ------------------------------------
 
 
@@ -343,9 +331,6 @@ public class PantallaDarAltaPoliza {
 		SiniestroText.setEnabled(false);
 		SiniestroText.setBounds(345, 406, 196, 20);
 		marco1.getContentPane().add(SiniestroText);
-<<<<<<< HEAD
-	
-=======
 
 		anioText = new JTextField();
 		anioText.setBounds(714, 240, 196, 20);
@@ -365,7 +350,6 @@ public class PantallaDarAltaPoliza {
 		});
 		marco1.getContentPane().add(anioText);
 		anioText.setColumns(10);
->>>>>>> ae92deb070a1b563a7b843aeda6cd5f76fef16e9
 
 		motorTexto = new JTextField();
 		motorTexto.setBounds(111, 287, 196, 20);
