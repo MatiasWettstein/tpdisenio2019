@@ -258,8 +258,8 @@ public class PantallaDarAltaPoliza {
 				localidadCombo.setModel(model);
 				localidadCombo.setRenderer(new MyComboBoxRenderer("SELECCIONE LOCALIDAD"));
 				localidadCombo.setSelectedIndex(-1);
-				
-				
+
+
 			}
 		});
 
@@ -267,14 +267,14 @@ public class PantallaDarAltaPoliza {
 		marcaCombo.setBounds(111, 240, 196, 20);
 		marcaCombo.setModel(new DefaultComboBoxModel(DAOMarca.listaMarcas()));
 		marco1.getContentPane().add(marcaCombo);
-		
+
 		marcaCombo.setRenderer(new MyComboBoxRenderer("SELECCIONE MARCA"));
 		marcaCombo.setSelectedIndex(-1);
 
 		final JComboBox modeloCombo = new JComboBox();
 		modeloCombo.setBounds(417, 240, 196, 20);
 		marco1.getContentPane().add(modeloCombo);
-		
+
 		marcaCombo.addItemListener(arg0 -> {
 			if (arg0.getStateChange() == ItemEvent.SELECTED) {
 
@@ -285,6 +285,7 @@ public class PantallaDarAltaPoliza {
 			}
 		});
 
+<<<<<<< HEAD
 	
 		final JComboBox anioCombo = new JComboBox();
 		anioCombo.setBounds(714, 240, 196, 20);
@@ -301,6 +302,9 @@ public class PantallaDarAltaPoliza {
 		});
 		
 		
+=======
+
+>>>>>>> ae92deb070a1b563a7b843aeda6cd5f76fef16e9
 		// ----------- FORMATTED TEXT FIELD ---------------
 		MaskFormatter mascara = null;
 		try {
@@ -315,7 +319,7 @@ public class PantallaDarAltaPoliza {
 		sumaFormattedTextField.setEditable(false);
 		sumaFormattedTextField.setBounds(1060, 240, 197, 20);
 		marco1.getContentPane().add(sumaFormattedTextField);
-		
+
 		modeloCombo.addItemListener(arg0 -> {
 			if (arg0.getStateChange() == ItemEvent.SELECTED) {
 				Modelo auxx = new Modelo();
@@ -323,19 +327,45 @@ public class PantallaDarAltaPoliza {
 				sumaFormattedTextField.setValue(DAOAnio.obtenerSumaAsegurada(auxx));
 			}
 		});
+<<<<<<< HEAD
 		
 		
 		
+=======
+
+>>>>>>> ae92deb070a1b563a7b843aeda6cd5f76fef16e9
 		// ------------------------------------
-		
-		
+
+
 		// ----------- CAMPOS DE TEXTO ------------
-		
+
 		JTextField SiniestroText = new JTextField();
 		SiniestroText.setEnabled(false);
 		SiniestroText.setBounds(345, 406, 196, 20);
 		marco1.getContentPane().add(SiniestroText);
+<<<<<<< HEAD
 	
+=======
+
+		anioText = new JTextField();
+		anioText.setBounds(714, 240, 196, 20);
+		anioText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				int max = 3;
+				if(e.getKeyChar()!='1' && e.getKeyChar()!='2' && e.getKeyChar()!='3' && e.getKeyChar()!='4' && e.getKeyChar()!='5' && e.getKeyChar()!='6' && e.getKeyChar()!='7' && e.getKeyChar()!='8' && e.getKeyChar()!='9' && e.getKeyChar()!='0') e.consume();
+				else if(anioText.getText().length() > max+1) {
+					e.consume();
+					String shortened = anioText.getText().substring(0, max);
+					anioText.setText(shortened);
+				}else if(anioText.getText().length() > max) {
+					e.consume();
+				}
+			}
+		});
+		marco1.getContentPane().add(anioText);
+		anioText.setColumns(10);
+>>>>>>> ae92deb070a1b563a7b843aeda6cd5f76fef16e9
 
 		motorTexto = new JTextField();
 		motorTexto.setBounds(111, 287, 196, 20);
@@ -393,13 +423,13 @@ public class PantallaDarAltaPoliza {
 		});
 
 		// ------- JSPINNER -----------------------
-		
+
 		final JSpinner kmSpinner = new JSpinner(new SpinnerNumberModel(10000, 10000, 9000000, 10000));
 		kmSpinner.setToolTipText("");
 		kmSpinner.setBounds(1060, 286, 197, 20);
 		marco1.getContentPane().add(kmSpinner);
 
-	
+
 
 		// ----------- RADIO BUTTON ------------------
 
@@ -484,8 +514,8 @@ public class PantallaDarAltaPoliza {
 
 		// ---------- BOTONES ------------
 		JButton buscarC = new JButton("BUSCAR CLIENTE");
-		ActionListener buscarCliente = e -> { 
-			
+		ActionListener buscarCliente = e -> {
+
 			SiniestroText.setText(SubsistemaSiniestros.cantidadSiniestros());
 			GestorPantallas.buscarcliente();
 		};
@@ -543,23 +573,23 @@ public class PantallaDarAltaPoliza {
 			LocalDate fechaActual = LocalDate.now();
 			String error = "";
 			boolean anio1 = true;
-			boolean errores = false; 
+			boolean errores = false;
 			boolean flag_motor = true;
 			boolean flag_chasis = true;
 
 
-			//valido la provincia -- Estos try y catch son para NullPointerException o sea para cuando no se completó el campo. 
+			//valido la provincia -- Estos try y catch son para NullPointerException o sea para cuando no se completó el campo.
 			try {
 				provinciaCombo.getSelectedItem().toString();
-				
+
 			}
 			catch (NullPointerException eprov) {
 				error += "Debe seleciconar una Provincia \n";
 			}
 			//valido la localidad
 			try {
-			localidadCombo.getSelectedItem().toString(); 
-				
+				localidadCombo.getSelectedItem().toString();
+
 			}
 			catch (NullPointerException eloc) {
 				error += "Debe seleciconar una Localidad \n";
@@ -567,14 +597,14 @@ public class PantallaDarAltaPoliza {
 			//valido la marca
 			try {
 				marcaCombo.getSelectedItem().toString();
-				
+
 			}
 			catch(NullPointerException emarca) {
 				error += "Debe seleciconar una Marca \n";
 			}
 			//valido el modelo
 			try {
-				modeloCombo.getSelectedItem().toString(); 
+				modeloCombo.getSelectedItem().toString();
 			}
 			catch (NullPointerException emodelo) {
 				error += "Debe seleciconar un Modelo\n";
@@ -589,28 +619,28 @@ public class PantallaDarAltaPoliza {
 			catch (Exception efecha) {
 				error += "Debe ingresar una Fecha \n";
 			}
-			
+
 			if (motorTexto.getText().length() < 12) {
 				flag_motor = false;
 				error += "El Número de Motor debe tener 12 caracteres \n";
-				
+
 			}
 			if (chasisText.getText().length() < 17) {
 				flag_motor = false;
 				error += "El Número de Chasis debe tener 17 caracteres \n";
-				
+
 			}
-			
+
 
 			if (error != null) { //muestro los mensajes de error
-				errores = true; 
+				errores = true;
 				JOptionPane.showMessageDialog(null, error);
 			}
 
 			if (errores == false && flag_chasis && flag_motor ) {
-			
+
 				PolizaDTO pDTO = new PolizaDTO();
-				
+
 				pDTO.setListaHijos(listaHijos);
 				pDTO.setProvincia(provinciaCombo.getSelectedItem().toString());
 				pDTO.setLocalidad(localidadCombo.getSelectedItem().toString());
@@ -627,20 +657,20 @@ public class PantallaDarAltaPoliza {
 					pDTO.setAlarma(true);
 				} else pDTO.setAlarma(false);
 
-					if (grupoGarage.getSelection().getActionCommand() == "SI") { //GARAGE
-						pDTO.setGarage(true);
-					} else pDTO.setGarage(false);
-						if (grupoDisp.getSelection().getActionCommand() == "SI") { //DISPOSITVO
-							pDTO.setDispR(true);
-						} else pDTO.setDispR(false);
-							if (grupoTuerca.getSelection().getActionCommand() == "SI") { //TUERCAS
-								pDTO.setTuercas(true);
-							} else pDTO.setTuercas(false);
+				if (grupoGarage.getSelection().getActionCommand() == "SI") { //GARAGE
+					pDTO.setGarage(true);
+				} else pDTO.setGarage(false);
+				if (grupoDisp.getSelection().getActionCommand() == "SI") { //DISPOSITVO
+					pDTO.setDispR(true);
+				} else pDTO.setDispR(false);
+				if (grupoTuerca.getSelection().getActionCommand() == "SI") { //TUERCAS
+					pDTO.setTuercas(true);
+				} else pDTO.setTuercas(false);
 
-								GestorPantallas.Pantalla2Alta(c, pDTO);
+				GestorPantallas.Pantalla2Alta(c, pDTO);
 				marco1.dispose();
 			}
-			
+
 		};
 		aceptar.addActionListener(acept);
 		marco1.getContentPane().add(aceptar);
@@ -864,7 +894,7 @@ public class PantallaDarAltaPoliza {
 
 		MaskFormatter mascara = null;
 		try {
-			mascara = new MaskFormatter("##/##/####");
+			mascara = new MaskFormatter("##-##-####");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -916,8 +946,8 @@ public class PantallaDarAltaPoliza {
 			boolean campoCompleto = true;
 			boolean estadoCivil = true;
 
-			String error = "";
-			String fechaVacia = "_//_";
+			String error = null;
+			String fechaVacia = "__-__-____";
 
 			if (fechaNFormattedTextField.getText().equals(fechaVacia)){
 				campoCompleto = false;
@@ -929,7 +959,7 @@ public class PantallaDarAltaPoliza {
 
 				//VERIFICO QUE SEA UNA FECHA VALIDA
 				try {
-					DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+					DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 					LocalDate fechaNac = LocalDate.parse(fecha, fmt);
 					LocalDate ahora = LocalDate.now();
 					Period periodo = Period.between(fechaNac, ahora);
@@ -961,12 +991,13 @@ public class PantallaDarAltaPoliza {
 				error += "No se completó el campo Estado Civil \n";
 			}
 
-			if (error == "") {
+			if (error == null) {
 				JOptionPane.showMessageDialog(null, "Hijo agregado con exito");
-			}JOptionPane.showMessageDialog(null, error);
+			}else JOptionPane.showMessageDialog(null, error);
 
 			if (fechaValida && edadHijo && campoCompleto && estadoCivil) {
 				hijoDTO.setEstadoCivil(comboBox.getSelectedItem().toString());
+				hijoDTO.setSexo(grupoSexo.getSelection().getActionCommand());
 				hijoDTO.setFechaNac(fechaNFormattedTextField.getText());
 				Object[] aux = {hijoDTO.getFechaNac(),hijoDTO.getSexo(),hijoDTO.getEstadoCivil()};
 				listaHijos.add(hijoDTO);
@@ -979,9 +1010,6 @@ public class PantallaDarAltaPoliza {
 
 		}
 				);
-
-
-		// INVESTIGAR COMO HACER QUE VUELVA A LA PANTALLA ANTERIOR
 
 		JButton btnCancelar = new JButton("CANCELAR");
 		btnCancelar.setFont(new Font("Serif", Font.BOLD, 12));
