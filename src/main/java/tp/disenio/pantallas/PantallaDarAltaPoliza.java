@@ -30,10 +30,13 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import tp.disenio.DAO.DAOLocalidad;
+import tp.disenio.DAO.DAOMarca;
+import tp.disenio.DAO.DAOModelo;
 import tp.disenio.DAO.DAOProvincia;
 import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
+import tp.disenio.clases.Marca;
 import tp.disenio.clases.Provincia;
 import tp.disenio.enumerators.EstadoCivil;
 import tp.disenio.enumerators.TipoDocumento;
@@ -244,33 +247,34 @@ public class PantallaDarAltaPoliza {
 		localidadCombo.setBounds(565, 158, 222, 20);
 		marco1.getContentPane().add(localidadCombo);
 
-
-
-
-
-
 		provinciaCombo.addItemListener(arg0 -> {
 			if (arg0.getStateChange() == ItemEvent.SELECTED) {
 
-				DefaultComboBoxModel ola = new DefaultComboBoxModel(DAOLocalidad.listaLocalidad((Provincia) provinciaCombo.getSelectedItem()));
-				localidadCombo.setModel(ola);
+				DefaultComboBoxModel model = new DefaultComboBoxModel(DAOLocalidad.listaLocalidad((Provincia) provinciaCombo.getSelectedItem()));
+				localidadCombo.setModel(model);
+				
 			}
 		});
 
-
-
-
-
-
 		final JComboBox marcaCombo = new JComboBox();
 		marcaCombo.setBounds(111, 240, 196, 20);
-		//marcaCombo.setModel(new DefaultComboBoxModel(Marcas.values()));
+		marcaCombo.setModel(new DefaultComboBoxModel(DAOMarca.listaMarcas()));
 		marco1.getContentPane().add(marcaCombo);
+		
+		marcaCombo.setRenderer(new MyComboBoxRenderer("SELECCIONE MARCA"));
+		marcaCombo.setSelectedIndex(-1);
 
 		final JComboBox modeloCombo = new JComboBox();
 		modeloCombo.setBounds(417, 240, 196, 20);
-		//modeloCombo.setModel(new DefaultComboBoxModel(Modelos.values()));
 		marco1.getContentPane().add(modeloCombo);
+		
+		marcaCombo.addItemListener(arg0 -> {
+			if (arg0.getStateChange() == ItemEvent.SELECTED) {
+
+				DefaultComboBoxModel model = new DefaultComboBoxModel(DAOModelo.listaModelos((Marca) marcaCombo.getSelectedItem()));
+				modeloCombo.setModel(model);
+			}
+		});
 
 		final JComboBox siniestrosCombo = new JComboBox();
 		siniestrosCombo.setBounds(345, 406, 196, 20);
@@ -509,38 +513,40 @@ public class PantallaDarAltaPoliza {
 			//HAGO LAS VALIDACIONES CUANDO SE APRIETA EL BOTON ACEPTAR
 
 
-			boolean provincia1 = true;
-			boolean localidad1 = true;
-			boolean marca1 = true;
-			boolean modelo1 = true;
-			boolean anio1 = true;
-			boolean motor1 = true;
-			boolean chasis1 = true;
-			boolean patente1 = true;
-			boolean kmAnio1 = true;
-			boolean nroSiniestros = true;
 			LocalDate fechaActual = LocalDate.now();
 			String error = "";
+			boolean anio1 = true;
 
 
-			//valido la provincia
-			if (provinciaCombo.getSelectedItem().toString() == "Seleccionar_Provincia") {
-				provincia1 = false;
-				error += "Debe seleciconar una provincia \n";
+			//valido la provincia -- Estos try y catch son para NullPointerException o sea para cuando no se completó el campo. 
+			try {
+				provinciaCombo.getSelectedItem().toString();
+				
+			}
+			catch (NullPointerException eprov) {
+				error += "Debe seleciconar una Provincia \n";
 			}
 			//valido la localidad
-			if (localidadCombo.getSelectedItem().toString() == "Seleccionar_Localidad") {
-				localidad1 = false;
-				error += "Debe seleciconar una localidad \n";
+			try {
+			localidadCombo.getSelectedItem().toString(); 
+				
+			}
+			catch (NullPointerException eloc) {
+				error += "Debe seleciconar una Localidad \n";
 			}
 			//valido la marca
-			if (marcaCombo.getSelectedItem().toString() == "Seleccionar_Marca") {
-				marca1 = false;
+			try {
+				marcaCombo.getSelectedItem().toString();
+				
+			}
+			catch(NullPointerException emarca) {
 				error += "Debe seleciconar una Marca \n";
 			}
 			//valido el modelo
-			if (modeloCombo.getSelectedItem().toString() == "Seleccionar_Modelo") {
-				modelo1 = false;
+			try {
+				modeloCombo.getSelectedItem().toString(); 
+			}
+			catch (NullPointerException emodelo) {
 				error += "Debe seleciconar un Modelo\n";
 			}
 			//valido el año
@@ -550,24 +556,23 @@ public class PantallaDarAltaPoliza {
 					error += "El año ingresado no es valido \n";
 				}
 			}
-			catch (Exception exception) {
-				error += "Debe ingresar una fecha \n";
+			catch (Exception efecha) {
+				error += "Debe ingresar una Fecha \n";
 			}
 			//valido los siniestros
-			if (siniestrosCombo.getSelectedItem().toString() == "Seleccionar_Nro_Siniestros") {
-				nroSiniestros=false;
+			try {
+			siniestrosCombo.getSelectedItem().toString();
+			}
+			catch (NullPointerException esiniestro) {
 				error += "Debe seleccionar un Número de siniestros \n";
 			}
-
-
 
 			if (error != null) { //muestro los mensajes de error
 				JOptionPane.showMessageDialog(null, error);
 			}
 
 
-			if (provincia1 && localidad1 && marca1 && modelo1 && anio1 && motor1 && chasis1 && patente1 && kmAnio1 && nroSiniestros) { //si todo sale bien tengo que hacer esta llamada a la otra pantalla
-
+			
 				PolizaDTO pDTO = new PolizaDTO();
 				//pDTO.setHijos(listaHijos);
 				//pDTO.setProvincia(provinciaCombo.getSelectedItem().toString());
@@ -596,7 +601,7 @@ public class PantallaDarAltaPoliza {
 
 								GestorPantallas.Pantalla2Alta(c, pDTO);
 				marco1.dispose();
-			}
+			
 		};
 		aceptar.addActionListener(acept);
 		marco1.getContentPane().add(aceptar);
