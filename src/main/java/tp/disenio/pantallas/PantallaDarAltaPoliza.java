@@ -43,6 +43,7 @@ import tp.disenio.clases.Modelo;
 import tp.disenio.clases.Provincia;
 import tp.disenio.clases.SubsistemaSiniestros;
 import tp.disenio.enumerators.EstadoCivil;
+import tp.disenio.enumerators.Sexo;
 import tp.disenio.enumerators.TipoDocumento;
 import tp.disenio.gestores.GestorCliente;
 import tp.disenio.gestores.GestorPantallas;
@@ -739,6 +740,8 @@ public class PantallaDarAltaPoliza {
 		comboTipoDoc.setBounds(534, 43, 196, 20);
 		comboTipoDoc.setModel(new DefaultComboBoxModel(TipoDocumento.values()));
 		marco1.getContentPane().add(comboTipoDoc);
+		comboTipoDoc.setRenderer(new MyComboBoxRenderer("SELECCIONE TIPO DOC"));
+		comboTipoDoc.setSelectedIndex(-1);
 		// -----------------------------------------------------------------
 
 		// --------------------------SCROLL PANE ---------------------------
@@ -892,7 +895,7 @@ public class PantallaDarAltaPoliza {
 		marco1.getContentPane().add(fechaNFormattedTextField);
 		// -----------------------------------------------------------------
 
-		// --------------- RADIO BUTTON ------------------------------------
+		/*--------------- RADIO BUTTON ------------------------------------
 		JRadioButton sexoRdbtnFemenino = new JRadioButton("FEMENINO");
 		sexoRdbtnFemenino.setFont(new Font("Tahoma", Font.PLAIN, 13));
 		sexoRdbtnFemenino.setBackground(Color.LIGHT_GRAY);
@@ -911,13 +914,23 @@ public class PantallaDarAltaPoliza {
 		final ButtonGroup grupoSexo = new ButtonGroup();
 		grupoSexo.add(sexoRdbtnFemenino);
 		grupoSexo.add(rdbtnMasculino);
-		// -----------------------------------------------------------------
+		// ----------------------------------------------------------------- */
 
 		// ------------------- COMBO BOX -----------------------------------
-		final JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(232, 234, 203, 25);
-		comboBox.setModel(new DefaultComboBoxModel(EstadoCivil.values()));
-		marco1.getContentPane().add(comboBox);
+		final JComboBox comboBox_EstadoCivil = new JComboBox();
+		comboBox_EstadoCivil.setBounds(232, 234, 203, 25);
+		comboBox_EstadoCivil.setModel(new DefaultComboBoxModel(EstadoCivil.values()));
+		marco1.getContentPane().add(comboBox_EstadoCivil);
+		comboBox_EstadoCivil.setRenderer(new MyComboBoxRenderer("SELECCIONE ESTADO CIVIL"));
+		comboBox_EstadoCivil.setSelectedIndex(-1);
+		
+		
+		JComboBox sexo = new JComboBox();
+		sexo.setBounds(232, 158, 203, 23);
+		marco1.getContentPane().add(sexo);
+		sexo.setModel(new DefaultComboBoxModel(Sexo.values()));
+		sexo.setRenderer(new MyComboBoxRenderer("SELECCIONE SEXO"));
+		sexo.setSelectedIndex(-1);
 		// -----------------------------------------------------------------
 
 		// ------------------- BOTONES -------------------------------------
@@ -955,7 +968,7 @@ public class PantallaDarAltaPoliza {
 						error += "La edad del hijo no está entre los 18 y 30 años \n";
 					}
 				}
-				catch (Exception exx) {
+				catch (Exception eFecha) {
 					fechaValida = false;
 					error += "La fecha ingresada es inválida\n";
 
@@ -964,26 +977,28 @@ public class PantallaDarAltaPoliza {
 
 			HijoDTO hijoDTO = new HijoDTO();
 			try { // SI NO SE SELECCIONÓ EL SEXO DEBERÍA MOSTRAR UN MENSAJE DE ERROR Y DAR LA OPORTUNIDAD DE VOLVER A SELECCIONAR
-				hijoDTO.setSexo(grupoSexo.getSelection().getActionCommand());
-
+				String aux_sexo = sexo.getSelectedItem().toString();
 			}
 			catch (Exception excep) {
 
-				error += "No se completó el campo Sexo que es obligatorio \n";
+				error += "El campo 'Sexo' que es obligatorio \n";
 			}
 
-			if (comboBox.getSelectedItem().toString() == "Seleccione_Estado_Civil") {
-				estadoCivil = false;
-				error += "No se completó el campo Estado Civil \n";
+			try {
+				String aux_estadoCivil = comboBox_EstadoCivil.getSelectedItem().toString();
+				
+			}
+			catch (Exception eEstadoC) {
+				error += "El campo 'Estado Civil' es obligatorio \n";
 			}
 
 			if (error == null) {
 				JOptionPane.showMessageDialog(null, "Hijo agregado con exito");
 			}else JOptionPane.showMessageDialog(null, error);
 
-			if (fechaValida && edadHijo && campoCompleto && estadoCivil) {
-				hijoDTO.setEstadoCivil(comboBox.getSelectedItem().toString());
-				hijoDTO.setSexo(grupoSexo.getSelection().getActionCommand());
+			if (fechaValida) {
+				hijoDTO.setEstadoCivil(comboBox_EstadoCivil.getSelectedItem().toString());
+				hijoDTO.setSexo(sexo.getSelectedItem().toString());
 				hijoDTO.setFechaNac(fechaNFormattedTextField.getText());
 				Object[] aux = {hijoDTO.getFechaNac(),hijoDTO.getSexo(),hijoDTO.getEstadoCivil()};
 				listaHijos.add(hijoDTO);

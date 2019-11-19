@@ -213,16 +213,23 @@ public class PantallaDarAltaCliente {
 		comboBox_CondIVA.setBounds(190, 523, 193, 20);
 		marco1.getContentPane().add(comboBox_CondIVA);
 		comboBox_CondIVA.setModel(new DefaultComboBoxModel(CondicionIVA.values()));
+		comboBox_CondIVA.setRenderer(new MyComboBoxRenderer("SELECCIONE COND IVA"));
+		comboBox_CondIVA.setSelectedIndex(-1);
+
 
 		JComboBox comboBox_EstadoCivil = new JComboBox();
 		comboBox_EstadoCivil.setBounds(190, 589, 193, 20);
 		marco1.getContentPane().add(comboBox_EstadoCivil);
 		comboBox_EstadoCivil.setModel(new DefaultComboBoxModel(EstadoCivil.values()));
+		comboBox_EstadoCivil.setRenderer(new MyComboBoxRenderer("SELECCIONE ESTADO CIVIL"));
+		comboBox_EstadoCivil.setSelectedIndex(-1);
 
 		JComboBox sexo = new JComboBox();
 		sexo.setBounds(204, 202, 196, 20);
 		marco1.getContentPane().add(sexo);
 		sexo.setModel(new DefaultComboBoxModel(Sexo.values()));
+		sexo.setRenderer(new MyComboBoxRenderer("SELECCIONE SEXO"));
+		sexo.setSelectedIndex(-1);
 
 		// -------------------------------------------------
 
@@ -231,43 +238,122 @@ public class PantallaDarAltaCliente {
 		textField_Apellido.setColumns(10);
 		textField_Apellido.setBounds(623, 90, 196, 20);
 		marco1.getContentPane().add(textField_Apellido);
+		textField_Apellido.addKeyListener(new KeyAdapter() { //el NRO DOCUMENTO SOLO PUEDE TENER 9 CARACTERES 
+			@Override
+			public void keyTyped(KeyEvent e) {
+				int max =40;
+				if(textField_Apellido.getText().length() > max) {
+					e.consume();
+				}
+			}
+		});
 
 		textField_Nombre = new JTextField();
 		textField_Nombre.setColumns(10);
 		textField_Nombre.setBounds(1003, 90, 196, 20);
 		marco1.getContentPane().add(textField_Nombre);
+		textField_Nombre.addKeyListener(new KeyAdapter() { //el NRO DOCUMENTO SOLO PUEDE TENER 9 CARACTERES 
+			@Override
+			public void keyTyped(KeyEvent e) {
+				int max =40;
+				if(textField_Nombre.getText().length() > max) {
+					e.consume();
+				}
+			}
+		});
 
 		textField_Documento = new JTextField();
 		textField_Documento.setColumns(10);
 		textField_Documento.setBounds(623, 147, 196, 20);
 		marco1.getContentPane().add(textField_Documento);
+		textField_Documento.addKeyListener(new KeyAdapter() { //el NRO DOCUMENTO SOLO PUEDE TENER 9 CARACTERES 
+			@Override
+			public void keyTyped(KeyEvent e) {
+				int max = 9;
+				if(textField_Documento.getText().length() > max) {
+					e.consume();
+				}
+			}
+		});
+		
+		
+		MaskFormatter mascara = null;
+		try {
+			mascara = new MaskFormatter("##-##-####");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 
-		textField_FechNac = new JTextField();
-		textField_FechNac.setColumns(10);
-		textField_FechNac.setBounds(623, 202, 196, 20);
-		marco1.getContentPane().add(textField_FechNac);
+		mascara.setPlaceholderCharacter('_');
+		final JFormattedTextField fechaNFormattedTextField = new JFormattedTextField(mascara);
+		fechaNFormattedTextField.setValue("");
+		fechaNFormattedTextField.setBounds(623, 202, 196, 20);
+		marco1.getContentPane().add(fechaNFormattedTextField);
 
+		
 		textField_Calle = new JTextField();
 		textField_Calle.setColumns(10);
 		textField_Calle.setBounds(136, 317, 193, 20);
 		marco1.getContentPane().add(textField_Calle);
+		
+		textField_Calle.addKeyListener(new KeyAdapter() { //el NRO DOCUMENTO SOLO PUEDE TENER 9 CARACTERES 
+			@Override
+			public void keyTyped(KeyEvent e) {
+				int max =40;
+				if(textField_Calle.getText().length() > max) {
+					e.consume();
+				}
+			}
+		});
 
 		textField_NroCalle = new JTextField();
 		textField_NroCalle.setColumns(10);
 		textField_NroCalle.setBounds(449, 317, 196, 20);
 		marco1.getContentPane().add(textField_NroCalle);
+		textField_NroCalle.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				int max = 5;
+				if(e.getKeyChar()!='1' && e.getKeyChar()!='2' && e.getKeyChar()!='3' && e.getKeyChar()!='4' && e.getKeyChar()!='5' && e.getKeyChar()!='6' && e.getKeyChar()!='7' && e.getKeyChar()!='8' && e.getKeyChar()!='9' && e.getKeyChar()!='0') e.consume();
+				else if(textField_NroCalle.getText().length() > max) {
+					e.consume();
+				}
+			}
+		});
+		
 
-		textField_Piso = new JTextField();
+		textField_Piso = new JTextField();  //pueden ser sólo numeros 
 		textField_Piso.setColumns(10);
 		textField_Piso.setBounds(744, 317, 180, 20);
 		marco1.getContentPane().add(textField_Piso);
+		textField_Piso.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				int max = 3;
+				if(e.getKeyChar()!='1' && e.getKeyChar()!='2' && e.getKeyChar()!='3' && e.getKeyChar()!='4' && e.getKeyChar()!='5' && e.getKeyChar()!='6' && e.getKeyChar()!='7' && e.getKeyChar()!='8' && e.getKeyChar()!='9' && e.getKeyChar()!='0') e.consume();
+				else if(textField_Piso.getText().length() > max) {
+					e.consume();
+				}
+			}
+		});
+		
 
 		textField_Dpto = new JTextField();
 		textField_Dpto.setColumns(10);
 		textField_Dpto.setBounds(1003, 317, 180, 20);
 		marco1.getContentPane().add(textField_Dpto);
+		textField_Dpto.addKeyListener(new KeyAdapter() { 
+			@Override
+			public void keyTyped(KeyEvent e) {
+				int max = 3;
+				if(textField_Dpto.getText().length() > max) {
+					e.consume();
+				}
+			}
+		});
+		
 
-		textField_CP = new JTextField();
+		textField_CP = new JTextField();  //se setea sólo no hay que validarlo 
 		textField_CP.setColumns(10);
 		textField_CP.setBounds(744, 381, 180, 20);
 		marco1.getContentPane().add(textField_CP);
@@ -276,6 +362,15 @@ public class PantallaDarAltaCliente {
 		textField_email.setColumns(10);
 		textField_email.setBounds(623, 523, 196, 20);
 		marco1.getContentPane().add(textField_email);
+		textField_email.addKeyListener(new KeyAdapter() { 
+			@Override
+			public void keyTyped(KeyEvent e) {
+				int max =40;
+				if(textField_email.getText().length() > max) {
+					e.consume();
+				}
+			}
+		});
 
 		textField_anioRegistro = new JTextField();
 		textField_anioRegistro.setColumns(10);
@@ -294,8 +389,7 @@ public class PantallaDarAltaCliente {
 				}
 			}
 		});
-		
-		
+				
 		marco1.getContentPane().add(textField_anioRegistro);
 		
 
@@ -303,55 +397,131 @@ public class PantallaDarAltaCliente {
 		textField_Profesion.setColumns(10);
 		textField_Profesion.setBounds(623, 589, 196, 20);
 		marco1.getContentPane().add(textField_Profesion);
+		
+		textField_Profesion.addKeyListener(new KeyAdapter() { 
+			@Override
+			public void keyTyped(KeyEvent e) {
+				int max =40;
+				if(textField_Profesion.getText().length() > max) {
+					e.consume();
+				}
+			}
+		});
+		// --------------------------------------------------------------------
+		
+		
+		// ------------ CAMPO DE TEXTO CON FORMATO ----------------------------
 
+				MaskFormatter mascaraCUIL = null;
+				try {
+					mascaraCUIL = new MaskFormatter("##-########-#");
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+
+				mascaraCUIL.setPlaceholderCharacter('_');
+
+				JFormattedTextField formattedTextField_NCUIL = new JFormattedTextField(mascaraCUIL);
+				formattedTextField_NCUIL.setBounds(1003, 147, 196, 20);
+				marco1.getContentPane().add(formattedTextField_NCUIL);
+				
+				formattedTextField_NCUIL.addKeyListener(new KeyAdapter() {
+					@Override
+					public void keyTyped(KeyEvent e) {
+						int max = 13;
+						if(e.getKeyChar()!='1' && e.getKeyChar()!='2' && e.getKeyChar()!='3' && e.getKeyChar()!='4' && e.getKeyChar()!='5' && e.getKeyChar()!='6' && e.getKeyChar()!='7' && e.getKeyChar()!='8' && e.getKeyChar()!='9' && e.getKeyChar()!='0') e.consume();
+						else if(textField_anioRegistro.getText().length() > max) {
+							e.consume();
+						}
+					}
+				});
+						
+				
+				
+
+				MaskFormatter mascaraNCLIENTE = null;
+				try {
+					mascaraNCLIENTE = new MaskFormatter("##-########");
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+
+				mascaraNCLIENTE.setPlaceholderCharacter('_');
+
+				JFormattedTextField formattedTextField_NCliente = new JFormattedTextField(mascaraNCLIENTE);
+				formattedTextField_NCliente.setEditable(false);
+				formattedTextField_NCliente.setEnabled(false);
+				formattedTextField_NCliente.setBounds(204, 90, 193, 20);
+				marco1.getContentPane().add(formattedTextField_NCliente);
+				marco1.setLocationRelativeTo(null);
+				marco1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+				
 		// ----------- BOTONES -------------------------
 		JButton btnAceptar = new JButton("ACEPTAR");
 		btnAceptar.setFont(new Font("Serif", Font.BOLD, 12));
 		btnAceptar.setBounds(1021, 657, 143, 33);
 		marco1.getContentPane().add(btnAceptar);
-		btnAceptar.addActionListener(arg0 -> {
-			//cuando presiona aceptar tengo que hacer las validaciones.
-			//VALIDO APELLIDO
+		btnAceptar.addActionListener(arg0 -> {//cuando presiona aceptar tengo que hacer las validaciones.
+			
 			String errores = "";
 			boolean error = false; 
-			
+			//VALIDO APELLIDO
 			try { 
 				String apellido = textField_Apellido.getText();
 				if (apellido.matches("[0-9]+")== true ) {
-					errores += "El campo 'Apellido' no puede contenter números";
+					errores += "El campo 'Apellido' no puede contenter números \n";
 				}
 			
 			}
 			catch (Exception eApellido) {
-				errores += "El campo Apellido es obligatorio";
+				errores += "El campo 'Apellido' es obligatorio  \n";
 			}
 			
-
-
 			//VALIDO NOMBRE
-			if (textField_Nombre.getText() != null  ) {
-				String nombre;
-				nombre = textField_Nombre.getText();
+			try {
+				String nombre = textField_Nombre.getText();
 				if (nombre.matches("[0-9]+")== true ) {
-					//acá habría que mostrar un mensaje de error diciendo que el nombre no puede contener numeros
+					errores += "El campo 'Nombre' no puede contenter números  \n";
 				}
 			}
-			//acá iría un else diciendo que se llama a una pantalla de ERROR porque el campo obligatorio está incompleto
+			catch (Exception eNombre) {
+				errores += "El campo 'Nombre' es obligatorio \n";
+			}
 
 			//VALIDO NRO DOCUMENTO
-			if (textField_Documento.getText() != null  ) {
-				String dni;
-				dni = textField_Documento.getText();
-				if (dni.matches("[a-zA-Z]+")== true ) {
-					//acá habría que mostrar un mensaje de error diciendo que el DNI no puede tener letras
+			try {
+				String dni = textField_Documento.getText();
+				if (tipoDoc.getSelectedItem().toString() == "DNI") {
+					if (dni.matches("[a-zA-Z]+")== true) {//  acá habría que mostrar un mensaje de error diciendo que el DNI no puede tener letras
+						errores += "El campo DNI no puede contener letras \n";
+					}
 				}
 			}
-			//acá iría un else diciendo que se llama a una pantalla de ERROR porque el campo obligatorio está incompleto
-
+			catch (Exception eDocumento) {
+				errores += "El campo 'Nro. Documento' es obligatorio \n";
+			}
+			
 			//VALIDO CUIL
+			try { 
+				String nCUIL = formattedTextField_NCUIL.getText();
+				if (nCUIL.matches("[a-zA-Z]+")== true ) {
+					errores += "El campo 'CUIL' no puede contenter letras \n";
+				}
+			
+			}
+			catch (Exception eApellido) {
+				errores += "El campo 'CUIL' es obligatorio  \n";
+			}
 
 			//VALIDO SEXO
-
+			try { 
+				String aux_sexo = sexo.getSelectedItem().toString();			
+			
+			}
+			catch (Exception eApellido) {
+				errores += "El campo 'Sexo' es obligatorio  \n";
+			}
+			
 			//VALIDO FECH NAC
 			//VALIDO CALLE
 			//VALIDO NUMERO
@@ -359,16 +529,29 @@ public class PantallaDarAltaCliente {
 			//VALIDO DPTO
 			//VALIDO PAIS
 			//VALIDO LOCALIDAD
-			//VALIDO CODIGO POSTAL
 			//VALIDO COND IVA
+			try { 
+				String estadoC = comboBox_EstadoCivil.getSelectedItem().toString();			
+			}
+			catch (Exception eApellido) {
+				errores += "El campo 'Cond IVA' es obligatorio  \n";
+			}
+			
 			//VALIDO CORREO ELECTRONICO
 			//VALIDO ESTADO CIVIL
+			try { 
+				String estadoC = comboBox_EstadoCivil.getSelectedItem().toString();			
+			}
+			catch (Exception eApellido) {
+				errores += "El campo 'Estado Civil' es obligatorio  \n";
+			}
+			
 			//VALIDO PROFESION
 			//VALIDO AÑO REGISTRO
 
 			if (errores != null) { //muestro los mensajes de error
 				error = true;
-				JOptionPane.showMessageDialog(null, error);
+				JOptionPane.showMessageDialog(null, errores);
 			}
 
 
@@ -384,37 +567,7 @@ public class PantallaDarAltaCliente {
 		btnCancelar.setBounds(1174, 657, 143, 33);
 		marco1.getContentPane().add(btnCancelar);
 
-		// ------------ CAMPO DE TEXTO CON FORMATO ----------------------------
-
-		MaskFormatter mascaraCUIL = null;
-		try {
-			mascaraCUIL = new MaskFormatter("##-########-#");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		mascaraCUIL.setPlaceholderCharacter('_');
-
-		JFormattedTextField formattedTextField_NCUIL = new JFormattedTextField(mascaraCUIL);
-		formattedTextField_NCUIL.setBounds(1003, 147, 196, 20);
-		marco1.getContentPane().add(formattedTextField_NCUIL);
-
-		MaskFormatter mascaraNCLIENTE = null;
-		try {
-			mascaraNCLIENTE = new MaskFormatter("##-########");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		mascaraNCLIENTE.setPlaceholderCharacter('_');
-
-		JFormattedTextField formattedTextField_NCliente = new JFormattedTextField(mascaraNCLIENTE);
-		formattedTextField_NCliente.setEditable(false);
-		formattedTextField_NCliente.setEnabled(false);
-		formattedTextField_NCliente.setBounds(204, 90, 193, 20);
-		marco1.getContentPane().add(formattedTextField_NCliente);
-		marco1.setLocationRelativeTo(null);
-		marco1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		
 
 	}
 
