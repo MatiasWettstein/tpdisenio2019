@@ -26,6 +26,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
@@ -356,8 +357,9 @@ public class PantallaDarAltaPoliza {
 			}
 		});
 
-
-		final JSpinner kmSpinner = new JSpinner();
+		// ------- JSPINNER -----------------------
+		
+		final JSpinner kmSpinner = new JSpinner(new SpinnerNumberModel(100000, 100000, 9000000, 10000));
 		kmSpinner.setToolTipText("");
 		kmSpinner.setBounds(1060, 286, 197, 20);
 		marco1.getContentPane().add(kmSpinner);
@@ -516,6 +518,9 @@ public class PantallaDarAltaPoliza {
 			LocalDate fechaActual = LocalDate.now();
 			String error = "";
 			boolean anio1 = true;
+			boolean errores = false; 
+			boolean flag_motor = true;
+			boolean flag_chasis = true;
 
 
 			//valido la provincia -- Estos try y catch son para NullPointerException o sea para cuando no se completó el campo. 
@@ -566,41 +571,57 @@ public class PantallaDarAltaPoliza {
 			catch (NullPointerException esiniestro) {
 				error += "Debe seleccionar un Número de siniestros \n";
 			}
+			
+			if (motorTexto.getText().length() < 12) {
+				flag_motor = false;
+				error += "El Número de Motor debe tener 12 caracteres \n";
+				
+			}
+			if (chasisText.getText().length() < 17) {
+				flag_motor = false;
+				error += "El Número de Chasis debe tener 17 caracteres \n";
+				
+			}
+			
 
 			if (error != null) { //muestro los mensajes de error
+				errores = true; 
 				JOptionPane.showMessageDialog(null, error);
 			}
 
-
+			if (errores == false && flag_chasis && flag_motor ) {
 			
 				PolizaDTO pDTO = new PolizaDTO();
-				//pDTO.setHijos(listaHijos);
-				//pDTO.setProvincia(provinciaCombo.getSelectedItem().toString());
-				//pDTO.setLocalidad(localidadCombo.getSelectedItem().toString());
-				//pDTO.setMarca_v(marcaCombo.getSelectedItem().toString());
-				//pDTO.setModelo_v(modeloCombo.getSelectedItem().toString());
-				//pDTO.setAnio_v(anioText.getText().toString());
-				//pDTO.setMotor(motorTexto.getText().toString());
-				//pDTO.setChasis(chasisText.getText().toString());
-				//pDTO.setPatente(patenteText.getText().toString());
+				
+				pDTO.setListaHijos(listaHijos);
+				pDTO.setProvincia(provinciaCombo.getSelectedItem().toString());
+				pDTO.setLocalidad(localidadCombo.getSelectedItem().toString());
+				pDTO.setMarca(marcaCombo.getSelectedItem().toString());
+				pDTO.setModelo(modeloCombo.getSelectedItem().toString());
+				pDTO.setAnio_vehiculo(anioText.getText().toString());
+				pDTO.setMotor(motorTexto.getText().toString());
+				pDTO.setChasis(chasisText.getText().toString());
+				pDTO.setPatente(patenteText.getText().toString());
+				//pDTO.setCliente(cliente);
 				//pDTO.setKmPorAnio("0");
 
 				if (grupoAlarma.getSelection().getActionCommand() == "SI") { //ALARMA
-					//pDTO.setAlarma(true);
-				} else //pDTO.setAlarma(false);
+					pDTO.setAlarma(true);
+				} else pDTO.setAlarma(false);
 
 					if (grupoGarage.getSelection().getActionCommand() == "SI") { //GARAGE
-						//pDTO.setGarage(true);
-					} else //pDTO.setGarage(false);
+						pDTO.setGarage(true);
+					} else pDTO.setGarage(false);
 						if (grupoDisp.getSelection().getActionCommand() == "SI") { //DISPOSITVO
-							//pDTO.setDispositivoR(true);
-						} else //pDTO.setDispositivoR(false);
+							pDTO.setDispR(true);
+						} else pDTO.setDispR(false);
 							if (grupoTuerca.getSelection().getActionCommand() == "SI") { //TUERCAS
-								//pDTO.setTuercas(true);
-							} else //pDTO.setTuercas(false);
+								pDTO.setTuercas(true);
+							} else pDTO.setTuercas(false);
 
 								GestorPantallas.Pantalla2Alta(c, pDTO);
 				marco1.dispose();
+			}
 			
 		};
 		aceptar.addActionListener(acept);
