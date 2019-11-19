@@ -14,6 +14,9 @@ import javax.swing.table.DefaultTableModel;
 import tp.disenio.pantallas.Marco;
 
 public class PantallaDarAltaPoliza3Mensual {
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public static void start() {
 		
 		// ----------------------- MARCO -----------------------------------

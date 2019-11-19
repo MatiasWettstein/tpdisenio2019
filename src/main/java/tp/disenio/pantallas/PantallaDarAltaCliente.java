@@ -13,12 +13,14 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
 import tp.disenio.DAO.DAOLocalidad;
 import tp.disenio.DAO.DAOProvincia;
 import tp.disenio.DTO.ClienteDTO;
+import tp.disenio.clases.Localidad;
 import tp.disenio.clases.Provincia;
 import tp.disenio.enumerators.CondicionIVA;
 import tp.disenio.enumerators.EstadoCivil;
@@ -125,47 +127,47 @@ public class PantallaDarAltaCliente {
 
 		JLabel lblProvincia = new JLabel("(*) Provincia");
 		lblProvincia.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblProvincia.setBounds(337, 376, 113, 24);
+		lblProvincia.setBounds(25, 376, 113, 24);
 		marco1.getContentPane().add(lblProvincia);
 
 		JLabel lblLocalidad = new JLabel("(*) Localidad");
 		lblLocalidad.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblLocalidad.setBounds(672, 376, 113, 24);
+		lblLocalidad.setBounds(337, 376, 113, 24);
 		marco1.getContentPane().add(lblLocalidad);
 
 		JLabel lblCdigoPostal = new JLabel("(*) C.P.");
 		lblCdigoPostal.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblCdigoPostal.setBounds(25, 432, 155, 24);
+		lblCdigoPostal.setBounds(672, 376, 155, 24);
 		marco1.getContentPane().add(lblCdigoPostal);
 
 		JLabel lblCondicinIva = new JLabel("(*) Condición IVA");
 		lblCondicinIva.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblCondicinIva.setBounds(25, 546, 155, 24);
+		lblCondicinIva.setBounds(25, 518, 155, 24);
 		marco1.getContentPane().add(lblCondicinIva);
 
 		JLabel lblCorreoElectrnico = new JLabel("(*) Correo electrónico");
 		lblCorreoElectrnico.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblCorreoElectrnico.setBounds(420, 546, 193, 24);
+		lblCorreoElectrnico.setBounds(420, 518, 193, 24);
 		marco1.getContentPane().add(lblCorreoElectrnico);
 
 		JLabel lblEstadoCivil = new JLabel("(*) Estado civil");
 		lblEstadoCivil.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblEstadoCivil.setBounds(26, 612, 193, 24);
+		lblEstadoCivil.setBounds(25, 584, 193, 24);
 		marco1.getContentPane().add(lblEstadoCivil);
 
 		JLabel lblProfesin = new JLabel("(*) Profesión");
 		lblProfesin.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblProfesin.setBounds(420, 612, 193, 24);
+		lblProfesin.setBounds(420, 584, 193, 24);
 		marco1.getContentPane().add(lblProfesin);
 
 		JLabel lblAnioDe = new JLabel("(*) Año de registro");
 		lblAnioDe.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblAnioDe.setBounds(846, 546, 193, 24);
+		lblAnioDe.setBounds(845, 518, 193, 24);
 		marco1.getContentPane().add(lblAnioDe);
 
 		JLabel lblInformacinAdicional = new JLabel("Información Adicional");
 		lblInformacinAdicional.setFont(new Font("Serif", Font.BOLD, 20));
-		lblInformacinAdicional.setBounds(25, 490, 252, 32);
+		lblInformacinAdicional.setBounds(25, 453, 252, 32);
 		marco1.getContentPane().add(lblInformacinAdicional);
 		// ------------------------------------------------
 
@@ -176,7 +178,7 @@ public class PantallaDarAltaCliente {
 		tipoDoc.setModel(new DefaultComboBoxModel(TipoDocumento.values()));
 
 		JComboBox comboBox_Provincia = new JComboBox();
-		comboBox_Provincia.setBounds(449, 381, 193, 20);
+		comboBox_Provincia.setBounds(136, 381, 193, 20);
 		marco1.getContentPane().add(comboBox_Provincia);
 		comboBox_Provincia.setModel(new DefaultComboBoxModel(DAOProvincia.listaProvincia()));
 		
@@ -184,7 +186,7 @@ public class PantallaDarAltaCliente {
 		comboBox_Provincia.setSelectedIndex(-1);
 		
 		JComboBox comboBox_Localidad = new JComboBox();
-		comboBox_Localidad.setBounds(795, 381, 193, 20);
+		comboBox_Localidad.setBounds(449, 381, 196, 20);
 		marco1.getContentPane().add(comboBox_Localidad);
 		
 		comboBox_Provincia.addItemListener(arg0 -> {
@@ -197,14 +199,23 @@ public class PantallaDarAltaCliente {
 				
 			}
 		});
+		
+		comboBox_Localidad.addItemListener(arg0 -> {
+			if (arg0.getStateChange() == ItemEvent.SELECTED) {
+				Localidad auxL = new Localidad();
+				auxL=(Localidad) comboBox_Localidad.getSelectedItem();
+				textField_CP.setText(auxL.getCodigoPostal());
+				
+			}
+		});
 				
 		JComboBox comboBox_CondIVA = new JComboBox();
-		comboBox_CondIVA.setBounds(190, 551, 193, 20);
+		comboBox_CondIVA.setBounds(190, 523, 193, 20);
 		marco1.getContentPane().add(comboBox_CondIVA);
 		comboBox_CondIVA.setModel(new DefaultComboBoxModel(CondicionIVA.values()));
 
 		JComboBox comboBox_EstadoCivil = new JComboBox();
-		comboBox_EstadoCivil.setBounds(190, 617, 193, 20);
+		comboBox_EstadoCivil.setBounds(190, 589, 193, 20);
 		marco1.getContentPane().add(comboBox_EstadoCivil);
 		comboBox_EstadoCivil.setModel(new DefaultComboBoxModel(EstadoCivil.values()));
 
@@ -238,7 +249,7 @@ public class PantallaDarAltaCliente {
 
 		textField_Calle = new JTextField();
 		textField_Calle.setColumns(10);
-		textField_Calle.setBounds(110, 317, 193, 20);
+		textField_Calle.setBounds(136, 317, 193, 20);
 		marco1.getContentPane().add(textField_Calle);
 
 		textField_NroCalle = new JTextField();
@@ -248,7 +259,7 @@ public class PantallaDarAltaCliente {
 
 		textField_Piso = new JTextField();
 		textField_Piso.setColumns(10);
-		textField_Piso.setBounds(732, 317, 180, 20);
+		textField_Piso.setBounds(744, 317, 180, 20);
 		marco1.getContentPane().add(textField_Piso);
 
 		textField_Dpto = new JTextField();
@@ -258,17 +269,17 @@ public class PantallaDarAltaCliente {
 
 		textField_CP = new JTextField();
 		textField_CP.setColumns(10);
-		textField_CP.setBounds(110, 437, 193, 20);
+		textField_CP.setBounds(744, 381, 180, 20);
 		marco1.getContentPane().add(textField_CP);
 
 		textField_email = new JTextField();
 		textField_email.setColumns(10);
-		textField_email.setBounds(623, 551, 196, 20);
+		textField_email.setBounds(623, 523, 196, 20);
 		marco1.getContentPane().add(textField_email);
 
 		textField_anioRegistro = new JTextField();
 		textField_anioRegistro.setColumns(10);
-		textField_anioRegistro.setBounds(1003, 551, 180, 20);
+		textField_anioRegistro.setBounds(1003, 523, 180, 20);
 		textField_anioRegistro.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
@@ -290,7 +301,7 @@ public class PantallaDarAltaCliente {
 
 		textField_Profesion = new JTextField();
 		textField_Profesion.setColumns(10);
-		textField_Profesion.setBounds(623, 617, 196, 20);
+		textField_Profesion.setBounds(623, 589, 196, 20);
 		marco1.getContentPane().add(textField_Profesion);
 
 		// ----------- BOTONES -------------------------
@@ -301,15 +312,20 @@ public class PantallaDarAltaCliente {
 		btnAceptar.addActionListener(arg0 -> {
 			//cuando presiona aceptar tengo que hacer las validaciones.
 			//VALIDO APELLIDO
-			if (textField_Apellido.getText() != null  ) {
-				String apellido;
-				apellido = textField_Apellido.getText();
+			String errores = "";
+			boolean error = false; 
+			
+			try { 
+				String apellido = textField_Apellido.getText();
 				if (apellido.matches("[0-9]+")== true ) {
-					//el mensaje de error hay que meterlo en un ArrayList de tipo string que tenga todos los mensajes de errores para pasarselos a la pantalla de errores
-					//acá habría que mostrar un mensaje de error diciendo que el apellido no puede contener numeros
+					errores += "El campo 'Apellido' no puede contenter números";
 				}
+			
 			}
-			//acá iría un else diciendo que se llama a una pantalla de ERROR porque el campo obligatorio está incompleto
+			catch (Exception eApellido) {
+				errores += "El campo Apellido es obligatorio";
+			}
+			
 
 
 			//VALIDO NOMBRE
@@ -350,6 +366,10 @@ public class PantallaDarAltaCliente {
 			//VALIDO PROFESION
 			//VALIDO AÑO REGISTRO
 
+			if (errores != null) { //muestro los mensajes de error
+				error = true;
+				JOptionPane.showMessageDialog(null, error);
+			}
 
 
 		});

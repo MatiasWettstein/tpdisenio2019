@@ -42,7 +42,7 @@ public class DAOLocalidad {
 				loc.setNombre(rs.getString(2));
 				loc.setId_localidad(rs.getInt("id_localidad"));
 				loc.setPorcentaje(rs.getFloat("porcentaje"));
-				loc.setCodigoPostal(rs.getString(4));
+				loc.setCodigoPostal(rs.getString("codigo_postal"));
 				Localidades.add(loc);
 			}
 		} catch (SQLException e) {
@@ -61,4 +61,8 @@ public class DAOLocalidad {
 
 
 	}
+
+	
+	
+
 }
