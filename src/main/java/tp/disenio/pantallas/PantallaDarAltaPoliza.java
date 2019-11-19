@@ -41,6 +41,7 @@ import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.clases.Marca;
 import tp.disenio.clases.Modelo;
 import tp.disenio.clases.Provincia;
+import tp.disenio.clases.SubsistemaSiniestros;
 import tp.disenio.enumerators.EstadoCivil;
 import tp.disenio.enumerators.TipoDocumento;
 import tp.disenio.gestores.GestorCliente;
@@ -271,9 +272,6 @@ public class PantallaDarAltaPoliza {
 		modeloCombo.setBounds(417, 240, 196, 20);
 		marco1.getContentPane().add(modeloCombo);
 		
-		
-
-		
 		marcaCombo.addItemListener(arg0 -> {
 			if (arg0.getStateChange() == ItemEvent.SELECTED) {
 
@@ -284,11 +282,7 @@ public class PantallaDarAltaPoliza {
 			}
 		});
 
-		final JComboBox siniestrosCombo = new JComboBox();
-		siniestrosCombo.setBounds(345, 406, 196, 20);
-		marco1.getContentPane().add(siniestrosCombo);
-		//siniestrosCombo.setModel(new DefaultComboBoxModel(NroSiniestrosEnum.values()));
-
+	
 		// ----------- FORMATTED TEXT FIELD ---------------
 		MaskFormatter mascara = null;
 		try {
@@ -312,13 +306,16 @@ public class PantallaDarAltaPoliza {
 			}
 		});
 		
-		
-		
-
 		// ------------------------------------
 		
 		
 		// ----------- CAMPOS DE TEXTO ------------
+		
+		JTextField SiniestroText = new JTextField();
+		SiniestroText.setEnabled(false);
+		SiniestroText.setBounds(345, 406, 196, 20);
+		marco1.getContentPane().add(SiniestroText);
+		
 		anioText = new JTextField();
 		anioText.setBounds(714, 240, 196, 20);
 		anioText.addKeyListener(new KeyAdapter() {
@@ -485,7 +482,11 @@ public class PantallaDarAltaPoliza {
 
 		// ---------- BOTONES ------------
 		JButton buscarC = new JButton("BUSCAR CLIENTE");
-		ActionListener buscarCliente = e -> GestorPantallas.buscarcliente();
+		ActionListener buscarCliente = e -> { 
+			
+			SiniestroText.setText(SubsistemaSiniestros.cantidadSiniestros());
+			GestorPantallas.buscarcliente();
+		};
 		buscarC.addActionListener(buscarCliente);
 		buscarC.setFont(new Font("Serif", Font.BOLD, 12));
 		buscarC.setBounds(25, 10, 222, 33);
@@ -494,6 +495,7 @@ public class PantallaDarAltaPoliza {
 		//
 		JButton altaC = new JButton ("DAR DE ALTA CLIENTE");
 		ActionListener altaCliente = e -> {
+			if (SiniestroText.getText() == null) SiniestroText.setText(SubsistemaSiniestros.cantidadSiniestros());
 			GestorPantallas.PantallaDarAltaCliente(); //hay que ver si esta es la forma porque no se como hacer que te devuelva a esta pntalla desp
 			marco1.dispose();
 		};
@@ -584,13 +586,6 @@ public class PantallaDarAltaPoliza {
 			}
 			catch (Exception efecha) {
 				error += "Debe ingresar una Fecha \n";
-			}
-			//valido los siniestros
-			try {
-			siniestrosCombo.getSelectedItem().toString();
-			}
-			catch (NullPointerException esiniestro) {
-				error += "Debe seleccionar un Número de siniestros \n";
 			}
 			
 			if (motorTexto.getText().length() < 12) {
