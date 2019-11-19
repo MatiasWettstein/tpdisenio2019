@@ -2,6 +2,9 @@ package tp.disenio.pantallas;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ItemEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.text.ParseException;
 
 import javax.swing.DefaultComboBoxModel;
@@ -13,8 +16,10 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
+import tp.disenio.DAO.DAOLocalidad;
 import tp.disenio.DAO.DAOProvincia;
 import tp.disenio.DTO.ClienteDTO;
+import tp.disenio.clases.Provincia;
 import tp.disenio.enumerators.CondicionIVA;
 import tp.disenio.enumerators.EstadoCivil;
 import tp.disenio.enumerators.Sexo;
@@ -175,11 +180,24 @@ public class PantallaDarAltaCliente {
 		marco1.getContentPane().add(comboBox_Provincia);
 		comboBox_Provincia.setModel(new DefaultComboBoxModel(DAOProvincia.listaProvincia()));
 		
+		comboBox_Provincia.setRenderer(new MyComboBoxRenderer("SELECCIONE PROVINCIA"));
+		comboBox_Provincia.setSelectedIndex(-1);
+		
 		JComboBox comboBox_Localidad = new JComboBox();
 		comboBox_Localidad.setBounds(795, 381, 193, 20);
 		marco1.getContentPane().add(comboBox_Localidad);
-		//comboBox_Localidad.setModel(new DefaultComboBoxModel(Localidades.values()));
+		
+		comboBox_Provincia.addItemListener(arg0 -> {
+			if (arg0.getStateChange() == ItemEvent.SELECTED) {
 
+				DefaultComboBoxModel model = new DefaultComboBoxModel(DAOLocalidad.listaLocalidad((Provincia) comboBox_Provincia.getSelectedItem()));
+				comboBox_Localidad.setModel(model);
+				comboBox_Localidad.setRenderer(new MyComboBoxRenderer("SELECCIONE LOCALIDAD"));
+				comboBox_Localidad.setSelectedIndex(-1);
+				
+			}
+		});
+				
 		JComboBox comboBox_CondIVA = new JComboBox();
 		comboBox_CondIVA.setBounds(190, 551, 193, 20);
 		marco1.getContentPane().add(comboBox_CondIVA);
@@ -251,7 +269,24 @@ public class PantallaDarAltaCliente {
 		textField_anioRegistro = new JTextField();
 		textField_anioRegistro.setColumns(10);
 		textField_anioRegistro.setBounds(1003, 551, 180, 20);
+		textField_anioRegistro.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				int max = 4;
+				if(e.getKeyChar()!='1' && e.getKeyChar()!='2' && e.getKeyChar()!='3' && e.getKeyChar()!='4' && e.getKeyChar()!='5' && e.getKeyChar()!='6' && e.getKeyChar()!='7' && e.getKeyChar()!='8' && e.getKeyChar()!='9' && e.getKeyChar()!='0') e.consume();
+				else if(textField_anioRegistro.getText().length() > max+1) {
+					e.consume();
+					String shortened = textField_anioRegistro.getText().substring(0, max);
+					textField_anioRegistro.setText(shortened);
+				}else if(textField_anioRegistro.getText().length() > max) {
+					e.consume();
+				}
+			}
+		});
+		
+		
 		marco1.getContentPane().add(textField_anioRegistro);
+		
 
 		textField_Profesion = new JTextField();
 		textField_Profesion.setColumns(10);

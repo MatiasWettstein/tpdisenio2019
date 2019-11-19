@@ -256,6 +256,9 @@ public class PantallaDarAltaPoliza {
 
 				DefaultComboBoxModel model = new DefaultComboBoxModel(DAOLocalidad.listaLocalidad((Provincia) provinciaCombo.getSelectedItem()));
 				localidadCombo.setModel(model);
+				localidadCombo.setRenderer(new MyComboBoxRenderer("SELECCIONE LOCALIDAD"));
+				localidadCombo.setSelectedIndex(-1);
+				
 				
 			}
 		});
