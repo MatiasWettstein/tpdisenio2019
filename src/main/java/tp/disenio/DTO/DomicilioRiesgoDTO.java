@@ -1,10 +1,11 @@
-package tp.disenio.clases;
+package tp.disenio.DTO;
 
-public class DomicilioRiesgo {
+public class DomicilioRiesgoDTO {
 
 	private String id_domicilioR;
-	private Localidad localidad;
+	private LocalidadDTO localidad;
 	private float porcentajeDomicilio;
+
 
 	public String getId_domicilioR() {
 		return id_domicilioR;
@@ -12,10 +13,10 @@ public class DomicilioRiesgo {
 	public void setId_domicilioR(String id_domicilioR) {
 		this.id_domicilioR = id_domicilioR;
 	}
-	public Localidad getLocalidad() {
+	public LocalidadDTO getLocalidad() {
 		return localidad;
 	}
-	public void setLocalidad(Localidad localidad) {
+	public void setLocalidad(LocalidadDTO localidad) {
 		this.localidad = localidad;
 	}
 	public float getPorcentajeDomicilio() {
@@ -24,7 +25,5 @@ public class DomicilioRiesgo {
 	public void setPorcentajeDomicilio(float porcentajeDomicilio) {
 		this.porcentajeDomicilio = porcentajeDomicilio;
 	}
-
-
 
 }

@@ -8,7 +8,36 @@ public class PolizaDTO {
 	private String estado_poliza;//
 	private String forma_pago;//
 	private float kmPorAnio;//
+	private Boolean tuercas;
+	private Boolean Garage;
+	private Boolean Alarma;
+	private Boolean DispRastreo;
 
+
+	public Boolean getTuercas() {
+		return tuercas;
+	}
+	public void setTuercas(Boolean tuercas) {
+		this.tuercas = tuercas;
+	}
+	public Boolean getGarage() {
+		return Garage;
+	}
+	public void setGarage(Boolean garage) {
+		Garage = garage;
+	}
+	public Boolean getAlarma() {
+		return Alarma;
+	}
+	public void setAlarma(Boolean alarma) {
+		Alarma = alarma;
+	}
+	public Boolean getDispRastreo() {
+		return DispRastreo;
+	}
+	public void setDispRastreo(Boolean dispRastreo) {
+		DispRastreo = dispRastreo;
+	}
 	public int getNroPoliza() {
 		return nroPoliza;
 	}
