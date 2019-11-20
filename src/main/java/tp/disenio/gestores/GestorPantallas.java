@@ -1,7 +1,12 @@
 package tp.disenio.gestores;
 
+import java.util.ArrayList;
+
 import tp.disenio.DTO.ClienteDTO;
+import tp.disenio.DTO.DomicilioRiesgoDTO;
+import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
+import tp.disenio.DTO.VehiculoDTO;
 import tp.disenio.pantallas.PantallaDarAltaCliente;
 import tp.disenio.pantallas.PantallaDarAltaCliente2;
 import tp.disenio.pantallas.PantallaDarAltaPoliza;
@@ -36,8 +41,8 @@ public class GestorPantallas {
 		PantallaDarAltaPoliza.agregarhijo();
 	}
 
-	public static void Pantalla2Alta(ClienteDTO c, PolizaDTO p) {
-		PantallaDarAltaPoliza2.start(c, p);
+	public static void Pantalla2Alta(ClienteDTO c,VehiculoDTO v,ArrayList<HijoDTO> listahijos,  PolizaDTO p, DomicilioRiesgoDTO dom) {
+		PantallaDarAltaPoliza2.start(c, p, v, listahijos, dom);
 
 	}
 

@@ -36,11 +36,14 @@ import tp.disenio.DAO.DAOMarca;
 import tp.disenio.DAO.DAOModelo;
 import tp.disenio.DAO.DAOProvincia;
 import tp.disenio.DTO.ClienteDTO;
+import tp.disenio.DTO.DomicilioRiesgoDTO;
 import tp.disenio.DTO.HijoDTO;
+import tp.disenio.DTO.LocalidadDTO;
 import tp.disenio.DTO.MarcaDTO;
 import tp.disenio.DTO.ModeloDTO;
 import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.DTO.VehiculoDTO;
+import tp.disenio.clases.Localidad;
 import tp.disenio.clases.Marca;
 import tp.disenio.clases.Modelo;
 import tp.disenio.clases.Provincia;
@@ -667,13 +670,26 @@ public class PantallaDarAltaPoliza {
 					pDTO.setGarage(true);
 				} else pDTO.setGarage(false);
 				if (grupoDisp.getSelection().getActionCommand() == "SI") { //DISPOSITVO
-					pDTO.setDispR(true);
-				} else pDTO.setDispR(false);
+					pDTO.setDispRastreo(true);
+				} else pDTO.setDispRastreo(false);
 				if (grupoTuerca.getSelection().getActionCommand() == "SI") { //TUERCAS
 					pDTO.setTuercas(true);
 				} else pDTO.setTuercas(false);
 
-				GestorPantallas.Pantalla2Alta(c, vehiculodto, listaHijos,  pDTO);
+				Localidad auxq = (Localidad) localidadCombo.getSelectedItem();
+
+				LocalidadDTO locdto = new LocalidadDTO();
+				locdto.setId_localidad(auxq.getId_localidad());
+
+				DomicilioRiesgoDTO domriesgodto = new DomicilioRiesgoDTO();
+
+				domriesgodto.setLocalidad(locdto);
+				domriesgodto.setPorcentajeDomicilio(auxq.getPorcentaje());
+
+				GestorPantallas.Pantalla2Alta(c, vehiculodto, listaHijos,  pDTO, domriesgodto);
+
+
+
 				marco1.dispose();
 			}
 

@@ -129,10 +129,10 @@ public class DAOCliente {
 
 
 	public static void guardarCliente (Cliente c) {
-		
+
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
-		
+
 
 
 		try {
@@ -146,13 +146,13 @@ public class DAOCliente {
 		}
 		try {
 
-		//nro_cliente, tipo_c, cuil, fecha_nac, nrodoc, nombre, apellido, email, profesion, estado_cliente, sexo, cond_iva, 
+			//nro_cliente, tipo_c, cuil, fecha_nac, nrodoc, nombre, apellido, email, profesion, estado_cliente, sexo, cond_iva,
 			//estado_civil, anio_registro, direccion, tipo_doc
 			PreparedStatement st = con.prepareStatement("INSERT INTO CLIENTE VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			st.setString(1, c.getNroCliente());
 			st.setString(2, c.getTipo());
 			st.setString(3, c.getCuil());
-			st.setString(4, c.getFechaNac()); // REVISAR EL TIPO DE DATO QUE DEVUELVE 
+			st.setString(4, c.getFechaNac()); // REVISAR EL TIPO DE DATO QUE DEVUELVE
 			st.setString(5, c.getDocumento());
 			st.setString(6, c.getNombre());
 			st.setString(7, c.getApellido());
@@ -162,30 +162,30 @@ public class DAOCliente {
 			st.setString(11, c.getSexo());
 			st.setString(12, c.getCondicionIVA());
 			st.setString(13, c.getEstadoCivil());
-			
+
 			st.executeUpdate();
 			st.close();
-			
-			
-			
+
+
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
-		
-		
+
+
+
+
+
 		try {
 			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-		
+
+
+
 	}
-	
+
 }

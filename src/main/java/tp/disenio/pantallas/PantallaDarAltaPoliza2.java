@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -17,7 +18,10 @@ import javax.swing.JOptionPane;
 import javax.swing.text.MaskFormatter;
 
 import tp.disenio.DTO.ClienteDTO;
+import tp.disenio.DTO.DomicilioRiesgoDTO;
+import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
+import tp.disenio.DTO.VehiculoDTO;
 import tp.disenio.enumerators.FormaPagoEnum;
 import tp.disenio.enumerators.TipoCoberturaEnum;
 import tp.disenio.gestores.GestorPantallas;
@@ -28,7 +32,7 @@ public class PantallaDarAltaPoliza2 {
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public static void start(ClienteDTO c, PolizaDTO p) {
+	public static void start(ClienteDTO c, PolizaDTO p, VehiculoDTO v,ArrayList<HijoDTO> listahijos, DomicilioRiesgoDTO dom) {
 		// --------------------------- MARCO -------------------------------
 		final Marco marco1 = new Marco(700,600,"DAR DE ALTA POLIZA");
 		marco1.getContentPane().setLayout(null);
