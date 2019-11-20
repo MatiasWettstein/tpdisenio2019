@@ -6,6 +6,9 @@ import java.awt.event.ItemEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -176,6 +179,8 @@ public class PantallaDarAltaCliente {
 		tipoDoc.setBounds(204, 147, 196, 20);
 		marco1.getContentPane().add(tipoDoc);
 		tipoDoc.setModel(new DefaultComboBoxModel(TipoDocumento.values()));
+		tipoDoc.setRenderer(new MyComboBoxRenderer("SELECCIONE TIPO DOCUMENTO"));
+		tipoDoc.setSelectedIndex(-1);
 
 		JComboBox comboBox_Provincia = new JComboBox();
 		comboBox_Provincia.setBounds(136, 381, 193, 20);
@@ -277,19 +282,6 @@ public class PantallaDarAltaCliente {
 		});
 		
 		
-		MaskFormatter mascara = null;
-		try {
-			mascara = new MaskFormatter("##-##-####");
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-
-		mascara.setPlaceholderCharacter('_');
-		final JFormattedTextField fechaNFormattedTextField = new JFormattedTextField(mascara);
-		fechaNFormattedTextField.setValue("");
-		fechaNFormattedTextField.setBounds(623, 202, 196, 20);
-		marco1.getContentPane().add(fechaNFormattedTextField);
-
 		
 		textField_Calle = new JTextField();
 		textField_Calle.setColumns(10);
@@ -456,6 +448,20 @@ public class PantallaDarAltaCliente {
 				marco1.setLocationRelativeTo(null);
 				marco1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 				
+
+				MaskFormatter mascara = null;
+				try {
+					mascara = new MaskFormatter("##-##-####");
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
+
+				mascara.setPlaceholderCharacter('_');
+				final JFormattedTextField fechaNFormattedTextField = new JFormattedTextField(mascara);
+				fechaNFormattedTextField.setBounds(623, 202, 196, 20);
+				marco1.getContentPane().add(fechaNFormattedTextField);
+
+				
 		// ----------- BOTONES -------------------------
 		JButton btnAceptar = new JButton("ACEPTAR");
 		btnAceptar.setFont(new Font("Serif", Font.BOLD, 12));
@@ -523,6 +529,38 @@ public class PantallaDarAltaCliente {
 			}
 			
 			//VALIDO FECH NAC
+			boolean campoCompleto=true;
+			boolean edad=true;
+			boolean fechaValida=true;
+			String fechaVacia = "__-__-____";
+
+			if (fechaNFormattedTextField.getText().equals(fechaVacia)){
+				campoCompleto = false;
+				errores += "No se completó el campo Fecha de Nacimiento que es obligatorio \n";
+			}
+
+			if (campoCompleto == true ) { //si se completó el campo fecha
+				String fecha = fechaNFormattedTextField.getText();
+
+				//VERIFICO QUE SEA UNA FECHA VALIDA
+				try {
+					DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+					LocalDate fechaNac = LocalDate.parse(fecha, fmt);
+					LocalDate ahora = LocalDate.now();
+					Period periodo = Period.between(fechaNac, ahora);
+				 
+					//VERIFICO QUE LA EDAD ESTE ENTRE 18 y no sea mayor a la actual
+					if ((periodo.getYears() < 18) || ((fechaNac.compareTo(ahora))>0)) {
+						edad = false;
+						errores += "La Fecha de Nacimiento ingresada es inválida \n";
+					}
+				}
+				catch (Exception eFecha) {
+					fechaValida = false;
+					errores += "El campo 'Fecha de Nacimiento' es obligatorio \n";
+
+				}
+			}
 			//VALIDO CALLE
 			//VALIDO NUMERO
 			//VALIDO PISO
@@ -545,7 +583,6 @@ public class PantallaDarAltaCliente {
 			catch (Exception eApellido) {
 				errores += "El campo 'Estado Civil' es obligatorio  \n";
 			}
-			
 			//VALIDO PROFESION
 			//VALIDO AÑO REGISTRO
 

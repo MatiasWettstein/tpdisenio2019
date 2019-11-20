@@ -904,26 +904,7 @@ public class PantallaDarAltaPoliza {
 		marco1.getContentPane().add(fechaNFormattedTextField);
 		// -----------------------------------------------------------------
 
-		/*--------------- RADIO BUTTON ------------------------------------
-		JRadioButton sexoRdbtnFemenino = new JRadioButton("FEMENINO");
-		sexoRdbtnFemenino.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		sexoRdbtnFemenino.setBackground(Color.LIGHT_GRAY);
-		sexoRdbtnFemenino.setForeground(Color.BLACK);
-		sexoRdbtnFemenino.setBounds(232, 158, 100, 23);
-		sexoRdbtnFemenino.setActionCommand("Femenino");
-		marco1.getContentPane().add(sexoRdbtnFemenino);
-
-		JRadioButton rdbtnMasculino = new JRadioButton("MASCULINO");
-		rdbtnMasculino.setBackground(Color.LIGHT_GRAY);
-		rdbtnMasculino.setFont(new Font("Tahoma", Font.PLAIN, 13));
-		rdbtnMasculino.setBounds(328, 158, 100, 23);
-		rdbtnMasculino.setActionCommand("Masculino");
-		marco1.getContentPane().add(rdbtnMasculino);
-
-		final ButtonGroup grupoSexo = new ButtonGroup();
-		grupoSexo.add(sexoRdbtnFemenino);
-		grupoSexo.add(rdbtnMasculino);
-		// ----------------------------------------------------------------- */
+	
 
 		// ------------------- COMBO BOX -----------------------------------
 		final JComboBox comboBox_EstadoCivil = new JComboBox();
