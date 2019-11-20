@@ -14,9 +14,6 @@ import tp.disenio.gestores.GestorDB;
 
 public class DAOCliente {
 
-
-
-
 	public static ArrayList<Cliente> buscarCliente(String NroCliente, String TipoDoc, String NroDoc, String Nombre, String Apellido){
 
 		ArrayList<Cliente> Clientes= new ArrayList<>();
@@ -118,7 +115,6 @@ public class DAOCliente {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
 
 		try {
 			con.close();

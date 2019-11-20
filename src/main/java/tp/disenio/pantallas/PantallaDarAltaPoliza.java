@@ -37,7 +37,10 @@ import tp.disenio.DAO.DAOModelo;
 import tp.disenio.DAO.DAOProvincia;
 import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.DTO.HijoDTO;
+import tp.disenio.DTO.MarcaDTO;
+import tp.disenio.DTO.ModeloDTO;
 import tp.disenio.DTO.PolizaDTO;
+import tp.disenio.DTO.VehiculoDTO;
 import tp.disenio.clases.Marca;
 import tp.disenio.clases.Modelo;
 import tp.disenio.clases.Provincia;
@@ -287,11 +290,10 @@ public class PantallaDarAltaPoliza {
 		});
 
 
-	
 		final JComboBox anioCombo = new JComboBox();
 		anioCombo.setBounds(714, 240, 196, 20);
 		marco1.getContentPane().add(anioCombo);
-		
+
 		modeloCombo.addItemListener(arg0 -> {
 			if (arg0.getStateChange() == ItemEvent.SELECTED) {
 
@@ -301,8 +303,7 @@ public class PantallaDarAltaPoliza {
 				anioCombo.setSelectedIndex(-1);
 			}
 		});
-		
-		
+
 
 		// ----------- FORMATTED TEXT FIELD ---------------
 		MaskFormatter mascara = null;
@@ -355,8 +356,6 @@ public class PantallaDarAltaPoliza {
 		});
 		marco1.getContentPane().add(anioText);
 		anioText.setColumns(10);
-
-
 		motorTexto = new JTextField();
 		motorTexto.setBounds(111, 287, 196, 20);
 		marco1.getContentPane().add(motorTexto);
@@ -509,6 +508,7 @@ public class PantallaDarAltaPoliza {
 			SiniestroText.setText(SubsistemaSiniestros.cantidadSiniestros());
 			GestorPantallas.buscarcliente();
 		};
+
 		buscarC.addActionListener(buscarCliente);
 		buscarC.setFont(new Font("Serif", Font.BOLD, 12));
 		buscarC.setBounds(25, 10, 222, 33);
@@ -556,9 +556,7 @@ public class PantallaDarAltaPoliza {
 		aceptar.setLocation(1021, 627);
 		ActionListener acept = e -> {
 
-
 			//HAGO LAS VALIDACIONES CUANDO SE APRIETA EL BOTON ACEPTAR
-
 
 			LocalDate fechaActual = LocalDate.now();
 			String error = "";
@@ -566,7 +564,6 @@ public class PantallaDarAltaPoliza {
 			boolean errores = false;
 			boolean flag_motor = true;
 			boolean flag_chasis = true;
-
 
 			//valido la provincia -- Estos try y catch son para NullPointerException o sea para cuando no se completó el campo.
 			try {
@@ -629,17 +626,36 @@ public class PantallaDarAltaPoliza {
 
 			if (errores == false && flag_chasis && flag_motor ) {
 
+
+				VehiculoDTO vehiculodto = new VehiculoDTO();
+				ModeloDTO modelodto = new ModeloDTO();
+				MarcaDTO marcadto = new MarcaDTO();
+				Marca aux = new Marca();
+				aux=(Marca) marcaCombo.getSelectedItem();
+
+				marcadto.setIdmarca(aux.getIdMarca());
+				marcadto.setNombre(aux.getNombre());
+
+				Modelo aux1 = new Modelo();
+				aux1= (Modelo) modeloCombo.getSelectedItem();
+
+				modelodto.setIdmodelo(aux1.getIdModelo());
+				modelodto.setNombre(aux1.getNombre());
+				modelodto.setMarca(marcadto);
+
+				vehiculodto.setAnio((int) anioCombo.getSelectedItem());
+				vehiculodto.setChasis(chasisText.getText());
+				vehiculodto.setModelo(modelodto);
+				vehiculodto.setMotor(motorTexto.getText());
+				vehiculodto.setPatente(patenteText.getText());
+				vehiculodto.setPorcentaje(aux1.getPorcentaje());
+				vehiculodto.setSumaasegurada(Float.parseFloat(sumaFormattedTextField.getText()));
+
+
 				PolizaDTO pDTO = new PolizaDTO();
 
-				pDTO.setListaHijos(listaHijos);
-				pDTO.setProvincia(provinciaCombo.getSelectedItem().toString());
-				pDTO.setLocalidad(localidadCombo.getSelectedItem().toString());
-				pDTO.setMarca(marcaCombo.getSelectedItem().toString());
-				pDTO.setModelo(modeloCombo.getSelectedItem().toString());
-				pDTO.setAnio_vehiculo(anioText.getText().toString());
-				pDTO.setMotor(motorTexto.getText().toString());
-				pDTO.setChasis(chasisText.getText().toString());
-				pDTO.setPatente(patenteText.getText().toString());
+				pDTO.setKmPorAnio((Integer) kmSpinner.getValue());
+
 				//pDTO.setCliente(cliente);
 				//pDTO.setKmPorAnio("0");
 
@@ -657,7 +673,7 @@ public class PantallaDarAltaPoliza {
 					pDTO.setTuercas(true);
 				} else pDTO.setTuercas(false);
 
-				GestorPantallas.Pantalla2Alta(c, pDTO);
+				GestorPantallas.Pantalla2Alta(c, vehiculodto, listaHijos,  pDTO);
 				marco1.dispose();
 			}
 
@@ -898,7 +914,26 @@ public class PantallaDarAltaPoliza {
 		marco1.getContentPane().add(fechaNFormattedTextField);
 		// -----------------------------------------------------------------
 
-	
+		/*--------------- RADIO BUTTON ------------------------------------
+		JRadioButton sexoRdbtnFemenino = new JRadioButton("FEMENINO");
+		sexoRdbtnFemenino.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		sexoRdbtnFemenino.setBackground(Color.LIGHT_GRAY);
+		sexoRdbtnFemenino.setForeground(Color.BLACK);
+		sexoRdbtnFemenino.setBounds(232, 158, 100, 23);
+		sexoRdbtnFemenino.setActionCommand("Femenino");
+		marco1.getContentPane().add(sexoRdbtnFemenino);
+
+		JRadioButton rdbtnMasculino = new JRadioButton("MASCULINO");
+		rdbtnMasculino.setBackground(Color.LIGHT_GRAY);
+		rdbtnMasculino.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnMasculino.setBounds(328, 158, 100, 23);
+		rdbtnMasculino.setActionCommand("Masculino");
+		marco1.getContentPane().add(rdbtnMasculino);
+
+		final ButtonGroup grupoSexo = new ButtonGroup();
+		grupoSexo.add(sexoRdbtnFemenino);
+		grupoSexo.add(rdbtnMasculino);
+		// ----------------------------------------------------------------- */
 
 		// ------------------- COMBO BOX -----------------------------------
 		final JComboBox comboBox_EstadoCivil = new JComboBox();
@@ -907,8 +942,8 @@ public class PantallaDarAltaPoliza {
 		marco1.getContentPane().add(comboBox_EstadoCivil);
 		comboBox_EstadoCivil.setRenderer(new MyComboBoxRenderer("SELECCIONE ESTADO CIVIL"));
 		comboBox_EstadoCivil.setSelectedIndex(-1);
-		
-		
+
+
 		JComboBox sexo = new JComboBox();
 		sexo.setBounds(232, 158, 203, 23);
 		marco1.getContentPane().add(sexo);
@@ -970,7 +1005,7 @@ public class PantallaDarAltaPoliza {
 
 			try {
 				String aux_estadoCivil = comboBox_EstadoCivil.getSelectedItem().toString();
-				
+
 			}
 			catch (Exception eEstadoC) {
 				error += "El campo 'Estado Civil' es obligatorio \n";

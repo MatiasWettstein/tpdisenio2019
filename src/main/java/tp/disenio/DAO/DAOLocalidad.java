@@ -38,11 +38,14 @@ public class DAOLocalidad {
 			PreparedStatement st2 = con.prepareStatement(consulta2);
 			rs = st2.executeQuery();
 			while(rs.next()) {
+
 				Localidad loc = new Localidad();
 				loc.setNombre(rs.getString(2));
 				loc.setId_localidad(rs.getInt("id_localidad"));
 				loc.setPorcentaje(rs.getFloat("porcentaje"));
 				loc.setCodigoPostal(rs.getString("codigo_postal"));
+				loc.setProvincia(prov);
+
 				Localidades.add(loc);
 			}
 		} catch (SQLException e) {
@@ -62,7 +65,7 @@ public class DAOLocalidad {
 
 	}
 
-	
-	
+
+
 
 }

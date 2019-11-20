@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import tp.disenio.DAO.DAOCliente;
 import tp.disenio.DTO.ClienteDTO;
+import tp.disenio.DTO.DireccionDTO;
+import tp.disenio.DTO.LocalidadDTO;
+import tp.disenio.DTO.ProvinciaDTO;
 import tp.disenio.clases.Cliente;
 
 public class GestorCliente {
@@ -26,6 +29,26 @@ public class GestorCliente {
 		ArrayList<ClienteDTO> retorno = new ArrayList<>();
 		for(Cliente c:clientes) {
 
+			ProvinciaDTO prov = new ProvinciaDTO();
+			prov.setId_provincia(c.getDireccion().getLocalidad().getProvincia().getId_provincia());
+			prov.setNombre(c.getDireccion().getLocalidad().getProvincia().getNombre());
+			prov.setPais(c.getDireccion().getLocalidad().getProvincia().getPais());
+
+			LocalidadDTO loc = new LocalidadDTO();
+			loc.setCodigoPostal(c.getDireccion().getLocalidad().getCodigoPostal());
+			loc.setId_localidad(c.getDireccion().getLocalidad().getId_localidad());
+			loc.setNombre(c.getDireccion().getLocalidad().getNombre());
+			loc.setPorcentaje(c.getDireccion().getLocalidad().getPorcentaje());
+			loc.setProvincia(prov);
+
+			DireccionDTO dir = new DireccionDTO();
+			dir.setCalle(c.getDireccion().getCalle());
+			dir.setDpto(c.getDireccion().getDpto());
+			dir.setLocalidad(loc);
+			dir.setNumero(c.getDireccion().getNumero());
+			dir.setPiso(c.getDireccion().getPiso());
+
+
 			ClienteDTO dto = new ClienteDTO();
 
 			dto.setNroCliente(c.getNroCliente());
@@ -43,9 +66,7 @@ public class GestorCliente {
 			dto.setEstadoCivil(c.getEstadoCivil());
 			dto.setEstadoCliente(c.getEstado());
 			dto.setTipoC(c.getTipo());
-			dto.setDireccion(c.getDireccion().getCalle() + " " + c.getDireccion().getNumero());
-			dto.setLocalidad(c.getDireccion().getLocalidad().getNombre());
-			dto.setProvincia(c.getDireccion().getLocalidad().getProvincia().getNombre());
+			dto.setDireccion(dir);
 
 			retorno.add(dto);
 
