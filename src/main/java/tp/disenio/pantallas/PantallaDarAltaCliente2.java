@@ -8,13 +8,14 @@ import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.pantallas.Marco;
 
 public class PantallaDarAltaCliente2 {
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public static void start() {
+	public static void start(ClienteDTO cliente) {
 		
 	// --------- MARCO -------------------------------------------------
 	final Marco marco1 = new Marco(700,400,"DAR DE ALTA CLIENTE");

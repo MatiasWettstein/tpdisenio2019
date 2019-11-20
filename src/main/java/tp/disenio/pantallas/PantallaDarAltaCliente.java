@@ -29,6 +29,7 @@ import tp.disenio.enumerators.CondicionIVA;
 import tp.disenio.enumerators.EstadoCivil;
 import tp.disenio.enumerators.Sexo;
 import tp.disenio.enumerators.TipoDocumento;
+import tp.disenio.gestores.GestorPantallas;
 
 
 public class PantallaDarAltaCliente {
@@ -280,8 +281,6 @@ public class PantallaDarAltaCliente {
 				}
 			}
 		});
-		
-		
 		
 		textField_Calle = new JTextField();
 		textField_Calle.setColumns(10);
@@ -591,6 +590,25 @@ public class PantallaDarAltaCliente {
 				JOptionPane.showMessageDialog(null, errores);
 			}
 
+			if (error == false ) {
+				ClienteDTO clienteDTO = new ClienteDTO();
+				clienteDTO.setApellido(textField_Apellido.getText());
+				clienteDTO.setNombre(textField_Nombre.getText());
+				clienteDTO.setTipoDoc(tipoDoc.getSelectedItem().toString());
+				clienteDTO.setDocumento(textField_Documento.getText());
+				clienteDTO.setSexo(sexo.getSelectedItem().toString());
+				clienteDTO.setCorreoElectronico(textField_email.getText());
+				clienteDTO.setProfesion(textField_Profesion.getText());
+				clienteDTO.setAnioRegistro(textField_anioRegistro.getText());
+				clienteDTO.setCuil(formattedTextField_NCUIL.getText());
+				clienteDTO.setCondicionIVA(comboBox_CondIVA.getSelectedItem().toString());
+				clienteDTO.setEstadoCivil(comboBox_EstadoCivil.getSelectedItem().toString());
+				//falta SET DTO LOCALIDAD Y PROVINCIA EN DIRECCION 
+				
+				GestorPantallas.PantallaDarAltaCliente2(clienteDTO);
+				
+			}
+			
 
 		});
 

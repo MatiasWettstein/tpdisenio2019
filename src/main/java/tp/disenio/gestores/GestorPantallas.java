@@ -54,8 +54,8 @@ public class GestorPantallas {
 		PantallaDarAltaCliente.start();
 	}
 
-	public static void PantallaDarAltaCliente2() {
-		PantallaDarAltaCliente2.start();
+	public static void PantallaDarAltaCliente2(ClienteDTO cliente) {
+		PantallaDarAltaCliente2.start(cliente);
 	}
 
 
