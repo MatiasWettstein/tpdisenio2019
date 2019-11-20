@@ -37,7 +37,10 @@ import tp.disenio.DAO.DAOModelo;
 import tp.disenio.DAO.DAOProvincia;
 import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.DTO.HijoDTO;
+import tp.disenio.DTO.MarcaDTO;
+import tp.disenio.DTO.ModeloDTO;
 import tp.disenio.DTO.PolizaDTO;
+import tp.disenio.DTO.VehiculoDTO;
 import tp.disenio.clases.Marca;
 import tp.disenio.clases.Modelo;
 import tp.disenio.clases.Provincia;
@@ -622,12 +625,18 @@ public class PantallaDarAltaPoliza {
 
 			if (errores == false && flag_chasis && flag_motor ) {
 
+
+				VehiculoDTO vehiculodto = new VehiculoDTO();
+				ModeloDTO modelodto = new ModeloDTO();
+				MarcaDTO marcadto = new MarcaDTO();
+				Marca aux = marcaCombo.getSelectedItem();
+
+				marcadto.setIdmarca();
+
+				marcaCombo
+
+
 				PolizaDTO pDTO = new PolizaDTO();
-
-
-
-
-
 				pDTO.setListaHijos(listaHijos);
 				pDTO.setProvincia(provinciaCombo.getSelectedItem().toString());
 				pDTO.setLocalidad(localidadCombo.getSelectedItem().toString());
@@ -923,8 +932,8 @@ public class PantallaDarAltaPoliza {
 		marco1.getContentPane().add(comboBox_EstadoCivil);
 		comboBox_EstadoCivil.setRenderer(new MyComboBoxRenderer("SELECCIONE ESTADO CIVIL"));
 		comboBox_EstadoCivil.setSelectedIndex(-1);
-		
-		
+
+
 		JComboBox sexo = new JComboBox();
 		sexo.setBounds(232, 158, 203, 23);
 		marco1.getContentPane().add(sexo);
@@ -986,7 +995,7 @@ public class PantallaDarAltaPoliza {
 
 			try {
 				String aux_estadoCivil = comboBox_EstadoCivil.getSelectedItem().toString();
-				
+
 			}
 			catch (Exception eEstadoC) {
 				error += "El campo 'Estado Civil' es obligatorio \n";
