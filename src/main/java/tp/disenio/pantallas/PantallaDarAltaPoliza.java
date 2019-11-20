@@ -508,6 +508,7 @@ public class PantallaDarAltaPoliza {
 			SiniestroText.setText(SubsistemaSiniestros.cantidadSiniestros());
 			GestorPantallas.buscarcliente();
 		};
+
 		buscarC.addActionListener(buscarCliente);
 		buscarC.setFont(new Font("Serif", Font.BOLD, 12));
 		buscarC.setBounds(25, 10, 222, 33);
@@ -629,23 +630,32 @@ public class PantallaDarAltaPoliza {
 				VehiculoDTO vehiculodto = new VehiculoDTO();
 				ModeloDTO modelodto = new ModeloDTO();
 				MarcaDTO marcadto = new MarcaDTO();
-				Marca aux = marcaCombo.getSelectedItem();
+				Marca aux = new Marca();
+				aux=(Marca) marcaCombo.getSelectedItem();
 
-				marcadto.setIdmarca();
+				marcadto.setIdmarca(aux.getIdMarca());
+				marcadto.setNombre(aux.getNombre());
 
-				marcaCombo
+				Modelo aux1 = new Modelo();
+				aux1= (Modelo) modeloCombo.getSelectedItem();
+
+				modelodto.setIdmodelo(aux1.getIdModelo());
+				modelodto.setNombre(aux1.getNombre());
+				modelodto.setMarca(marcadto);
+
+				vehiculodto.setAnio((int) anioCombo.getSelectedItem());
+				vehiculodto.setChasis(chasisText.getText());
+				vehiculodto.setModelo(modelodto);
+				vehiculodto.setMotor(motorTexto.getText());
+				vehiculodto.setPatente(patenteText.getText());
+				vehiculodto.setPorcentaje(aux1.getPorcentaje());
+				vehiculodto.setSumaasegurada(Float.parseFloat(sumaFormattedTextField.getText()));
 
 
 				PolizaDTO pDTO = new PolizaDTO();
-				pDTO.setListaHijos(listaHijos);
-				pDTO.setProvincia(provinciaCombo.getSelectedItem().toString());
-				pDTO.setLocalidad(localidadCombo.getSelectedItem().toString());
-				pDTO.setMarca(marcaCombo.getSelectedItem().toString());
-				pDTO.setModelo(modeloCombo.getSelectedItem().toString());
-				pDTO.setAnio_vehiculo(anioText.getText().toString());
-				pDTO.setMotor(motorTexto.getText().toString());
-				pDTO.setChasis(chasisText.getText().toString());
-				pDTO.setPatente(patenteText.getText().toString());
+
+				pDTO.setKmPorAnio((Integer) kmSpinner.getValue());
+
 				//pDTO.setCliente(cliente);
 				//pDTO.setKmPorAnio("0");
 
@@ -663,7 +673,7 @@ public class PantallaDarAltaPoliza {
 					pDTO.setTuercas(true);
 				} else pDTO.setTuercas(false);
 
-				GestorPantallas.Pantalla2Alta(c, pDTO);
+				GestorPantallas.Pantalla2Alta(c, vehiculodto, listaHijos,  pDTO);
 				marco1.dispose();
 			}
 
@@ -904,7 +914,26 @@ public class PantallaDarAltaPoliza {
 		marco1.getContentPane().add(fechaNFormattedTextField);
 		// -----------------------------------------------------------------
 
-	
+		/*--------------- RADIO BUTTON ------------------------------------
+		JRadioButton sexoRdbtnFemenino = new JRadioButton("FEMENINO");
+		sexoRdbtnFemenino.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		sexoRdbtnFemenino.setBackground(Color.LIGHT_GRAY);
+		sexoRdbtnFemenino.setForeground(Color.BLACK);
+		sexoRdbtnFemenino.setBounds(232, 158, 100, 23);
+		sexoRdbtnFemenino.setActionCommand("Femenino");
+		marco1.getContentPane().add(sexoRdbtnFemenino);
+
+		JRadioButton rdbtnMasculino = new JRadioButton("MASCULINO");
+		rdbtnMasculino.setBackground(Color.LIGHT_GRAY);
+		rdbtnMasculino.setFont(new Font("Tahoma", Font.PLAIN, 13));
+		rdbtnMasculino.setBounds(328, 158, 100, 23);
+		rdbtnMasculino.setActionCommand("Masculino");
+		marco1.getContentPane().add(rdbtnMasculino);
+
+		final ButtonGroup grupoSexo = new ButtonGroup();
+		grupoSexo.add(sexoRdbtnFemenino);
+		grupoSexo.add(rdbtnMasculino);
+		// ----------------------------------------------------------------- */
 
 		// ------------------- COMBO BOX -----------------------------------
 		final JComboBox comboBox_EstadoCivil = new JComboBox();

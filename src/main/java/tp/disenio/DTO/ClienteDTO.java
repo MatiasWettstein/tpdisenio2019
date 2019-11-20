@@ -17,9 +17,8 @@ public class ClienteDTO {
 	private String estadoCivil;
 	private String tipoC;
 	private String estadoCliente;
-	private String direccion;
-	private String localidad;
-	private String provincia;
+	private DireccionDTO direccion;
+
 
 	public String getNroCliente() {
 		return nroCliente;
@@ -113,24 +112,13 @@ public class ClienteDTO {
 	public void setEstadoCliente(String estadoCliente) {
 		this.estadoCliente = estadoCliente;
 	}
-	public String getDireccion() {
+	public DireccionDTO getDireccion() {
 		return direccion;
 	}
-	public void setDireccion(String direccion) {
+	public void setDireccion(DireccionDTO direccion) {
 		this.direccion = direccion;
 	}
-	public String getLocalidad() {
-		return localidad;
-	}
-	public void setLocalidad(String localidad) {
-		this.localidad = localidad;
-	}
-	public String getProvincia() {
-		return provincia;
-	}
-	public void setProvincia(String provincia) {
-		this.provincia = provincia;
-	}
+
 
 
 }
