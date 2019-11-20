@@ -24,7 +24,7 @@ public class GestorCliente {
 	}
 
 	public static ArrayList<ClienteDTO> buscarCliente(String NroCliente, String TipoDoc, String NroDoc, String Nombre, String Apellido){
-
+		System.out.println("holaaaaaaaaa");
 		ArrayList<Cliente> clientes = DAOCliente.buscarCliente(NroCliente, TipoDoc, NroDoc, Nombre, Apellido);
 		ArrayList<ClienteDTO> retorno = new ArrayList<>();
 		for(Cliente c:clientes) {
@@ -40,6 +40,7 @@ public class GestorCliente {
 			loc.setNombre(c.getDireccion().getLocalidad().getNombre());
 			loc.setPorcentaje(c.getDireccion().getLocalidad().getPorcentaje());
 			loc.setProvincia(prov);
+
 
 			DireccionDTO dir = new DireccionDTO();
 			dir.setCalle(c.getDireccion().getCalle());

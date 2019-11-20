@@ -775,8 +775,8 @@ public class PantallaDarAltaPoliza {
 		comboTipoDoc.setBounds(534, 43, 196, 20);
 		comboTipoDoc.setModel(new DefaultComboBoxModel(TipoDocumento.values()));
 		marco1.getContentPane().add(comboTipoDoc);
-		comboTipoDoc.setRenderer(new MyComboBoxRenderer("SELECCIONE TIPO DOC"));
-		comboTipoDoc.setSelectedIndex(-1);
+		//comboTipoDoc.setRenderer(new MyComboBoxRenderer("SELECCIONE TIPO DOC"));
+		//comboTipoDoc.setSelectedIndex(-1);
 		// -----------------------------------------------------------------
 
 		// --------------------------SCROLL PANE ---------------------------
@@ -810,7 +810,7 @@ public class PantallaDarAltaPoliza {
 		JButton botonBuscar = new JButton("BUSCAR");
 		botonBuscar.setFont(new Font("Serif", Font.BOLD, 12));
 		ActionListener accionBuscar = e -> {
-
+			//textNroCliente.getText(), comboTipoDoc.getSelectedItem().toString(), textNroDoc.getText(), textNombre.getText(), textApellido.getText()
 			lista = GestorCliente.buscarCliente(textNroCliente.getText(), comboTipoDoc.getSelectedItem().toString(), textNroDoc.getText(), textNombre.getText(), textApellido.getText());
 			int cantCliente = lista.size();
 			int fila =0;

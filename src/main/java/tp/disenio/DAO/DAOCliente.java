@@ -35,12 +35,13 @@ public class DAOCliente {
 		try {
 			String Consulta = "select * from cliente";
 
-			if(!NroCliente.isEmpty() || TipoDoc != "Seleccione_Tipo_Documento" || !NroDoc.isEmpty() || !Nombre.isEmpty() || !Apellido.isEmpty()) {
+			if(!NroCliente.isEmpty() || TipoDoc != "SELECCIONE_TIPO_DOC" || !NroDoc.isEmpty() || !Nombre.isEmpty() || !Apellido.isEmpty()) {
 
 				Consulta += " where";
 
 				if(!NroCliente.isEmpty()) {
-					Consulta += " nro_cliente = " + NroCliente ;
+					String auxc = "'"+ NroCliente + "'";
+					Consulta += " nro_cliente = " + auxc ;
 				}
 				if(!Apellido.isEmpty()) {
 					Consulta += " apellido = " + Apellido ;
@@ -48,7 +49,7 @@ public class DAOCliente {
 				if(!Nombre.isEmpty()) {
 					Consulta += " nombre = " + Nombre ;
 				}
-				if(TipoDoc != "Seleccione_Tipo_Documento") {
+				if(TipoDoc != "SELECCIONE_TIPO_DOC") {
 					Consulta += " tipo_doc = " + TipoDoc ;
 				}
 				if(!NroDoc.isEmpty()) {
@@ -63,7 +64,7 @@ public class DAOCliente {
 				PreparedStatement dir = con.prepareStatement("select * from direccion where id_direccion = " + rs.getString(15));
 				dirrs = dir.executeQuery();
 				dirrs.next();
-				PreparedStatement loc = con.prepareStatement("select * from localidad where id_localidad = " + dirrs.getString(6));
+				PreparedStatement loc = con.prepareStatement("select * from localidad where id_localidad = " + dirrs.getString(5));
 				locrs = loc.executeQuery();
 				locrs.next();
 				PreparedStatement prov = con.prepareStatement("select * from provincia where id_provincia = " + locrs.getString(5));
@@ -105,7 +106,7 @@ public class DAOCliente {
 				cliente.setSexo(rs.getString(11));
 				cliente.setCondicionIVA(rs.getString(12));
 				cliente.setEstadoCivil(rs.getString(13));
-				//cliente.setAnioRegistro(rs.getString(14));
+				cliente.setAnioRegistro(rs.getInt(14));
 				cliente.setTipoDocumento(rs.getString(16));
 				cliente.setDireccion(direccion);
 
