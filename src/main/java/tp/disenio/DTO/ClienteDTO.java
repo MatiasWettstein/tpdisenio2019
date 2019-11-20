@@ -10,7 +10,7 @@ public class ClienteDTO {
 	private String sexo;
 	private String correoElectronico;
 	private String profesion;
-	private String anioRegistro;
+	private int anioRegistro;
 	private String tipoDoc;
 	private String cuil;
 	private String condicionIVA;
@@ -69,10 +69,10 @@ public class ClienteDTO {
 	public void setProfesion(String profesion) {
 		this.profesion = profesion;
 	}
-	public String getAnioRegistro() {
+	public int getAnioRegistro() {
 		return anioRegistro;
 	}
-	public void setAnioRegistro(String anioRegistro) {
+	public void setAnioRegistro(int anioRegistro) {
 		this.anioRegistro = anioRegistro;
 	}
 

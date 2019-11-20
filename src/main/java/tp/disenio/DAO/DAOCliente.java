@@ -105,7 +105,7 @@ public class DAOCliente {
 				cliente.setSexo(rs.getString(11));
 				cliente.setCondicionIVA(rs.getString(12));
 				cliente.setEstadoCivil(rs.getString(13));
-				cliente.setAnioRegistro(rs.getString(14));
+				//cliente.setAnioRegistro(rs.getString(14));
 				cliente.setTipoDocumento(rs.getString(16));
 				cliente.setDireccion(direccion);
 

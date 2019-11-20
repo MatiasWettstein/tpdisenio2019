@@ -12,7 +12,7 @@ public class Cliente {
 	private Direccion Direccion;
 	private String correoElectronico;
 	private String profesion;
-	private String anioRegistro;
+	private int anioRegistro;
 	private String estado;
 	private String cuil;
 	private String condicionIVA;
@@ -81,10 +81,10 @@ public class Cliente {
 	public void setProfesion(String profesion) {
 		this.profesion = profesion;
 	}
-	public String getAnioRegistro() {
+	public int getAnioRegistro() {
 		return anioRegistro;
 	}
-	public void setAnioRegistro(String anioRegistro) {
+	public void setAnioRegistro(int anioRegistro) {
 		this.anioRegistro = anioRegistro;
 	}
 	public String getEstado() {

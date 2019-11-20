@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -23,6 +24,9 @@ import javax.swing.text.MaskFormatter;
 import tp.disenio.DAO.DAOLocalidad;
 import tp.disenio.DAO.DAOProvincia;
 import tp.disenio.DTO.ClienteDTO;
+import tp.disenio.DTO.DireccionDTO;
+import tp.disenio.DTO.LocalidadDTO;
+import tp.disenio.DTO.ProvinciaDTO;
 import tp.disenio.clases.Localidad;
 import tp.disenio.clases.Provincia;
 import tp.disenio.enumerators.CondicionIVA;
@@ -345,6 +349,8 @@ public class PantallaDarAltaCliente {
 		
 
 		textField_CP = new JTextField();  //se setea sólo no hay que validarlo 
+		textField_CP.setEditable(false);
+		textField_CP.setEnabled(false);
 		textField_CP.setColumns(10);
 		textField_CP.setBounds(744, 381, 180, 20);
 		marco1.getContentPane().add(textField_CP);
@@ -363,24 +369,14 @@ public class PantallaDarAltaCliente {
 			}
 		});
 
-		textField_anioRegistro = new JTextField();
+		textField_anioRegistro = new JTextField(); //se setea solo no hay que validarlo --- por defecto el año actual 
+		textField_anioRegistro.setEnabled(false);
+		textField_anioRegistro.setEditable(false);
 		textField_anioRegistro.setColumns(10);
 		textField_anioRegistro.setBounds(1003, 523, 180, 20);
-		textField_anioRegistro.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				int max = 4;
-				if(e.getKeyChar()!='1' && e.getKeyChar()!='2' && e.getKeyChar()!='3' && e.getKeyChar()!='4' && e.getKeyChar()!='5' && e.getKeyChar()!='6' && e.getKeyChar()!='7' && e.getKeyChar()!='8' && e.getKeyChar()!='9' && e.getKeyChar()!='0') e.consume();
-				else if(textField_anioRegistro.getText().length() > max+1) {
-					e.consume();
-					String shortened = textField_anioRegistro.getText().substring(0, max);
-					textField_anioRegistro.setText(shortened);
-				}else if(textField_anioRegistro.getText().length() > max) {
-					e.consume();
-				}
-			}
-		});
-				
+		int year = Calendar.getInstance().get(Calendar.YEAR);
+		String anioActual = Integer.toString(year);
+		textField_anioRegistro.setText(anioActual);
 		marco1.getContentPane().add(textField_anioRegistro);
 		
 
@@ -470,6 +466,8 @@ public class PantallaDarAltaCliente {
 			
 			String errores = "";
 			boolean error = false; 
+			
+			//las validaciones estan hechas con excepciones porque si el campo no se completó sale una NullPointerException
 			//VALIDO APELLIDO
 			try { 
 				String apellido = textField_Apellido.getText();
@@ -492,7 +490,14 @@ public class PantallaDarAltaCliente {
 			catch (Exception eNombre) {
 				errores += "El campo 'Nombre' es obligatorio \n";
 			}
-
+			//VALIDO TIPO DOCUMENTO 
+			try {
+				String nombre = tipoDoc.getSelectedItem().toString();
+				
+			}
+			catch (Exception eNombre) {
+				errores += "El campo 'Tipo Documento' es obligatorio \n";
+			}
 			//VALIDO NRO DOCUMENTO
 			try {
 				String dni = textField_Documento.getText();
@@ -508,11 +513,7 @@ public class PantallaDarAltaCliente {
 			
 			//VALIDO CUIL
 			try { 
-				String nCUIL = formattedTextField_NCUIL.getText();
-				if (nCUIL.matches("[a-zA-Z]+")== true ) {
-					errores += "El campo 'CUIL' no puede contenter letras \n";
-				}
-			
+				String nCUIL = formattedTextField_NCUIL.getText(); //ya valido que no se puedan ingresar letras arriba
 			}
 			catch (Exception eApellido) {
 				errores += "El campo 'CUIL' es obligatorio  \n";
@@ -530,7 +531,6 @@ public class PantallaDarAltaCliente {
 			//VALIDO FECH NAC
 			boolean campoCompleto=true;
 			boolean edad=true;
-			boolean fechaValida=true;
 			String fechaVacia = "__-__-____";
 
 			if (fechaNFormattedTextField.getText().equals(fechaVacia)){
@@ -555,26 +555,53 @@ public class PantallaDarAltaCliente {
 					}
 				}
 				catch (Exception eFecha) {
-					fechaValida = false;
 					errores += "El campo 'Fecha de Nacimiento' es obligatorio \n";
 
 				}
 			}
 			//VALIDO CALLE
+			try { 
+				String calle = textField_Calle.getText();			
+			}
+			catch (Exception eApellido) {
+				errores += "El campo 'Calle' es obligatorio  \n";
+			}
 			//VALIDO NUMERO
-			//VALIDO PISO
-			//VALIDO DPTO
-			//VALIDO PAIS
+			try { 
+				String Ncalle = textField_NroCalle.getText();			
+			}
+			catch (Exception eApellido) {
+				errores += "El campo 'Nro. Calle' es obligatorio  \n";
+			}
+			//VALIDO PROVINCIA 
+			try { 
+				String aux_prov = comboBox_Provincia.getSelectedItem().toString();			
+			}
+			catch (Exception eApellido) {
+				errores += "El campo 'Provincia' es obligatorio  \n";
+			}
 			//VALIDO LOCALIDAD
+			try { 
+				String aux_loc = comboBox_Localidad.getSelectedItem().toString();			
+			}
+			catch (Exception eApellido) {
+				errores += "El campo 'Localidad' es obligatorio  \n";
+			}
 			//VALIDO COND IVA
 			try { 
-				String estadoC = comboBox_EstadoCivil.getSelectedItem().toString();			
+				String condIVA = comboBox_CondIVA.getSelectedItem().toString();			
 			}
 			catch (Exception eApellido) {
 				errores += "El campo 'Cond IVA' es obligatorio  \n";
 			}
 			
 			//VALIDO CORREO ELECTRONICO
+			try { 
+				String correo = textField_email.getText();		
+			}
+			catch (Exception eApellido) {
+				errores += "El campo 'Correo electrónico' es obligatorio  \n";
+			}
 			//VALIDO ESTADO CIVIL
 			try { 
 				String estadoC = comboBox_EstadoCivil.getSelectedItem().toString();			
@@ -583,7 +610,13 @@ public class PantallaDarAltaCliente {
 				errores += "El campo 'Estado Civil' es obligatorio  \n";
 			}
 			//VALIDO PROFESION
-			//VALIDO AÑO REGISTRO
+			try { 
+				String profesion = textField_Profesion.getText();		
+			}
+			catch (Exception eApellido) {
+				errores += "El campo 'Profesión' es obligatorio  \n";
+			}
+			
 
 			if (errores != null) { //muestro los mensajes de error
 				error = true;
@@ -591,6 +624,8 @@ public class PantallaDarAltaCliente {
 			}
 
 			if (error == false ) {
+				
+				
 				ClienteDTO clienteDTO = new ClienteDTO();
 				clienteDTO.setApellido(textField_Apellido.getText());
 				clienteDTO.setNombre(textField_Nombre.getText());
@@ -599,11 +634,37 @@ public class PantallaDarAltaCliente {
 				clienteDTO.setSexo(sexo.getSelectedItem().toString());
 				clienteDTO.setCorreoElectronico(textField_email.getText());
 				clienteDTO.setProfesion(textField_Profesion.getText());
-				clienteDTO.setAnioRegistro(textField_anioRegistro.getText());
+				clienteDTO.setAnioRegistro(year); // lo uso arriba para setear el textfield
 				clienteDTO.setCuil(formattedTextField_NCUIL.getText());
 				clienteDTO.setCondicionIVA(comboBox_CondIVA.getSelectedItem().toString());
 				clienteDTO.setEstadoCivil(comboBox_EstadoCivil.getSelectedItem().toString());
-				//falta SET DTO LOCALIDAD Y PROVINCIA EN DIRECCION 
+				
+				ProvinciaDTO prov_auxDTO = new ProvinciaDTO();
+				Provincia prov_aux = new Provincia(); // lo creo porque ya lo tengo cargado con el DAOProvincia y lo recupero
+				prov_aux=(Provincia) comboBox_Provincia.getSelectedItem();
+				prov_auxDTO.setId_provincia(prov_aux.getId_provincia());
+				prov_auxDTO.setNombre(prov_aux.getNombre());
+				prov_auxDTO.setId_provincia(prov_aux.getId_provincia());
+				
+				LocalidadDTO loc_auxDTO = new LocalidadDTO(); 
+				Localidad loc_aux = new Localidad(); // lo creo porque ya lo tengo cargado con el DAOLocalidad y lo recupero
+				loc_aux = (Localidad) comboBox_Localidad.getSelectedItem();
+				loc_auxDTO.setId_localidad(loc_aux.getId_localidad());
+				loc_auxDTO.setCodigoPostal(loc_aux.getCodigoPostal());
+				loc_auxDTO.setNombre(loc_aux.getNombre());
+				loc_auxDTO.setPorcentaje(loc_aux.getPorcentaje());
+				loc_auxDTO.setProvincia(prov_auxDTO);
+
+				DireccionDTO dire_auxDTO = new DireccionDTO();
+				dire_auxDTO.setCalle(textField_Calle.getText());
+				dire_auxDTO.setNumero(textField_NroCalle.getText());
+				if (!textField_Dpto.getText().isEmpty()) dire_auxDTO.setDpto(textField_Dpto.getText());
+				else dire_auxDTO.setDpto(null);
+				if (!textField_Piso.getText().isEmpty()) dire_auxDTO.setPiso(textField_Piso.getText());
+				else dire_auxDTO.setPiso(null);
+				dire_auxDTO.setLocalidad(loc_auxDTO);
+				
+				clienteDTO.setDireccion(dire_auxDTO);
 				
 				GestorPantallas.PantallaDarAltaCliente2(clienteDTO);
 				
