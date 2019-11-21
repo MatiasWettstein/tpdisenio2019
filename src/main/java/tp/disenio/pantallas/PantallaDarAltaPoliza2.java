@@ -68,16 +68,25 @@ public class PantallaDarAltaPoliza2 {
 		final JComboBox tipoComboBox = new JComboBox();
 		tipoComboBox.setBounds(290, 71, 236, 20);
 		marco1.getContentPane().add(tipoComboBox);
-		tipoComboBox.setRenderer(new MyComboBoxRenderer("SELECCIONE TIPO DE COBERTURA"));
-		tipoComboBox.setSelectedIndex(-1);
+			
 		//VALIDO SI TIENE MAS DE 10 AÑOS EL VEHICULO
 		if ((anioActual - anioVehiculo)>10) {
 			 String labels[] = { "RESPONSABILIDAD CIVIL" };
 			    final DefaultComboBoxModel model = new DefaultComboBoxModel(labels);
+			    tipoComboBox.setModel(model);
+				tipoComboBox.setRenderer(new MyComboBoxRenderer("SELECCIONE TIPO DE COBERTURA"));
+				tipoComboBox.setSelectedIndex(-1);
+			    
 		}
-		else tipoComboBox.setModel(new DefaultComboBoxModel(TipoCoberturaEnum.values()));
+		else {
+			
+			tipoComboBox.setModel(new DefaultComboBoxModel(TipoCoberturaEnum.values()));
+			tipoComboBox.setRenderer(new MyComboBoxRenderer("SELECCIONE TIPO DE COBERTURA"));
+			tipoComboBox.setSelectedIndex(-1);
+		}
 		
-
+		//SELECCIONE_TIPO_COBERTURA, 
+		
 		final JComboBox pagoComboBox = new JComboBox();
 		pagoComboBox.setBounds(290, 195, 236, 20);
 		pagoComboBox.setModel(new DefaultComboBoxModel(FormaPagoEnum.values()));

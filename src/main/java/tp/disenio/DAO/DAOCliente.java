@@ -73,7 +73,7 @@ public class DAOCliente {
 					Consulta += " and nrodoc = " + auxnd ;
 				}
 			}
-			System.out.println(Consulta);
+			
 			PreparedStatement st = con.prepareStatement(Consulta);
 			rs = st.executeQuery();
 
