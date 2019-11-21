@@ -1,6 +1,6 @@
-package tp.disenio.clases;
+package tp.disenio.DTO;
 
-public class Premio {
+public class PremioDTO {
 
 	private float prima;
 	private float derechoEmision;

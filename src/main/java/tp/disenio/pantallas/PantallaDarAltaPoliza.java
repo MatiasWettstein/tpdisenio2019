@@ -672,38 +672,38 @@ public class PantallaDarAltaPoliza {
 			if (chasisText.getText().length() < 17) {
 				error += "El Número de Chasis debe tener 17 caracteres \n";
 			}
-			
-			//VALIDO ALARMA 
+
+			//VALIDO ALARMA
 			try {
 				String aux_alarma = grupoAlarma.getSelection().getActionCommand();
 			}
 			catch (Exception eAlarma) {
 				error += "El campo Alarma es obligatorio  \n";
 			}
-			
-			//VALIDO tuerca 
+
+			//VALIDO tuerca
 			try {
 				String aux_Tuerca = grupoTuerca.getSelection().getActionCommand();
 			}
 			catch (Exception eTuerca) {
 				error += "El campo Tuerca es obligatorio  \n";
 			}
-			//VALIDO DISP 
+			//VALIDO DISP
 			try {
 				String aux_Disp = grupoDisp.getSelection().getActionCommand();
 			}
 			catch (Exception eDispR) {
 				error += "El campo Dispositivo de Rastreo es obligatorio  \n";
 			}
-			//VALIDO GARAGE  
+			//VALIDO GARAGE
 			try {
 				String aux_garage = grupoGarage.getSelection().getActionCommand();
-				
+
 			}
 			catch (Exception eGarage) {
 				error += "El campo Garage es obligatorio  \n";
 			}
-			
+
 			if (error != "") { //muestro los mensajes de error
 				errores = true;
 				JOptionPane.showMessageDialog(null, error);
@@ -745,12 +745,9 @@ public class PantallaDarAltaPoliza {
 				int valormil = Integer.parseInt(sumasinpuntos);
 				float valordivmil= valormil/1000;
 
-				vehiculodto.setSumaasegurada(valordivmil);
-
-				System.out.println(kmSpinner.getValue());
 				PolizaDTO pDTO = new PolizaDTO();
 				pDTO.setKmPorAnio((Integer) kmSpinner.getValue());
-
+				pDTO.setSumaasegurada(valordivmil);
 
 				if (grupoAlarma.getSelection().getActionCommand() == "SI") { //ALARMA
 					pDTO.setAlarma(true);

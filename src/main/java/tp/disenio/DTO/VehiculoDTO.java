@@ -4,7 +4,6 @@ public class VehiculoDTO {
 
 	private ModeloDTO modelo;
 	private int anio;
-	private float sumaasegurada;
 	private String motor;
 	private String chasis;
 	private String patente;
@@ -24,12 +23,6 @@ public class VehiculoDTO {
 	}
 	public void setAnio(int anio) {
 		this.anio = anio;
-	}
-	public float getSumaasegurada() {
-		return sumaasegurada;
-	}
-	public void setSumaasegurada(float sumaasegurada) {
-		this.sumaasegurada = sumaasegurada;
 	}
 	public String getMotor() {
 		return motor;

@@ -7,7 +7,6 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -29,7 +28,6 @@ import tp.disenio.DTO.VehiculoDTO;
 import tp.disenio.enumerators.FormaPagoEnum;
 import tp.disenio.enumerators.TipoCoberturaEnum;
 import tp.disenio.gestores.GestorPantallas;
-import tp.disenio.gestores.GestorPoliza;
 
 public class PantallaDarAltaPoliza2 {
 
@@ -62,31 +60,31 @@ public class PantallaDarAltaPoliza2 {
 		// -----------------------------------------------------------------
 
 		// -------------- COMBO BOX ----------------------------------------
-		
+
 		int anioVehiculo = v.getAnio();
 		int anioActual = Calendar.getInstance().get(Calendar.YEAR);
 		final JComboBox tipoComboBox = new JComboBox();
 		tipoComboBox.setBounds(290, 71, 236, 20);
 		marco1.getContentPane().add(tipoComboBox);
-			
+
 		//VALIDO SI TIENE MAS DE 10 AÑOS EL VEHICULO
-		if ((anioActual - anioVehiculo)>10) {
-			 String labels[] = { "RESPONSABILIDAD CIVIL" };
-			    final DefaultComboBoxModel model = new DefaultComboBoxModel(labels);
-			    tipoComboBox.setModel(model);
-				tipoComboBox.setRenderer(new MyComboBoxRenderer("SELECCIONE TIPO DE COBERTURA"));
-				tipoComboBox.setSelectedIndex(-1);
-			    
+		if (anioActual - anioVehiculo>10) {
+			String labels[] = { "RESPONSABILIDAD CIVIL" };
+			final DefaultComboBoxModel model = new DefaultComboBoxModel(labels);
+			tipoComboBox.setModel(model);
+			tipoComboBox.setRenderer(new MyComboBoxRenderer("SELECCIONE TIPO DE COBERTURA"));
+			tipoComboBox.setSelectedIndex(-1);
+
 		}
 		else {
-			
+
 			tipoComboBox.setModel(new DefaultComboBoxModel(TipoCoberturaEnum.values()));
 			tipoComboBox.setRenderer(new MyComboBoxRenderer("SELECCIONE TIPO DE COBERTURA"));
 			tipoComboBox.setSelectedIndex(-1);
 		}
-		
-		//SELECCIONE_TIPO_COBERTURA, 
-		
+
+		//SELECCIONE_TIPO_COBERTURA,
+
 		final JComboBox pagoComboBox = new JComboBox();
 		pagoComboBox.setBounds(290, 195, 236, 20);
 		pagoComboBox.setModel(new DefaultComboBoxModel(FormaPagoEnum.values()));
@@ -94,9 +92,9 @@ public class PantallaDarAltaPoliza2 {
 		marco1.setLocationRelativeTo(null);
 		pagoComboBox.setRenderer(new MyComboBoxRenderer("SELECCIONE FORMA DE PAGO"));
 		pagoComboBox.setSelectedIndex(-1);
-		
-		
-		
+
+
+
 		// -----------------------------------------------------------------
 
 		// --------------------- FORMATTED TEXT FIELD ----------------------
@@ -150,28 +148,45 @@ public class PantallaDarAltaPoliza2 {
 
 			try {
 
-				DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+				DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 				LocalDate fechaInicio = LocalDate.parse(fechaIn, fmt);
 			}
 			catch (Exception exx) {
 				fechaValida = false;
 				error += "La fecha ingresada es inválida \n";
 			}
-			if (error != null ) {
+			if (error != "" ) {
 				JOptionPane.showMessageDialog(null, error);
 			}
 
 
 			if (tipoCobertura && formaPago && fechaValida) {
-				GestorPoliza gestorPoliza = GestorPoliza.getInstance();
 
+				p.setInicio_vigencia(fechaFormattedTextField.getText());
+
+				DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-yyyy");
+				Calendar cal1 = Calendar.getInstance();
+				try {
+					cal1.setTime(dateFormat1.parse(fechaFormattedTextField.getText()));
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				cal1.add(Calendar.MONTH, 6);
+				String strDate1 = dateFormat.format(cal1.getTime());
+				p.setFin_vigencia(strDate1);
+
+				p.setTipoCobertura(tipoComboBox.getSelectedItem().toString());
+				p.setForma_pago(pagoComboBox.getSelectedItem().toString());
 
 				if (pagoComboBox.getSelectedItem().toString() == "MENSUAL") {
-					GestorPantallas.pantalla3AltaMensual();
+					GestorPantallas.pantalla3AltaMensual(c, p, v, listahijos, dom);
 				}
 				else if (pagoComboBox.getSelectedItem().toString() == "SEMESTRAL") {
-					GestorPantallas.pantalla3AltaSemestral();
+					GestorPantallas.pantalla3AltaSemestral(c, p, v, listahijos, dom);
 				}
+
 			}
 
 

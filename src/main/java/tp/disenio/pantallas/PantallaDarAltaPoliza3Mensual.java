@@ -2,6 +2,7 @@ package tp.disenio.pantallas;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,14 +12,19 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import tp.disenio.pantallas.Marco;
+import tp.disenio.DTO.ClienteDTO;
+import tp.disenio.DTO.DomicilioRiesgoDTO;
+import tp.disenio.DTO.HijoDTO;
+import tp.disenio.DTO.PolizaDTO;
+import tp.disenio.DTO.VehiculoDTO;
+import tp.disenio.gestores.GestorPoliza;
 
 public class PantallaDarAltaPoliza3Mensual {
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public static void start() {
-		
+	public static void start(ClienteDTO c, PolizaDTO p, VehiculoDTO v,ArrayList<HijoDTO> listahijos, DomicilioRiesgoDTO dom) {
+
 		// ----------------------- MARCO -----------------------------------
 		final Marco marco1 = new Marco(1333,730,"DAR DE ALTA POLIZA");
 		marco1.getContentPane().setLayout(null);
@@ -26,18 +32,18 @@ public class PantallaDarAltaPoliza3Mensual {
 		marco1.setLocationRelativeTo(null);
 		marco1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// -----------------------------------------------------------------
-		
+
 		// --------------------- ETIQUETAS ---------------------------------
 		JLabel lblTitularDelSeguro = new JLabel("Titular del seguro");
 		lblTitularDelSeguro.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblTitularDelSeguro.setBounds(24, 37, 147, 33);
 		marco1.getContentPane().add(lblTitularDelSeguro);
-		
+
 		JLabel lblDatosDelVehiculo = new JLabel("Datos del vehiculo");
 		lblDatosDelVehiculo.setFont(new Font("Serif", Font.BOLD, 20));
 		lblDatosDelVehiculo.setBounds(24, 88, 175, 33);
 		marco1.getContentPane().add(lblDatosDelVehiculo);
-		
+
 		JLabel lblVigencia = new JLabel("Vigencia");
 		lblVigencia.setFont(new Font("Serif", Font.BOLD, 20));
 		lblVigencia.setBounds(24, 186, 147, 33);
@@ -52,7 +58,7 @@ public class PantallaDarAltaPoliza3Mensual {
 		lblFechaDeFin.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblFechaDeFin.setBounds(431, 230, 120, 22);
 		marco1.getContentPane().add(lblFechaDeFin);
-		
+
 		JLabel lblFormaDePago = new JLabel("Forma de pago");
 		lblFormaDePago.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblFormaDePago.setBounds(24, 284, 131, 22);
@@ -83,36 +89,44 @@ public class PantallaDarAltaPoliza3Mensual {
 		// ------------------- CAMPO DE TEXTO ------------------------------
 		JTextField textField = new JTextField();
 		textField.setEditable(false);
+		textField.setText(c.getApellido() + " " + c.getNombre());
 		textField.setBounds(218, 46, 222, 20);
 		marco1.getContentPane().add(textField);
+
 		textField.setColumns(10);
-		
+
 		JTextField textField_fechInicio = new JTextField();
 		textField_fechInicio.setEditable(false);
+		textField_fechInicio.setText(p.getInicio_vigencia());
 		textField_fechInicio.setBounds(160, 230, 196, 20);
 		marco1.getContentPane().add(textField_fechInicio);
 		textField_fechInicio.setColumns(10);
 
 		JTextField textField_fechFin = new JTextField();
 		textField_fechFin.setEditable(false);
+		textField_fechFin.setText(p.getFin_vigencia());
 		textField_fechFin.setBounds(570, 234, 196, 20);
 		marco1.getContentPane().add(textField_fechFin);
 		textField_fechFin.setColumns(10);
-		
+
 		JTextField textField_fPago = new JTextField();
 		textField_fPago.setEditable(false);
+		textField_fPago.setText(p.getForma_pago());
 		textField_fPago.setBounds(160, 288, 196, 20);
 		marco1.getContentPane().add(textField_fPago);
 		textField_fPago.setColumns(10);
 
 		JTextField textField_suma = new JTextField();
 		textField_suma.setEditable(false);
+		textField_suma.setText(String.valueOf(p.getSumaasegurada()*1000));
 		textField_suma.setColumns(10);
 		textField_suma.setBounds(570, 288, 196, 20);
 		marco1.getContentPane().add(textField_suma);
 
 		JTextField textField_Premio = new JTextField();
 		textField_Premio.setEditable(false);
+		GestorPoliza gp = GestorPoliza.getInstance();
+		textField_Premio.setText(String.valueOf(gp.calcularPremio(gp.calcularPrima(p.getSumaasegurada()*1000), gp.calcularDerecho(p.getSumaasegurada()*1000))));
 		textField_Premio.setColumns(10);
 		textField_Premio.setBounds(913, 288, 196, 20);
 		marco1.getContentPane().add(textField_Premio);
@@ -124,7 +138,7 @@ public class PantallaDarAltaPoliza3Mensual {
 		marco1.getContentPane().add(textField_2);
 
 		// -----------------------------------------------------------------
-		
+
 		// -------------------- SCROLL PANE --------------------------------
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(24, 132, 1267, 43);
@@ -133,14 +147,14 @@ public class PantallaDarAltaPoliza3Mensual {
 		JTable tableVehiculo = new JTable();
 		tableVehiculo.setModel(new DefaultTableModel(
 				new Object[][] {
-					{null, null, null, null, null},
+					{v.getModelo().getMarca().getNombre(), v.getModelo().getNombre(), v.getMotor(), v.getChasis(), v.getPatente()},
 				},
 				new String[] {
 						"Marca", "Modelo", "Motor", "Chasis", "Patente"
 				}
 				));
 		scrollPane.setViewportView(tableVehiculo);
-		
+
 
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(24, 367, 898, 43);
@@ -157,7 +171,7 @@ public class PantallaDarAltaPoliza3Mensual {
 				));
 		tableDescuentos.getColumnModel().getColumn(0).setPreferredWidth(483);
 		scrollPane_1.setViewportView(tableDescuentos);
-		
+
 
 		JScrollPane scrollPane_2 = new JScrollPane();
 		scrollPane_2.setBounds(24, 477, 898, 123);
@@ -179,7 +193,7 @@ public class PantallaDarAltaPoliza3Mensual {
 				));
 		scrollPane_2.setViewportView(tableCuotas);
 		// -----------------------------------------------------------------
-		
+
 		// ----------------- BOTONES ---------------------------------------
 		JButton btnSeleccionarOtroTipo = new JButton("SELECCIONAR OTRO TIPO DE COBERTURA");
 		btnSeleccionarOtroTipo.setFont(new Font("Serif", Font.BOLD, 12));
