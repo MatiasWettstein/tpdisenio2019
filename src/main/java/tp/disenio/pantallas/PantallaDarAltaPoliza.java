@@ -623,8 +623,6 @@ public class PantallaDarAltaPoliza {
 			String error = "";
 			boolean anio1 = true;
 			boolean errores = false;
-			boolean flag_motor = true;
-			boolean flag_chasis = true;
 
 			//valido la provincia -- Estos try y catch son para NullPointerException o sea para cuando no se completó el campo.
 			try {
@@ -632,7 +630,7 @@ public class PantallaDarAltaPoliza {
 
 			}
 			catch (NullPointerException eprov) {
-				error += "Debe seleciconar una Provincia \n";
+				error += "El campo Provincia es obligatorio \n";
 			}
 			//valido la localidad
 			try {
@@ -640,7 +638,7 @@ public class PantallaDarAltaPoliza {
 
 			}
 			catch (NullPointerException eloc) {
-				error += "Debe seleciconar una Localidad \n";
+				error += "El campo Localidad es obligatorio  \n";
 			}
 			//valido la marca
 			try {
@@ -648,14 +646,14 @@ public class PantallaDarAltaPoliza {
 
 			}
 			catch(NullPointerException emarca) {
-				error += "Debe seleciconar una Marca \n";
+				error += "El campo Marca es obligatorio  \n";
 			}
 			//valido el modelo
 			try {
 				modeloCombo.getSelectedItem().toString();
 			}
 			catch (NullPointerException emodelo) {
-				error += "Debe seleciconar un Modelo\n";
+				error += "El campo Modelo es obligatorio \n";
 			}
 			//valido el año
 			try {
@@ -665,27 +663,53 @@ public class PantallaDarAltaPoliza {
 				}
 			}
 			catch (Exception efecha) {
-				error += "Debe ingresar una Fecha \n";
+				error += "El campo Fecha es obligatorio  \n";
 			}
 
 			if (motorTexto.getText().length() < 12) {
-				flag_motor = false;
 				error += "El Número de Motor debe tener 12 caracteres \n";
-
 			}
 			if (chasisText.getText().length() < 17) {
-				flag_motor = false;
 				error += "El Número de Chasis debe tener 17 caracteres \n";
-
 			}
-
-
+			
+			//VALIDO ALARMA 
+			try {
+				String aux_alarma = grupoAlarma.getSelection().getActionCommand();
+			}
+			catch (Exception eAlarma) {
+				error += "El campo Alarma es obligatorio  \n";
+			}
+			
+			//VALIDO tuerca 
+			try {
+				String aux_Tuerca = grupoTuerca.getSelection().getActionCommand();
+			}
+			catch (Exception eTuerca) {
+				error += "El campo Tuerca es obligatorio  \n";
+			}
+			//VALIDO DISP 
+			try {
+				String aux_Disp = grupoDisp.getSelection().getActionCommand();
+			}
+			catch (Exception eDispR) {
+				error += "El campo Dispositivo de Rastreo es obligatorio  \n";
+			}
+			//VALIDO GARAGE  
+			try {
+				String aux_garage = grupoGarage.getSelection().getActionCommand();
+				
+			}
+			catch (Exception eGarage) {
+				error += "El campo Garage es obligatorio  \n";
+			}
+			
 			if (error != "") { //muestro los mensajes de error
 				errores = true;
 				JOptionPane.showMessageDialog(null, error);
 			}
 
-			if (errores == false && flag_chasis && flag_motor ) {
+			if (errores == false) {
 
 
 				VehiculoDTO vehiculodto = new VehiculoDTO();
