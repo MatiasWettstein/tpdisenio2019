@@ -162,13 +162,10 @@ public class GestorCliente {
 	}
 
 
-	public static int cantidadPoliza() {
+	public static int cantidadPoliza(ClienteDTO c) {
 
+		return DAOCliente.cantPoliza(c);
 
-
-
-
-		return 0;
 	}
 
 	//ACORDARSE DE MOSTRAR UN OPTION PANE CON EL MSJ "CLIENTE GENERADO CON EXITO" --> el DAO Tiene uqe devolver un bool para saber si se pudo guardar bie

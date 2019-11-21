@@ -4,14 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Date;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-
+import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.clases.Cliente;
 import tp.disenio.clases.Direccion;
 import tp.disenio.clases.Localidad;
@@ -79,7 +78,7 @@ public class DAOCliente {
 					Consulta += " and nrodoc = " + auxnd ;
 				}
 			}
-			
+
 			PreparedStatement st = con.prepareStatement(Consulta);
 			rs = st.executeQuery();
 
@@ -169,9 +168,9 @@ public class DAOCliente {
 			e1.printStackTrace();
 		}
 		try {
-			
+
 			int idDire = DAODireccion.guardarDireccion(c.getDireccion()); //me devuelve la id de la direccion asi lo asocio al cliente
-			
+
 			DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
 			Calendar cal1 = Calendar.getInstance();
 			try {
@@ -180,30 +179,30 @@ public class DAOCliente {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
-			
-			 java.sql.Date fechNac = new java.sql.Date(cal1.getTimeInMillis());
-			//nro_cliente 1 
+
+			java.sql.Date fechNac = new java.sql.Date(cal1.getTimeInMillis());
+			//nro_cliente 1
 			//tipo_c, 2
 			//cuil 3
-			//fecha_nac, 4 
-			//nrodoc 5 
+			//fecha_nac, 4
+			//nrodoc 5
 			//nombre 6
-			//apellido 7 
+			//apellido 7
 			//email 8
-			//profesion 9 
-			//estado_cliente 10 
-			//sexo 11 
+			//profesion 9
+			//estado_cliente 10
+			//sexo 11
 			//cond_iva 12
 			//estado_civil 13
 			//anio_registro 14
-			//direccion 15 
+			//direccion 15
 			//tipo_doc 16
-			
+
 			PreparedStatement st = con.prepareStatement("INSERT INTO CLIENTE VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			st.setString(1, c.getNroCliente());
 			st.setString(2, c.getTipo());
 			st.setString(3, c.getCuil());
-			st.setDate(4, fechNac); 
+			st.setDate(4, fechNac);
 			st.setString(5, c.getDocumento());
 			st.setString(6, c.getNombre());
 			st.setString(7, c.getApellido());
@@ -234,18 +233,18 @@ public class DAOCliente {
 			e.printStackTrace();
 		}
 
-		return retorno; 
+		return retorno;
 
 	}
 
 
 	public static String recuperarUltimoNroCliente () {
-		String retorno = null; 
+		String retorno = null;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
 		ResultSet rs = null;
-		
-		
+
+
 		try {
 			con = gdb.crearConexion();
 		} catch (ClassNotFoundException e1) {
@@ -255,16 +254,16 @@ public class DAOCliente {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-		try { 
+
+		try {
 			String Consulta = "select max(nro_cliente) from cliente";
 			PreparedStatement st = con.prepareStatement(Consulta);
 			rs = st.executeQuery();
-			
+
 			while(rs.next()) {
 				retorno = rs.getString("max");
 			}
-			
+
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -277,10 +276,39 @@ public class DAOCliente {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		return retorno; 
+
+		return retorno;
 	}
 
+	public static int cantPoliza(ClienteDTO cliente) {
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = null;
+		ResultSet rs = null;
+		int retorno=0;
+		try {
+			con = gdb.crearConexion();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			//String Consulta = "select * from poliza where cliente = " + "'" + cliente.getNroCliente() + "'";
 
+			String Consulta = "SELECT DISTINCT vehiculo FROM poliza where cliente = " + "'" + cliente.getNroCliente() + "'";
+
+			PreparedStatement st = con.prepareStatement(Consulta);
+			rs = st.executeQuery();
+			while(rs.next()) {
+				retorno++;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return retorno;
+	}
 
 }

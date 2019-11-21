@@ -2,7 +2,13 @@ package tp.disenio.pantallas;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -13,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import tp.disenio.DTO.ClienteDTO;
+import tp.disenio.DTO.CuotaDTO;
 import tp.disenio.DTO.DomicilioRiesgoDTO;
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
@@ -144,9 +151,9 @@ public class PantallaDarAltaPoliza3Mensual {
 		textField_2.setEditable(false);
 		//por ahora tiene el monto total, hy que vr el tema de descuentos por unidad adicional
 		GestorCliente gc = GestorCliente.getInstance();
-		int cant= gc.cantidadPoliza();
-
-		textField_2.setText(String.valueOf(premio.getMontoTotal()*gp.descuentos(cant)));
+		int cant= gc.cantidadPoliza(c);
+		double montototalapagar = premio.getMontoTotal()*gp.descuentos(cant);
+		textField_2.setText(String.valueOf(montototalapagar));
 		textField_2.setColumns(10);
 		textField_2.setBounds(218, 425, 196, 20);
 		marco1.getContentPane().add(textField_2);
@@ -166,7 +173,15 @@ public class PantallaDarAltaPoliza3Mensual {
 				new String[] {
 						"Marca", "Modelo", "Motor", "Chasis", "Patente"
 				}
-				));
+				){
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int i, int i1) {
+				return false;
+			}
+		});
 		scrollPane.setViewportView(tableVehiculo);
 
 
@@ -191,20 +206,51 @@ public class PantallaDarAltaPoliza3Mensual {
 		scrollPane_2.setBounds(24, 477, 898, 123);
 		marco1.getContentPane().add(scrollPane_2);
 
+		ArrayList<CuotaDTO> listacuotas = new ArrayList<>();
+		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-yyyy");
+		Calendar cal1 = Calendar.getInstance();
+		try {
+			cal1.setTime(dateFormat1.parse(p.getInicio_vigencia()));
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		cal1.add(Calendar.MONTH, 1);
+		cal1.add(Calendar.DAY_OF_MONTH,1);
+
+		for(int i=0; i<6; i++) {
+			CuotaDTO cuota = new CuotaDTO();
+			cuota.setMonto(montototalapagar/6);
+			cuota.setPagado(false);
+			String fechavencimiento = dateFormat1.format(cal1.getTime());
+			cuota.setVencimiento(fechavencimiento);
+			cal1.add(Calendar.MONTH, 1);
+			listacuotas.add(cuota);
+		}
+
+		DecimalFormat dec = new DecimalFormat("#0.00");
 		JTable tableCuotas = new JTable();
 		tableCuotas.setModel(new DefaultTableModel(
 				new Object[][] {
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
-					{null, null, null},
+					{1, dec.format(listacuotas.get(0).getMonto()), listacuotas.get(0).getVencimiento()},
+					{2, dec.format(listacuotas.get(1).getMonto()), listacuotas.get(1).getVencimiento()},
+					{3, dec.format(listacuotas.get(2).getMonto()), listacuotas.get(2).getVencimiento()},
+					{4, dec.format(listacuotas.get(3).getMonto()), listacuotas.get(3).getVencimiento()},
+					{5, dec.format(listacuotas.get(4).getMonto()), listacuotas.get(4).getVencimiento()},
+					{6, dec.format(listacuotas.get(5).getMonto()), listacuotas.get(5).getVencimiento()},
 				},
 				new String[] {
 						"Cuota", "Monto a pagar", "\u00DAltimo d\u00EDa de pago"
 				}
-				));
+				){
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int i, int i1) {
+				return false;
+			}
+		});
 		scrollPane_2.setViewportView(tableCuotas);
 		// -----------------------------------------------------------------
 
@@ -218,6 +264,17 @@ public class PantallaDarAltaPoliza3Mensual {
 		btnAceptar.setFont(new Font("Serif", Font.BOLD, 12));
 		btnAceptar.setBounds(1021, 657, 143, 33);
 		marco1.getContentPane().add(btnAceptar);
+		ActionListener aceptar = e -> {
+
+
+
+
+
+
+
+
+		};
+		btnAceptar.addActionListener(aceptar);
 
 		JButton btnCancelar = new JButton("CANCELAR");
 		btnCancelar.setFont(new Font("Serif", Font.BOLD, 12));
