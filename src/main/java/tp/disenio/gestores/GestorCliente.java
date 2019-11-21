@@ -27,7 +27,7 @@ public class GestorCliente {
 	}
 
 	public static ArrayList<ClienteDTO> buscarCliente(String NroCliente, String TipoDoc, String NroDoc, String Nombre, String Apellido){
-	
+
 		ArrayList<Cliente> clientes = DAOCliente.buscarCliente(NroCliente, TipoDoc, NroDoc, Nombre, Apellido);
 		ArrayList<ClienteDTO> retorno = new ArrayList<>();
 		for(Cliente c:clientes) {
@@ -88,43 +88,43 @@ public class GestorCliente {
 		int numero = Integer.parseInt(numero_aux);
 		numero+=1; //incremento el numero
 		String numeroNuevo = Integer.toString(numero);
-		
+
 		if (numeroNuevo.length()<8) {
-			String aux = ""; 
+			String aux = "";
 			for (int i = numeroNuevo.length(); i<8; i++) {
 				aux += "0";
 			}
 			aux+=numeroNuevo;
 			numeroNuevo = aux;
 		}
-		
+
 		retorno = primeraParte + numeroNuevo;
-	
-		return retorno; 
+
+		return retorno;
 	}
 
-// metodo guardar cliente le paso un DTO crea una instancia de cliente y llama al dao para que guarde en la BD 
+	// metodo guardar cliente le paso un DTO crea una instancia de cliente y llama al dao para que guarde en la BD
 	public static void guardarCliente(ClienteDTO c) {
-		
+
 		Provincia provCliente = new Provincia();
 		provCliente.setNombre(c.getDireccion().getLocalidad().getProvincia().getNombre());
 		provCliente.setId_provincia(c.getDireccion().getLocalidad().getProvincia().getId_provincia());
 		provCliente.setPais();
-		
+
 		Localidad locCliente = new Localidad();
 		locCliente.setId_localidad(c.getDireccion().getLocalidad().getId_localidad());
 		locCliente.setCodigoPostal(c.getDireccion().getLocalidad().getCodigoPostal());
 		locCliente.setNombre(c.getDireccion().getLocalidad().getNombre());
 		locCliente.setPorcentaje(c.getDireccion().getLocalidad().getPorcentaje());
 		locCliente.setProvincia(provCliente);
-		
+
 		Direccion direCliente = new Direccion();
 		direCliente.setCalle(c.getDireccion().getCalle());
 		direCliente.setNumero(c.getDireccion().getNumero());
 		direCliente.setPiso(c.getDireccion().getPiso());
 		direCliente.setDpto(c.getDireccion().getDpto());
 		direCliente.setLocalidad(locCliente);
-		
+
 		Cliente clienteFinal = new Cliente();
 		clienteFinal.setNroCliente(c.getNroCliente());
 		clienteFinal.setApellido(c.getApellido());
@@ -142,11 +142,24 @@ public class GestorCliente {
 		clienteFinal.setCondicionIVA(c.getCondicionIVA());
 		clienteFinal.setEstadoCivil(c.getEstadoCivil());
 		clienteFinal.setTipo(c.getTipoC());
-		
-		
-		
-		
-		//ACORDARSE DE MOSTRAR UN OPTION PANE CON EL MSJ "CLIENTE GENERADO CON EXITO" --> el DAO Tiene uqe devolver un bool para saber si se pudo guardar bien 
+
+
+
+
+		//ACORDARSE DE MOSTRAR UN OPTION PANE CON EL MSJ "CLIENTE GENERADO CON EXITO" --> el DAO Tiene uqe devolver un bool para saber si se pudo guardar bien
+	}
+
+
+	public static int cantidadPoliza() {
+
+
+
+
+
+
+
+
+		return 0;
 	}
 
 

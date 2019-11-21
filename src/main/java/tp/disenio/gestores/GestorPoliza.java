@@ -24,9 +24,20 @@ public class GestorPoliza {
 	}
 	public float calcularPremio(float prima, float emision) {
 		return prima+emision;
-
-
-
-
 	}
+
+	public double descuentos(int cant) {
+
+		if(cant <=1) {
+			return 1;
+		} else if(cant > 1 && cant <= 3) {
+			return 0.90;
+		} else if(cant > 3) {
+			return 0.75;
+		}
+		return 1;
+	}
+
+
+
 }

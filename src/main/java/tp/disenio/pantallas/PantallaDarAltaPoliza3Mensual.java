@@ -16,6 +16,7 @@ import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.DTO.DomicilioRiesgoDTO;
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
+import tp.disenio.DTO.PremioDTO;
 import tp.disenio.DTO.VehiculoDTO;
 import tp.disenio.gestores.GestorPoliza;
 
@@ -131,8 +132,18 @@ public class PantallaDarAltaPoliza3Mensual {
 		textField_Premio.setBounds(913, 288, 196, 20);
 		marco1.getContentPane().add(textField_Premio);
 
+
+		PremioDTO premio = new PremioDTO();
+
+		premio.setDerechoEmision(gp.calcularDerecho(p.getSumaasegurada()*1000));
+		premio.setPrima(gp.calcularPrima(p.getSumaasegurada()*1000));
+		premio.setMontoTotal(gp.calcularPremio(gp.calcularPrima(p.getSumaasegurada()*1000), gp.calcularDerecho(p.getSumaasegurada()*1000)));
+
 		JTextField textField_2 = new JTextField();
 		textField_2.setEditable(false);
+
+		//por ahora tiene el monto total, hy que vr el tema de descuentos por unidad adicional
+		textField_2.setText(String.valueOf(premio.getMontoTotal()));
 		textField_2.setColumns(10);
 		textField_2.setBounds(218, 425, 196, 20);
 		marco1.getContentPane().add(textField_2);
