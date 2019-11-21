@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
+import tp.disenio.DAO.DAOCliente;
 import tp.disenio.gestores.GestorDB;
 import tp.disenio.gestores.GestorPantallas;
 

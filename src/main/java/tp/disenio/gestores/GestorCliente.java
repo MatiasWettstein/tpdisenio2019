@@ -8,6 +8,9 @@ import tp.disenio.DTO.DireccionDTO;
 import tp.disenio.DTO.LocalidadDTO;
 import tp.disenio.DTO.ProvinciaDTO;
 import tp.disenio.clases.Cliente;
+import tp.disenio.clases.Direccion;
+import tp.disenio.clases.Localidad;
+import tp.disenio.clases.Provincia;
 
 public class GestorCliente {
 
@@ -77,9 +80,74 @@ public class GestorCliente {
 		return retorno;
 	}
 
+	public static String  generarNumeroCliente() {
+		String retorno = null;
+		String ultimoGuardado = DAOCliente.recuperarUltimoNroCliente();
+		String primeraParte = ultimoGuardado.substring(0,3);
+		String numero_aux = ultimoGuardado.substring(3);
+		int numero = Integer.parseInt(numero_aux);
+		numero+=1; //incremento el numero
+		String numeroNuevo = Integer.toString(numero);
+		
+		if (numeroNuevo.length()<8) {
+			String aux = ""; 
+			for (int i = numeroNuevo.length(); i<8; i++) {
+				aux += "0";
+			}
+			aux+=numeroNuevo;
+			numeroNuevo = aux;
+		}
+		
+		retorno = primeraParte + numeroNuevo;
+	
+		return retorno; 
+	}
 
-
-
+// metodo guardar cliente le paso un DTO crea una instancia de cliente y llama al dao para que guarde en la BD 
+	public static void guardarCliente(ClienteDTO c) {
+		
+		Provincia provCliente = new Provincia();
+		provCliente.setNombre(c.getDireccion().getLocalidad().getProvincia().getNombre());
+		provCliente.setId_provincia(c.getDireccion().getLocalidad().getProvincia().getId_provincia());
+		provCliente.setPais();
+		
+		Localidad locCliente = new Localidad();
+		locCliente.setId_localidad(c.getDireccion().getLocalidad().getId_localidad());
+		locCliente.setCodigoPostal(c.getDireccion().getLocalidad().getCodigoPostal());
+		locCliente.setNombre(c.getDireccion().getLocalidad().getNombre());
+		locCliente.setPorcentaje(c.getDireccion().getLocalidad().getPorcentaje());
+		locCliente.setProvincia(provCliente);
+		
+		Direccion direCliente = new Direccion();
+		direCliente.setCalle(c.getDireccion().getCalle());
+		direCliente.setNumero(c.getDireccion().getNumero());
+		direCliente.setPiso(c.getDireccion().getPiso());
+		direCliente.setDpto(c.getDireccion().getDpto());
+		direCliente.setLocalidad(locCliente);
+		
+		Cliente clienteFinal = new Cliente();
+		clienteFinal.setNroCliente(c.getNroCliente());
+		clienteFinal.setApellido(c.getApellido());
+		clienteFinal.setFechaNac(c.getFechaNac());
+		clienteFinal.setNombre(c.getNombre());
+		clienteFinal.setTipoDocumento(c.getTipoDoc());
+		clienteFinal.setDocumento(c.getDocumento());
+		clienteFinal.setSexo(c.getSexo());
+		clienteFinal.setDireccion(direCliente);
+		clienteFinal.setCorreoElectronico(c.getCorreoElectronico());
+		clienteFinal.setProfesion(c.getProfesion());
+		clienteFinal.setAnioRegistro(c.getAnioRegistro());
+		clienteFinal.setEstado(c.getEstadoCliente());
+		clienteFinal.setCuil(c.getCuil());
+		clienteFinal.setCondicionIVA(c.getCondicionIVA());
+		clienteFinal.setEstadoCivil(c.getEstadoCivil());
+		clienteFinal.setTipo(c.getTipoC());
+		
+		
+		
+		
+		//ACORDARSE DE MOSTRAR UN OPTION PANE CON EL MSJ "CLIENTE GENERADO CON EXITO" --> el DAO Tiene uqe devolver un bool para saber si se pudo guardar bien 
+	}
 
 
 

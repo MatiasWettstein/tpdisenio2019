@@ -15,8 +15,8 @@ public class ClienteDTO {
 	private String cuil;
 	private String condicionIVA;
 	private String estadoCivil;
-	private String tipoC;
-	private String estadoCliente;
+	private String tipoC; // NORMAL O PLATA
+	private String estadoCliente; //activo o inactivo 
 	private DireccionDTO direccion;
 
 

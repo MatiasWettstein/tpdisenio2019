@@ -207,4 +207,49 @@ public class DAOCliente {
 
 	}
 
+
+	public static String recuperarUltimoNroCliente () {
+		String retorno = null; 
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = null;
+		ResultSet rs = null;
+		
+		
+		try {
+			con = gdb.crearConexion();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try { 
+			String Consulta = "select max(nro_cliente) from cliente";
+			PreparedStatement st = con.prepareStatement(Consulta);
+			rs = st.executeQuery();
+			
+			while(rs.next()) {
+				retorno = rs.getString("max");
+			}
+			
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return retorno; 
+	}
+
+
+
 }

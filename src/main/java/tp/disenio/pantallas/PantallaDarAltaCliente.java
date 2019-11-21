@@ -535,7 +535,7 @@ public class PantallaDarAltaCliente {
 
 			if (fechaNFormattedTextField.getText().equals(fechaVacia)){
 				campoCompleto = false;
-				errores += "No se completó el campo Fecha de Nacimiento que es obligatorio \n";
+				errores += "El campo 'Fecha de Nacimiento'  es obligatorio \n";
 			}
 
 			if (campoCompleto == true ) { //si se completó el campo fecha

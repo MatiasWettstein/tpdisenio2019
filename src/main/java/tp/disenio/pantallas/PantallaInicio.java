@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
+import tp.disenio.DAO.DAOCliente;
+import tp.disenio.gestores.GestorCliente;
 import tp.disenio.gestores.GestorPantallas;
 public class PantallaInicio {
 
