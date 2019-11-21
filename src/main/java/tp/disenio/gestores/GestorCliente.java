@@ -50,7 +50,9 @@ public class GestorCliente {
 			dir.setDpto(c.getDireccion().getDpto());
 			dir.setLocalidad(loc);
 			dir.setNumero(c.getDireccion().getNumero());
-			dir.setPiso(c.getDireccion().getPiso());
+	
+			String piso = Integer.toString(c.getDireccion().getPiso());
+			dir.setPiso(piso);
 
 
 			ClienteDTO dto = new ClienteDTO();
@@ -121,8 +123,14 @@ public class GestorCliente {
 		Direccion direCliente = new Direccion();
 		direCliente.setCalle(c.getDireccion().getCalle());
 		direCliente.setNumero(c.getDireccion().getNumero());
-		direCliente.setPiso(c.getDireccion().getPiso());
+		if (c.getDireccion().getPiso() != null) {
+		int piso = Integer.parseInt(c.getDireccion().getPiso());
+		direCliente.setPiso(piso);
+		} 
+		else direCliente.setPiso(0);
 		direCliente.setDpto(c.getDireccion().getDpto());
+		
+		
 		direCliente.setLocalidad(locCliente);
 		
 		Cliente clienteFinal = new Cliente();
@@ -142,9 +150,8 @@ public class GestorCliente {
 		clienteFinal.setCondicionIVA(c.getCondicionIVA());
 		clienteFinal.setEstadoCivil(c.getEstadoCivil());
 		clienteFinal.setTipo(c.getTipoC());
-		
-		
-		
+	
+		DAOCliente.guardarCliente(clienteFinal);
 		
 		//ACORDARSE DE MOSTRAR UN OPTION PANE CON EL MSJ "CLIENTE GENERADO CON EXITO" --> el DAO Tiene uqe devolver un bool para saber si se pudo guardar bien 
 	}

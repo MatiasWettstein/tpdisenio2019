@@ -4,7 +4,7 @@ public class Direccion {
 	//----------Atributos
 	private String calle;
 	private String numero;
-	private String piso;
+	private int piso;
 	private String dpto;
 	private Localidad localidad;
 
@@ -20,10 +20,10 @@ public class Direccion {
 	public void setNumero(String numero) {
 		this.numero = numero;
 	}
-	public String getPiso() {
+	public int getPiso() {
 		return piso;
 	}
-	public void setPiso(String piso) {
+	public void setPiso(int piso) {
 		this.piso = piso;
 	}
 	public String getDpto() {

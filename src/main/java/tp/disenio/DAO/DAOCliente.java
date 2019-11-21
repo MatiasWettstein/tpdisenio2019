@@ -4,7 +4,13 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+
 
 import tp.disenio.clases.Cliente;
 import tp.disenio.clases.Direccion;
@@ -106,7 +112,7 @@ public class DAOCliente {
 				direccion.setCalle(dirrs.getString(2));
 				direccion.setNumero(dirrs.getString(3));
 				direccion.setDpto(dirrs.getString(4));
-				direccion.setPiso(dirrs.getString(5));
+				direccion.setPiso(dirrs.getInt(5));
 				direccion.setLocalidad(localidad);
 
 				Cliente cliente = new Cliente();
@@ -147,11 +153,10 @@ public class DAOCliente {
 	}
 
 
-	public static void guardarCliente (Cliente c) {
-
+	public static boolean guardarCliente (Cliente c) {
+		boolean retorno = false;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
-
 
 
 		try {
@@ -164,14 +169,41 @@ public class DAOCliente {
 			e1.printStackTrace();
 		}
 		try {
-
-			//nro_cliente, tipo_c, cuil, fecha_nac, nrodoc, nombre, apellido, email, profesion, estado_cliente, sexo, cond_iva,
-			//estado_civil, anio_registro, direccion, tipo_doc
+			
+			int idDire = DAODireccion.guardarDireccion(c.getDireccion()); //me devuelve la id de la direccion asi lo asocio al cliente
+			
+			DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
+			Calendar cal1 = Calendar.getInstance();
+			try {
+				cal1.setTime(dateFormat1.parse(c.getFechaNac()));
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			
+			 java.sql.Date fechNac = new java.sql.Date(cal1.getTimeInMillis());
+			//nro_cliente 1 
+			//tipo_c, 2
+			//cuil 3
+			//fecha_nac, 4 
+			//nrodoc 5 
+			//nombre 6
+			//apellido 7 
+			//email 8
+			//profesion 9 
+			//estado_cliente 10 
+			//sexo 11 
+			//cond_iva 12
+			//estado_civil 13
+			//anio_registro 14
+			//direccion 15 
+			//tipo_doc 16
+			
 			PreparedStatement st = con.prepareStatement("INSERT INTO CLIENTE VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 			st.setString(1, c.getNroCliente());
 			st.setString(2, c.getTipo());
 			st.setString(3, c.getCuil());
-			st.setString(4, c.getFechaNac()); // REVISAR EL TIPO DE DATO QUE DEVUELVE
+			st.setDate(4, fechNac); 
 			st.setString(5, c.getDocumento());
 			st.setString(6, c.getNombre());
 			st.setString(7, c.getApellido());
@@ -181,20 +213,19 @@ public class DAOCliente {
 			st.setString(11, c.getSexo());
 			st.setString(12, c.getCondicionIVA());
 			st.setString(13, c.getEstadoCivil());
+			st.setInt(14, c.getAnioRegistro());
+			st.setInt(15, idDire);
+			st.setString(16, c.getTipoDocumento());
 
 			st.executeUpdate();
 			st.close();
-
+			retorno = true;
 
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
-
-
 
 		try {
 			con.close();
@@ -203,7 +234,7 @@ public class DAOCliente {
 			e.printStackTrace();
 		}
 
-
+		return retorno; 
 
 	}
 
