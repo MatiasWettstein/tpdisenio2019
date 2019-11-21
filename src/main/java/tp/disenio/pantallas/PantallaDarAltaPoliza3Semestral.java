@@ -2,6 +2,7 @@ package tp.disenio.pantallas;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -16,7 +17,11 @@ import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.DTO.DomicilioRiesgoDTO;
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
+import tp.disenio.DTO.PremioDTO;
 import tp.disenio.DTO.VehiculoDTO;
+import tp.disenio.gestores.GestorCliente;
+import tp.disenio.gestores.GestorPantallas;
+import tp.disenio.gestores.GestorPoliza;
 
 public class PantallaDarAltaPoliza3Semestral {
 
@@ -69,7 +74,7 @@ public class PantallaDarAltaPoliza3Semestral {
 
 		JLabel lblPremio = new JLabel("Premio");
 		lblPremio.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblPremio.setBounds(827, 303, 139, 22);
+		lblPremio.setBounds(812, 286, 139, 22);
 		marco1.getContentPane().add(lblPremio);
 
 		JLabel lblImportesPorDescuentos = new JLabel("Importes por descuentos");
@@ -92,42 +97,59 @@ public class PantallaDarAltaPoliza3Semestral {
 		// ---------------- CAMPOS DE TEXTO --------------------------------
 		JTextField textField = new JTextField();
 		textField.setEditable(false);
+		textField.setText(c.getApellido() + " " + c.getNombre());
 		textField.setBounds(218, 46, 222, 20);
 		marco1.getContentPane().add(textField);
 		textField.setColumns(10);
 
 		JTextField textField_fechInicio = new JTextField();
 		textField_fechInicio.setEditable(false);
+		textField_fechInicio.setText(p.getInicio_vigencia());
 		textField_fechInicio.setBounds(160, 230, 196, 20);
 		marco1.getContentPane().add(textField_fechInicio);
 		textField_fechInicio.setColumns(10);
 
 		JTextField textField_fechFin = new JTextField();
 		textField_fechFin.setEditable(false);
+		textField_fechFin.setText(p.getFin_vigencia());
 		textField_fechFin.setBounds(570, 234, 196, 20);
 		marco1.getContentPane().add(textField_fechFin);
 		textField_fechFin.setColumns(10);
 
 		JTextField textField_fPago = new JTextField();
 		textField_fPago.setEditable(false);
+		textField_fPago.setText(p.getForma_pago());
 		textField_fPago.setBounds(160, 288, 196, 20);
 		marco1.getContentPane().add(textField_fPago);
 		textField_fPago.setColumns(10);
 
 		JTextField textField_suma = new JTextField();
 		textField_suma.setEditable(false);
+		textField_suma.setText(String.valueOf(p.getSumaasegurada()*1000));
 		textField_suma.setColumns(10);
 		textField_suma.setBounds(570, 288, 196, 20);
 		marco1.getContentPane().add(textField_suma);
 
 		JTextField textField_Premio = new JTextField();
 		textField_Premio.setEditable(false);
+		GestorPoliza gp = GestorPoliza.getInstance();
+		textField_Premio.setText(String.valueOf(gp.calcularPremio(gp.calcularPrima(p.getSumaasegurada()*1000), gp.calcularDerecho(p.getSumaasegurada()*1000))));
 		textField_Premio.setColumns(10);
-		textField_Premio.setBounds(916, 305, 196, 20);
+		textField_Premio.setBounds(915, 288, 196, 20);
 		marco1.getContentPane().add(textField_Premio);
+
+		PremioDTO premio = new PremioDTO();
+
+		premio.setDerechoEmision(gp.calcularDerecho(p.getSumaasegurada()*1000));
+		premio.setPrima(gp.calcularPrima(p.getSumaasegurada()*1000));
+		premio.setMontoTotal(gp.calcularPremio(gp.calcularPrima(p.getSumaasegurada()*1000), gp.calcularDerecho(p.getSumaasegurada()*1000)));
 
 		JTextField textField_2 = new JTextField();
 		textField_2.setEditable(false);
+		GestorCliente gc = GestorCliente.getInstance();
+		int cant= gc.cantidadPoliza(c);
+		double montototalapagar = premio.getMontoTotal()*gp.descuentos(cant);
+		textField_2.setText(String.valueOf(montototalapagar));
 		textField_2.setColumns(10);
 		textField_2.setBounds(224, 499, 196, 20);
 		marco1.getContentPane().add(textField_2);
@@ -178,11 +200,26 @@ public class PantallaDarAltaPoliza3Semestral {
 		btnSeleccionarOtroTipo.setFont(new Font("Serif", Font.BOLD, 12));
 		btnSeleccionarOtroTipo.setBounds(24, 657, 316, 33);
 		marco1.getContentPane().add(btnSeleccionarOtroTipo);
+		ActionListener tipocob = e -> {
+			GestorPantallas.Pantalla2Alta(c, v, listahijos, p, dom);
+			marco1.dispose();
+		};
+		btnSeleccionarOtroTipo.addActionListener(tipocob);
 
 		JButton btnAceptar = new JButton("ACEPTAR");
 		btnAceptar.setFont(new Font("Serif", Font.BOLD, 12));
 		btnAceptar.setBounds(1021, 657, 143, 33);
 		marco1.getContentPane().add(btnAceptar);
+		ActionListener aceptar = e -> {
+
+			//aca va el dar alta poliza
+
+
+
+
+
+		};
+		btnAceptar.addActionListener(aceptar);
 
 		JButton btnCancelar = new JButton("CANCELAR");
 		btnCancelar.setFont(new Font("Serif", Font.BOLD, 12));

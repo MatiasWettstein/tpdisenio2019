@@ -39,7 +39,7 @@ public class PantallaDarAltaPoliza2 {
 		final Marco marco1 = new Marco(700,600,"DAR DE ALTA POLIZA");
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(Color.LIGHT_GRAY);
-		marco1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		marco1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		// -----------------------------------------------------------------
 
 		// ------------------ ETIQUETAS ------------------------------------
@@ -136,14 +136,20 @@ public class PantallaDarAltaPoliza2 {
 			String fechaIn = fechaFormattedTextField.getText();
 			String error = "";
 
-			if (tipoComboBox.getSelectedItem().toString() == "Seleccionar_Tipo_Cobetura") {
-				tipoCobertura = false;
-				error += "Debe seleccionar un tipo de cobertura \n";
-
+			try {
+				String aux_TipoC = tipoComboBox.getSelectedItem().toString();
 			}
-			if (pagoComboBox.getSelectedItem().toString() == "Seleccionar_Forma_de_Pago") {
-				formaPago = false;
+			catch (Exception eTipoC) {
+				error += "Debe seleccionar un tipo de cobertura \n";
+				tipoCobertura = false;
+			}
+			try
+			{
+				String aux_Pago = pagoComboBox.getSelectedItem().toString();
+			}
+			catch (Exception aFormaP) {
 				error += "Debe seleccionar una forma de pago \n";
+				formaPago = false;
 			}
 
 			try {
@@ -182,9 +188,11 @@ public class PantallaDarAltaPoliza2 {
 
 				if (pagoComboBox.getSelectedItem().toString() == "MENSUAL") {
 					GestorPantallas.pantalla3AltaMensual(c, p, v, listahijos, dom);
+					marco1.dispose();
 				}
 				else if (pagoComboBox.getSelectedItem().toString() == "SEMESTRAL") {
 					GestorPantallas.pantalla3AltaSemestral(c, p, v, listahijos, dom);
+					marco1.dispose();
 				}
 
 			}

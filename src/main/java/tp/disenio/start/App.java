@@ -5,7 +5,6 @@ import java.sql.SQLException;
 
 import javax.swing.JOptionPane;
 
-import tp.disenio.DAO.DAOCliente;
 import tp.disenio.gestores.GestorDB;
 import tp.disenio.gestores.GestorPantallas;
 
@@ -22,10 +21,13 @@ public class App
 			con.close();
 		} catch (ClassNotFoundException e) {
 			JOptionPane.showMessageDialog(null, "No Hay Conexión con la Base de Datos.", "Error", JOptionPane.WARNING_MESSAGE);
-			e.printStackTrace();
+			//e.printStackTrace();
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "No Hay Conexión con la Base de Datos.", "Error", JOptionPane.WARNING_MESSAGE);
-			e.printStackTrace();
+			//e.printStackTrace();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "No Hay Conexión con la Base de Datos.", "Error", JOptionPane.WARNING_MESSAGE);
+			//e.printStackTrace();
 		}
 
 	}

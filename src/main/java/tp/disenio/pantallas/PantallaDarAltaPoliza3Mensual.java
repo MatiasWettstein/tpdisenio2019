@@ -26,6 +26,7 @@ import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.DTO.PremioDTO;
 import tp.disenio.DTO.VehiculoDTO;
 import tp.disenio.gestores.GestorCliente;
+import tp.disenio.gestores.GestorPantallas;
 import tp.disenio.gestores.GestorPoliza;
 
 public class PantallaDarAltaPoliza3Mensual {
@@ -149,7 +150,6 @@ public class PantallaDarAltaPoliza3Mensual {
 
 		JTextField textField_2 = new JTextField();
 		textField_2.setEditable(false);
-		//por ahora tiene el monto total, hy que vr el tema de descuentos por unidad adicional
 		GestorCliente gc = GestorCliente.getInstance();
 		int cant= gc.cantidadPoliza(c);
 		double montototalapagar = premio.getMontoTotal()*gp.descuentos(cant);
@@ -259,6 +259,11 @@ public class PantallaDarAltaPoliza3Mensual {
 		btnSeleccionarOtroTipo.setFont(new Font("Serif", Font.BOLD, 12));
 		btnSeleccionarOtroTipo.setBounds(24, 657, 316, 33);
 		marco1.getContentPane().add(btnSeleccionarOtroTipo);
+		ActionListener tipocob = e -> {
+			GestorPantallas.Pantalla2Alta(c, v, listahijos, p, dom);
+			marco1.dispose();
+		};
+		btnSeleccionarOtroTipo.addActionListener(tipocob);
 
 		JButton btnAceptar = new JButton("ACEPTAR");
 		btnAceptar.setFont(new Font("Serif", Font.BOLD, 12));
@@ -267,10 +272,7 @@ public class PantallaDarAltaPoliza3Mensual {
 		ActionListener aceptar = e -> {
 
 
-
-
-
-
+			//aca hace el dar alta poliza
 
 
 		};

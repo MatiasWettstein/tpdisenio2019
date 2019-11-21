@@ -309,6 +309,13 @@ public class DAOCliente {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return retorno;
 	}
 

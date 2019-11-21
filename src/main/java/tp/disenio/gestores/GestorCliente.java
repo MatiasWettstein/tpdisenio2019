@@ -175,8 +175,4 @@ public class GestorCliente {
 		}
 		return retorno;
 	}
-
-
-
-
 }

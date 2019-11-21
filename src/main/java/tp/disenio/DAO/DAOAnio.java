@@ -61,9 +61,9 @@ public class DAOAnio {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		System.out.println(sumaAsegurada);
 		sumaAsegurada = sumaAsegurada*1000;
-
+		System.out.println(sumaAsegurada);
 		return sumaAsegurada;
 	}
 
