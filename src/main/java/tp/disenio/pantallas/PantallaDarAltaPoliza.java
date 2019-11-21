@@ -355,63 +355,130 @@ public class PantallaDarAltaPoliza {
 		motorTexto.setBounds(111, 287, 196, 20);
 		marco1.getContentPane().add(motorTexto);
 		motorTexto.setColumns(10);
-		motorTexto.addKeyListener(new KeyAdapter() { // EL MOTOR PUEDEN SER HASTA 12 CARACTERES
-			@Override
-			public void keyTyped(KeyEvent e) {
-				int max = 12;
-				if(motorTexto.getText().length() > max+1) {
-					e.consume();
-					String shortened = motorTexto.getText().substring(0, max);
-					motorTexto.setText(shortened);
-				}else if(motorTexto.getText().length() > max) {
-					e.consume();
+
+		if(v1==null) {
+			motorTexto.addKeyListener(new KeyAdapter() { // EL MOTOR PUEDEN SER HASTA 12 CARACTERES
+				@Override
+				public void keyTyped(KeyEvent e) {
+					int max = 12;
+					if(motorTexto.getText().length() > max+1) {
+						e.consume();
+						String shortened = motorTexto.getText().substring(0, max);
+						motorTexto.setText(shortened);
+					}else if(motorTexto.getText().length() > max) {
+						e.consume();
+					}
 				}
-			}
-		});
+			});
+		}else {
+
+			motorTexto.setText(v1.getMotor());
+			motorTexto.addKeyListener(new KeyAdapter() { // EL MOTOR PUEDEN SER HASTA 12 CARACTERES
+				@Override
+				public void keyTyped(KeyEvent e) {
+					int max = 12;
+					if(motorTexto.getText().length() > max+1) {
+						e.consume();
+						String shortened = motorTexto.getText().substring(0, max);
+						motorTexto.setText(shortened);
+					}else if(motorTexto.getText().length() > max) {
+						e.consume();
+					}
+				}
+			});
+		}
 
 		chasisText = new JTextField();
 		chasisText.setBounds(417, 287, 196, 20);
 		marco1.getContentPane().add(chasisText);
 		chasisText.setColumns(10);
-		chasisText.addKeyListener(new KeyAdapter() { // EL CHASIS PUEDEN SER HASTA 17 CARACTERES
-			@Override
-			public void keyTyped(KeyEvent e) {
-				int max = 17;
-				if(chasisText.getText().length() > max+1) {
-					e.consume();
-					String shortened = chasisText.getText().substring(0, max);
-					chasisText.setText(shortened);
-				}else if(chasisText.getText().length() > max) {
-					e.consume();
-				}
-			}
-		});
 
+		if(v1==null) {
+			chasisText.addKeyListener(new KeyAdapter() { // EL CHASIS PUEDEN SER HASTA 17 CARACTERES
+				@Override
+				public void keyTyped(KeyEvent e) {
+					int max = 17;
+					if(chasisText.getText().length() > max+1) {
+						e.consume();
+						String shortened = chasisText.getText().substring(0, max);
+						chasisText.setText(shortened);
+					}else if(chasisText.getText().length() > max) {
+						e.consume();
+					}
+				}
+			});
+		} else {
+			chasisText.setText(v1.getChasis());
+			chasisText.addKeyListener(new KeyAdapter() { // EL CHASIS PUEDEN SER HASTA 17 CARACTERES
+				@Override
+				public void keyTyped(KeyEvent e) {
+					int max = 17;
+					if(chasisText.getText().length() > max+1) {
+						e.consume();
+						String shortened = chasisText.getText().substring(0, max);
+						chasisText.setText(shortened);
+					}else if(chasisText.getText().length() > max) {
+						e.consume();
+					}
+				}
+			});
+
+		}
 
 		patenteText = new JTextField();
 		patenteText.setBounds(714, 286, 196, 20);
 		marco1.getContentPane().add(patenteText);
 		patenteText.setColumns(10);
-		patenteText.addKeyListener(new KeyAdapter() { // LA PATENTE PUEDEN SER HASTA 7 CARACTERES
-			@Override
-			public void keyTyped(KeyEvent e) {
-				int max = 7;
-				if(patenteText.getText().length() > max+1) {
-					e.consume();
-					String shortened = patenteText.getText().substring(0, max);
-					patenteText.setText(shortened);
-				}else if(patenteText.getText().length() > max) {
-					e.consume();
+
+
+		if(v1==null) {
+			patenteText.addKeyListener(new KeyAdapter() { // LA PATENTE PUEDEN SER HASTA 7 CARACTERES
+				@Override
+				public void keyTyped(KeyEvent e) {
+					int max = 7;
+					if(patenteText.getText().length() > max+1) {
+						e.consume();
+						String shortened = patenteText.getText().substring(0, max);
+						patenteText.setText(shortened);
+					}else if(patenteText.getText().length() > max) {
+						e.consume();
+					}
 				}
-			}
-		});
+			});
+		} else {
+
+			patenteText.setText(v1.getPatente());
+			patenteText.addKeyListener(new KeyAdapter() { // LA PATENTE PUEDEN SER HASTA 7 CARACTERES
+				@Override
+				public void keyTyped(KeyEvent e) {
+					int max = 7;
+					if(patenteText.getText().length() > max+1) {
+						e.consume();
+						String shortened = patenteText.getText().substring(0, max);
+						patenteText.setText(shortened);
+					}else if(patenteText.getText().length() > max) {
+						e.consume();
+					}
+				}
+			});
+
+		}
 
 		// ------- JSPINNER -----------------------
 
-		final JSpinner kmSpinner = new JSpinner(new SpinnerNumberModel(10000, 10000, 9000000, 10000));
-		kmSpinner.setToolTipText("");
-		kmSpinner.setBounds(1060, 286, 197, 20);
-		marco1.getContentPane().add(kmSpinner);
+		final JSpinner kmSpinner;
+		if(p1==null) {
+			kmSpinner = new JSpinner(new SpinnerNumberModel(10000, 10000, 9000000, 10000));
+			kmSpinner.setToolTipText("");
+			kmSpinner.setBounds(1060, 286, 197, 20);
+			marco1.getContentPane().add(kmSpinner);
+		} else {
+			kmSpinner = new JSpinner(new SpinnerNumberModel(p1.getKmPorAnio(), 10000, 9000000, 10000));
+			kmSpinner.setToolTipText("");
+			kmSpinner.setBounds(1060, 286, 197, 20);
+			marco1.getContentPane().add(kmSpinner);
+		}
+
 
 
 
@@ -553,7 +620,7 @@ public class PantallaDarAltaPoliza {
 			//HAGO LAS VALIDACIONES CUANDO SE APRIETA EL BOTON ACEPTAR
 
 			LocalDate fechaActual = LocalDate.now();
-			String error = null;
+			String error = "";
 			boolean anio1 = true;
 			boolean errores = false;
 			boolean flag_motor = true;
@@ -613,7 +680,7 @@ public class PantallaDarAltaPoliza {
 			}
 
 
-			if (error != null) { //muestro los mensajes de error
+			if (error != "") { //muestro los mensajes de error
 				errores = true;
 				JOptionPane.showMessageDialog(null, error);
 			}
@@ -645,7 +712,7 @@ public class PantallaDarAltaPoliza {
 				vehiculodto.setPorcentaje(aux1.getPorcentaje());
 				String sumalocal= sumaFormattedTextField.getText();
 				int tamsuma = sumaFormattedTextField.getText().length();
-				String sumasinpuntos = null;
+				String sumasinpuntos = "";
 				for(int i=0; i<tamsuma; i++) {
 					if(sumalocal.charAt(i) != '.') {
 						sumasinpuntos += sumalocal.charAt(i);
@@ -656,6 +723,7 @@ public class PantallaDarAltaPoliza {
 
 				vehiculodto.setSumaasegurada(valordivmil);
 
+				System.out.println(kmSpinner.getValue());
 				PolizaDTO pDTO = new PolizaDTO();
 				pDTO.setKmPorAnio((Integer) kmSpinner.getValue());
 

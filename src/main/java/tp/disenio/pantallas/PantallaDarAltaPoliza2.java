@@ -3,12 +3,13 @@ package tp.disenio.pantallas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -87,19 +88,12 @@ public class PantallaDarAltaPoliza2 {
 		marco1.getContentPane().add(fechaFormattedTextField);
 		//POR DEFAULT TIENE QUE SER EL DIA SIGUIENTE
 
-		Date fechaActual = new Date();
+		DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
 		Calendar cal = Calendar.getInstance();
-		cal.setTime(fechaActual);
-		cal.add(Calendar.YEAR, 1);
-		cal.add(Calendar.MONTH, 1);
 		cal.add(Calendar.DAY_OF_MONTH, 1);
 
-		String dia_default = Integer.toString(cal.get(Calendar.DAY_OF_MONTH));
-		String mes_default = Integer.toString(cal.get(Calendar.MONTH));
-		String anio_default = Integer.toString(cal.get(Calendar.YEAR));
-
-		String value = dia_default + "/" + mes_default + "/" + anio_default;
-		fechaFormattedTextField.setValue(value);
+		String strDate = dateFormat.format(cal.getTime());
+		fechaFormattedTextField.setText(strDate);
 
 		// -----------------------------------------------------------------
 

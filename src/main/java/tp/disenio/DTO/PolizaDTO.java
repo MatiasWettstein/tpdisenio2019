@@ -7,7 +7,7 @@ public class PolizaDTO {
 	private String fin_vigencia; //
 	private String estado_poliza;//
 	private String forma_pago;//
-	private float kmPorAnio;//
+	private int kmPorAnio;//
 	private Boolean tuercas;
 	private Boolean Garage;
 	private Boolean Alarma;
@@ -68,10 +68,10 @@ public class PolizaDTO {
 	public void setForma_pago(String forma_pago) {
 		this.forma_pago = forma_pago;
 	}
-	public float getKmPorAnio() {
+	public int getKmPorAnio() {
 		return kmPorAnio;
 	}
-	public void setKmPorAnio(float kmPorAnio) {
+	public void setKmPorAnio(int kmPorAnio) {
 		this.kmPorAnio = kmPorAnio;
 	}
 

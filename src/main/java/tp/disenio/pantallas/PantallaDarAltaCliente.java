@@ -191,14 +191,14 @@ public class PantallaDarAltaCliente {
 		comboBox_Provincia.setBounds(136, 381, 193, 20);
 		marco1.getContentPane().add(comboBox_Provincia);
 		comboBox_Provincia.setModel(new DefaultComboBoxModel(DAOProvincia.listaProvincia()));
-		
+
 		comboBox_Provincia.setRenderer(new MyComboBoxRenderer("SELECCIONE PROVINCIA"));
 		comboBox_Provincia.setSelectedIndex(-1);
-		
+
 		JComboBox comboBox_Localidad = new JComboBox();
 		comboBox_Localidad.setBounds(449, 381, 196, 20);
 		marco1.getContentPane().add(comboBox_Localidad);
-		
+
 		comboBox_Provincia.addItemListener(arg0 -> {
 			if (arg0.getStateChange() == ItemEvent.SELECTED) {
 
@@ -206,19 +206,19 @@ public class PantallaDarAltaCliente {
 				comboBox_Localidad.setModel(model);
 				comboBox_Localidad.setRenderer(new MyComboBoxRenderer("SELECCIONE LOCALIDAD"));
 				comboBox_Localidad.setSelectedIndex(-1);
-				
+
 			}
 		});
-		
+
 		comboBox_Localidad.addItemListener(arg0 -> {
 			if (arg0.getStateChange() == ItemEvent.SELECTED) {
 				Localidad auxL = new Localidad();
 				auxL=(Localidad) comboBox_Localidad.getSelectedItem();
 				textField_CP.setText(auxL.getCodigoPostal());
-				
+
 			}
 		});
-				
+
 		JComboBox comboBox_CondIVA = new JComboBox();
 		comboBox_CondIVA.setBounds(190, 523, 193, 20);
 		marco1.getContentPane().add(comboBox_CondIVA);
@@ -248,7 +248,7 @@ public class PantallaDarAltaCliente {
 		textField_Apellido.setColumns(10);
 		textField_Apellido.setBounds(623, 90, 196, 20);
 		marco1.getContentPane().add(textField_Apellido);
-		textField_Apellido.addKeyListener(new KeyAdapter() { //el NRO DOCUMENTO SOLO PUEDE TENER 9 CARACTERES 
+		textField_Apellido.addKeyListener(new KeyAdapter() { //el NRO DOCUMENTO SOLO PUEDE TENER 9 CARACTERES
 			@Override
 			public void keyTyped(KeyEvent e) {
 				int max =40;
@@ -262,7 +262,7 @@ public class PantallaDarAltaCliente {
 		textField_Nombre.setColumns(10);
 		textField_Nombre.setBounds(1003, 90, 196, 20);
 		marco1.getContentPane().add(textField_Nombre);
-		textField_Nombre.addKeyListener(new KeyAdapter() { //el NRO DOCUMENTO SOLO PUEDE TENER 9 CARACTERES 
+		textField_Nombre.addKeyListener(new KeyAdapter() { //el NRO DOCUMENTO SOLO PUEDE TENER 9 CARACTERES
 			@Override
 			public void keyTyped(KeyEvent e) {
 				int max =40;
@@ -276,7 +276,7 @@ public class PantallaDarAltaCliente {
 		textField_Documento.setColumns(10);
 		textField_Documento.setBounds(623, 147, 196, 20);
 		marco1.getContentPane().add(textField_Documento);
-		textField_Documento.addKeyListener(new KeyAdapter() { //el NRO DOCUMENTO SOLO PUEDE TENER 9 CARACTERES 
+		textField_Documento.addKeyListener(new KeyAdapter() { //el NRO DOCUMENTO SOLO PUEDE TENER 9 CARACTERES
 			@Override
 			public void keyTyped(KeyEvent e) {
 				int max = 9;
@@ -285,13 +285,13 @@ public class PantallaDarAltaCliente {
 				}
 			}
 		});
-		
+
 		textField_Calle = new JTextField();
 		textField_Calle.setColumns(10);
 		textField_Calle.setBounds(136, 317, 193, 20);
 		marco1.getContentPane().add(textField_Calle);
-		
-		textField_Calle.addKeyListener(new KeyAdapter() { //el NRO DOCUMENTO SOLO PUEDE TENER 9 CARACTERES 
+
+		textField_Calle.addKeyListener(new KeyAdapter() { //el NRO DOCUMENTO SOLO PUEDE TENER 9 CARACTERES
 			@Override
 			public void keyTyped(KeyEvent e) {
 				int max =40;
@@ -315,9 +315,9 @@ public class PantallaDarAltaCliente {
 				}
 			}
 		});
-		
 
-		textField_Piso = new JTextField();  //pueden ser sólo numeros 
+
+		textField_Piso = new JTextField();  //pueden ser sólo numeros
 		textField_Piso.setColumns(10);
 		textField_Piso.setBounds(744, 317, 180, 20);
 		marco1.getContentPane().add(textField_Piso);
@@ -331,13 +331,13 @@ public class PantallaDarAltaCliente {
 				}
 			}
 		});
-		
+
 
 		textField_Dpto = new JTextField();
 		textField_Dpto.setColumns(10);
 		textField_Dpto.setBounds(1003, 317, 180, 20);
 		marco1.getContentPane().add(textField_Dpto);
-		textField_Dpto.addKeyListener(new KeyAdapter() { 
+		textField_Dpto.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				int max = 3;
@@ -346,9 +346,9 @@ public class PantallaDarAltaCliente {
 				}
 			}
 		});
-		
 
-		textField_CP = new JTextField();  //se setea sólo no hay que validarlo 
+
+		textField_CP = new JTextField();  //se setea sólo no hay que validarlo
 		textField_CP.setEditable(false);
 		textField_CP.setEnabled(false);
 		textField_CP.setColumns(10);
@@ -359,7 +359,7 @@ public class PantallaDarAltaCliente {
 		textField_email.setColumns(10);
 		textField_email.setBounds(623, 523, 196, 20);
 		marco1.getContentPane().add(textField_email);
-		textField_email.addKeyListener(new KeyAdapter() { 
+		textField_email.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				int max =40;
@@ -369,7 +369,7 @@ public class PantallaDarAltaCliente {
 			}
 		});
 
-		textField_anioRegistro = new JTextField(); //se setea solo no hay que validarlo --- por defecto el año actual 
+		textField_anioRegistro = new JTextField(); //se setea solo no hay que validarlo --- por defecto el año actual
 		textField_anioRegistro.setEnabled(false);
 		textField_anioRegistro.setEditable(false);
 		textField_anioRegistro.setColumns(10);
@@ -378,14 +378,14 @@ public class PantallaDarAltaCliente {
 		String anioActual = Integer.toString(year);
 		textField_anioRegistro.setText(anioActual);
 		marco1.getContentPane().add(textField_anioRegistro);
-		
+
 
 		textField_Profesion = new JTextField();
 		textField_Profesion.setColumns(10);
 		textField_Profesion.setBounds(623, 589, 196, 20);
 		marco1.getContentPane().add(textField_Profesion);
-		
-		textField_Profesion.addKeyListener(new KeyAdapter() { 
+
+		textField_Profesion.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
 				int max =40;
@@ -395,91 +395,91 @@ public class PantallaDarAltaCliente {
 			}
 		});
 		// --------------------------------------------------------------------
-		
-		
+
+
 		// ------------ CAMPO DE TEXTO CON FORMATO ----------------------------
 
-				MaskFormatter mascaraCUIL = null;
-				try {
-					mascaraCUIL = new MaskFormatter("##-########-#");
-				} catch (ParseException e) {
-					e.printStackTrace();
+		MaskFormatter mascaraCUIL = null;
+		try {
+			mascaraCUIL = new MaskFormatter("##-########-#");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		mascaraCUIL.setPlaceholderCharacter('_');
+
+		JFormattedTextField formattedTextField_NCUIL = new JFormattedTextField(mascaraCUIL);
+		formattedTextField_NCUIL.setBounds(1003, 147, 196, 20);
+		marco1.getContentPane().add(formattedTextField_NCUIL);
+
+		formattedTextField_NCUIL.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				int max = 13;
+				if(e.getKeyChar()!='1' && e.getKeyChar()!='2' && e.getKeyChar()!='3' && e.getKeyChar()!='4' && e.getKeyChar()!='5' && e.getKeyChar()!='6' && e.getKeyChar()!='7' && e.getKeyChar()!='8' && e.getKeyChar()!='9' && e.getKeyChar()!='0') e.consume();
+				else if(textField_anioRegistro.getText().length() > max) {
+					e.consume();
 				}
+			}
+		});
 
-				mascaraCUIL.setPlaceholderCharacter('_');
 
-				JFormattedTextField formattedTextField_NCUIL = new JFormattedTextField(mascaraCUIL);
-				formattedTextField_NCUIL.setBounds(1003, 147, 196, 20);
-				marco1.getContentPane().add(formattedTextField_NCUIL);
-				
-				formattedTextField_NCUIL.addKeyListener(new KeyAdapter() {
-					@Override
-					public void keyTyped(KeyEvent e) {
-						int max = 13;
-						if(e.getKeyChar()!='1' && e.getKeyChar()!='2' && e.getKeyChar()!='3' && e.getKeyChar()!='4' && e.getKeyChar()!='5' && e.getKeyChar()!='6' && e.getKeyChar()!='7' && e.getKeyChar()!='8' && e.getKeyChar()!='9' && e.getKeyChar()!='0') e.consume();
-						else if(textField_anioRegistro.getText().length() > max) {
-							e.consume();
-						}
-					}
-				});
-						
-				
-				
 
-				MaskFormatter mascaraNCLIENTE = null;
-				try {
-					mascaraNCLIENTE = new MaskFormatter("##-########");
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
 
-				mascaraNCLIENTE.setPlaceholderCharacter('_');
+		MaskFormatter mascaraNCLIENTE = null;
+		try {
+			mascaraNCLIENTE = new MaskFormatter("##-########");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 
-				JFormattedTextField formattedTextField_NCliente = new JFormattedTextField(mascaraNCLIENTE);
-				formattedTextField_NCliente.setEditable(false);
-				formattedTextField_NCliente.setEnabled(false);
-				formattedTextField_NCliente.setBounds(204, 90, 193, 20);
-				marco1.getContentPane().add(formattedTextField_NCliente);
-				marco1.setLocationRelativeTo(null);
-				marco1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-				
+		mascaraNCLIENTE.setPlaceholderCharacter('_');
 
-				MaskFormatter mascara = null;
-				try {
-					mascara = new MaskFormatter("##-##-####");
-				} catch (ParseException e) {
-					e.printStackTrace();
-				}
+		JFormattedTextField formattedTextField_NCliente = new JFormattedTextField(mascaraNCLIENTE);
+		formattedTextField_NCliente.setEditable(false);
+		formattedTextField_NCliente.setEnabled(false);
+		formattedTextField_NCliente.setBounds(204, 90, 193, 20);
+		marco1.getContentPane().add(formattedTextField_NCliente);
+		marco1.setLocationRelativeTo(null);
+		marco1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
-				mascara.setPlaceholderCharacter('_');
-				final JFormattedTextField fechaNFormattedTextField = new JFormattedTextField(mascara);
-				fechaNFormattedTextField.setBounds(623, 202, 196, 20);
-				marco1.getContentPane().add(fechaNFormattedTextField);
 
-				
+		MaskFormatter mascara = null;
+		try {
+			mascara = new MaskFormatter("##-##-####");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		mascara.setPlaceholderCharacter('_');
+		final JFormattedTextField fechaNFormattedTextField = new JFormattedTextField(mascara);
+		fechaNFormattedTextField.setBounds(623, 202, 196, 20);
+		marco1.getContentPane().add(fechaNFormattedTextField);
+
+
 		// ----------- BOTONES -------------------------
 		JButton btnAceptar = new JButton("ACEPTAR");
 		btnAceptar.setFont(new Font("Serif", Font.BOLD, 12));
 		btnAceptar.setBounds(1021, 657, 143, 33);
 		marco1.getContentPane().add(btnAceptar);
 		btnAceptar.addActionListener(arg0 -> {//cuando presiona aceptar tengo que hacer las validaciones.
-			
+
 			String errores = "";
-			boolean error = false; 
-			
+			boolean error = false;
+
 			//las validaciones estan hechas con excepciones porque si el campo no se completó sale una NullPointerException
 			//VALIDO APELLIDO
-			try { 
+			try {
 				String apellido = textField_Apellido.getText();
 				if (apellido.matches("[0-9]+")== true ) {
 					errores += "El campo 'Apellido' no puede contenter números \n";
 				}
-			
+
 			}
 			catch (Exception eApellido) {
 				errores += "El campo 'Apellido' es obligatorio  \n";
 			}
-			
+
 			//VALIDO NOMBRE
 			try {
 				String nombre = textField_Nombre.getText();
@@ -490,10 +490,10 @@ public class PantallaDarAltaCliente {
 			catch (Exception eNombre) {
 				errores += "El campo 'Nombre' es obligatorio \n";
 			}
-			//VALIDO TIPO DOCUMENTO 
+			//VALIDO TIPO DOCUMENTO
 			try {
 				String nombre = tipoDoc.getSelectedItem().toString();
-				
+
 			}
 			catch (Exception eNombre) {
 				errores += "El campo 'Tipo Documento' es obligatorio \n";
@@ -510,9 +510,9 @@ public class PantallaDarAltaCliente {
 			catch (Exception eDocumento) {
 				errores += "El campo 'Nro. Documento' es obligatorio \n";
 			}
-			
+
 			//VALIDO CUIL
-			try { 
+			try {
 				String nCUIL = formattedTextField_NCUIL.getText(); //ya valido que no se puedan ingresar letras arriba
 			}
 			catch (Exception eApellido) {
@@ -520,14 +520,14 @@ public class PantallaDarAltaCliente {
 			}
 
 			//VALIDO SEXO
-			try { 
-				String aux_sexo = sexo.getSelectedItem().toString();			
-			
+			try {
+				String aux_sexo = sexo.getSelectedItem().toString();
+
 			}
 			catch (Exception eApellido) {
 				errores += "El campo 'Sexo' es obligatorio  \n";
 			}
-			
+
 			//VALIDO FECH NAC
 			boolean campoCompleto=true;
 			boolean edad=true;
@@ -547,9 +547,9 @@ public class PantallaDarAltaCliente {
 					LocalDate fechaNac = LocalDate.parse(fecha, fmt);
 					LocalDate ahora = LocalDate.now();
 					Period periodo = Period.between(fechaNac, ahora);
-				 
+
 					//VERIFICO QUE LA EDAD ESTE ENTRE 18 y no sea mayor a la actual
-					if ((periodo.getYears() < 18) || ((fechaNac.compareTo(ahora))>0)) {
+					if (periodo.getYears() < 18 || fechaNac.compareTo(ahora)>0) {
 						edad = false;
 						errores += "La Fecha de Nacimiento ingresada es inválida \n";
 					}
@@ -560,63 +560,63 @@ public class PantallaDarAltaCliente {
 				}
 			}
 			//VALIDO CALLE
-			try { 
-				String calle = textField_Calle.getText();			
+			try {
+				String calle = textField_Calle.getText();
 			}
 			catch (Exception eApellido) {
 				errores += "El campo 'Calle' es obligatorio  \n";
 			}
 			//VALIDO NUMERO
-			try { 
-				String Ncalle = textField_NroCalle.getText();			
+			try {
+				String Ncalle = textField_NroCalle.getText();
 			}
 			catch (Exception eApellido) {
 				errores += "El campo 'Nro. Calle' es obligatorio  \n";
 			}
-			//VALIDO PROVINCIA 
-			try { 
-				String aux_prov = comboBox_Provincia.getSelectedItem().toString();			
+			//VALIDO PROVINCIA
+			try {
+				String aux_prov = comboBox_Provincia.getSelectedItem().toString();
 			}
 			catch (Exception eApellido) {
 				errores += "El campo 'Provincia' es obligatorio  \n";
 			}
 			//VALIDO LOCALIDAD
-			try { 
-				String aux_loc = comboBox_Localidad.getSelectedItem().toString();			
+			try {
+				String aux_loc = comboBox_Localidad.getSelectedItem().toString();
 			}
 			catch (Exception eApellido) {
 				errores += "El campo 'Localidad' es obligatorio  \n";
 			}
 			//VALIDO COND IVA
-			try { 
-				String condIVA = comboBox_CondIVA.getSelectedItem().toString();			
+			try {
+				String condIVA = comboBox_CondIVA.getSelectedItem().toString();
 			}
 			catch (Exception eApellido) {
 				errores += "El campo 'Cond IVA' es obligatorio  \n";
 			}
-			
+
 			//VALIDO CORREO ELECTRONICO
-			try { 
-				String correo = textField_email.getText();		
+			try {
+				String correo = textField_email.getText();
 			}
 			catch (Exception eApellido) {
 				errores += "El campo 'Correo electrónico' es obligatorio  \n";
 			}
 			//VALIDO ESTADO CIVIL
-			try { 
-				String estadoC = comboBox_EstadoCivil.getSelectedItem().toString();			
+			try {
+				String estadoC = comboBox_EstadoCivil.getSelectedItem().toString();
 			}
 			catch (Exception eApellido) {
 				errores += "El campo 'Estado Civil' es obligatorio  \n";
 			}
 			//VALIDO PROFESION
-			try { 
-				String profesion = textField_Profesion.getText();		
+			try {
+				String profesion = textField_Profesion.getText();
 			}
 			catch (Exception eApellido) {
 				errores += "El campo 'Profesión' es obligatorio  \n";
 			}
-			
+
 
 			if (errores != null) { //muestro los mensajes de error
 				error = true;
@@ -624,8 +624,8 @@ public class PantallaDarAltaCliente {
 			}
 
 			if (error == false ) {
-				
-				
+
+
 				ClienteDTO clienteDTO = new ClienteDTO();
 				clienteDTO.setApellido(textField_Apellido.getText());
 				clienteDTO.setNombre(textField_Nombre.getText());
@@ -638,15 +638,15 @@ public class PantallaDarAltaCliente {
 				clienteDTO.setCuil(formattedTextField_NCUIL.getText());
 				clienteDTO.setCondicionIVA(comboBox_CondIVA.getSelectedItem().toString());
 				clienteDTO.setEstadoCivil(comboBox_EstadoCivil.getSelectedItem().toString());
-				
+
 				ProvinciaDTO prov_auxDTO = new ProvinciaDTO();
 				Provincia prov_aux = new Provincia(); // lo creo porque ya lo tengo cargado con el DAOProvincia y lo recupero
 				prov_aux=(Provincia) comboBox_Provincia.getSelectedItem();
 				prov_auxDTO.setId_provincia(prov_aux.getId_provincia());
 				prov_auxDTO.setNombre(prov_aux.getNombre());
 				prov_auxDTO.setId_provincia(prov_aux.getId_provincia());
-				
-				LocalidadDTO loc_auxDTO = new LocalidadDTO(); 
+
+				LocalidadDTO loc_auxDTO = new LocalidadDTO();
 				Localidad loc_aux = new Localidad(); // lo creo porque ya lo tengo cargado con el DAOLocalidad y lo recupero
 				loc_aux = (Localidad) comboBox_Localidad.getSelectedItem();
 				loc_auxDTO.setId_localidad(loc_aux.getId_localidad());
@@ -663,13 +663,13 @@ public class PantallaDarAltaCliente {
 				if (!textField_Piso.getText().isEmpty()) dire_auxDTO.setPiso(textField_Piso.getText());
 				else dire_auxDTO.setPiso(null);
 				dire_auxDTO.setLocalidad(loc_auxDTO);
-				
+
 				clienteDTO.setDireccion(dire_auxDTO);
-				
+
 				GestorPantallas.PantallaDarAltaCliente2(clienteDTO);
-				
+
 			}
-			
+
 
 		});
 
@@ -683,7 +683,7 @@ public class PantallaDarAltaCliente {
 		btnCancelar.setBounds(1174, 657, 143, 33);
 		marco1.getContentPane().add(btnCancelar);
 
-		
+
 
 	}
 

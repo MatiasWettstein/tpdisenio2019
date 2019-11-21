@@ -40,22 +40,40 @@ public class DAOCliente {
 				Consulta += " where";
 
 				if(!NroCliente.isEmpty()) {
-					String auxc = "'"+ NroCliente + "'";
-					Consulta += " nro_cliente = " + auxc ;
+					String auxnc = "'"+ NroCliente + "'";
+					Consulta += " nro_cliente = " + auxnc ;
 				}
-				if(!Apellido.isEmpty()) {
-					Consulta += " apellido = " + Apellido ;
+
+				if(!Apellido.isEmpty() && Consulta.equalsIgnoreCase("select * from cliente where")) {
+					String auxap = "'"+ Apellido + "'";
+					Consulta += " apellido = " + auxap ;
+				}else if(!Apellido.isEmpty() && !Consulta.equalsIgnoreCase("select * from cliente where")){
+					String auxap = "'"+ Apellido + "'";
+					Consulta += " and apellido = " + auxap ;
 				}
-				if(!Nombre.isEmpty()) {
-					Consulta += " nombre = " + Nombre ;
+				if(!Nombre.isEmpty() && Consulta.equalsIgnoreCase("select * from cliente where")) {
+					String auxnom = "'"+ Nombre + "'";
+					Consulta += " nombre = " + auxnom ;
+				}else if(!Nombre.isEmpty() && !Consulta.equalsIgnoreCase("select * from cliente where")) {
+					String auxnom = "'"+ Nombre + "'";
+					Consulta += " and nombre = " + auxnom ;
 				}
-				if(TipoDoc != "SELECCIONE_TIPO_DOC") {
-					Consulta += " tipo_doc = " + TipoDoc ;
+				if(TipoDoc != "SELECCIONE_TIPO_DOC" && Consulta.equalsIgnoreCase("select * from cliente where")) {
+					String auxtd = "'"+ TipoDoc + "'";
+					Consulta += " tipo_doc = " + auxtd ;
+				}else if(TipoDoc != "SELECCIONE_TIPO_DOC" && !Consulta.equalsIgnoreCase("select * from cliente where")) {
+					String auxtd = "'"+ TipoDoc + "'";
+					Consulta += " and tipo_doc = " + auxtd ;
 				}
-				if(!NroDoc.isEmpty()) {
-					Consulta += " nrodoc = " + NroDoc ;
+				if(!NroDoc.isEmpty() && Consulta.equalsIgnoreCase("select * from cliente where")) {
+					String auxnd = "'"+ NroDoc + "'";
+					Consulta += " nrodoc = " + auxnd ;
+				}else if(!NroDoc.isEmpty() && !Consulta.equalsIgnoreCase("select * from cliente where")) {
+					String auxnd = "'"+ NroDoc + "'";
+					Consulta += " and nrodoc = " + auxnd ;
 				}
 			}
+			System.out.println(Consulta);
 			PreparedStatement st = con.prepareStatement(Consulta);
 			rs = st.executeQuery();
 
