@@ -90,8 +90,8 @@ public class PantallaDarAltaPoliza {
 			return false;
 		}
 	};
+	static JTextField SiniestroText = new JTextField();
 
-	private static JTextField anioText;
 	private static JTextField motorTexto;
 	private static JTextField chasisText;
 	private static JTextField patenteText;
@@ -108,7 +108,7 @@ public class PantallaDarAltaPoliza {
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public static void start() {
+	public static void start(ClienteDTO c1, PolizaDTO p1, VehiculoDTO v1,ArrayList<HijoDTO> listahijos1, DomicilioRiesgoDTO dom1) {
 		// --------------- MARCO --------------
 		final Marco marco1 = new Marco(1333,730,"DAR DE ALTA POLIZA");
 		marco1.getContentPane().setLayout(null);
@@ -121,8 +121,19 @@ public class PantallaDarAltaPoliza {
 		scrollPaneCliente.setBounds(25, 62, 1267, 43);
 		marco1.getContentPane().add(scrollPaneCliente);
 
-		tablaCliente.setModel(model);
-		scrollPaneCliente.setViewportView(tablaCliente);
+		if(c1==null) {
+			tablaCliente.setModel(model);
+			scrollPaneCliente.setViewportView(tablaCliente);
+		}else {
+
+			model.setValueAt(c1.getNroCliente(), 0, 0);
+			model.setValueAt(c1.getApellido(), 0, 1);
+			model.setValueAt(c1.getNombre(), 0, 2);
+			model.setValueAt(c1.getTipoDoc(), 0, 3);
+			model.setValueAt(c1.getDocumento(), 0, 4);
+			tablaCliente.setModel(model);
+			scrollPaneCliente.setViewportView(tablaCliente);
+		}
 
 		// ------- ETIQUETAS -----------
 		JLabel domicilio = new JLabel("Domicilio de riesgo");
@@ -336,29 +347,10 @@ public class PantallaDarAltaPoliza {
 
 		// ----------- CAMPOS DE TEXTO ------------
 
-		JTextField SiniestroText = new JTextField();
 		SiniestroText.setEnabled(false);
 		SiniestroText.setBounds(345, 406, 196, 20);
 		marco1.getContentPane().add(SiniestroText);
 
-		anioText = new JTextField();
-		anioText.setBounds(714, 240, 196, 20);
-		anioText.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyTyped(KeyEvent e) {
-				int max = 3;
-				if(e.getKeyChar()!='1' && e.getKeyChar()!='2' && e.getKeyChar()!='3' && e.getKeyChar()!='4' && e.getKeyChar()!='5' && e.getKeyChar()!='6' && e.getKeyChar()!='7' && e.getKeyChar()!='8' && e.getKeyChar()!='9' && e.getKeyChar()!='0') e.consume();
-				else if(anioText.getText().length() > max+1) {
-					e.consume();
-					String shortened = anioText.getText().substring(0, max);
-					anioText.setText(shortened);
-				}else if(anioText.getText().length() > max) {
-					e.consume();
-				}
-			}
-		});
-		marco1.getContentPane().add(anioText);
-		anioText.setColumns(10);
 		motorTexto = new JTextField();
 		motorTexto.setBounds(111, 287, 196, 20);
 		marco1.getContentPane().add(motorTexto);
@@ -508,7 +500,6 @@ public class PantallaDarAltaPoliza {
 		JButton buscarC = new JButton("BUSCAR CLIENTE");
 		ActionListener buscarCliente = e -> {
 
-			SiniestroText.setText(SubsistemaSiniestros.cantidadSiniestros());
 			GestorPantallas.buscarcliente();
 		};
 
@@ -562,7 +553,7 @@ public class PantallaDarAltaPoliza {
 			//HAGO LAS VALIDACIONES CUANDO SE APRIETA EL BOTON ACEPTAR
 
 			LocalDate fechaActual = LocalDate.now();
-			String error = "";
+			String error = null;
 			boolean anio1 = true;
 			boolean errores = false;
 			boolean flag_motor = true;
@@ -601,7 +592,7 @@ public class PantallaDarAltaPoliza {
 			}
 			//valido el año
 			try {
-				if (Integer.parseInt(anioText.getText()) > fechaActual.getYear()) { // el año es mayor al año actual
+				if (Integer.parseInt(anioCombo.getSelectedItem().toString()) > fechaActual.getYear()) { // el año es mayor al año actual
 					anio1 = false;
 					error += "El año ingresado no es valido \n";
 				}
@@ -652,20 +643,26 @@ public class PantallaDarAltaPoliza {
 				vehiculodto.setMotor(motorTexto.getText());
 				vehiculodto.setPatente(patenteText.getText());
 				vehiculodto.setPorcentaje(aux1.getPorcentaje());
-				vehiculodto.setSumaasegurada(Float.parseFloat(sumaFormattedTextField.getText()));
+				String sumalocal= sumaFormattedTextField.getText();
+				int tamsuma = sumaFormattedTextField.getText().length();
+				String sumasinpuntos = null;
+				for(int i=0; i<tamsuma; i++) {
+					if(sumalocal.charAt(i) != '.') {
+						sumasinpuntos += sumalocal.charAt(i);
+					}
+				}
+				int valormil = Integer.parseInt(sumasinpuntos);
+				float valordivmil= valormil/1000;
 
+				vehiculodto.setSumaasegurada(valordivmil);
 
 				PolizaDTO pDTO = new PolizaDTO();
-
 				pDTO.setKmPorAnio((Integer) kmSpinner.getValue());
 
-				//pDTO.setCliente(cliente);
-				//pDTO.setKmPorAnio("0");
 
 				if (grupoAlarma.getSelection().getActionCommand() == "SI") { //ALARMA
 					pDTO.setAlarma(true);
 				} else pDTO.setAlarma(false);
-
 				if (grupoGarage.getSelection().getActionCommand() == "SI") { //GARAGE
 					pDTO.setGarage(true);
 				} else pDTO.setGarage(false);
@@ -687,9 +684,6 @@ public class PantallaDarAltaPoliza {
 				domriesgodto.setPorcentajeDomicilio(auxq.getPorcentaje());
 
 				GestorPantallas.Pantalla2Alta(c, vehiculodto, listaHijos,  pDTO, domriesgodto);
-
-
-
 				marco1.dispose();
 			}
 
@@ -858,7 +852,7 @@ public class PantallaDarAltaPoliza {
 
 				}
 
-
+				SiniestroText.setText(SubsistemaSiniestros.cantidadSiniestros());
 				marco1.dispose();
 
 			} else marco1.dispose();

@@ -11,7 +11,7 @@ import tp.disenio.gestores.GestorDB;
 
 public class DAOAnio {
 
-	public static Object obtenerSumaAsegurada(Modelo modelo){
+	public static Float obtenerSumaAsegurada(Modelo modelo){
 
 		float sumaAsegurada=0;
 		ResultSet rs = null;
@@ -65,8 +65,6 @@ public class DAOAnio {
 		sumaAsegurada = sumaAsegurada*1000;
 
 		return sumaAsegurada;
-
-
 	}
 
 

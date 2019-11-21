@@ -46,7 +46,7 @@ public class PantallaPrincipal {
 		//
 		JButton altaP = new JButton("ALTA POLIZA");
 		ActionListener altaPoliza = e -> {
-			GestorPantallas.PantallaDarAltaPoliza();
+			GestorPantallas.PantallaDarAltaPoliza(null, null, null,null, null);
 			marco1.dispose();
 		};
 		altaP.addActionListener(altaPoliza);

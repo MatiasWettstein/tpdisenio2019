@@ -7,6 +7,8 @@ import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -73,7 +75,7 @@ public class PantallaDarAltaPoliza2 {
 		// --------------------- FORMATTED TEXT FIELD ----------------------
 		MaskFormatter mascara = null;
 		try {
-			mascara = new MaskFormatter("##/##/####");
+			mascara = new MaskFormatter("##-##-####");
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -85,7 +87,7 @@ public class PantallaDarAltaPoliza2 {
 		marco1.getContentPane().add(fechaFormattedTextField);
 		//POR DEFAULT TIENE QUE SER EL DIA SIGUIENTE
 
-		/* Date fechaActual = new Date();   NO FUNCIONAAAAAAAAAAAAA
+		Date fechaActual = new Date();
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(fechaActual);
 		cal.add(Calendar.YEAR, 1);
@@ -98,7 +100,7 @@ public class PantallaDarAltaPoliza2 {
 
 		String value = dia_default + "/" + mes_default + "/" + anio_default;
 		fechaFormattedTextField.setValue(value);
-		 */
+
 		// -----------------------------------------------------------------
 
 		// -------------------- BOTONTES -----------------------------------
@@ -164,7 +166,12 @@ public class PantallaDarAltaPoliza2 {
 		btnCancelar.setBounds(536, 493, 143, 33);
 		marco1.getContentPane().add(btnCancelar);
 
-		ActionListener cancelar = e -> GestorPantallas.PantallaPrincipal();
+		ActionListener cancelar = e -> {
+
+			GestorPantallas.PantallaDarAltaPoliza(c,  p, v, listahijos, dom);
+
+			//GestorPantallas.PantallaPrincipal();
+		};
 
 		btnCancelar.addActionListener(cancelar);
 		// -----------------------------------------------------------------

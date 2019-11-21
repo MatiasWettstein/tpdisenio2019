@@ -32,8 +32,8 @@ public class GestorPantallas {
 		PantallaPrincipal.start();
 	}
 
-	public static void PantallaDarAltaPoliza() {
-		PantallaDarAltaPoliza.start();
+	public static void PantallaDarAltaPoliza(ClienteDTO c, PolizaDTO p, VehiculoDTO v,ArrayList<HijoDTO> listahijos, DomicilioRiesgoDTO dom) {
+		PantallaDarAltaPoliza.start(c,  p,  v, listahijos, dom);
 
 	}
 
