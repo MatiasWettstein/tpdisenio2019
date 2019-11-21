@@ -2,8 +2,6 @@ package tp.disenio.gestores;
 
 import java.util.ArrayList;
 
-import javax.swing.JOptionPane;
-
 import tp.disenio.DAO.DAOCliente;
 import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.DTO.DireccionDTO;
@@ -108,7 +106,7 @@ public class GestorCliente {
 	}
 
 	// metodo guardar cliente le paso un DTO crea una instancia de cliente y llama al dao para que guarde en la BD
-	public static void guardarCliente(ClienteDTO c) {
+	public static Boolean guardarCliente(ClienteDTO c) {
 
 		boolean flag = false;
 
@@ -157,9 +155,7 @@ public class GestorCliente {
 
 		flag = DAOCliente.guardarCliente(clienteFinal);
 
-		if (flag) {
-			JOptionPane.showMessageDialog(null, "Cliente generado con éxito");
-		}
+		return flag;
 
 
 		//ACORDARSE DE MOSTRAR UN OPTION PANE CON EL MSJ "CLIENTE GENERADO CON EXITO" --> el DAO Tiene uqe devolver un bool para saber si se pudo guardar bien
@@ -167,6 +163,10 @@ public class GestorCliente {
 
 
 	public static int cantidadPoliza() {
+
+
+
+
 
 		return 0;
 	}
