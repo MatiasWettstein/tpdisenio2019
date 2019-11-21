@@ -281,6 +281,44 @@ public class DAOCliente {
 		return retorno; 
 	}
 
+	public static String  clienteExistente(String tipoD, String doc ) {
+		String nroCliente = ""; 
+		//devuelve nroCliente si encuentra un cliente con esos datos sino null 
+		ResultSet rs = null;
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = null;
+		 
+		try {
+			con = gdb.crearConexion();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
 
+			String consulta = "select nro_cliente from cliente where nrodoc = " + doc + " tipo_doc = " + tipoD;
+			PreparedStatement st = con.prepareStatement(consulta);
+			rs = st.executeQuery();
+			while(rs.next()) {
+				nroCliente = rs.getString("nroCliente");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		return nroCliente;
+	}
 
 }

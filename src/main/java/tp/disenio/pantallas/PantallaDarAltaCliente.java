@@ -33,6 +33,7 @@ import tp.disenio.enumerators.CondicionIVA;
 import tp.disenio.enumerators.EstadoCivil;
 import tp.disenio.enumerators.Sexo;
 import tp.disenio.enumerators.TipoDocumento;
+import tp.disenio.gestores.GestorCliente;
 import tp.disenio.gestores.GestorPantallas;
 
 
@@ -500,12 +501,23 @@ public class PantallaDarAltaCliente {
 			}
 			//VALIDO NRO DOCUMENTO
 			try {
-				String dni = textField_Documento.getText();
-				if (tipoDoc.getSelectedItem().toString() == "DNI") {
-					if (dni.matches("[a-zA-Z]+")== true) {//  acá habría que mostrar un mensaje de error diciendo que el DNI no puede tener letras
+				String doc = textField_Documento.getText();
+				String tipoD =tipoDoc.getSelectedItem().toString();
+				if (tipoD == "DNI") { //VALIDO QUE SI ES TIPO DNI NO TENGA LETRAS 
+					if (doc.matches("[a-zA-Z]+")== true) {//  acá habría que mostrar un mensaje de error diciendo que el DNI no puede tener letras
 						errores += "El campo DNI no puede contener letras \n";
 					}
 				}
+				
+				//VALIDO QUE NO EXISTA UN CLIENTE REGISTRADO CON EL MISMO DOCUMENTO 
+				GestorCliente gc = GestorCliente.getInstance();
+				boolean flag = GestorCliente.clienteExistente(tipoD, doc);
+				//devuelve true si encuentra un cliente con esos datos
+				if (flag) {
+					errores += "Ya existe un cliente registrado con ese numero de documento";
+				}
+				
+				
 			}
 			catch (Exception eDocumento) {
 				errores += "El campo 'Nro. Documento' es obligatorio \n";
@@ -514,7 +526,8 @@ public class PantallaDarAltaCliente {
 			//VALIDO CUIL
 			try {
 				String nCUIL = formattedTextField_NCUIL.getText(); //ya valido que no se puedan ingresar letras arriba
-				String aux_1 = nCUIL.substring(4, 12);
+				
+				String aux_1 = nCUIL.substring(3, 11);
 				if(tipoDoc.getSelectedItem().toString() == "DNI") {
 				if (!(aux_1.equals(textField_Documento.getText()))) {
 					errores += "El campo 'CUIL' no coincide con el nro de documento";

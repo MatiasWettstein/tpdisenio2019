@@ -156,22 +156,28 @@ public class GestorCliente {
 		flag = DAOCliente.guardarCliente(clienteFinal);
 
 		return flag;
-
-
 		//ACORDARSE DE MOSTRAR UN OPTION PANE CON EL MSJ "CLIENTE GENERADO CON EXITO" --> el DAO Tiene uqe devolver un bool para saber si se pudo guardar bien
 	}
 
 
 	public static int cantidadPoliza() {
 
-
-
+	
 
 
 		return 0;
 	}
+	
+	public static boolean clienteExistente(String tipoD, String doc) {
+		boolean retorno = false; 
+		//devuelve true si encuentra un cliente con esos datos 
+		
+		if (!(DAOCliente.clienteExistente(tipoD, doc).isEmpty())) {
+			retorno = true;
+		}
+		return retorno;
+	}
 
-	//ACORDARSE DE MOSTRAR UN OPTION PANE CON EL MSJ "CLIENTE GENERADO CON EXITO" --> el DAO Tiene uqe devolver un bool para saber si se pudo guardar bie
 
 
 
