@@ -46,12 +46,12 @@ public class GestorPantallas {
 
 	}
 
-	public static void pantalla3AltaMensual() {
-		PantallaDarAltaPoliza3Mensual.start();
+	public static void pantalla3AltaMensual(ClienteDTO c, PolizaDTO p, VehiculoDTO v,ArrayList<HijoDTO> listahijos, DomicilioRiesgoDTO dom) {
+		PantallaDarAltaPoliza3Mensual.start( c, p, v, listahijos, dom);
 	}
 
-	public static void pantalla3AltaSemestral() {
-		PantallaDarAltaPoliza3Semestral.start();
+	public static void pantalla3AltaSemestral(ClienteDTO c, PolizaDTO p, VehiculoDTO v,ArrayList<HijoDTO> listahijos, DomicilioRiesgoDTO dom) {
+		PantallaDarAltaPoliza3Semestral.start( c,  p, v, listahijos, dom);
 	}
 
 

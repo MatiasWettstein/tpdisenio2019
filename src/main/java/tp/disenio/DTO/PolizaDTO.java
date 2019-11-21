@@ -8,12 +8,27 @@ public class PolizaDTO {
 	private String estado_poliza;//
 	private String forma_pago;//
 	private int kmPorAnio;//
+	private float sumaasegurada;
+	private String TipoCobertura;
 	private Boolean tuercas;
 	private Boolean Garage;
 	private Boolean Alarma;
 	private Boolean DispRastreo;
 
 
+
+	public float getSumaasegurada() {
+		return sumaasegurada;
+	}
+	public void setSumaasegurada(float sumaasegurada) {
+		this.sumaasegurada = sumaasegurada;
+	}
+	public String getTipoCobertura() {
+		return TipoCobertura;
+	}
+	public void setTipoCobertura(String tipoCobertura) {
+		TipoCobertura = tipoCobertura;
+	}
 	public Boolean getTuercas() {
 		return tuercas;
 	}

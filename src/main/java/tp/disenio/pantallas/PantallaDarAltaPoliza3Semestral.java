@@ -2,6 +2,7 @@ package tp.disenio.pantallas;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -11,27 +12,31 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import tp.disenio.pantallas.Marco;
+import tp.disenio.DTO.ClienteDTO;
+import tp.disenio.DTO.DomicilioRiesgoDTO;
+import tp.disenio.DTO.HijoDTO;
+import tp.disenio.DTO.PolizaDTO;
+import tp.disenio.DTO.VehiculoDTO;
 
 public class PantallaDarAltaPoliza3Semestral {
 
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public static void start() {
-		
+	public static void start(ClienteDTO c, PolizaDTO p, VehiculoDTO v,ArrayList<HijoDTO> listahijos, DomicilioRiesgoDTO dom) {
+
 		// --------------- MARCO -------------------------------------------
 		final Marco marco1 = new Marco(1333,730,"DAR DE ALTA POLIZA");
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(new Color (192, 192, 192));
 		// -----------------------------------------------------------------
-		
+
 		// ---------------- ETIQUETAS --------------------------------------
 		JLabel lblTitularDelSeguro = new JLabel("Titular del seguro");
 		lblTitularDelSeguro.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblTitularDelSeguro.setBounds(24, 37, 147, 33);
 		marco1.getContentPane().add(lblTitularDelSeguro);
-		
+
 		JLabel lblDatosDelVehiculo = new JLabel("Datos del vehiculo");
 		lblDatosDelVehiculo.setFont(new Font("Serif", Font.BOLD, 20));
 		lblDatosDelVehiculo.setBounds(24, 88, 175, 33);
@@ -61,7 +66,7 @@ public class PantallaDarAltaPoliza3Semestral {
 		lblSumaAsegurada.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblSumaAsegurada.setBounds(431, 284, 139, 22);
 		marco1.getContentPane().add(lblSumaAsegurada);
-		
+
 		JLabel lblPremio = new JLabel("Premio");
 		lblPremio.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblPremio.setBounds(827, 303, 139, 22);
@@ -83,14 +88,14 @@ public class PantallaDarAltaPoliza3Semestral {
 		marco1.getContentPane().add(lblMontoTotalA);
 
 		// -----------------------------------------------------------------
-		
+
 		// ---------------- CAMPOS DE TEXTO --------------------------------
 		JTextField textField = new JTextField();
 		textField.setEditable(false);
 		textField.setBounds(218, 46, 222, 20);
 		marco1.getContentPane().add(textField);
 		textField.setColumns(10);
-		
+
 		JTextField textField_fechInicio = new JTextField();
 		textField_fechInicio.setEditable(false);
 		textField_fechInicio.setBounds(160, 230, 196, 20);
@@ -120,7 +125,7 @@ public class PantallaDarAltaPoliza3Semestral {
 		textField_Premio.setColumns(10);
 		textField_Premio.setBounds(916, 305, 196, 20);
 		marco1.getContentPane().add(textField_Premio);
-		
+
 		JTextField textField_2 = new JTextField();
 		textField_2.setEditable(false);
 		textField_2.setColumns(10);
@@ -134,7 +139,7 @@ public class PantallaDarAltaPoliza3Semestral {
 		marco1.getContentPane().add(textField_1);
 
 		// -----------------------------------------------------------------
-		
+
 		// ---------------- SCROLL PANE-------------------------------------
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(24, 132, 1267, 43);
@@ -150,7 +155,7 @@ public class PantallaDarAltaPoliza3Semestral {
 				}
 				));
 		scrollPane.setViewportView(tableVehiculo);
-		
+
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBounds(24, 367, 898, 43);
 		marco1.getContentPane().add(scrollPane_1);
@@ -167,7 +172,7 @@ public class PantallaDarAltaPoliza3Semestral {
 		scrollPane_1.setViewportView(tableDescuentos);
 
 		// -----------------------------------------------------------------
-		
+
 		// --------------- BOTONES -----------------------------------------
 		JButton btnSeleccionarOtroTipo = new JButton("SELECCIONAR OTRO TIPO DE COBERTURA");
 		btnSeleccionarOtroTipo.setFont(new Font("Serif", Font.BOLD, 12));
@@ -186,7 +191,7 @@ public class PantallaDarAltaPoliza3Semestral {
 		marco1.setLocationRelativeTo(null);
 		marco1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// -----------------------------------------------------------------
-		
+
 	}
 
 }
