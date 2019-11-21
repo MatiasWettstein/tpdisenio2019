@@ -2,6 +2,8 @@ package tp.disenio.gestores;
 
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
+
 import tp.disenio.DAO.DAOCliente;
 import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.DTO.DireccionDTO;
@@ -50,7 +52,9 @@ public class GestorCliente {
 			dir.setDpto(c.getDireccion().getDpto());
 			dir.setLocalidad(loc);
 			dir.setNumero(c.getDireccion().getNumero());
-			dir.setPiso(c.getDireccion().getPiso());
+
+			String piso = Integer.toString(c.getDireccion().getPiso());
+			dir.setPiso(piso);
 
 
 			ClienteDTO dto = new ClienteDTO();
@@ -106,6 +110,8 @@ public class GestorCliente {
 	// metodo guardar cliente le paso un DTO crea una instancia de cliente y llama al dao para que guarde en la BD
 	public static void guardarCliente(ClienteDTO c) {
 
+		boolean flag = false;
+
 		Provincia provCliente = new Provincia();
 		provCliente.setNombre(c.getDireccion().getLocalidad().getProvincia().getNombre());
 		provCliente.setId_provincia(c.getDireccion().getLocalidad().getProvincia().getId_provincia());
@@ -121,8 +127,14 @@ public class GestorCliente {
 		Direccion direCliente = new Direccion();
 		direCliente.setCalle(c.getDireccion().getCalle());
 		direCliente.setNumero(c.getDireccion().getNumero());
-		direCliente.setPiso(c.getDireccion().getPiso());
+		if (c.getDireccion().getPiso() != null) {
+			int piso = Integer.parseInt(c.getDireccion().getPiso());
+			direCliente.setPiso(piso);
+		}
+		else direCliente.setPiso(0);
 		direCliente.setDpto(c.getDireccion().getDpto());
+
+
 		direCliente.setLocalidad(locCliente);
 
 		Cliente clienteFinal = new Cliente();
@@ -143,7 +155,11 @@ public class GestorCliente {
 		clienteFinal.setEstadoCivil(c.getEstadoCivil());
 		clienteFinal.setTipo(c.getTipoC());
 
+		flag = DAOCliente.guardarCliente(clienteFinal);
 
+		if (flag) {
+			JOptionPane.showMessageDialog(null, "Cliente generado con éxito");
+		}
 
 
 		//ACORDARSE DE MOSTRAR UN OPTION PANE CON EL MSJ "CLIENTE GENERADO CON EXITO" --> el DAO Tiene uqe devolver un bool para saber si se pudo guardar bien
@@ -152,15 +168,10 @@ public class GestorCliente {
 
 	public static int cantidadPoliza() {
 
-
-
-
-
-
-
-
 		return 0;
 	}
+
+	//ACORDARSE DE MOSTRAR UN OPTION PANE CON EL MSJ "CLIENTE GENERADO CON EXITO" --> el DAO Tiene uqe devolver un bool para saber si se pudo guardar bie
 
 
 

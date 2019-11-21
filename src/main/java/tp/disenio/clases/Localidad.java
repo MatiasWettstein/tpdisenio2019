@@ -2,6 +2,8 @@ package tp.disenio.clases;
 
 public class Localidad {
 	//----------Atributos
+	
+	
 	private int id_localidad;
 	private String codigoPostal;
 	private String nombre;
