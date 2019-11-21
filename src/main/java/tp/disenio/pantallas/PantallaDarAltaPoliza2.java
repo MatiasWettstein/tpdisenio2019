@@ -7,6 +7,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -61,16 +62,32 @@ public class PantallaDarAltaPoliza2 {
 		// -----------------------------------------------------------------
 
 		// -------------- COMBO BOX ----------------------------------------
+		
+		int anioVehiculo = v.getAnio();
+		int anioActual = Calendar.getInstance().get(Calendar.YEAR);
 		final JComboBox tipoComboBox = new JComboBox();
 		tipoComboBox.setBounds(290, 71, 236, 20);
 		marco1.getContentPane().add(tipoComboBox);
-		tipoComboBox.setModel(new DefaultComboBoxModel(TipoCoberturaEnum.values()));
+		tipoComboBox.setRenderer(new MyComboBoxRenderer("SELECCIONE TIPO DE COBERTURA"));
+		tipoComboBox.setSelectedIndex(-1);
+		//VALIDO SI TIENE MAS DE 10 AÑOS EL VEHICULO
+		if ((anioActual - anioVehiculo)>10) {
+			 String labels[] = { "RESPONSABILIDAD CIVIL" };
+			    final DefaultComboBoxModel model = new DefaultComboBoxModel(labels);
+		}
+		else tipoComboBox.setModel(new DefaultComboBoxModel(TipoCoberturaEnum.values()));
+		
 
 		final JComboBox pagoComboBox = new JComboBox();
 		pagoComboBox.setBounds(290, 195, 236, 20);
 		pagoComboBox.setModel(new DefaultComboBoxModel(FormaPagoEnum.values()));
 		marco1.getContentPane().add(pagoComboBox);
 		marco1.setLocationRelativeTo(null);
+		pagoComboBox.setRenderer(new MyComboBoxRenderer("SELECCIONE FORMA DE PAGO"));
+		pagoComboBox.setSelectedIndex(-1);
+		
+		
+		
 		// -----------------------------------------------------------------
 
 		// --------------------- FORMATTED TEXT FIELD ----------------------
