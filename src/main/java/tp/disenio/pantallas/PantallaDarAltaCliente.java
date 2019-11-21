@@ -514,6 +514,12 @@ public class PantallaDarAltaCliente {
 			//VALIDO CUIL
 			try {
 				String nCUIL = formattedTextField_NCUIL.getText(); //ya valido que no se puedan ingresar letras arriba
+				String aux_1 = nCUIL.substring(4, 12);
+				if(tipoDoc.getSelectedItem().toString() == "DNI") {
+				if (!(aux_1.equals(textField_Documento.getText()))) {
+					errores += "El campo 'CUIL' no coincide con el nro de documento";
+				}
+				}
 			}
 			catch (Exception eApellido) {
 				errores += "El campo 'CUIL' es obligatorio  \n";
