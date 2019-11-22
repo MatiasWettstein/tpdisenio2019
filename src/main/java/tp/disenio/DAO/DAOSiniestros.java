@@ -5,16 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
-
 import tp.disenio.clases.Premio;
+import tp.disenio.clases.Siniestros;
 import tp.disenio.gestores.GestorDB;
 
-public class DAOPremio {
-	
-	public static int  guardarPremio (Premio p) {
+public class DAOSiniestros {
+
+public static int  guardarSiniestro (Siniestros s) {
 		
-		int idPremio = 0;
+		int id_siniestro = 0;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
 
@@ -28,14 +27,14 @@ public class DAOPremio {
 			e1.printStackTrace();
 		}
 		try {
-			idPremio = DAOPremio.recupearUltimoNID(p);
-			idPremio +=1;
-			PreparedStatement st = con.prepareStatement("INSERT INTO PREMIO VALUES (?, ?, ?, ?)");
-			st.setInt(1, idPremio);//id_premio 1 
-			st.setFloat(2, p.getPrima());//prima, 2
-			st.setFloat(3, p.getDerechoEmision());//derecho 3
-			st.setFloat(4, p.getMontoTotal());//monto, 4 
-		
+			
+			id_siniestro = DAOSiniestros.recupearUltimoNID(s);
+			id_siniestro+=1;
+			PreparedStatement st = con.prepareStatement("INSERT INTO PREMIO VALUES (?, ?, ?)");
+			st.setInt(1, id_siniestro);//id_siniestro 1 
+			st.setString(2, s.getNombre());//nombre, 2
+			st.setFloat(3, s.getPorcentaje());//porcentaje 3
+			
 			st.executeUpdate();
 			st.close();
 
@@ -51,12 +50,12 @@ public class DAOPremio {
 			e.printStackTrace();
 		}
 
-		return idPremio; 
+		return id_siniestro; 
 
 	}
 
 	
-private static int recupearUltimoNID(Premio p) {
+private static int recupearUltimoNID(Siniestros s) {
 		
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
@@ -75,7 +74,7 @@ private static int recupearUltimoNID(Premio p) {
 		}
 
 		try {
-			String Consulta = "select max(id_premio) from premio";
+			String Consulta = "select max(id_siniestro) from siniestros";
 			PreparedStatement st = con.prepareStatement(Consulta);
 			rs = st.executeQuery();
 
@@ -99,5 +98,10 @@ private static int recupearUltimoNID(Premio p) {
 
 		return retorno;
 	}
+	
+	
+	
+	
+	
 	
 }

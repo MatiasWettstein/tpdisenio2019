@@ -3,8 +3,8 @@ package tp.disenio.clases;
 public class DomicilioRiesgo {
 
 	private String id_domicilioR;
-	private Localidad localidad;
 	private float porcentajeDomicilio;
+	private Localidad localidad;
 
 	public String getId_domicilioR() {
 		return id_domicilioR;

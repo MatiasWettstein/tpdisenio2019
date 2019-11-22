@@ -224,19 +224,20 @@ public class GestorPoliza {
 			}
 
 			aux_mens.setCuotas(listacuotas);
+			aux_mens.setNombre("MENSUAL");
 			nueva_poliza.setForma_pago(aux_mens);
 		}
 		else if (p.getForma_pago() == "SEMESTRAL") {
 			Semestral aux_sem = new Semestral();
 			aux_sem.setFecha_Vencimiento(cuotas.get(0).getVencimiento());
 			aux_sem.setMontoTotal(cuotas.get(0).getMonto());
+			aux_sem.setNombre("SEMESTRAL");
 			nueva_poliza.setForma_pago(aux_sem);
 
 		}
-		//FALTA SETEAR FORMADEPAGO
+
 
 		nueva_poliza.setPoliza_modificada(new PolizaModificada());
-
 
 		flag = DAOPoliza.cargarPoliza(nueva_poliza);
 	}

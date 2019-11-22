@@ -5,16 +5,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
-
 import tp.disenio.clases.Premio;
+import tp.disenio.clases.Vehiculo;
 import tp.disenio.gestores.GestorDB;
 
-public class DAOPremio {
+public class DAOVehiculo {
 	
-	public static int  guardarPremio (Premio p) {
+public static int  guardarVehiculo (Vehiculo v) {
 		
-		int idPremio = 0;
+		int id_ve = 0;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
 
@@ -28,13 +27,16 @@ public class DAOPremio {
 			e1.printStackTrace();
 		}
 		try {
-			idPremio = DAOPremio.recupearUltimoNID(p);
-			idPremio +=1;
-			PreparedStatement st = con.prepareStatement("INSERT INTO PREMIO VALUES (?, ?, ?, ?)");
-			st.setInt(1, idPremio);//id_premio 1 
-			st.setFloat(2, p.getPrima());//prima, 2
-			st.setFloat(3, p.getDerechoEmision());//derecho 3
-			st.setFloat(4, p.getMontoTotal());//monto, 4 
+			id_ve = DAOVehiculo.recupearUltimoNID(v);
+			id_ve +=1;
+			PreparedStatement st = con.prepareStatement("INSERT INTO PREMIO VALUES (?, ?, ?, ?, ?, ?, ?)");
+			st.setInt(1, id_ve); //id_vehiculo 1 
+			st.setString(2, v.getPatente()); //patente 2 varchar
+			st.setString(3, v.getMotor()); // motor 3 
+			st.setString(4, v.getChasis()); //chasis 4
+			st.setInt(5, v.getAnio()); //anio 5 numeric 
+			st.setInt(6, v.getModelo().getIdModelo()); //FK modelo 
+			st.setFloat(7, v.getPorcentaje()); //porcentaje_actual 
 		
 			st.executeUpdate();
 			st.close();
@@ -51,12 +53,12 @@ public class DAOPremio {
 			e.printStackTrace();
 		}
 
-		return idPremio; 
+		return id_ve; 
 
 	}
 
 	
-private static int recupearUltimoNID(Premio p) {
+private static int recupearUltimoNID(Vehiculo v) {
 		
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
@@ -75,7 +77,7 @@ private static int recupearUltimoNID(Premio p) {
 		}
 
 		try {
-			String Consulta = "select max(id_premio) from premio";
+			String Consulta = "select max(id_vehiculo) from vehiculo";
 			PreparedStatement st = con.prepareStatement(Consulta);
 			rs = st.executeQuery();
 
@@ -100,4 +102,6 @@ private static int recupearUltimoNID(Premio p) {
 		return retorno;
 	}
 	
+	
+
 }

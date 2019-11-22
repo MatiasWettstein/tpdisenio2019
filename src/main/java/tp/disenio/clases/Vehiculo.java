@@ -8,9 +8,16 @@ public class Vehiculo {
 	private String chasis;
 	private Modelo modelo;
 	private float porcentaje;
+	private int anio;
 	
 	
 	
+	public int getAnio() {
+		return anio;
+	}
+	public void setAnio(int anio) {
+		this.anio = anio;
+	}
 	public String getId_vehiculo() {
 		return id_vehiculo;
 	}
