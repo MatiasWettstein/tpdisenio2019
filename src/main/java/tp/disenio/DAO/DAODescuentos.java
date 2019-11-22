@@ -5,12 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import tp.disenio.clases.Descuentos;
+import tp.disenio.DTO.DescuentosDTO;
 import tp.disenio.gestores.GestorDB;
 
 public class DAODescuentos {
 	
-	public static int  guardarDescuentos (Descuentos d) {
+	public static int  guardarDescuentos (DescuentosDTO d) {
 		
 		int idDescuentos = 0;
 		GestorDB gdb = GestorDB.getInstance();
