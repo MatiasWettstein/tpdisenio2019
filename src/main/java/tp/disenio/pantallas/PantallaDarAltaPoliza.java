@@ -1108,13 +1108,14 @@ public class PantallaDarAltaPoliza {
 			}
 			catch (Exception eEstadoC) {
 				error += "El campo 'Estado Civil' es obligatorio \n";
+				estadoCivil = false;
 			}
 
 			if (error == null) {
 				JOptionPane.showMessageDialog(null, "Hijo agregado con exito");
 			}else JOptionPane.showMessageDialog(null, error);
 
-			if (fechaValida) {
+			if (fechaValida && error!=null) {
 				hijoDTO.setEstadoCivil(comboBox_EstadoCivil.getSelectedItem().toString());
 				hijoDTO.setSexo(sexo.getSelectedItem().toString());
 				hijoDTO.setFechaNac(fechaNFormattedTextField.getText());

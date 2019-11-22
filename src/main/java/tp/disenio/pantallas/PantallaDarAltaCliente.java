@@ -467,6 +467,7 @@ public class PantallaDarAltaCliente {
 
 			String errores = "";
 			boolean error = false;
+			boolean f_nDOC = true;
 
 			//las validaciones estan hechas con excepciones porque si el campo no se completó sale una NullPointerException
 			//VALIDO APELLIDO
@@ -506,6 +507,7 @@ public class PantallaDarAltaCliente {
 				if (tipoD == "DNI") { //VALIDO QUE SI ES TIPO DNI NO TENGA LETRAS 
 					if (doc.matches("[a-zA-Z]+")== true) {//  acá habría que mostrar un mensaje de error diciendo que el DNI no puede tener letras
 						errores += "El campo DNI no puede contener letras \n";
+						f_nDOC = false;
 					}
 				}
 				
@@ -515,6 +517,7 @@ public class PantallaDarAltaCliente {
 				//devuelve true si encuentra un cliente con esos datos
 				if (flag) {
 					errores += "Ya existe un cliente registrado con ese numero de documento";
+					f_nDOC = false;
 				}
 				
 				
@@ -637,12 +640,12 @@ public class PantallaDarAltaCliente {
 			}
 
 
-			if (errores != null) { //muestro los mensajes de error
+			if (errores != null || errores != " ") { //muestro los mensajes de error
 				error = true;
 				JOptionPane.showMessageDialog(null, errores);
 			}
-
-			if (error == false ) {
+ 
+			if (f_nDOC ) { //VERIFICAR ESTE IF QUE ES CUALQUIERA 
 
 
 				ClienteDTO clienteDTO = new ClienteDTO();
@@ -657,6 +660,7 @@ public class PantallaDarAltaCliente {
 				clienteDTO.setCuil(formattedTextField_NCUIL.getText());
 				clienteDTO.setCondicionIVA(comboBox_CondIVA.getSelectedItem().toString());
 				clienteDTO.setEstadoCivil(comboBox_EstadoCivil.getSelectedItem().toString());
+				clienteDTO.setFechaNac(fechaNFormattedTextField.getText());
 
 				ProvinciaDTO prov_auxDTO = new ProvinciaDTO();
 				Provincia prov_aux = new Provincia(); // lo creo porque ya lo tengo cargado con el DAOProvincia y lo recupero
@@ -686,6 +690,7 @@ public class PantallaDarAltaCliente {
 				clienteDTO.setDireccion(dire_auxDTO);
 
 				GestorPantallas.PantallaDarAltaCliente2(clienteDTO);
+				marco1.dispose();
 
 			}
 

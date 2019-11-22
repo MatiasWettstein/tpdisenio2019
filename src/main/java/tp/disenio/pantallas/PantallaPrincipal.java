@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 import tp.disenio.gestores.GestorPantallas;
 
@@ -37,11 +38,12 @@ public class PantallaPrincipal {
 
 		//
 		JButton consultaC = new JButton("CONSULTAR CLIENTE");
-
-		ActionListener consultaCliente = e -> marco1.dispose();
-		consultaC.addActionListener(consultaCliente);
 		consultaC.setFont(new Font("Serif", Font.BOLD, 12));
 		consultaC.setBounds(300, 81, 200, 50);
+		ActionListener consulta = e -> {
+			JOptionPane.showMessageDialog(null, "Proximamente. \nEn mantenimiento");
+		};
+		consultaC.addActionListener(consulta);
 
 		//
 		JButton altaP = new JButton("ALTA POLIZA");
@@ -56,49 +58,63 @@ public class PantallaPrincipal {
 
 		//
 		JButton consultaP = new JButton("CONSULTAR POLIZA");
-		ActionListener consultaPoliza = e -> marco1.dispose();
-		consultaP.addActionListener(consultaPoliza);
 		consultaP.setFont(new Font("Serif", Font.BOLD, 12));
 		consultaP.setBounds(300, 180, 200, 50);
+		ActionListener consultarPoliza = e -> {
+			JOptionPane.showMessageDialog(null, "Proximamente. \nEn mantenimiento");
+		};
+		consultaP.addActionListener(consultarPoliza);
+
 
 		//
 		JButton registrarP = new JButton("REGISTRAR PAGO DE POLIZA");
-		ActionListener pagoPoliza = e -> marco1.dispose();
-		registrarP.addActionListener(pagoPoliza);
 		registrarP.setFont(new Font("Serif", Font.BOLD, 12));
 		registrarP.setBounds(536, 180, 250, 50);
+		ActionListener rpagoPoliza = e -> {
+			JOptionPane.showMessageDialog(null, "Proximamente. \nEn mantenimiento");
+		};
+		registrarP.addActionListener(rpagoPoliza);
 
 		//
 		JButton factoresC = new JButton("ACTUALIZAR FACTORES DE CARACTERISTICAS");
-		ActionListener actualizarFactores = e -> marco1.dispose();
-		factoresC.addActionListener(actualizarFactores);
 		factoresC.setFont(new Font("Serif", Font.BOLD, 12));
 		factoresC.setBounds(50, 366, 350, 50);
+		ActionListener factoresCarac = e -> {
+			JOptionPane.showMessageDialog(null, "Proximamente. \nEn mantenimiento");
+		};
+		factoresC.addActionListener(factoresCarac);
+
 
 
 		//
 		JButton generarPR = new JButton ("GENERAR PROPUESTA DE RENOVACION");
-		ActionListener generarPropuesta = e -> marco1.dispose();
-		generarPR.addActionListener(generarPropuesta);
 		generarPR.setFont(new Font("Serif", Font.BOLD, 12));
 		generarPR.setBounds(50, 255, 300, 50);
+		ActionListener propuesta = e -> {
+			JOptionPane.showMessageDialog(null, "Proximamente. \nEn mantenimiento");
+		};
+		generarPR.addActionListener(propuesta);
 
 
 		//
 		JButton generarListadoPR = new JButton("GENERAR LISTADO DE PROPUESTA DE RENOVACION");
-		ActionListener generarListado = e -> marco1.dispose();
-		generarListadoPR.addActionListener(generarListado);
 		generarListadoPR.setFont(new Font("Serif", Font.BOLD, 12));
 		generarListadoPR.setBounds(386, 255, 400, 50);
-
-
+		ActionListener listadoPR = e -> {
+			JOptionPane.showMessageDialog(null, "Proximamente. \nEn mantenimiento");
+		};
+		generarListadoPR.addActionListener(listadoPR);
 
 		//
 		JButton informe = new JButton("GENERAR INFORME DE RESULTADO MENSUAL");
-		ActionListener informeM = e -> marco1.dispose();
-		informe.addActionListener(informeM);
 		informe.setFont(new Font("Serif", Font.BOLD, 12));
 		informe.setBounds(436, 366, 350, 50);
+		
+		ActionListener informeRM = e -> {
+			JOptionPane.showMessageDialog(null, "Proximamente. \nEn mantenimiento");
+		};
+		informe.addActionListener(informeRM);
+
 		// ---------------------------
 
 		// --------- ETIQUETAS ------

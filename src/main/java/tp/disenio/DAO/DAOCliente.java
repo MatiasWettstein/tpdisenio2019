@@ -170,7 +170,7 @@ public class DAOCliente {
 		try {
 
 			int idDire = DAODireccion.guardarDireccion(c.getDireccion()); //me devuelve la id de la direccion asi lo asocio al cliente
-
+			/*
 			DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
 			Calendar cal1 = Calendar.getInstance();
 			try {
@@ -181,6 +181,7 @@ public class DAOCliente {
 			}
 
 			java.sql.Date fechNac = new java.sql.Date(cal1.getTimeInMillis());
+	*/		
 			//nro_cliente 1
 			//tipo_c, 2
 			//cuil 3
@@ -202,7 +203,8 @@ public class DAOCliente {
 			st.setString(1, c.getNroCliente());
 			st.setString(2, c.getTipo());
 			st.setString(3, c.getCuil());
-			st.setDate(4, fechNac);
+			st.setString(4, c.getFechaNac());
+			//st.setString(4, c.getFechaNac()); //ACA SALTA ERROR PORQUE DICE QUE NO ESTOY SETEANDO ESE PARAMETRO 
 			st.setString(5, c.getDocumento());
 			st.setString(6, c.getNombre());
 			st.setString(7, c.getApellido());
@@ -336,8 +338,11 @@ public class DAOCliente {
 			e1.printStackTrace();
 		}
 		try {
-
-			String consulta = "select nro_cliente from cliente where nrodoc = " + doc + " tipo_doc = " + tipoD;
+			
+			String aux = "'" + tipoD+ "'";
+			String auxN = "'" + doc + "'";
+//ACA SALTA EL ERROR DE SINTAXIS EN TIPO_DOC
+			String consulta = "select nro_cliente from cliente where nrodoc = " + auxN ; //+ " tipo_doc = " + aux;
 			PreparedStatement st = con.prepareStatement(consulta);
 			rs = st.executeQuery();
 			while(rs.next()) {
