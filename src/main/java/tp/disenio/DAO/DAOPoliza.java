@@ -6,17 +6,19 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import tp.disenio.clases.Hijo;
+import tp.disenio.DTO.ClienteDTO;
+import tp.disenio.clases.Poliza;
 import tp.disenio.gestores.GestorDB;
 
-public class DAOHijo {
+public class DAOPoliza {
 
-	public static ArrayList<Integer> cargarHijos(ArrayList<Hijo> hijos){
-		ArrayList<Integer> retorno = new ArrayList<>();
-		int maxid = 0;
+	public static int recuperarUltimoNroPolizaCliente(ClienteDTO c) {
+		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
 		ResultSet rs = null;
+
+
 		try {
 			con = gdb.crearConexion();
 		} catch (ClassNotFoundException e1) {
@@ -26,42 +28,23 @@ public class DAOHijo {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-
+		//tengo que buscar el último numero de poliza asociado al cliente
 		try {
-			String Consulta = "select max(id_hijo) from hijo_declarado";
+			String nro_cliente = c.getNroCliente();
+			String Consulta = "select max(nro_poliza) from poliza where cliente = '" + nro_cliente + "'" ;
 			PreparedStatement st = con.prepareStatement(Consulta);
 			rs = st.executeQuery();
+
 			while(rs.next()) {
-				maxid = rs.getInt("max");
+				retorno = rs.getInt("max");
 			}
+
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		for(Hijo h : hijos) {
-
-			try {
-				PreparedStatement st = con.prepareStatement("INSERT INTO hijo_declarado VALUES (?, ?, ?, ?)");
-				st.setInt(1, maxid+1);
-				st.setString(2, h.getFechaNac());
-				st.setString(3, h.getEstadoCivil());
-				st.setString(4, h.getSexo());
-
-				st.executeUpdate();
-				st.close();
-
-				retorno.add(maxid+1);
-				maxid=maxid+1;
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-
-
-		}
 		try {
 			con.close();
 		} catch (SQLException e) {
@@ -71,6 +54,30 @@ public class DAOHijo {
 
 		return retorno;
 	}
+
+
+	public static Boolean cargarPoliza(Poliza poliza) {
+
+
+		ArrayList<Integer> idhijos = DAOHijo.cargarHijos(poliza.getHijos_declarados());
+
+		return null;
+	}
+	/*
+	 int nro_poliza 1
+	 int km_por_anio 2
+	 double suma_asegurada 3
+	 String inicio_vigencia 4
+	 String fin__vigencia 5
+	 String Forma_Pago 6
+	 String estado_poliza 7
+	 FK id premio 8
+	 FK id vehiculo 9
+	 FK id siniestros 10
+	 FK id tipo_cobertura 11
+	 FK id domicilio_riesgo 12
+	 FK id cliente 13
+	 */
 
 
 

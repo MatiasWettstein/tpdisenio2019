@@ -14,9 +14,16 @@ public class PolizaDTO {
 	private Boolean Garage;
 	private Boolean Alarma;
 	private Boolean DispRastreo;
+	private String siniestro; 
 
 
 
+	public String getSiniestro() {
+		return siniestro;
+	}
+	public void setSiniestro(String siniestro) {
+		this.siniestro = siniestro;
+	}
 	public float getSumaasegurada() {
 		return sumaasegurada;
 	}

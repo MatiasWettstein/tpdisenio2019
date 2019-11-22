@@ -15,8 +15,8 @@ public class Poliza {
 	private float sumaasegurada;
 	private ArrayList<Hijo> hijos_declarados;
 	private Cobertura tipo_cobertura;
-	private Date inicio_vigencia;
-	private Date fin_vigencia;
+	private String inicio_vigencia;
+	private String fin_vigencia;
 	private String estado_poliza;
 	private Premio premio;
 	private Descuentos descuento;
@@ -87,16 +87,16 @@ public class Poliza {
 	public void setTipo_cobertura(Cobertura tipo_cobertura) {
 		this.tipo_cobertura = tipo_cobertura;
 	}
-	public Date getInicio_vigencia() {
+	public String getInicio_vigencia() {
 		return inicio_vigencia;
 	}
-	public void setInicio_vigencia(Date inicio_vigencia) {
+	public void setInicio_vigencia(String inicio_vigencia) {
 		this.inicio_vigencia = inicio_vigencia;
 	}
-	public Date getFin_vigencia() {
+	public String getFin_vigencia() {
 		return fin_vigencia;
 	}
-	public void setFin_vigencia(Date fin_vigencia) {
+	public void setFin_vigencia(String fin_vigencia) {
 		this.fin_vigencia = fin_vigencia;
 	}
 	public String getEstado_poliza() {

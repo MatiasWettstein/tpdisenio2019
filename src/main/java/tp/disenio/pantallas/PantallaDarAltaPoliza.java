@@ -789,6 +789,7 @@ public class PantallaDarAltaPoliza {
 				PolizaDTO pDTO = new PolizaDTO();
 				pDTO.setKmPorAnio((Integer) kmSpinner.getValue());
 				pDTO.setSumaasegurada(valordivmil);
+				pDTO.setSiniestro(SiniestroText.getText());
 
 				if (grupoAlarma.getSelection().getActionCommand() == "SI") { //ALARMA
 					pDTO.setAlarma(true);

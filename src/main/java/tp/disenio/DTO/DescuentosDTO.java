@@ -1,6 +1,6 @@
-package tp.disenio.clases;
+package tp.disenio.DTO;
 
-public class Descuentos {
+public class DescuentosDTO {
 
 	private int idDescuentos;
 	private double descPorUnidadAdicional;

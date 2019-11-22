@@ -110,6 +110,18 @@ public class GestorCliente {
 
 		boolean flag = false;
 
+		Cliente clienteFinal = new Cliente();
+		clienteFinal = GestorCliente.generarInstanciaCliente(c);
+
+		flag = DAOCliente.guardarCliente(clienteFinal);
+
+		return flag;
+		//ACORDARSE DE MOSTRAR UN OPTION PANE CON EL MSJ "CLIENTE GENERADO CON EXITO" --> el DAO Tiene uqe devolver un bool para saber si se pudo guardar bien
+	}
+
+	
+	public static Cliente generarInstanciaCliente(ClienteDTO c) {
+		
 		Provincia provCliente = new Provincia();
 		provCliente.setNombre(c.getDireccion().getLocalidad().getProvincia().getNombre());
 		provCliente.setId_provincia(c.getDireccion().getLocalidad().getProvincia().getId_provincia());
@@ -152,13 +164,11 @@ public class GestorCliente {
 		clienteFinal.setCondicionIVA(c.getCondicionIVA());
 		clienteFinal.setEstadoCivil(c.getEstadoCivil());
 		clienteFinal.setTipo(c.getTipoC());
-
-		flag = DAOCliente.guardarCliente(clienteFinal);
-
-		return flag;
-		//ACORDARSE DE MOSTRAR UN OPTION PANE CON EL MSJ "CLIENTE GENERADO CON EXITO" --> el DAO Tiene uqe devolver un bool para saber si se pudo guardar bien
+		
+		
+		return clienteFinal;
+		
 	}
-
 
 	public static int cantidadPoliza(ClienteDTO c) {
 

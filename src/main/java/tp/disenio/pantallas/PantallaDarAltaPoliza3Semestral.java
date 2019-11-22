@@ -252,7 +252,8 @@ public class PantallaDarAltaPoliza3Semestral {
 		ActionListener aceptar = e -> {
 
 			//aca va el dar alta poliza
-
+			int nroPoliza = gp.generarNroPoliza(c);
+			p.setNroPoliza(nroPoliza);
 
 			gp.cargarPoliza(c,p,v,listahijos,dom,descuentos,premio);
 			GestorPantallas.PantallaPrincipal();
