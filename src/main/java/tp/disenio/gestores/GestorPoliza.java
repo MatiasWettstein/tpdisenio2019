@@ -146,6 +146,7 @@ public class GestorPoliza {
 		aux_ve.setChasis(v.getChasis());
 		aux_ve.setModelo(aux_mod);
 		aux_ve.setPorcentaje(v.getPorcentaje());
+		aux_ve.setAnio(v.getAnio());
 
 		MedidasSeguridad aux_MS = new MedidasSeguridad();
 
