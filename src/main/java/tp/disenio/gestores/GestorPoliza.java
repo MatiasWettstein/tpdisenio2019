@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import tp.disenio.DAO.DAOPoliza;
 import tp.disenio.DTO.ClienteDTO;
+import tp.disenio.DTO.CuotaDTO;
 import tp.disenio.DTO.DomicilioRiesgoDTO;
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
@@ -12,6 +13,7 @@ import tp.disenio.DTO.VehiculoDTO;
 import tp.disenio.clases.Alarma;
 import tp.disenio.clases.Cliente;
 import tp.disenio.clases.Cobertura;
+import tp.disenio.clases.Cuota;
 import tp.disenio.clases.Descuentos;
 import tp.disenio.clases.DispRastreo;
 import tp.disenio.clases.DomicilioRiesgo;
@@ -106,7 +108,7 @@ public class GestorPoliza {
 		return nroPoliza;
 	}
 
-	public void cargarPoliza(ClienteDTO c,PolizaDTO p,VehiculoDTO v,ArrayList<HijoDTO>listahijos,DomicilioRiesgoDTO dom,Descuentos descuentos,PremioDTO premio) {
+	public void cargarPoliza(ClienteDTO c,PolizaDTO p,VehiculoDTO v,ArrayList<HijoDTO>listahijos,DomicilioRiesgoDTO dom,Descuentos descuentos,PremioDTO premio, ArrayList<CuotaDTO> cuotas) {
 
 		boolean flag = false;
 
@@ -213,17 +215,30 @@ public class GestorPoliza {
 
 		if (p.getForma_pago() == "MENSUAL") {
 			Mensual aux_mens = new Mensual();
+			ArrayList<Cuota> listacuotas = new ArrayList<>();
 
+			for(CuotaDTO cuot : cuotas) {
+				Cuota cuotaadd = new Cuota();
+				cuotaadd.setFecha_vencimiento(cuot.getVencimiento());
+				cuotaadd.setMonto(cuot.getMonto());
+				listacuotas.add(cuotaadd);
+			}
 
+			aux_mens.setCuotas(listacuotas);
+			aux_mens.setNombre("MENSUAL");
+			nueva_poliza.setForma_pago(aux_mens);
 		}
-		else {
+		else if (p.getForma_pago() == "SEMESTRAL") {
 			Semestral aux_sem = new Semestral();
+			aux_sem.setFecha_Vencimiento(cuotas.get(0).getVencimiento());
+			aux_sem.setMontoTotal(cuotas.get(0).getMonto());
+			aux_sem.setNombre("SEMESTRAL");
+			nueva_poliza.setForma_pago(aux_sem);
+
 		}
-		//FALTA SETEAR FORMADEPAGO
 
 
 		nueva_poliza.setPoliza_modificada(new PolizaModificada());
-
 
 		flag = DAOPoliza.cargarPoliza(nueva_poliza);
 	}

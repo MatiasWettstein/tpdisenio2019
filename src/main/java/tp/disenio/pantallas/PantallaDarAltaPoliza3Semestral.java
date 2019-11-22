@@ -18,6 +18,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import tp.disenio.DTO.ClienteDTO;
+import tp.disenio.DTO.CuotaDTO;
 import tp.disenio.DTO.DomicilioRiesgoDTO;
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
@@ -154,6 +155,7 @@ public class PantallaDarAltaPoliza3Semestral {
 		GestorCliente gc = GestorCliente.getInstance();
 		int cant= gc.cantidadPoliza(c);
 		double montototalapagar = premio.getMontoTotal()*gp.descuentos(cant)*0.9;
+
 		textField_2.setText(String.valueOf(montototalapagar));
 		textField_2.setColumns(10);
 		textField_2.setBounds(224, 499, 196, 20);
@@ -172,6 +174,14 @@ public class PantallaDarAltaPoliza3Semestral {
 		}
 		cal1.add(Calendar.DAY_OF_MONTH,-1);
 		String fechaultimopago = dateFormat1.format(cal1.getTime());
+
+
+		CuotaDTO cuota = new CuotaDTO();
+		cuota.setMonto(montototalapagar);
+		cuota.setVencimiento(fechaultimopago);
+		cuota.setPagado(false);
+		ArrayList<CuotaDTO> cuotas = new ArrayList<>();
+		cuotas.add(cuota);
 		JTextField textField_1 = new JTextField();
 		textField_1.setEditable(false);
 		textField_1.setText(fechaultimopago);
@@ -255,7 +265,8 @@ public class PantallaDarAltaPoliza3Semestral {
 			int nroPoliza = gp.generarNroPoliza(c);
 			p.setNroPoliza(nroPoliza);
 
-			gp.cargarPoliza(c,p,v,listahijos,dom,descuentos,premio);
+			//gp.cargarPoliza(c,p,v,listahijos,dom,descuentos,premio, cuota); es una instancia de cuota
+			gp.cargarPoliza(c,p,v,listahijos,dom,descuentos,premio,cuotas);
 			GestorPantallas.PantallaPrincipal();
 			marco1.dispose();
 

@@ -284,10 +284,11 @@ public class PantallaDarAltaPoliza3Mensual {
 		btnAceptar.setBounds(1021, 657, 143, 33);
 		marco1.getContentPane().add(btnAceptar);
 		ActionListener aceptar = e -> {
-
-
 			//aca hace el dar alta poliza
-
+			//gp.cargarPoliza(c,p,v,listahijos,dom,descuentos,premio, listacuotas); listacuotas es un arraylist de cuotas
+			gp.cargarPoliza(c,p,v,listahijos,dom,descuentos,premio, listacuotas);
+			GestorPantallas.PantallaPrincipal();
+			marco1.dispose();
 
 		};
 		btnAceptar.addActionListener(aceptar);
