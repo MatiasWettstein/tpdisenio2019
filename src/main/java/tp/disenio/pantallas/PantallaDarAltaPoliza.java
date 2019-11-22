@@ -56,7 +56,7 @@ import tp.disenio.gestores.GestorPantallas;
 
 public class PantallaDarAltaPoliza {
 	private static JTable tablaCliente = new JTable();
-	final static DefaultTableModel model = new DefaultTableModel(
+	static DefaultTableModel model = new DefaultTableModel(
 			new Object[][] {
 				{null, null, null, null, null},
 			},
@@ -76,7 +76,7 @@ public class PantallaDarAltaPoliza {
 
 	private static JTable tablaHijos = new JTable();
 
-	final static DefaultTableModel modelhijos =new DefaultTableModel(
+	static DefaultTableModel modelhijos =new DefaultTableModel(
 			new Object[][] {},
 			new String[] {
 					"Fecha de Nacimiento", "Sexo", "Estado Civil"
@@ -122,6 +122,39 @@ public class PantallaDarAltaPoliza {
 		marco1.getContentPane().add(scrollPaneCliente);
 
 		if(c1==null) {
+			c = new ClienteDTO();
+			listaHijos = new ArrayList <>();
+			model = new DefaultTableModel(
+					new Object[][] {
+						{null, null, null, null, null},
+					},
+					new String[] {
+							"Nro. Cliente", "Apellido", "Nombre", "Tipo Documento", "Nro. Documento"
+					}
+					){
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isCellEditable(int i, int i1) {
+					return false;
+				}
+			};
+
+			modelhijos =new DefaultTableModel(
+					new Object[][] {},
+					new String[] {
+							"Fecha de Nacimiento", "Sexo", "Estado Civil"
+					}
+					){
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isCellEditable(int i, int i1) {
+					return false;
+				}
+			};
 			tablaCliente.setModel(model);
 			scrollPaneCliente.setViewportView(tablaCliente);
 		}else {
@@ -704,6 +737,12 @@ public class PantallaDarAltaPoliza {
 				error += "El campo Garage es obligatorio  \n";
 			}
 
+
+			ClienteDTO auxiliar = new ClienteDTO();
+
+			if(c.getNroCliente() == auxiliar.getNroCliente() ) error += "Seleccionar un cliente es obligatorio  \n";
+
+
 			if (error != "") { //muestro los mensajes de error
 				errores = true;
 				JOptionPane.showMessageDialog(null, error);
@@ -1115,7 +1154,7 @@ public class PantallaDarAltaPoliza {
 				JOptionPane.showMessageDialog(null, "Hijo agregado con exito");
 			}else JOptionPane.showMessageDialog(null, error);
 
-			if (fechaValida && error!=null) {
+			if (fechaValida && error==null) {
 				hijoDTO.setEstadoCivil(comboBox_EstadoCivil.getSelectedItem().toString());
 				hijoDTO.setSexo(sexo.getSelectedItem().toString());
 				hijoDTO.setFechaNac(fechaNFormattedTextField.getText());

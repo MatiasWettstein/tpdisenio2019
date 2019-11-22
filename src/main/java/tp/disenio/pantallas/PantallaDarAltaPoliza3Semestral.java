@@ -3,7 +3,11 @@ package tp.disenio.pantallas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -148,14 +152,28 @@ public class PantallaDarAltaPoliza3Semestral {
 		textField_2.setEditable(false);
 		GestorCliente gc = GestorCliente.getInstance();
 		int cant= gc.cantidadPoliza(c);
-		double montototalapagar = premio.getMontoTotal()*gp.descuentos(cant);
+		double montototalapagar = premio.getMontoTotal()*gp.descuentos(cant)*0.9;
 		textField_2.setText(String.valueOf(montototalapagar));
 		textField_2.setColumns(10);
 		textField_2.setBounds(224, 499, 196, 20);
 		marco1.getContentPane().add(textField_2);
 
+
+
+
+		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-yyyy");
+		Calendar cal1 = Calendar.getInstance();
+		try {
+			cal1.setTime(dateFormat1.parse(p.getFin_vigencia()));
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		cal1.add(Calendar.DAY_OF_MONTH,-1);
+		String fechaultimopago = dateFormat1.format(cal1.getTime());
 		JTextField textField_1 = new JTextField();
 		textField_1.setEditable(false);
+		textField_1.setText(fechaultimopago);
 		textField_1.setColumns(10);
 		textField_1.setBounds(224, 443, 196, 20);
 		marco1.getContentPane().add(textField_1);
@@ -170,12 +188,19 @@ public class PantallaDarAltaPoliza3Semestral {
 		JTable tableVehiculo = new JTable();
 		tableVehiculo.setModel(new DefaultTableModel(
 				new Object[][] {
-					{null, null, null, null, null},
+					{v.getModelo().getMarca().getNombre(), v.getModelo().getNombre(), v.getMotor(), v.getChasis(), v.getPatente()},
 				},
 				new String[] {
 						"Marca", "Modelo", "Motor", "Chasis", "Patente"
-				}
-				));
+				}){
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int i, int i1) {
+				return false;
+			}
+		});
 		scrollPane.setViewportView(tableVehiculo);
 
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -183,14 +208,23 @@ public class PantallaDarAltaPoliza3Semestral {
 		marco1.getContentPane().add(scrollPane_1);
 
 		JTable tableDescuentos = new JTable();
+		String desc = Double.toString(100-gp.descuentos(cant)*100)  + "%";
 		tableDescuentos.setModel(new DefaultTableModel(
 				new Object[][] {
-					{null, null},
+					{desc, "10%"},
 				},
 				new String[] {
 						"Descuento por m\u00E1s de una unidad asegurada", "Descuento por pago semestral"
 				}
-				));
+				){
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int i, int i1) {
+				return false;
+			}
+		});
 		scrollPane_1.setViewportView(tableDescuentos);
 
 		// -----------------------------------------------------------------
@@ -223,7 +257,14 @@ public class PantallaDarAltaPoliza3Semestral {
 
 		JButton btnCancelar = new JButton("CANCELAR");
 		btnCancelar.setFont(new Font("Serif", Font.BOLD, 12));
+		ActionListener cancel = e -> {
+
+			GestorPantallas.PantallaPrincipal();
+			marco1.dispose();
+
+		};
 		btnCancelar.setBounds(1174, 657, 143, 33);
+		btnCancelar.addActionListener(cancel);
 		marco1.getContentPane().add(btnCancelar);
 		marco1.setLocationRelativeTo(null);
 		marco1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

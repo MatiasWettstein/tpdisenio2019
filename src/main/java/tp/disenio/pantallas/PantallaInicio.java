@@ -2,17 +2,11 @@ package tp.disenio.pantallas;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-import tp.disenio.DAO.DAOCliente;
-import tp.disenio.gestores.GestorCliente;
 import tp.disenio.gestores.GestorPantallas;
 public class PantallaInicio {
 
@@ -41,15 +35,12 @@ public class PantallaInicio {
 		boton.setBounds(234, 449, 226, 50);
 		boton.setFont(new Font("Serif", Font.PLAIN, 20));
 
-		boton.addActionListener(new ActionListener() {
+		boton.addActionListener(e -> {
+			GestorPantallas.PantallaLogin();
+			marco1.dispose();
 
-			public void actionPerformed(ActionEvent e) {
-				GestorPantallas.PantallaLogin();
-				marco1.dispose();
-
-			}
 		});
-	
+
 
 
 		//---------------PANEL---------------
@@ -57,14 +48,6 @@ public class PantallaInicio {
 		marco1.getContentPane().add(boton);
 		marco1.getContentPane().add(titulo);
 
-		/*FALTA AGREGAR IMAGEN ENTRE TITULO Y BOTON  --- REVISTAR ESTÉTICA
 
-		Image img = new ImageIcon("/IMG/Logo.jpg").getImage();
-		JLabel lblImg = new JLabel("");
-		lblImg.setIcon(new ImageIcon(img));
-		lblImg.setBounds (243,204,200,200);
-		marco1.getContentPane().add(lblImg);
-		
-		*/
 	}
 }

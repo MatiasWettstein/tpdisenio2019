@@ -35,12 +35,16 @@ public class PantallaDarAltaPoliza2 {
 	 * @wbp.parser.entryPoint
 	 */
 	public static void start(ClienteDTO c, PolizaDTO p, VehiculoDTO v,ArrayList<HijoDTO> listahijos, DomicilioRiesgoDTO dom) {
+
+
 		// --------------------------- MARCO -------------------------------
 		final Marco marco1 = new Marco(700,600,"DAR DE ALTA POLIZA");
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(Color.LIGHT_GRAY);
 		marco1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		// -----------------------------------------------------------------
+
+
 
 		// ------------------ ETIQUETAS ------------------------------------
 		JLabel lblTipoDe = new JLabel("(*) Tipo de cobertura");
@@ -58,6 +62,8 @@ public class PantallaDarAltaPoliza2 {
 		lblFormaDe.setBounds(37, 186, 169, 33);
 		marco1.getContentPane().add(lblFormaDe);
 		// -----------------------------------------------------------------
+
+
 
 		// -------------- COMBO BOX ----------------------------------------
 

@@ -190,14 +190,24 @@ public class PantallaDarAltaPoliza3Mensual {
 		marco1.getContentPane().add(scrollPane_1);
 
 		JTable tableDescuentos = new JTable();
+		String desc = Double.toString(100-gp.descuentos(cant)*100)  + "%";
+
 		tableDescuentos.setModel(new DefaultTableModel(
 				new Object[][] {
-					{null},
+					{desc},
 				},
 				new String[] {
 						"Descuento por m\u00E1s de una unidad asegurada"
 				}
-				));
+				){
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public boolean isCellEditable(int i, int i1) {
+				return false;
+			}
+		});
 		tableDescuentos.getColumnModel().getColumn(0).setPreferredWidth(483);
 		scrollPane_1.setViewportView(tableDescuentos);
 
@@ -280,7 +290,14 @@ public class PantallaDarAltaPoliza3Mensual {
 
 		JButton btnCancelar = new JButton("CANCELAR");
 		btnCancelar.setFont(new Font("Serif", Font.BOLD, 12));
+		ActionListener cancel = e -> {
+
+			GestorPantallas.PantallaPrincipal();
+			marco1.dispose();
+
+		};
 		btnCancelar.setBounds(1174, 657, 143, 33);
+		btnCancelar.addActionListener(cancel);
 		marco1.getContentPane().add(btnCancelar);
 		// -----------------------------------------------------------------
 
