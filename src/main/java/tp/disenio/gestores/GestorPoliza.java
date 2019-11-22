@@ -11,16 +11,22 @@ import tp.disenio.DTO.PremioDTO;
 import tp.disenio.DTO.VehiculoDTO;
 import tp.disenio.clases.Alarma;
 import tp.disenio.clases.Cliente;
+import tp.disenio.clases.Cobertura;
 import tp.disenio.clases.Descuentos;
 import tp.disenio.clases.DispRastreo;
 import tp.disenio.clases.DomicilioRiesgo;
 import tp.disenio.clases.Garage;
+import tp.disenio.clases.Hijo;
 import tp.disenio.clases.Localidad;
 import tp.disenio.clases.Marca;
 import tp.disenio.clases.MedidasSeguridad;
+import tp.disenio.clases.Mensual;
 import tp.disenio.clases.Modelo;
 import tp.disenio.clases.Poliza;
+import tp.disenio.clases.PolizaModificada;
+import tp.disenio.clases.Premio;
 import tp.disenio.clases.Provincia;
+import tp.disenio.clases.Semestral;
 import tp.disenio.clases.Siniestros;
 import tp.disenio.clases.Tuercas;
 import tp.disenio.clases.Vehiculo;
@@ -163,6 +169,29 @@ public class GestorPoliza {
 
 		Siniestros aux_siniestro = new Siniestros();
 
+		aux_siniestro.setNombre(p.getSiniestro());
+
+		ArrayList<Hijo> hijos = new ArrayList();
+
+		for (HijoDTO h: listahijos) {
+
+			Hijo aux_h = new Hijo();
+			aux_h.setEstadoCivil(h.getEstadoCivil());
+			aux_h.setFechaNac(h.getFechaNac());
+			aux_h.setSexo(h.getFechaNac());
+
+			hijos.add(aux_h);
+		}
+
+		Cobertura aux_cob = new Cobertura();
+		aux_cob.setNombre(p.getTipoCobertura());
+		//VER LO DE TIPOCOBERTURA
+
+		Premio aux_premio = new Premio();
+		aux_premio.setPrima(premio.getPrima());
+		aux_premio.setDerechoEmision(premio.getDerechoEmision());
+		aux_premio.setMontoTotal(premio.getMontoTotal());
+
 
 		Poliza nueva_poliza = new Poliza();
 
@@ -172,6 +201,28 @@ public class GestorPoliza {
 		nueva_poliza.setVehiculo(aux_ve);
 		nueva_poliza.setKmPorAnio(p.getKmPorAnio());
 		nueva_poliza.setSeguridad(aux_MS);
+		nueva_poliza.setSumaasegurada(p.getSumaasegurada());
+		nueva_poliza.setHijos_declarados(hijos);
+		nueva_poliza.setTipo_cobertura(aux_cob);
+		nueva_poliza.setInicio_vigencia(p.getInicio_vigencia());
+		nueva_poliza.setFin_vigencia(p.getFin_vigencia());
+		nueva_poliza.setEstado_poliza("GENERADA");
+		nueva_poliza.setPremio(aux_premio);
+		nueva_poliza.setDescuento(descuentos);
+
+		if (p.getForma_pago() == "MENSUAL") {
+			Mensual aux_mens = new Mensual();
+
+
+		}
+		else {
+			Semestral aux_sem = new Semestral();
+		}
+		//FALTA SETEAR FORMADEPAGO
+
+
+		nueva_poliza.setPoliza_modificada(new PolizaModificada());
+
 
 		flag = DAOPoliza.cargarPoliza(nueva_poliza);
 	}
