@@ -23,6 +23,7 @@ import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.DTO.PremioDTO;
 import tp.disenio.DTO.VehiculoDTO;
+import tp.disenio.clases.Descuentos;
 import tp.disenio.gestores.GestorCliente;
 import tp.disenio.gestores.GestorPantallas;
 import tp.disenio.gestores.GestorPoliza;
@@ -209,6 +210,10 @@ public class PantallaDarAltaPoliza3Semestral {
 
 		JTable tableDescuentos = new JTable();
 		String desc = Double.toString(100-gp.descuentos(cant)*100)  + "%";
+		Descuentos descuentos = new Descuentos();
+		descuentos.setDescPorUnidadAdicional(100-gp.descuentos(cant)*100);
+		descuentos.setDescPorPagoAdelantado(0.05);
+		descuentos.setDescPorPagoSemestral(0.10);
 		tableDescuentos.setModel(new DefaultTableModel(
 				new Object[][] {
 					{desc, "10%"},
@@ -249,8 +254,9 @@ public class PantallaDarAltaPoliza3Semestral {
 			//aca va el dar alta poliza
 
 
-
-
+			gp.cargarPoliza(c,p,v,listahijos,dom,descuentos,premio);
+			GestorPantallas.PantallaPrincipal();
+			marco1.dispose();
 
 		};
 		btnAceptar.addActionListener(aceptar);

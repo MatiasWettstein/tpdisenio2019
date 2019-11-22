@@ -9,7 +9,7 @@ public class Poliza {
 	private Cliente cliente;
 	private DomicilioRiesgo domicilio_riesgo;
 	private Vehiculo vehiculo;
-	private float kmPorAnio;
+	private int kmPorAnio;
 	private MedidasSeguridad seguridad;
 	private Siniestros siniestro;
 	private float sumaasegurada;
@@ -51,10 +51,10 @@ public class Poliza {
 	public void setVehiculo(Vehiculo vehiculo) {
 		this.vehiculo = vehiculo;
 	}
-	public float getKmPorAnio() {
+	public int getKmPorAnio() {
 		return kmPorAnio;
 	}
-	public void setKmPorAnio(float kmPorAnio) {
+	public void setKmPorAnio(int kmPorAnio) {
 		this.kmPorAnio = kmPorAnio;
 	}
 	public MedidasSeguridad getSeguridad() {
