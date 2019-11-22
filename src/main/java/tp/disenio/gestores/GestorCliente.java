@@ -137,10 +137,8 @@ public class GestorCliente {
 
 		Cliente clienteFinal = new Cliente();
 		clienteFinal.setNroCliente(c.getNroCliente());
-		clienteFinal.setApellido(c.getApellido());
-		System.out.println(c.getFechaNac() + "HOLAA");
+		clienteFinal.setApellido(c.getApellido());	
 		clienteFinal.setFechaNac(c.getFechaNac());
-		System.out.println(clienteFinal.getFechaNac() + "CHAU");
 		clienteFinal.setNombre(c.getNombre());
 		clienteFinal.setTipoDocumento(c.getTipoDoc());
 		clienteFinal.setDocumento(c.getDocumento());
