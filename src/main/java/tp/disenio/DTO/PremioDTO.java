@@ -2,6 +2,7 @@ package tp.disenio.DTO;
 
 public class PremioDTO {
 
+	private int idPremio;
 	private float prima;
 	private float derechoEmision;
 	private float montoTotal;
@@ -24,6 +25,12 @@ public class PremioDTO {
 	}
 	public void setMontoTotal(float montoTotal) {
 		this.montoTotal = montoTotal;
+	}
+	public int getIdPremio() {
+		return idPremio;
+	}
+	public void setIdPremio(int idPremio) {
+		this.idPremio = idPremio;
 	}
 
 
