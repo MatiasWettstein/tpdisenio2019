@@ -166,18 +166,7 @@ public class DAOCliente {
 		try {
 
 			int idDire = DAODireccion.guardarDireccion(c.getDireccion()); //me devuelve la id de la direccion asi lo asocio al cliente
-			/*
-			DateFormat dateFormat1 = new SimpleDateFormat("yyyy-MM-dd");
-			Calendar cal1 = Calendar.getInstance();
-			try {
-				cal1.setTime(dateFormat1.parse(c.getFechaNac()));
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-
-			java.sql.Date fechNac = new java.sql.Date(cal1.getTimeInMillis());
-			 */
+		
 			//nro_cliente 1
 			//tipo_c, 2
 			//cuil 3
@@ -200,9 +189,6 @@ public class DAOCliente {
 			st.setString(2, c.getTipo());
 			st.setString(3, c.getCuil());
 			st.setString(4, c.getFechaNac());
-			//st.setString(4, c.getFechaNac()); //ACA SALTA ERROR PORQUE DICE QUE NO ESTOY SETEANDO ESE PARAMETRO
-			System.out.println(c.getFechaNac());
-			st.setString(4, c.getFechaNac()); //ACA SALTA ERROR PORQUE DICE QUE NO ESTOY SETEANDO ESE PARAMETRO
 			st.setString(5, c.getDocumento());
 			st.setString(6, c.getNombre());
 			st.setString(7, c.getApellido());

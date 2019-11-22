@@ -37,9 +37,7 @@ public class DAODireccion {
 			while(rsDire.next()) {
 				idDire = rsDire.getInt("max");
 			}
-			System.out.println(idDire + "DEVOLUCION CONSULTA");
 			idDire++;
-			System.out.println(idDire + "DESPUES DE INCREMENTO");
 
 			numeroDire = Integer.parseInt(d.getNumero());
 
