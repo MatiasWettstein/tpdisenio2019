@@ -645,7 +645,7 @@ public class PantallaDarAltaCliente {
 				JOptionPane.showMessageDialog(null, errores);
 			}
  
-			if (f_nDOC ) { //VERIFICAR ESTE IF QUE ES CUALQUIERA 
+			if (f_nDOC && campoCompleto) { //VERIFICAR ESTE IF QUE ES CUALQUIERA 
 
 
 				ClienteDTO clienteDTO = new ClienteDTO();

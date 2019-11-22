@@ -37,11 +37,11 @@ public class DAODireccion {
 			while(rsDire.next()) {
 				idDire = rsDire.getInt("max");
 			}
-			
-			
+			System.out.println(idDire + "DEVOLUCION CONSULTA");
+			idDire++;
+			System.out.println(idDire + "DESPUES DE INCREMENTO");
+
 			numeroDire = Integer.parseInt(d.getNumero());
-			numeroDire +=1;
-			
 
 			//id_direccion 1 
 			//calle, 2
@@ -50,14 +50,15 @@ public class DAODireccion {
 			//localidad 5 
 			//piso 6
 			
-			
 			PreparedStatement st = con.prepareStatement("INSERT INTO DIRECCION VALUES (?, ?, ?, ?, ?, ?)");
 			st.setInt(1, idDire);
 			st.setString(2, d.getCalle());
 			st.setInt(3, numeroDire);
 			if (d.getDpto() != null) st.setString(4, d.getDpto()); 
+			else st.setNull(4, java.sql.Types.VARCHAR);
 			st.setInt(5, d.getLocalidad().getId_localidad());
 			if (d.getPiso() != 0) st.setInt(6, d.getPiso());
+			else st.setNull(6, java.sql.Types.NUMERIC);
 			
 			
 
@@ -76,7 +77,7 @@ public class DAODireccion {
 			e.printStackTrace();
 		}
 
-		return numeroDire; 
+		return idDire; 
 
 	}
 
