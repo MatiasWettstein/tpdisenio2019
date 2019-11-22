@@ -9,9 +9,7 @@ public class Modelo {
 	private int idModelo;
 	private float porcentaje;
 	private String nombre;
-	private int anioInicio;
-	private int anioFin;
-	private ArrayList<Anio> listaAnios;
+	private Anio anio;
 	private Marca marca;
 	
 	@Override
@@ -51,22 +49,6 @@ public class Modelo {
 		this.nombre = nombre;
 	}
 
-	public int getAnioInicio() {
-		return anioInicio;
-	}
-
-	public void setAnioInicio(int anioInicio) {
-		this.anioInicio = anioInicio;
-	}
-
-	public int getAnioFin() {
-		return anioFin;
-	}
-
-	public void setAnioFin(int anioFin) {
-		this.anioFin = anioFin;
-	}
-	
 	
 	
 }
