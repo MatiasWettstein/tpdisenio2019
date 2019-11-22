@@ -5,12 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import tp.disenio.clases.Premio;
+import tp.disenio.DTO.PremioDTO;
 import tp.disenio.gestores.GestorDB;
 
 public class DAOPremio {
 	
-	public static int  guardarPrima (Premio p) {
+	public static int  guardarPremio (PremioDTO p) {
 		
 		int idPremio = 0;
 		GestorDB gdb = GestorDB.getInstance();
