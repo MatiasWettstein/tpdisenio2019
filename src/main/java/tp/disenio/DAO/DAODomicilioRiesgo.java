@@ -5,18 +5,17 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
-
-import tp.disenio.clases.Premio;
+import tp.disenio.clases.Cliente;
+import tp.disenio.clases.DomicilioRiesgo;
 import tp.disenio.gestores.GestorDB;
 
-public class DAOPremio {
+public class DAODomicilioRiesgo {
 	
-	public static int  guardarPremio (Premio p) {
-		
-		int idPremio = 0;
+	public static int guardarDomRiesgo (DomicilioRiesgo d) { //DEVUELVE EL ID DEL DOM CARGADO
+		int id_dom = 0;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
+
 
 		try {
 			con = gdb.crearConexion();
@@ -28,16 +27,19 @@ public class DAOPremio {
 			e1.printStackTrace();
 		}
 		try {
-			idPremio = DAOPremio.recupearUltimoNID(p);
-			idPremio +=1;
-			PreparedStatement st = con.prepareStatement("INSERT INTO PREMIO VALUES (?, ?, ?, ?)");
-			st.setInt(1, idPremio);//id_premio 1 
-			st.setFloat(2, p.getPrima());//prima, 2
-			st.setFloat(3, p.getDerechoEmision());//derecho 3
-			st.setFloat(4, p.getMontoTotal());//monto, 4 
-		
+
+			id_dom = DAODomicilioRiesgo.recupearUltimoNID(d); 
+			
+			id_dom +=1;
+
+			PreparedStatement st = con.prepareStatement("INSERT INTO DOMICILIO_RIESGO VALUES (?, ?, ?)");
+			st.setInt(1, id_dom); //id_domicilio
+			st.setFloat(2, d.getPorcentajeDomicilio() ); //porcentaje
+			st.setInt(3, d.getLocalidad().getId_localidad());//FK LOCALIDAD  
+
 			st.executeUpdate();
 			st.close();
+
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -51,12 +53,11 @@ public class DAOPremio {
 			e.printStackTrace();
 		}
 
-		return idPremio; 
+		return id_dom;
 
 	}
 
-	
-private static int recupearUltimoNID(Premio p) {
+	private static int recupearUltimoNID(DomicilioRiesgo d) {
 		
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
@@ -75,7 +76,7 @@ private static int recupearUltimoNID(Premio p) {
 		}
 
 		try {
-			String Consulta = "select max(id_premio) from premio";
+			String Consulta = "select max(id_domicilio) from domicilio_riesgo";
 			PreparedStatement st = con.prepareStatement(Consulta);
 			rs = st.executeQuery();
 
@@ -99,5 +100,5 @@ private static int recupearUltimoNID(Premio p) {
 
 		return retorno;
 	}
-	
+
 }
