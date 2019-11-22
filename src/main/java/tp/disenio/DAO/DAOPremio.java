@@ -29,7 +29,7 @@ public class DAOPremio {
 		}
 		try {
 			
-			String Consulta = "select max(id_direccion) from premio";
+			String Consulta = "select max(id_premio) from premio";
 			PreparedStatement stPremio = con.prepareStatement(Consulta);
 			rsPremio = stPremio.executeQuery();
 			
@@ -47,7 +47,7 @@ public class DAOPremio {
 			//monto, 4 
 
 			
-			PreparedStatement st = con.prepareStatement("INSERT INTO PREMIO VALUES (?, ?, ?, ?, ?, ?)");
+			PreparedStatement st = con.prepareStatement("INSERT INTO PREMIO VALUES (?, ?, ?, ?)");
 			st.setInt(1, idPremio);
 			st.setFloat(2, p.getPrima());
 			st.setFloat(3, p.getDerechoEmision());
