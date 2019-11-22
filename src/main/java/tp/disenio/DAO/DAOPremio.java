@@ -10,7 +10,7 @@ import tp.disenio.gestores.GestorDB;
 
 public class DAOPremio {
 	
-	public static int  guardarPrima (Premio p) {
+	public static int  guardarPremio (Premio p) {
 		
 		int idPremio = 0;
 		GestorDB gdb = GestorDB.getInstance();
