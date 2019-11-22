@@ -38,11 +38,10 @@ import tp.disenio.gestores.GestorPantallas;
 
 
 public class PantallaDarAltaCliente {
-	private static JTextField textField;
+
 	private static JTextField textField_Apellido;
 	private static JTextField textField_Nombre;
 	private static JTextField textField_Documento;
-	private static JTextField textField_FechNac;
 	private static JTextField textField_Calle;
 	private static JTextField textField_NroCalle;
 	private static JTextField textField_Piso;
@@ -469,44 +468,44 @@ public class PantallaDarAltaCliente {
 			boolean error = true;
 			boolean f_nDOC = true;
 			boolean f_apellido = true;
-			boolean f_nombre = true; 
+			boolean f_nombre = true;
 			boolean f_TDoc = true;
 			boolean f_CUIL = true;
 			boolean f_Sexo = true;
 			boolean f_FechV = true;
-			boolean f_Calle = true; 
+			boolean f_Calle = true;
 			boolean f_NroCalle = true;
 			boolean f_Prov = true;
-			boolean f_Loc = true; 
+			boolean f_Loc = true;
 			boolean f_condIVA = true;
-			boolean f_email = true; 
+			boolean f_email = true;
 			boolean f_estadoCivil = true;
 			boolean f_profesion = true;
-			
+
 
 			//las validaciones estan hechas con excepciones porque si el campo no se completó sale una NullPointerException
 			//VALIDO APELLIDO
 			String apellido = textField_Apellido.getText();
 			if (apellido.matches("[0-9.@_~#+%&/()]+")== true ) {
-					errores += "El campo 'Apellido' no puede contenter números \n";
-					f_apellido = false; 
+				errores += "El campo 'Apellido' no puede contenter números \n";
+				f_apellido = false;
 			}
 			if(apellido.isEmpty()){
-					errores += "El campo 'Apellido' es obligatorio  \n";
-					f_apellido = false; 
+				errores += "El campo 'Apellido' es obligatorio  \n";
+				f_apellido = false;
 			}
 
 			//VALIDO NOMBRE
 			String nombre = textField_Nombre.getText();
 			if (nombre.matches("[0-9.@_~#+%&/()]+")== true ) {
-					errores += "El campo 'Nombre' no puede contenter números  \n";
-					f_nombre = false;
-				}
+				errores += "El campo 'Nombre' no puede contenter números  \n";
+				f_nombre = false;
+			}
 			if(nombre.isEmpty()) {
 				errores += "El campo 'Nombre' es obligatorio \n";
 				f_nombre = false;
 			}
-			
+
 			//VALIDO TIPO DOCUMENTO
 			try {
 				String tDoc = tipoDoc.getSelectedItem().toString();
@@ -518,48 +517,48 @@ public class PantallaDarAltaCliente {
 			}
 			//VALIDO NRO DOCUMENTO
 			String doc = textField_Documento.getText();
-			
+
 			if (doc.isEmpty()) {
 				errores += "El campo 'Nro. Documento' es obligatorio \n";
 				f_nDOC = false;
 			}
-			
+
 			if (f_TDoc && f_nDOC) {
-			if (tipoDoc.getSelectedItem().toString() == "DNI" ) { //VALIDO QUE SI ES TIPO DNI NO TENGA LETRAS 
+				if (tipoDoc.getSelectedItem().toString() == "DNI" ) { //VALIDO QUE SI ES TIPO DNI NO TENGA LETRAS
 					if (doc.matches("[a-zA-Z.@_~#+%&/()]+")== true) {
 						errores += "El campo DNI no puede contener letras \n";
 						f_nDOC = false;
 					}
-			}
-			else { //valido que no tenga caracteres especiales 
+				}
+				else { //valido que no tenga caracteres especiales
 					if (doc.matches("[.@_~#+%&/()]+")== true) {
 						errores += "El campo 'Documento' no puede contener caracteres especiales \n";
 						f_nDOC = false;
 					}
-			}
-			
-			//VALIDO QUE NO EXISTA UN CLIENTE REGISTRADO CON EL MISMO DOCUMENTO 
+				}
+
+				//VALIDO QUE NO EXISTA UN CLIENTE REGISTRADO CON EL MISMO DOCUMENTO
 				GestorCliente gc = GestorCliente.getInstance();
 				String tipoD = tipoDoc.getSelectedItem().toString();
 				boolean flag = GestorCliente.clienteExistente(tipoD, doc);
-				
-			//devuelve true si encuentra un cliente con esos datos
+
+				//devuelve true si encuentra un cliente con esos datos
 				if (flag) {
 					errores += "Ya existe un cliente registrado con ese numero de documento";
 					f_nDOC = false;
 				}
-			
+
 			}
 			//VALIDO CUIL
 			try {
 				String nCUIL = formattedTextField_NCUIL.getText(); //ya valido que no se puedan ingresar letras arriba
-				
+
 				String aux_1 = nCUIL.substring(3, 11);
 				if(tipoDoc.getSelectedItem().toString() == "DNI") {
-				if (!(aux_1.equals(textField_Documento.getText()))) {
-					errores += "El campo 'CUIL' no coincide con el nro de documento";
-					 f_CUIL = false;
-				}
+					if (!aux_1.equals(textField_Documento.getText())) {
+						errores += "El campo 'CUIL' no coincide con el nro de documento";
+						f_CUIL = false;
+					}
 				}
 			}
 			catch (Exception eCUIL) {
@@ -607,21 +606,21 @@ public class PantallaDarAltaCliente {
 
 				}
 			}
-			
+
 			//VALIDO CALLE
 			String calle = textField_Calle.getText();
 			if (calle.isEmpty()) {
 				errores += "El campo 'Calle' es obligatorio  \n";
-				f_Calle = false; 
+				f_Calle = false;
 			}
-			
+
 			//VALIDO NUMERO
 			String Ncalle = textField_NroCalle.getText();
 			if (Ncalle.isEmpty()) {
 				errores += "El campo 'Nro. Calle' es obligatorio  \n";
-				 f_NroCalle = false;
+				f_NroCalle = false;
 			}
-			
+
 			//VALIDO PROVINCIA
 			try {
 				String aux_prov = comboBox_Provincia.getSelectedItem().toString();
@@ -636,7 +635,7 @@ public class PantallaDarAltaCliente {
 			}
 			catch (Exception eLoc) {
 				errores += "El campo 'Localidad' es obligatorio  \n";
-				f_Loc = false; 
+				f_Loc = false;
 			}
 			//VALIDO COND IVA
 			try {
@@ -651,9 +650,9 @@ public class PantallaDarAltaCliente {
 			String correo = textField_email.getText();
 			if (correo.isEmpty()) {
 				errores += "El campo 'Correo electrónico' es obligatorio  \n";
-				f_email = false; 
+				f_email = false;
 			}
-			
+
 			//VALIDO ESTADO CIVIL
 			try {
 				String estadoC = comboBox_EstadoCivil.getSelectedItem().toString();
@@ -662,26 +661,26 @@ public class PantallaDarAltaCliente {
 				errores += "El campo 'Estado Civil' es obligatorio  \n";
 				f_estadoCivil = false;
 			}
-			
+
 			//VALIDO PROFESION
 			String profesion = textField_Profesion.getText();
 			if (profesion.isEmpty()) {
 				errores += "El campo 'Profesión' es obligatorio  \n";
-				 f_profesion = false;
+				f_profesion = false;
 			}
-			//muestro los mensajes de errores 
+			//muestro los mensajes de errores
 			if (errores != "") { //muestro los mensajes de error
 				error = false;
 				JOptionPane.showMessageDialog(null, errores);
 			}
- 
-			if (error && f_nDOC && f_apellido && f_nombre && f_TDoc && f_CUIL && f_Sexo && f_FechV && f_Calle && f_NroCalle && f_Prov && f_Loc 	&& f_condIVA && f_email && f_estadoCivil && f_profesion ) {  
+
+			if (error && f_nDOC && f_apellido && f_nombre && f_TDoc && f_CUIL && f_Sexo && f_FechV && f_Calle && f_NroCalle && f_Prov && f_Loc 	&& f_condIVA && f_email && f_estadoCivil && f_profesion ) {
 
 
 				ClienteDTO clienteDTO = new ClienteDTO();
 				clienteDTO.setApellido(textField_Apellido.getText());
 				clienteDTO.setNombre(textField_Nombre.getText());
-				clienteDTO.setTipoDoc(tipoDoc.getSelectedItem().toString());  
+				clienteDTO.setTipoDoc(tipoDoc.getSelectedItem().toString());
 				clienteDTO.setDocumento(textField_Documento.getText());
 				clienteDTO.setSexo(sexo.getSelectedItem().toString());
 				clienteDTO.setCorreoElectronico(textField_email.getText());
@@ -730,7 +729,7 @@ public class PantallaDarAltaCliente {
 		JButton btnCancelar = new JButton("CANCELAR");
 		btnCancelar.addActionListener(arg0 -> {
 			GestorPantallas.PantallaPrincipal();
-			marco1.dispose();			
+			marco1.dispose();
 		});
 		btnCancelar.setFont(new Font("Serif", Font.BOLD, 12));
 		btnCancelar.setBounds(1174, 657, 143, 33);

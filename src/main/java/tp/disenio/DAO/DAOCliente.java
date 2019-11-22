@@ -166,7 +166,7 @@ public class DAOCliente {
 		try {
 
 			int idDire = DAODireccion.guardarDireccion(c.getDireccion()); //me devuelve la id de la direccion asi lo asocio al cliente
-		
+
 			//nro_cliente 1
 			//tipo_c, 2
 			//cuil 3
@@ -245,6 +245,7 @@ public class DAOCliente {
 			String Consulta = "select max(nro_cliente) from cliente";
 			PreparedStatement st = con.prepareStatement(Consulta);
 			rs = st.executeQuery();
+
 
 			while(rs.next()) {
 				retorno = rs.getString("max");

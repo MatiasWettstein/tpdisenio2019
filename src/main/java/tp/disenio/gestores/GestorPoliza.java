@@ -2,6 +2,7 @@ package tp.disenio.gestores;
 
 import java.util.ArrayList;
 
+import tp.disenio.DAO.DAOHijo;
 import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.DTO.DomicilioRiesgoDTO;
 import tp.disenio.DTO.HijoDTO;
@@ -66,10 +67,10 @@ public class GestorPoliza {
  FK id cliente 13
 		 */
 
-		for(HijoDTO h:listahijos) {
+		ArrayList<Integer> idhijos = new ArrayList<>();
 
+		idhijos = DAOHijo.cargarhijos();
 
-		}
 
 
 
