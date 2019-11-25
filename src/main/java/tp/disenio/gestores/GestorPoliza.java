@@ -92,17 +92,7 @@ public class GestorPoliza {
 			aux_mens.setCuotas(listacuotas);
 			aux_mens.setNombre("MENSUAL");
 			nueva_poliza.setForma_pago(aux_mens);
-		/*
-		else if (p.getForma_pago() == "SEMESTRAL") {
-			Semestral aux_sem = new Semestral();
-			aux_sem.setFecha_Vencimiento(cuotas.get(0).getVencimiento());
-			aux_sem.setMontoTotal(cuotas.get(0).getMonto());
-			aux_sem.setNombre("SEMESTRAL");
-			nueva_poliza.setForma_pago(aux_sem);
 
-		}*/
-			
-		
 
 		flag = DAOPoliza.cargarPoliza(nueva_poliza);
 		return flag; 
@@ -122,7 +112,25 @@ public class GestorPoliza {
 			aux_sem.setNombre("SEMESTRAL");
 			nueva_poliza.setForma_pago(aux_sem);
 
-		flag = DAOPoliza.cargarPoliza(nueva_poliza);
+		
+			if (DAOPoliza.cargarPoliza(nueva_poliza)) {
+				
+				
+				Boolean poliza_tiene_mds = DAOPoliza.cargarPolizaTieneMDS(nueva_poliza);
+
+				Boolean hijo_declarado = DAOHijo.cargarHijos(nueva_poliza);
+				
+				
+				/*
+				 * cargar tablas: 
+				 * CUOTA 
+				 * CATACTERISTICAS 
+				 * DESCUENTOS 
+				 * POLIZA TIENE MDS - listo
+				 * AGREGAR HIJO DECLARADO - listo 
+				 */
+				flag = true; 
+			}
 		return flag;
 	}
 	
@@ -186,7 +194,9 @@ public class GestorPoliza {
 		aux_Loc = gpm.setearLocalidad(dom);
 		
 		DomicilioRiesgo aux_domR = new DomicilioRiesgo();
-		aux_domR.setId_domicilioR(dom.getId_domicilioR());
+		int idDom = DAODomicilioRiesgo.recupearUltimoNID();
+		idDom +=1;
+		aux_domR.setId_domicilioR(idDom);
 		aux_domR.setLocalidad(aux_Loc);
 		aux_domR.setPorcentajeDomicilio(dom.getPorcentajeDomicilio());
 
@@ -281,4 +291,13 @@ public class GestorPoliza {
 		return nueva_poliza;
 	}
 
+	public static Boolean cargarPolizaTieneMDS (Poliza p) {
+		Boolean flag = false; 
+		
+		flag = DAOPoliza.cargarPolizaTieneMDS(p);
+		
+		return flag; 
+	}
+	
+	
 }

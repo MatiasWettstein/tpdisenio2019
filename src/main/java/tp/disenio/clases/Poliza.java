@@ -22,7 +22,7 @@ public class Poliza {
 	private Descuentos descuento;
 	private FormaDePago forma_pago;
 	private PolizaModificada poliza_modificada;
-
+	private Caracteristicas caracteristicas; 
 
 
 
@@ -128,6 +128,12 @@ public class Poliza {
 	}
 	public void setPoliza_modificada(PolizaModificada poliza_modificada) {
 		this.poliza_modificada = poliza_modificada;
+	}
+	public Caracteristicas getCaracteristicas() {
+		return caracteristicas;
+	}
+	public void setCaracteristicas(Caracteristicas caracteristicas) {
+		this.caracteristicas = caracteristicas;
 	}
 
 

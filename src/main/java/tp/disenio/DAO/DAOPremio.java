@@ -12,9 +12,8 @@ import tp.disenio.gestores.GestorDB;
 
 public class DAOPremio {
 	
-	public static int  guardarPremio (Premio p) {
+	public static void  guardarPremio (Premio p) {
 		
-		int idPremio = 0;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
 
@@ -48,8 +47,6 @@ public class DAOPremio {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		return idPremio; 
 
 	}
 

@@ -271,7 +271,7 @@ public class PantallaDarAltaPoliza3Mensual {
 			//aca hace el dar alta poliza
 			
 			boolean flag = gp.cargarPolizaMensual(c,p,v,listahijos,dom, descuentosdto, premiodto, listacuotas);
-			
+			//FALTA SETEAR CARACTERSITICAS - NO SE LO PASAMOS EN NINGUN LADO. 
 			if (flag) {
 				JOptionPane.showMessageDialog(null, "Poliza generada con éxito");
 			}

@@ -7,16 +7,73 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import tp.disenio.clases.Hijo;
+import tp.disenio.clases.Poliza;
 import tp.disenio.gestores.GestorDB;
 
 public class DAOHijo {
 
-	public static ArrayList<Integer> cargarHijos(ArrayList<Hijo> hijos){
-		ArrayList<Integer> retorno = new ArrayList<>();
-		int maxid = 0;
+	public static Boolean cargarHijos(Poliza p){
+		
+		
+		Boolean retorno = false; 
+		int ultimoID = DAOHijo.recupearUltimoNID();
+		ultimoID += 1;
+		
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
 		ResultSet rs = null;
+		try {
+			con = gdb.crearConexion();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		ArrayList<Hijo> hijos = p.getHijos_declarados();
+		
+		for(Hijo h : hijos) {
+
+			try {
+				PreparedStatement st = con.prepareStatement("INSERT INTO hijo_declarado VALUES (?, ?, ?, ?)");
+				st.setInt(1, ultimoID); //idHijo
+				st.setString(2, h.getFechaNac()); //fechaNac
+				st.setString(3, h.getEstadoCivil()); //EstadoCivil
+				st.setString(4, h.getSexo()); //sexo 
+				st.setInt(4, p.getNroPoliza());//nro_poliza
+				st.setInt(5, p.getPoliza_modificada().getId_polizaMod());//poliza_mod 
+
+				st.executeUpdate();
+				st.close();
+
+				ultimoID += 1;
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			retorno = true;
+		}
+		
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return retorno;
+	}
+
+public static int recupearUltimoNID() {
+		
+		int retorno = 0;
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = null;
+		ResultSet rs = null;
+
+
 		try {
 			con = gdb.crearConexion();
 		} catch (ClassNotFoundException e1) {
@@ -31,37 +88,18 @@ public class DAOHijo {
 			String Consulta = "select max(id_hijo) from hijo_declarado";
 			PreparedStatement st = con.prepareStatement(Consulta);
 			rs = st.executeQuery();
+
+
 			while(rs.next()) {
-				maxid = rs.getInt("max");
+				retorno = rs.getInt("max");
 			}
+
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		for(Hijo h : hijos) {
-
-			try {
-				PreparedStatement st = con.prepareStatement("INSERT INTO hijo_declarado VALUES (?, ?, ?, ?)");
-				st.setInt(1, maxid+1);
-				st.setString(2, h.getFechaNac());
-				st.setString(3, h.getEstadoCivil());
-				st.setString(4, h.getSexo());
-
-				st.executeUpdate();
-				st.close();
-
-				retorno.add(maxid+1);
-				maxid=maxid+1;
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-
-
-		}
 		try {
 			con.close();
 		} catch (SQLException e) {
@@ -71,8 +109,8 @@ public class DAOHijo {
 
 		return retorno;
 	}
-
-
+	
+	
 
 
 }

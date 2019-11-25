@@ -11,9 +11,8 @@ import tp.disenio.gestores.GestorDB;
 
 public class DAOTipoCobertura {
 
-public static int  guardarTipo (Cobertura c) {
+public static void guardarTipo (Cobertura c) {
 		
-		int id_tipo = 0;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
 
@@ -28,10 +27,8 @@ public static int  guardarTipo (Cobertura c) {
 		}
 		try {
 			
-			id_tipo = DAOTipoCobertura.recupearUltimoNID();
-			id_tipo +=1;
 			PreparedStatement st = con.prepareStatement("INSERT INTO PREMIO VALUES (?, ?, ?)");
-			st.setInt(1, id_tipo);//id_siniestro 1 
+			st.setInt(1, c.getId_cobertura());//id_cob 1 
 			st.setString(2, c.getNombre());//nombre, 2
 			st.setFloat(3, c.getPorcentajeTipoCobertura());//porcentaje 3
 			
@@ -49,8 +46,6 @@ public static int  guardarTipo (Cobertura c) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		return id_tipo; 
 
 	}
 

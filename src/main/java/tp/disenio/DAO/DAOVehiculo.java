@@ -11,9 +11,8 @@ import tp.disenio.gestores.GestorDB;
 
 public class DAOVehiculo {
 	
-public static int  guardarVehiculo (Vehiculo v) {
-		
-		int id_ve = 0;
+public static void  guardarVehiculo (Vehiculo v) {
+	
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
 
@@ -52,7 +51,6 @@ public static int  guardarVehiculo (Vehiculo v) {
 			e.printStackTrace();
 		}
 
-		return id_ve; 
 
 	}
 
