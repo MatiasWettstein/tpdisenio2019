@@ -196,8 +196,7 @@ public class PantallaDarAltaPoliza3Mensual {
 		
 		
 		
-		DescuentosDTO descuentosdto = new DescuentosDTO();
-		descuentosdto = gp.setDescuentos(c);
+		final DescuentosDTO descuentosdto =  gp.setDescuentos(c);
 		String desc = Double.toString(descuentosdto.getDescPorUnidadAdicional())  + "%";
 	
 		tableDescuentos.setModel(new DefaultTableModel(
@@ -268,7 +267,7 @@ public class PantallaDarAltaPoliza3Mensual {
 		btnAceptar.setBounds(1021, 657, 143, 33);
 		marco1.getContentPane().add(btnAceptar);
 		ActionListener aceptar = e -> {
-			//aca hace el dar alta poliza
+			//aca hace el dar alta poliza+
 			
 			boolean flag = gp.cargarPolizaMensual(c,p,v,listahijos,dom, descuentosdto, premiodto, listacuotas);
 			//FALTA SETEAR CARACTERSITICAS - NO SE LO PASAMOS EN NINGUN LADO. 

@@ -225,8 +225,7 @@ public class PantallaDarAltaPoliza3Semestral {
 
 		JTable tableDescuentos = new JTable();
 		
-		DescuentosDTO descuentosdto = new DescuentosDTO();
-		descuentosdto = gp.setDescuentos(c);
+		final DescuentosDTO descuentosdto =  gp.setDescuentos(c);
 		String desc = Double.toString(descuentosdto.getDescPorUnidadAdicional())  + "%";
 	
 		tableDescuentos.setModel(new DefaultTableModel(
