@@ -28,10 +28,8 @@ public class DAOPremio {
 			e1.printStackTrace();
 		}
 		try {
-			idPremio = DAOPremio.recupearUltimoNID(p);
-			idPremio +=1;
 			PreparedStatement st = con.prepareStatement("INSERT INTO PREMIO VALUES (?, ?, ?, ?)");
-			st.setInt(1, idPremio);//id_premio 1 
+			st.setInt(1, p.getIdPremio());//id_premio 1 
 			st.setFloat(2, p.getPrima());//prima, 2
 			st.setFloat(3, p.getDerechoEmision());//derecho 3
 			st.setFloat(4, p.getMontoTotal());//monto, 4 
@@ -56,7 +54,7 @@ public class DAOPremio {
 	}
 
 	
-private static int recupearUltimoNID(Premio p) {
+public static int recupearUltimoNID() {
 		
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
@@ -99,5 +97,7 @@ private static int recupearUltimoNID(Premio p) {
 
 		return retorno;
 	}
+
+
 	
 }

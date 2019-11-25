@@ -27,10 +27,9 @@ public static int  guardarVehiculo (Vehiculo v) {
 			e1.printStackTrace();
 		}
 		try {
-			id_ve = DAOVehiculo.recupearUltimoNID(v);
-			id_ve +=1;
+			
 			PreparedStatement st = con.prepareStatement("INSERT INTO PREMIO VALUES (?, ?, ?, ?, ?, ?, ?)");
-			st.setInt(1, id_ve); //id_vehiculo 1 
+			st.setInt(1, v.getId_vehiculo()); //id_vehiculo 1 
 			st.setString(2, v.getPatente()); //patente 2 varchar
 			st.setString(3, v.getMotor()); // motor 3 
 			st.setString(4, v.getChasis()); //chasis 4
@@ -58,7 +57,7 @@ public static int  guardarVehiculo (Vehiculo v) {
 	}
 
 	
-private static int recupearUltimoNID(Vehiculo v) {
+public static int recupearUltimoNID() {
 		
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();

@@ -13,6 +13,7 @@ import java.util.Calendar;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -20,6 +21,7 @@ import javax.swing.table.DefaultTableModel;
 
 import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.DTO.CuotaDTO;
+import tp.disenio.DTO.DescuentosDTO;
 import tp.disenio.DTO.DomicilioRiesgoDTO;
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
@@ -129,7 +131,7 @@ public class PantallaDarAltaPoliza3Mensual {
 
 		JTextField textField_suma = new JTextField();
 		textField_suma.setEditable(false);
-		textField_suma.setText(String.valueOf(p.getSumaasegurada()*1000));
+		textField_suma.setText(String.valueOf(p.getSumaasegurada()));
 		textField_suma.setColumns(10);
 		textField_suma.setBounds(570, 288, 196, 20);
 		marco1.getContentPane().add(textField_suma);
@@ -137,27 +139,27 @@ public class PantallaDarAltaPoliza3Mensual {
 		JTextField textField_Premio = new JTextField();
 		textField_Premio.setEditable(false);
 		GestorPoliza gp = GestorPoliza.getInstance();
-		textField_Premio.setText(String.valueOf(gp.calcularPremio(gp.calcularPrima(p.getSumaasegurada()*1000), gp.calcularDerecho(p.getSumaasegurada()*1000))));
+		
+		PremioDTO premiodto = new PremioDTO();
+
+		premiodto.setDerechoEmision(gp.calcularDerecho(p.getSumaasegurada()));
+		premiodto.setPrima(gp.calcularPrima(p.getSumaasegurada()));
+		premiodto.setMontoTotal(gp.calcularPremio(premiodto.getPrima(), premiodto.getDerechoEmision()));
+
+		
+		textField_Premio.setText(String.valueOf(premiodto.getMontoTotal()));
 		textField_Premio.setColumns(10);
 		textField_Premio.setBounds(913, 288, 196, 20);
 		marco1.getContentPane().add(textField_Premio);
 
-
-		PremioDTO premio = new PremioDTO();
-
-		premio.setDerechoEmision(gp.calcularDerecho(p.getSumaasegurada()*1000));
-		premio.setPrima(gp.calcularPrima(p.getSumaasegurada()*1000));
-		premio.setMontoTotal(gp.calcularPremio(gp.calcularPrima(p.getSumaasegurada()*1000), gp.calcularDerecho(p.getSumaasegurada()*1000)));
-
-		JTextField textField_2 = new JTextField();
-		textField_2.setEditable(false);
-		GestorCliente gc = GestorCliente.getInstance();
-		int cant= gc.cantidadPoliza(c);
-		double montototalapagar = premio.getMontoTotal()*gp.descuentos(cant);
-		textField_2.setText(String.valueOf(montototalapagar));
-		textField_2.setColumns(10);
-		textField_2.setBounds(218, 425, 196, 20);
-		marco1.getContentPane().add(textField_2);
+		
+		JTextField textField_montoTotalAPagar = new JTextField();
+		textField_montoTotalAPagar.setEditable(false);
+		double montototalapagar= gp.calcularMontoTotalAPagar(premiodto, c);
+		textField_montoTotalAPagar.setText(String.valueOf(montototalapagar));
+		textField_montoTotalAPagar.setColumns(10);
+		textField_montoTotalAPagar.setBounds(218, 425, 196, 20);
+		marco1.getContentPane().add(textField_montoTotalAPagar);
 
 		// -----------------------------------------------------------------
 
@@ -191,11 +193,13 @@ public class PantallaDarAltaPoliza3Mensual {
 		marco1.getContentPane().add(scrollPane_1);
 
 		JTable tableDescuentos = new JTable();
-		String desc = Double.toString(100-gp.descuentos(cant)*100)  + "%";
-		Descuentos descuentos = new Descuentos();
-		descuentos.setDescPorUnidadAdicional(100-gp.descuentos(cant)*100);
-		descuentos.setDescPorPagoAdelantado(0.05);
-		descuentos.setDescPorPagoSemestral(0.10);
+		
+		
+		
+		DescuentosDTO descuentosdto = new DescuentosDTO();
+		descuentosdto = gp.setDescuentos(c);
+		String desc = Double.toString(descuentosdto.getDescPorUnidadAdicional())  + "%";
+	
 		tableDescuentos.setModel(new DefaultTableModel(
 				new Object[][] {
 					{desc},
@@ -220,27 +224,7 @@ public class PantallaDarAltaPoliza3Mensual {
 		scrollPane_2.setBounds(24, 477, 898, 123);
 		marco1.getContentPane().add(scrollPane_2);
 
-		ArrayList<CuotaDTO> listacuotas = new ArrayList<>();
-		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-yyyy");
-		Calendar cal1 = Calendar.getInstance();
-		try {
-			cal1.setTime(dateFormat1.parse(p.getInicio_vigencia()));
-		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		cal1.add(Calendar.MONTH, 1);
-		cal1.add(Calendar.DAY_OF_MONTH,1);
-
-		for(int i=0; i<6; i++) {
-			CuotaDTO cuota = new CuotaDTO();
-			cuota.setMonto(montototalapagar/6);
-			cuota.setPagado(false);
-			String fechavencimiento = dateFormat1.format(cal1.getTime());
-			cuota.setVencimiento(fechavencimiento);
-			cal1.add(Calendar.MONTH, 1);
-			listacuotas.add(cuota);
-		}
+		ArrayList<CuotaDTO> listacuotas = gp.obtenerListaCuotas(premiodto, c, p);
 
 		DecimalFormat dec = new DecimalFormat("#0.00");
 		JTable tableCuotas = new JTable();
@@ -285,8 +269,13 @@ public class PantallaDarAltaPoliza3Mensual {
 		marco1.getContentPane().add(btnAceptar);
 		ActionListener aceptar = e -> {
 			//aca hace el dar alta poliza
-			//gp.cargarPoliza(c,p,v,listahijos,dom,descuentos,premio, listacuotas); listacuotas es un arraylist de cuotas
-			gp.cargarPoliza(c,p,v,listahijos,dom,descuentos,premio, listacuotas);
+			
+			boolean flag = gp.cargarPolizaMensual(c,p,v,listahijos,dom, descuentosdto, premiodto, listacuotas);
+			
+			if (flag) {
+				JOptionPane.showMessageDialog(null, "Poliza generada con éxito");
+			}
+			
 			GestorPantallas.PantallaPrincipal();
 			marco1.dispose();
 

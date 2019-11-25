@@ -2,7 +2,7 @@ package tp.disenio.clases;
 
 public class Vehiculo {
 
-	private String id_vehiculo;
+	private int id_vehiculo;
 	private String patente;
 	private String motor;
 	private String chasis;
@@ -18,10 +18,10 @@ public class Vehiculo {
 	public void setAnio(int anio) {
 		this.anio = anio;
 	}
-	public String getId_vehiculo() {
+	public int getId_vehiculo() {
 		return id_vehiculo;
 	}
-	public void setId_vehiculo(String id_vehiculo) {
+	public void setId_vehiculo(int id_vehiculo) {
 		this.id_vehiculo = id_vehiculo;
 	}
 	public String getPatente() {

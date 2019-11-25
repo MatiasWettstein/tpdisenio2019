@@ -7,8 +7,8 @@ import tp.disenio.clases.Marca;
 
 public class Modelo {
 	private int idModelo;
-	private float porcentaje;
 	private String nombre;
+	private float porcentaje;
 	private Anio anio;
 	private Marca marca;
 	
@@ -47,6 +47,14 @@ public class Modelo {
 
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+
+	public Anio getAnio() {
+		return anio;
+	}
+
+	public void setAnio(Anio anio) {
+		this.anio = anio;
 	}
 
 	

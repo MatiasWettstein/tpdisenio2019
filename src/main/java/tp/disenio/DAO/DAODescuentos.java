@@ -29,25 +29,14 @@ public class DAODescuentos {
 		}
 		try {
 			
-			String Consulta = "select max(id_descuentos) from descuentos";
-			PreparedStatement stDescuentos = con.prepareStatement(Consulta);
-			rsDescuentos = stDescuentos.executeQuery();
 			
-			while(rsDescuentos.next()) {
-				idDescuentos = rsDescuentos.getInt("max");
-			}
-			System.out.println(idDescuentos + "DEVOLUCION CONSULTA");
-			idDescuentos++;
-			System.out.println(idDescuentos + "DESPUES DE INCREMENTO");
-
-
 			//id_Descuentos 1 
 			//descPorUnidadAdicional, 2
 			//descPorPagoSemestral 3
 			//descPorPagoAdelantado, 4 
 			
 			PreparedStatement st = con.prepareStatement("INSERT INTO DESCUENTOS VALUES (?, ?, ?, ?)");
-			st.setInt(1, idDescuentos);
+			st.setInt(1, d.getIdDescuentos());
 			st.setDouble(2, d.getDescPorUnidadAdicional());
 			st.setDouble(3, d.getDescPorPagoSemestral());
 			st.setDouble(4, d.getDescPorPagoAdelantado());
@@ -74,6 +63,49 @@ public class DAODescuentos {
 	}
 
 	
+public static int recupearUltimoNID() {
+		
+		int retorno = 0;
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = null;
+		ResultSet rs = null;
+
+
+		try {
+			con = gdb.crearConexion();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		try {
+			String Consulta = "select max(id_descuentos) from descuentos";
+			PreparedStatement st = con.prepareStatement(Consulta);
+			rs = st.executeQuery();
+
+
+			while(rs.next()) {
+				retorno = rs.getInt("max");
+			}
+
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return retorno;
+	}
 	
 	
 }

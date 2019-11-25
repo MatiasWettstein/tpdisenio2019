@@ -43,6 +43,7 @@ public class DAOModelo {
 				mod.setIdModelo(rs.getInt("id_modelo"));
 				mod.setNombre(rs.getString("nombre"));
 				mod.setPorcentaje(rs.getFloat(2));
+				mod.setMarca(marca);
 				modelos.add(mod);
 			}
 		} catch (SQLException e) {

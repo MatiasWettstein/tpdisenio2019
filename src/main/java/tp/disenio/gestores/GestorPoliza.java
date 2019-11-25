@@ -1,37 +1,21 @@
 package tp.disenio.gestores;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 
-import tp.disenio.DAO.DAOPoliza;
+import tp.disenio.DAO.*;
 import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.DTO.CuotaDTO;
+import tp.disenio.DTO.DescuentosDTO;
 import tp.disenio.DTO.DomicilioRiesgoDTO;
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.DTO.PremioDTO;
 import tp.disenio.DTO.VehiculoDTO;
-import tp.disenio.clases.Alarma;
-import tp.disenio.clases.Cliente;
-import tp.disenio.clases.Cobertura;
-import tp.disenio.clases.Cuota;
-import tp.disenio.clases.Descuentos;
-import tp.disenio.clases.DispRastreo;
-import tp.disenio.clases.DomicilioRiesgo;
-import tp.disenio.clases.Garage;
-import tp.disenio.clases.Hijo;
-import tp.disenio.clases.Localidad;
-import tp.disenio.clases.Marca;
-import tp.disenio.clases.MedidasSeguridad;
-import tp.disenio.clases.Mensual;
-import tp.disenio.clases.Modelo;
-import tp.disenio.clases.Poliza;
-import tp.disenio.clases.PolizaModificada;
-import tp.disenio.clases.Premio;
-import tp.disenio.clases.Provincia;
-import tp.disenio.clases.Semestral;
-import tp.disenio.clases.Siniestros;
-import tp.disenio.clases.Tuercas;
-import tp.disenio.clases.Vehiculo;
+import tp.disenio.clases.*;
 
 public class GestorPoliza {
 	//---------- Patron Singleton
@@ -60,7 +44,6 @@ public class GestorPoliza {
 	}
 
 	public double descuentos(int cant) {
-
 		if(cant <=1) {
 			return 1;
 		} else if(cant > 1 && cant <= 3) {
@@ -72,77 +55,149 @@ public class GestorPoliza {
 	}
 
 
-	public static int generarNroPoliza(ClienteDTO c) {
+	public static int generarNroPoliza() {
 		int nroPoliza = 0;
 		String aux_nroNuevo = "";
-		int ultimoGuardado = DAOPoliza.recuperarUltimoNroPolizaCliente(c);
-
-		if (ultimoGuardado == 0) { // EL CLIENTE NO TIENE POLIZAS REGISTRADAS
-			aux_nroNuevo = "1234";
+		String n_sucursal = "1234";
+			//CAMBIAR EL NUMERO NUEVO QUE TIENE QUE SER SERIAL NO ALEATORIO
 			int aleatorio = (int) Math.floor(Math.random()*(9999999-1000000+1)+1000000); //genera el numero de 7 digitos para el vehiculo
-			aux_nroNuevo += Integer.toString(aleatorio);
-			aux_nroNuevo += "01"; //porque es la primera poliza que registra
+		String n_serial = Integer.toString(aleatorio);
+		String n_poliza = "01"; //porque es la primera poliza que registra
+		
+		aux_nroNuevo = n_sucursal + n_serial + n_poliza;
 			nroPoliza = Integer.parseInt(aux_nroNuevo);
-		}
-		else {
-			String aux_nroPoliza = "";
-			String aux_primerosN = "";
-			String aux_ultimosN = "";
-			int aux_ultimos = 0;
-
-			aux_nroPoliza = Integer.toString(ultimoGuardado);
-
-			aux_primerosN = aux_nroPoliza.substring(0, 11);
-			aux_ultimosN = aux_nroPoliza.substring(11, 13);
-
-			aux_ultimos = Integer.parseInt(aux_ultimosN); //acá tengo en int el ultimo numero
-			aux_ultimos +=1;
-
-			aux_ultimosN = Integer.toString(aux_ultimos);
-
-			aux_nroPoliza = aux_primerosN + aux_ultimosN ;
-
-			nroPoliza = Integer.parseInt(aux_nroPoliza);
-
-		}
+		
 		return nroPoliza;
 	}
 
-	public void cargarPoliza(ClienteDTO c,PolizaDTO p,VehiculoDTO v,ArrayList<HijoDTO>listahijos,DomicilioRiesgoDTO dom,Descuentos descuentos,PremioDTO premio, ArrayList<CuotaDTO> cuotas) {
+	public static boolean cargarPolizaMensual(ClienteDTO c,PolizaDTO p,VehiculoDTO v,ArrayList<HijoDTO>listahijos,DomicilioRiesgoDTO dom,DescuentosDTO descuentos,PremioDTO premio, ArrayList<CuotaDTO> cuotas) {
 
 		boolean flag = false;
+		GestorPoliza gp = GestorPoliza.getInstance();
+		Poliza nueva_poliza = new Poliza();
+		nueva_poliza = gp.generarInstanciaPoliza(c, p, v, listahijos, dom, descuentos, premio);
+		
+			Mensual aux_mens = new Mensual();
+			
+			ArrayList<Cuota> listacuotas = new ArrayList<>();
 
+			for(CuotaDTO cu : cuotas) {
+				Cuota cuota = new Cuota();
+				//no setea ID
+				cuota.setFecha_vencimiento(cu.getVencimiento());
+				cuota.setMonto(cu.getMonto());
+				listacuotas.add(cuota);
+			}
+
+			aux_mens.setCuotas(listacuotas);
+			aux_mens.setNombre("MENSUAL");
+			nueva_poliza.setForma_pago(aux_mens);
+		/*
+		else if (p.getForma_pago() == "SEMESTRAL") {
+			Semestral aux_sem = new Semestral();
+			aux_sem.setFecha_Vencimiento(cuotas.get(0).getVencimiento());
+			aux_sem.setMontoTotal(cuotas.get(0).getMonto());
+			aux_sem.setNombre("SEMESTRAL");
+			nueva_poliza.setForma_pago(aux_sem);
+
+		}*/
+			
+		
+
+		flag = DAOPoliza.cargarPoliza(nueva_poliza);
+		return flag; 
+	}
+
+	public static boolean cargarPolizaSemestral (ClienteDTO c,PolizaDTO p,VehiculoDTO v,ArrayList<HijoDTO>listahijos,DomicilioRiesgoDTO dom,DescuentosDTO descuentos,PremioDTO premio, CuotaDTO cuota ) {
+
+		boolean flag = false;
+		GestorPoliza gp = GestorPoliza.getInstance();
+		Poliza nueva_poliza = new Poliza();
+		nueva_poliza = gp.generarInstanciaPoliza(c, p, v, listahijos, dom, descuentos, premio);
+		
+			
+			Semestral aux_sem = new Semestral();
+			aux_sem.setFecha_Vencimiento(cuota.getVencimiento());
+			aux_sem.setMontoTotal(cuota.getMonto());
+			aux_sem.setNombre("SEMESTRAL");
+			nueva_poliza.setForma_pago(aux_sem);
+
+		flag = DAOPoliza.cargarPoliza(nueva_poliza);
+		return flag;
+	}
+	
+	public static double calcularMontoTotalAPagar (PremioDTO premiodto, ClienteDTO c ) {
+		GestorCliente gc = GestorCliente.getInstance();
+		int cant = gc.cantidadPoliza(c);
+		GestorPoliza gp = GestorPoliza.getInstance();
+		double montototalapagar = premiodto.getMontoTotal()* (gp.descuentos(cant));
+		return montototalapagar;
+		
+	}
+	
+	public static DescuentosDTO setDescuentos (ClienteDTO c) {
+		GestorCliente gc = GestorCliente.getInstance();
+		int cant = gc.cantidadPoliza(c);
+		GestorPoliza gp = GestorPoliza.getInstance();
+		DescuentosDTO descuentos = new DescuentosDTO();
+		descuentos.setDescPorUnidadAdicional(100-gp.descuentos(cant)*100);
+		descuentos.setDescPorPagoAdelantado(0.05);
+		descuentos.setDescPorPagoSemestral(0.10);
+		
+		return descuentos; 
+	}
+	
+	public static ArrayList<CuotaDTO> obtenerListaCuotas (PremioDTO premiodto, ClienteDTO c, PolizaDTO p){
+	ArrayList<CuotaDTO> listacuotas = new ArrayList<>();
+	
+	DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-yyyy");
+	Calendar cal1 = Calendar.getInstance();
+	try {
+		cal1.setTime(dateFormat1.parse(p.getInicio_vigencia()));
+	} catch (ParseException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	cal1.add(Calendar.MONTH, 1);
+	cal1.add(Calendar.DAY_OF_MONTH,1);
+
+	for(int i=0; i<6; i++) {
+		CuotaDTO cuota = new CuotaDTO();
+		GestorPoliza gp = GestorPoliza.getInstance();
+		cuota.setMonto(gp.calcularMontoTotalAPagar(premiodto, c)/6);
+		cuota.setPagado(false);
+		String fechavencimiento = dateFormat1.format(cal1.getTime());
+		cuota.setVencimiento(fechavencimiento);
+		cal1.add(Calendar.MONTH, 1);
+		listacuotas.add(cuota);
+	}
+	
+	return listacuotas;
+	}
+
+	public static Poliza generarInstanciaPoliza (ClienteDTO c,PolizaDTO p,VehiculoDTO v,ArrayList<HijoDTO>listahijos,DomicilioRiesgoDTO dom,DescuentosDTO descuentos,PremioDTO premio) {
+		GestorParametros gpm= GestorParametros.getInstance();
+		GestorPoliza gp = GestorPoliza.getInstance();
+		
 		Cliente aux_cliente = new Cliente();
 		aux_cliente = GestorCliente.generarInstanciaCliente(c);
 
-		Provincia aux_Prov = new Provincia();
-		aux_Prov.setNombre(dom.getLocalidad().getProvincia().getNombre());
-		aux_Prov.setId_provincia(dom.getLocalidad().getProvincia().getId_provincia());
-		aux_Prov.setPais();
-
-		Localidad aux_Loc = new Localidad();
-		aux_Loc.setId_localidad(dom.getLocalidad().getId_localidad());
-		aux_Loc.setCodigoPostal(dom.getLocalidad().getCodigoPostal());
-		aux_Loc.setNombre(dom.getLocalidad().getNombre());
-		aux_Loc.setPorcentaje(dom.getLocalidad().getPorcentaje());
-		aux_Loc.setProvincia(aux_Prov);
-
+		Localidad aux_Loc = new Localidad(); 
+		aux_Loc = gpm.setearLocalidad(dom);
+		
 		DomicilioRiesgo aux_domR = new DomicilioRiesgo();
 		aux_domR.setId_domicilioR(dom.getId_domicilioR());
 		aux_domR.setLocalidad(aux_Loc);
 		aux_domR.setPorcentajeDomicilio(dom.getPorcentajeDomicilio());
 
-		Marca aux_marca = new Marca();
-		aux_marca.setIdMarca(v.getModelo().getMarca().getIdmarca());
-		aux_marca.setNombre(v.getModelo().getMarca().getNombre());
-
 		Modelo aux_mod = new Modelo();
-		aux_mod.setIdModelo(v.getModelo().getIdmodelo());
-		aux_mod.setMarca(aux_marca);
-		//FALTA SETEAR ANIO
-
+		aux_mod = gpm.setearModelo(v);
+		
+		
 		Vehiculo aux_ve = new Vehiculo();
-		aux_ve.setId_vehiculo(v.getId_vehiculo());
+		int idVehiculo = DAOVehiculo.recupearUltimoNID();
+		idVehiculo +=1;
+		aux_ve.setId_vehiculo(idVehiculo);
 		aux_ve.setPatente(v.getPatente());
 		aux_ve.setMotor(v.getMotor());
 		aux_ve.setChasis(v.getChasis());
@@ -169,11 +224,10 @@ public class GestorPoliza {
 		aux_MS.setRastreo(aux_dispR);
 		aux_MS.setTuercas(aux_tuercas);
 
-
+		
 		Siniestros aux_siniestro = new Siniestros();
-
-		aux_siniestro.setNombre(p.getSiniestro());
-
+		aux_siniestro = DAOSiniestros.obtenerSiniestro(p.getSiniestro());
+		
 		ArrayList<Hijo> hijos = new ArrayList();
 
 		for (HijoDTO h: listahijos) {
@@ -187,18 +241,28 @@ public class GestorPoliza {
 		}
 
 		Cobertura aux_cob = new Cobertura();
-		aux_cob.setNombre(p.getTipoCobertura());
-		//VER LO DE TIPOCOBERTURA
+		aux_cob = DAOTipoCobertura.obtenerCobertura(p.getTipoCobertura());
 
 		Premio aux_premio = new Premio();
+		int id_premio = DAOPremio.recupearUltimoNID();
+		id_premio +=1; 
+		aux_premio.setIdPremio(id_premio);
 		aux_premio.setPrima(premio.getPrima());
 		aux_premio.setDerechoEmision(premio.getDerechoEmision());
 		aux_premio.setMontoTotal(premio.getMontoTotal());
+		
+		Descuentos aux_desc = new Descuentos();
+		int id_desc = DAODescuentos.recupearUltimoNID();
+		id_desc +=1; 
+		aux_desc.setDescPorPagoAdelantado(descuentos.getDescPorPagoAdelantado());
+		aux_desc.setDescPorPagoSemestral(descuentos.getDescPorPagoSemestral());
+		aux_desc.setDescPorUnidadAdicional(descuentos.getDescPorUnidadAdicional());
+		aux_desc.setIdDescuentos(id_desc);
 
 
 		Poliza nueva_poliza = new Poliza();
-
-		nueva_poliza.setNroPoliza(p.getNroPoliza()); //nroPoliza
+		int nroPoliza = gp.generarNroPoliza();
+		nueva_poliza.setNroPoliza(nroPoliza); //nroPoliza
 		nueva_poliza.setCliente(aux_cliente); //CLIENTE
 		nueva_poliza.setDomicilio_riesgo(aux_domR);
 		nueva_poliza.setVehiculo(aux_ve);
@@ -211,39 +275,10 @@ public class GestorPoliza {
 		nueva_poliza.setFin_vigencia(p.getFin_vigencia());
 		nueva_poliza.setEstado_poliza("GENERADA");
 		nueva_poliza.setPremio(aux_premio);
-		nueva_poliza.setDescuento(descuentos);
-
-		if (p.getForma_pago() == "MENSUAL") {
-			Mensual aux_mens = new Mensual();
-			ArrayList<Cuota> listacuotas = new ArrayList<>();
-
-			for(CuotaDTO cuot : cuotas) {
-				Cuota cuotaadd = new Cuota();
-				cuotaadd.setFecha_vencimiento(cuot.getVencimiento());
-				cuotaadd.setMonto(cuot.getMonto());
-				listacuotas.add(cuotaadd);
-			}
-
-			aux_mens.setCuotas(listacuotas);
-			aux_mens.setNombre("MENSUAL");
-			nueva_poliza.setForma_pago(aux_mens);
-		}
-		else if (p.getForma_pago() == "SEMESTRAL") {
-			Semestral aux_sem = new Semestral();
-			aux_sem.setFecha_Vencimiento(cuotas.get(0).getVencimiento());
-			aux_sem.setMontoTotal(cuotas.get(0).getMonto());
-			aux_sem.setNombre("SEMESTRAL");
-			nueva_poliza.setForma_pago(aux_sem);
-
-		}
-
-
+		nueva_poliza.setDescuento(aux_desc);
 		nueva_poliza.setPoliza_modificada(new PolizaModificada());
-
-		flag = DAOPoliza.cargarPoliza(nueva_poliza);
+		
+		return nueva_poliza;
 	}
-
-
-
 
 }

@@ -12,49 +12,7 @@ import tp.disenio.gestores.GestorDB;
 
 public class DAOPoliza {
 
-	public static int recuperarUltimoNroPolizaCliente(ClienteDTO c) {
-		int retorno = 0;
-		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
-		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		//tengo que buscar el último numero de poliza asociado al cliente
-		try {
-			String nro_cliente = c.getNroCliente();
-			String Consulta = "select max(nro_poliza) from poliza where cliente = '" + nro_cliente + "'" ;
-			PreparedStatement st = con.prepareStatement(Consulta);
-			rs = st.executeQuery();
-
-			while(rs.next()) {
-				retorno = rs.getInt("max");
-			}
-
-		}
-		catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return retorno;
-	}
-
+	
 
 	public static Boolean cargarPoliza(Poliza poliza) {
 
@@ -79,6 +37,7 @@ public class DAOPoliza {
 			int id_premio = DAOPremio.guardarPremio(poliza.getPremio());
 			int id_vehiculo = DAOVehiculo.guardarVehiculo(poliza.getVehiculo());
 			int id_siniestro = DAOSiniestros.guardarSiniestro(poliza.getSiniestro());
+			int id_tipoC = DAOTipoCobertura.guardarTipo(poliza.getTipo_cobertura());
 			
 			PreparedStatement st = con.prepareStatement("INSERT INTO POLIZA VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 		
@@ -87,17 +46,26 @@ public class DAOPoliza {
 			st.setFloat(3, poliza.getSumaasegurada()); //suma_asegurada
 			st.setString(4, poliza.getInicio_vigencia());//inicio_vigencia
 			st.setString(5, poliza.getFin_vigencia());//fin__vigencia
-			//st.setString(6, poliza.getForma_pago());//Forma_Pago
+			st.setString(6, poliza.getForma_pago().getNombre());//Forma_Pago
 			st.setString(7, poliza.getEstado_poliza());//estado_poliza
 			st.setInt(8, id_premio);//FK id premio 
 			st.setInt(9, id_vehiculo);//FK id vehiculo
 			st.setInt(10, id_siniestro);// FK id siniestros
-			//st.setInt(11, );// FK id tipo_cobertura
+			st.setInt(11, id_tipoC);// FK id tipo_cobertura
 			st.setInt(12, id_domRiesgo);//FK id domicilio_riesgo
 			st.setString(13, poliza.getCliente().getNroCliente());//FK id cliente
-
 			st.executeUpdate();
 			st.close();
+			
+			/*
+			 * cargar tablas: 
+			 * CUOTA 
+			 * POLIZA_POSEE_HIJO_DECLARADO
+			 * POLIZA_TIENE_MDS
+			 * 
+			 */
+			
+			
 			retorno = true;
 			
 			/*

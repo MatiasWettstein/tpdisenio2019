@@ -2,8 +2,10 @@ package tp.disenio.DTO;
 
 public class ModeloDTO {
 
-	private String nombre;
+	
 	private int idmodelo;
+	private String nombre;
+	private float porcentaje;
 	private MarcaDTO marca;
 
 
@@ -25,6 +27,12 @@ public class ModeloDTO {
 	}
 	public void setMarca(MarcaDTO marca) {
 		this.marca = marca;
+	}
+	public float getPorcentaje() {
+		return porcentaje;
+	}
+	public void setPorcentaje(float porcentaje) {
+		this.porcentaje = porcentaje;
 	}
 
 
