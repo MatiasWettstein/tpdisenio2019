@@ -1,6 +1,8 @@
 package tp.disenio.clases;
 
 public class Caracteristicas {
+	
+	
 private int id_caracteristica;  
 private double porcentajeKm;
  private double porcentajeHijo;

@@ -81,12 +81,17 @@ public class GestorPoliza {
 			
 			ArrayList<Cuota> listacuotas = new ArrayList<>();
 
+			int id_cuota = DAOCuota.recupearUltimoNID();
+			id_cuota +=1;
+			
 			for(CuotaDTO cu : cuotas) {
 				Cuota cuota = new Cuota();
-				//no setea ID
+				cuota.setId_cuota(id_cuota);
 				cuota.setFecha_vencimiento(cu.getVencimiento());
 				cuota.setMonto(cu.getMonto());
+				cuota.setPagada(cu.isPagado());
 				listacuotas.add(cuota);
+				id_cuota++;
 			}
 
 			aux_mens.setCuotas(listacuotas);
@@ -105,31 +110,44 @@ public class GestorPoliza {
 		Poliza nueva_poliza = new Poliza();
 		nueva_poliza = gp.generarInstanciaPoliza(c, p, v, listahijos, dom, descuentos, premio);
 		
+			int id_cuota = DAOCuota.recupearUltimoNID();
+			id_cuota +=1;
+			
+			Cuota aux_cuota = new Cuota();
+			aux_cuota.setFecha_vencimiento(cuota.getVencimiento());
+			aux_cuota.setId_cuota(id_cuota);
+			aux_cuota.setMonto(cuota.getMonto());
+			aux_cuota.setPagada(cuota.isPagado());
 			
 			Semestral aux_sem = new Semestral();
 			aux_sem.setFecha_Vencimiento(cuota.getVencimiento());
 			aux_sem.setMontoTotal(cuota.getMonto());
 			aux_sem.setNombre("SEMESTRAL");
+			aux_sem.setCuota1(aux_cuota);
 			nueva_poliza.setForma_pago(aux_sem);
 
 		
 			if (DAOPoliza.cargarPoliza(nueva_poliza)) {
+				/*cargar tablas: 
+				 * CUOTA - listo 
+				 * CATACTERISTICAS - listo
+				 * DESCUENTOS - LISTO
+				 * POLIZA TIENE MDS - listo
+				 * AGREGAR HIJO DECLARADO - listo 
+				 */
 				
-				
+				//Si se pudo cargar todo eso se cargó bien la poliza 
 				Boolean poliza_tiene_mds = DAOPoliza.cargarPolizaTieneMDS(nueva_poliza);
 
 				Boolean hijo_declarado = DAOHijo.cargarHijos(nueva_poliza);
 				
+				Boolean bool_cuota = DAOCuota.cargarCuota(nueva_poliza);
 				
-				/*
-				 * cargar tablas: 
-				 * CUOTA 
-				 * CATACTERISTICAS 
-				 * DESCUENTOS 
-				 * POLIZA TIENE MDS - listo
-				 * AGREGAR HIJO DECLARADO - listo 
-				 */
-				flag = true; 
+				Boolean bool_caracteristicas = DAOCaracteristicas.cargarCaracteristicas(nueva_poliza);
+				
+				Boolean bool_desc = DAODescuentos.cargarDescuentos(nueva_poliza);
+				
+				if (poliza_tiene_mds && hijo_declarado && bool_cuota && bool_caracteristicas && bool_desc) flag = true; 
 			}
 		return flag;
 	}
@@ -143,7 +161,7 @@ public class GestorPoliza {
 		
 	}
 	
-	public static DescuentosDTO setDescuentos (ClienteDTO c) {
+	public DescuentosDTO setDescuentos (ClienteDTO c) {
 		GestorCliente gc = GestorCliente.getInstance();
 		int cant = gc.cantidadPoliza(c);
 		GestorPoliza gp = GestorPoliza.getInstance();
@@ -239,7 +257,8 @@ public class GestorPoliza {
 		aux_siniestro = DAOSiniestros.obtenerSiniestro(p.getSiniestro());
 		
 		ArrayList<Hijo> hijos = new ArrayList();
-
+		
+		if (!(listahijos.isEmpty())) { //si no está vacia 
 		for (HijoDTO h: listahijos) {
 
 			Hijo aux_h = new Hijo();
@@ -248,8 +267,9 @@ public class GestorPoliza {
 			aux_h.setSexo(h.getFechaNac());
 
 			hijos.add(aux_h);
+			}
 		}
-
+		
 		Cobertura aux_cob = new Cobertura();
 		aux_cob = DAOTipoCobertura.obtenerCobertura(p.getTipoCobertura());
 
@@ -269,7 +289,17 @@ public class GestorPoliza {
 		aux_desc.setDescPorUnidadAdicional(descuentos.getDescPorUnidadAdicional());
 		aux_desc.setIdDescuentos(id_desc);
 
-
+		Caracteristicas aux_car = new Caracteristicas();
+		int id_carac = DAOCaracteristicas.recupearUltimoNID();
+		id_carac +=1;
+		aux_car.setId_caracteristica(id_carac);
+		if (!(hijos.isEmpty())) {
+			int tam_hijos = hijos.size();
+			aux_car.setPorcentajeHijo((DAOCaracteristicas.obtenerPorcentajeHijo())*tam_hijos); //lo multiplico por la cant de hijos
+		} else aux_car.setPorcentajeHijo(0);
+		aux_car.setPorcentajeKm(DAOCaracteristicas.obtenerPorcentajeKM());
+		
+	
 		Poliza nueva_poliza = new Poliza();
 		int nroPoliza = gp.generarNroPoliza();
 		nueva_poliza.setNroPoliza(nroPoliza); //nroPoliza
@@ -287,6 +317,7 @@ public class GestorPoliza {
 		nueva_poliza.setPremio(aux_premio);
 		nueva_poliza.setDescuento(aux_desc);
 		nueva_poliza.setPoliza_modificada(new PolizaModificada());
+		nueva_poliza.setCaracteristicas(aux_car);
 		
 		return nueva_poliza;
 	}

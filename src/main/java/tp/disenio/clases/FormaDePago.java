@@ -1,6 +1,7 @@
 package tp.disenio.clases;
 
 public  class FormaDePago {
+	
 	private String nombre;
 	private double montoTotal;
 

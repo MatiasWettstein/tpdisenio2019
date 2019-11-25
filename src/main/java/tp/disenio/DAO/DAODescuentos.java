@@ -5,17 +5,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import tp.disenio.DTO.DescuentosDTO;
+import tp.disenio.clases.Poliza;
 import tp.disenio.gestores.GestorDB;
 
 public class DAODescuentos {
 	
-	public static int  guardarDescuentos (DescuentosDTO d) {
+	public static boolean  cargarDescuentos (Poliza p ) {
 		
-		int idDescuentos = 0;
+		boolean retorno = false;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
-		ResultSet rsDescuentos = null;
 
 
 		try {
@@ -30,21 +29,42 @@ public class DAODescuentos {
 		try {
 			
 			
-			//id_Descuentos 1 
-			//descPorUnidadAdicional, 2
-			//descPorPagoSemestral 3
-			//descPorPagoAdelantado, 4 
+			//id_Descuento 1 
+			//nombre 2
+			//porcentaje
+			//numeroPoliza
+			int id_descuento = p.getDescuento().getIdDescuentos();
 			
-			PreparedStatement st = con.prepareStatement("INSERT INTO DESCUENTOS VALUES (?, ?, ?, ?)");
-			st.setInt(1, d.getIdDescuentos());
-			st.setDouble(2, d.getDescPorUnidadAdicional());
-			st.setDouble(3, d.getDescPorPagoSemestral());
-			st.setDouble(4, d.getDescPorPagoAdelantado());
+			PreparedStatement st_unidadAdicional = con.prepareStatement("INSERT INTO DESCUENTOS VALUES (?, ?, ?, ?)");
+			st_unidadAdicional.setInt(1, id_descuento);
+			st_unidadAdicional.setString(2, "UNIDAD ADICIONAL");
+			st_unidadAdicional.setDouble(3, p.getDescuento().getDescPorUnidadAdicional());
+			st_unidadAdicional.setInt(4, p.getNroPoliza());
+			st_unidadAdicional.executeUpdate();
+			st_unidadAdicional.close();
 			
-			
+			id_descuento+=1;
 
-			st.executeUpdate();
-			st.close();
+			PreparedStatement st_PagoSemestral = con.prepareStatement("INSERT INTO DESCUENTOS VALUES (?, ?, ?, ?)");
+			st_PagoSemestral.setInt(1, id_descuento);
+			st_PagoSemestral.setString(2, "PAGO SEMESTRAL");
+			st_PagoSemestral.setDouble(3, p.getDescuento().getDescPorPagoSemestral());
+			st_PagoSemestral.setInt(4, p.getNroPoliza());
+			st_PagoSemestral.executeUpdate();
+			st_PagoSemestral.close();
+			
+			id_descuento+=1;
+
+			PreparedStatement st_PagoAdelantado = con.prepareStatement("INSERT INTO DESCUENTOS VALUES (?, ?, ?, ?)");
+			st_PagoAdelantado.setInt(1, id_descuento);
+			st_PagoAdelantado.setString(2, "PAGO ADELANTADO");
+			st_PagoAdelantado.setDouble(3, p.getDescuento().getDescPorPagoSemestral());
+			st_PagoAdelantado.setInt(4, p.getNroPoliza());
+			st_PagoAdelantado.executeUpdate();
+			st_PagoAdelantado.close();
+			
+			retorno = true;
+			
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -58,7 +78,7 @@ public class DAODescuentos {
 			e.printStackTrace();
 		}
 
-		return idDescuentos; 
+		return retorno; 
 
 	}
 
