@@ -145,7 +145,7 @@ public class PantallaDarAltaPoliza3Semestral {
 		marco1.getContentPane().add(textField_Premio);
 
 		PremioDTO premio = new PremioDTO();
-
+		//responsabilidad gestor
 		premio.setDerechoEmision(gp.calcularDerecho(p.getSumaasegurada()*1000));
 		premio.setPrima(gp.calcularPrima(p.getSumaasegurada()*1000));
 		premio.setMontoTotal(gp.calcularPremio(gp.calcularPrima(p.getSumaasegurada()*1000), gp.calcularDerecho(p.getSumaasegurada()*1000)));

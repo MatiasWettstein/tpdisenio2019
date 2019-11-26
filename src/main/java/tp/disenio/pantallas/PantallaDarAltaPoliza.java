@@ -775,6 +775,7 @@ public class PantallaDarAltaPoliza {
 				vehiculodto.setMotor(motorTexto.getText());
 				vehiculodto.setPatente(patenteText.getText());
 				vehiculodto.setPorcentaje(aux1.getPorcentaje());
+
 				String sumalocal= sumaFormattedTextField.getText();
 				int tamsuma = sumaFormattedTextField.getText().length();
 				String sumasinpuntos = "";
