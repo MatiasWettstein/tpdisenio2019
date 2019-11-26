@@ -389,6 +389,7 @@ public class GestorPoliza {
 		nueva_poliza.setPremio(aux_premio);
 		nueva_poliza.setDescuento(aux_desc);
 		nueva_poliza.setPoliza_modificada(new PolizaModificada());
+		nueva_poliza.setSiniestro(aux_siniestro);
 		nueva_poliza.setCaracteristicas(aux_car);
 
 		return nueva_poliza;

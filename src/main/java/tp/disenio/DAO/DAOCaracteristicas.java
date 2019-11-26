@@ -50,7 +50,7 @@ public class DAOCaracteristicas {
 				st_hijo.setInt(1, id_carac); //id_caracteristicas
 				st_hijo.setString(2, "PORCENTAJE HIJO"); //nombre
 				st_hijo.setFloat(3, (float) p.getCaracteristicas().getPorcentajeHijo());//porcentaje
-				st_hijo.setLong(5, p.getNroPoliza());//nro poliza
+				st_hijo.setLong(4, p.getNroPoliza());//nro poliza
 				st_hijo.executeUpdate();
 				st_hijo.close();
 				//ACA TENGO QUE AUMENTAR EL ID porque no esta de la misma forma que en la clase
@@ -59,7 +59,7 @@ public class DAOCaracteristicas {
 				st_km.setInt(1, id_carac); //id_caracteristicas
 				st_km.setString(2, "PORCENTAJE KM"); //nombre
 				st_km.setFloat(3, (float) p.getCaracteristicas().getPorcentajeKm());//porcentaje
-				st_km.setLong(5, p.getNroPoliza());//nro poliza
+				st_km.setLong(4, p.getNroPoliza());//nro poliza
 				st_km.executeUpdate();
 				st_km.close();
 

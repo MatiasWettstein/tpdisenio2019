@@ -104,7 +104,7 @@ public class DAODescuentos {
 		}
 
 		try {
-			String Consulta = "select max(id_descuentos) from descuentos";
+			String Consulta = "select max(id_descuento) from descuentos";
 			PreparedStatement st = con.prepareStatement(Consulta);
 			rs = st.executeQuery();
 
