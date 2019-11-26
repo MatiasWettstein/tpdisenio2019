@@ -6,13 +6,16 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import tp.disenio.clases.Cliente;
+import tp.disenio.clases.Cobertura;
 import tp.disenio.clases.DomicilioRiesgo;
+import tp.disenio.clases.Localidad;
 import tp.disenio.gestores.GestorDB;
+import tp.disenio.gestores.GestorParametros;
 
 public class DAODomicilioRiesgo {
 	
-	public static int guardarDomRiesgo (DomicilioRiesgo d) { //DEVUELVE EL ID DEL DOM CARGADO
-		int id_dom = 0;
+	public static void guardarDomRiesgo (DomicilioRiesgo d) { //DEVUELVE EL ID DEL DOM CARGADO
+		
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
 
@@ -28,12 +31,8 @@ public class DAODomicilioRiesgo {
 		}
 		try {
 
-			id_dom = DAODomicilioRiesgo.recupearUltimoNID(d); 
-			
-			id_dom +=1;
-
 			PreparedStatement st = con.prepareStatement("INSERT INTO DOMICILIO_RIESGO VALUES (?, ?, ?)");
-			st.setInt(1, id_dom); //id_domicilio
+			st.setInt(1, d.getId_domicilioR()); //id_domicilio
 			st.setFloat(2, d.getPorcentajeDomicilio() ); //porcentaje
 			st.setInt(3, d.getLocalidad().getId_localidad());//FK LOCALIDAD  
 
@@ -53,11 +52,10 @@ public class DAODomicilioRiesgo {
 			e.printStackTrace();
 		}
 
-		return id_dom;
 
 	}
 
-	private static int recupearUltimoNID(DomicilioRiesgo d) {
+	public static int recupearUltimoNID() {
 		
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
@@ -101,4 +99,55 @@ public class DAODomicilioRiesgo {
 		return retorno;
 	}
 
+	public static DomicilioRiesgo recuperarDomicilioRiesgo(int idDom) {
+		DomicilioRiesgo retorno = new DomicilioRiesgo();
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = null;
+		ResultSet rs = null;
+
+
+		try {
+			con = gdb.crearConexion();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		try {
+			String Consulta = "select * from domicilio_riesgo where id_domicilio = " + idDom;
+			PreparedStatement st = con.prepareStatement(Consulta);
+			rs = st.executeQuery();
+
+			while(rs.next()) {
+				retorno.setId_domicilioR(idDom);
+				retorno.setPorcentajeDomicilio((float) rs.getDouble("porcentaje"));
+				Localidad aux_loc = new Localidad();
+				GestorParametros gpm = GestorParametros.getInstance();
+				aux_loc = gpm.obtenerLocalidad(rs.getInt("localidad"));
+				retorno.setLocalidad(aux_loc);
+			}
+			
+			
+
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return retorno;
+		
+	}
+
+	
 }

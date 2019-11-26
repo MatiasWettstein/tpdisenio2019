@@ -2,16 +2,17 @@ package tp.disenio.clases;
 
 public class Cuota {
 
-	private String id_cuota;
+	private int id_cuota;
 	private String fecha_vencimiento;
 	private double monto;
+	private boolean pagada;
 
 
 
-	public String getId_cuota() {
+	public int getId_cuota() {
 		return id_cuota;
 	}
-	public void setId_cuota(String id_cuota) {
+	public void setId_cuota(int id_cuota) {
 		this.id_cuota = id_cuota;
 	}
 	public String getFecha_vencimiento() {
@@ -25,6 +26,12 @@ public class Cuota {
 	}
 	public void setMonto(double d) {
 		this.monto = d;
+	}
+	public boolean isPagada() {
+		return pagada;
+	}
+	public void setPagada(boolean pagada) {
+		this.pagada = pagada;
 	}
 
 

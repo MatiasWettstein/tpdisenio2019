@@ -5,8 +5,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import tp.disenio.clases.Cliente;
 import tp.disenio.clases.Direccion;
+import tp.disenio.clases.Localidad;
 import tp.disenio.gestores.GestorDB;
+import tp.disenio.gestores.GestorParametros;
 
 public class DAODireccion {
 	
@@ -79,7 +82,61 @@ public class DAODireccion {
 
 	}
 
-	
+	public static Direccion recuperarDireccion (int idDire) {
+		Direccion retorno = new Direccion();
+		ResultSet rs = null;
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = null;
+		try {
+			con = gdb.crearConexion();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			String Consulta = "select * from direccion where id_direccion = " + idDire;
+
+
+			PreparedStatement st = con.prepareStatement(Consulta);
+			rs = st.executeQuery();
+			/*
+			 * id_direccion 1
+			 * calle 2 string
+			 * numero 3 int 
+			 * dpto 4 string 
+			 * localidad 5 	fk 
+			 * piso 6 int 
+			 */
+			
+			GestorParametros gpm = GestorParametros.getInstance();
+			while(rs.next()) {
+			retorno.setCalle(rs.getString("calle"));
+			retorno.setNumero(Integer.toString(rs.getInt("numero")));
+			retorno.setDpto(rs.getString("dpto"));
+			Localidad aux_loc = new Localidad();
+			aux_loc = gpm.obtenerLocalidad(rs.getInt("localidad"));
+			retorno.setLocalidad(aux_loc);
+			retorno.setPiso(rs.getInt("piso"));
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return retorno; 
+	}
 	
 	
 }

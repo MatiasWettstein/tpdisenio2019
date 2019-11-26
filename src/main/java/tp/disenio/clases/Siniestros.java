@@ -4,8 +4,7 @@ public class Siniestros {
 	private int id_siniestro;
 	private String nombre;
 	private float porcentaje;
-	private Cantidad cant_siniestros;
-	
+	private int id_usuario;
 	
 	
 	public int getId_siniestro() {
@@ -26,11 +25,12 @@ public class Siniestros {
 	public void setPorcentaje(float porcentaje) {
 		this.porcentaje = porcentaje;
 	}
-	public Cantidad getCant_siniestros() {
-		return cant_siniestros;
+	
+	public int getId_usuario() {
+		return id_usuario;
 	}
-	public void setCant_siniestros(Cantidad cant_siniestros) {
-		this.cant_siniestros = cant_siniestros;
+	public void setId_usuario(int id_usuario) {
+		this.id_usuario = id_usuario;
 	} 
 	
 	

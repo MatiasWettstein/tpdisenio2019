@@ -30,11 +30,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
-import tp.disenio.DAO.DAOAnio;
-import tp.disenio.DAO.DAOLocalidad;
-import tp.disenio.DAO.DAOMarca;
-import tp.disenio.DAO.DAOModelo;
-import tp.disenio.DAO.DAOProvincia;
 import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.DTO.DomicilioRiesgoDTO;
 import tp.disenio.DTO.HijoDTO;
@@ -42,6 +37,7 @@ import tp.disenio.DTO.LocalidadDTO;
 import tp.disenio.DTO.MarcaDTO;
 import tp.disenio.DTO.ModeloDTO;
 import tp.disenio.DTO.PolizaDTO;
+import tp.disenio.DTO.ProvinciaDTO;
 import tp.disenio.DTO.VehiculoDTO;
 import tp.disenio.clases.Localidad;
 import tp.disenio.clases.Marca;
@@ -53,6 +49,7 @@ import tp.disenio.enumerators.Sexo;
 import tp.disenio.enumerators.TipoDocumento;
 import tp.disenio.gestores.GestorCliente;
 import tp.disenio.gestores.GestorPantallas;
+import tp.disenio.gestores.GestorParametros;
 
 public class PantallaDarAltaPoliza {
 	private static JTable tablaCliente = new JTable();
@@ -290,7 +287,7 @@ public class PantallaDarAltaPoliza {
 		final JComboBox provinciaCombo = new JComboBox();
 
 		provinciaCombo.setMaximumRowCount(23);
-		provinciaCombo.setModel(new DefaultComboBoxModel(DAOProvincia.listaProvincia()));
+		provinciaCombo.setModel(new DefaultComboBoxModel(GestorParametros.obtenerProvincias()));
 		provinciaCombo.setBounds(144, 158, 222, 20);
 		marco1.getContentPane().add(provinciaCombo);
 
@@ -305,7 +302,7 @@ public class PantallaDarAltaPoliza {
 		provinciaCombo.addItemListener(arg0 -> {
 			if (arg0.getStateChange() == ItemEvent.SELECTED) {
 
-				DefaultComboBoxModel model = new DefaultComboBoxModel(DAOLocalidad.listaLocalidad((Provincia) provinciaCombo.getSelectedItem()));
+				DefaultComboBoxModel model = new DefaultComboBoxModel(GestorParametros.obtenerLocalidad((Provincia) provinciaCombo.getSelectedItem()));
 				localidadCombo.setModel(model);
 				localidadCombo.setRenderer(new MyComboBoxRenderer("SELECCIONE LOCALIDAD"));
 				localidadCombo.setSelectedIndex(-1);
@@ -316,7 +313,7 @@ public class PantallaDarAltaPoliza {
 
 		final JComboBox marcaCombo = new JComboBox();
 		marcaCombo.setBounds(111, 240, 196, 20);
-		marcaCombo.setModel(new DefaultComboBoxModel(DAOMarca.listaMarcas()));
+		marcaCombo.setModel(new DefaultComboBoxModel(GestorParametros.obtenerMarcas()));
 		marco1.getContentPane().add(marcaCombo);
 
 		marcaCombo.setRenderer(new MyComboBoxRenderer("SELECCIONE MARCA"));
@@ -329,7 +326,7 @@ public class PantallaDarAltaPoliza {
 		marcaCombo.addItemListener(arg0 -> {
 			if (arg0.getStateChange() == ItemEvent.SELECTED) {
 
-				DefaultComboBoxModel model = new DefaultComboBoxModel(DAOModelo.listaModelos((Marca) marcaCombo.getSelectedItem()));
+				DefaultComboBoxModel model = new DefaultComboBoxModel(GestorParametros.obtenerModelos((Marca) marcaCombo.getSelectedItem()));
 				modeloCombo.setModel(model);
 				modeloCombo.setRenderer(new MyComboBoxRenderer("SELECCIONE MODELO"));
 				modeloCombo.setSelectedIndex(-1);
@@ -344,7 +341,7 @@ public class PantallaDarAltaPoliza {
 		modeloCombo.addItemListener(arg0 -> {
 			if (arg0.getStateChange() == ItemEvent.SELECTED) {
 
-				DefaultComboBoxModel model = new DefaultComboBoxModel(DAOAnio.listaAnios((Modelo) modeloCombo.getSelectedItem()));
+				DefaultComboBoxModel model = new DefaultComboBoxModel(GestorParametros.obtenerAnios((Modelo) modeloCombo.getSelectedItem()));
 				anioCombo.setModel(model);
 				anioCombo.setRenderer(new MyComboBoxRenderer("SELECCIONE AÑO"));
 				anioCombo.setSelectedIndex(-1);
@@ -367,11 +364,12 @@ public class PantallaDarAltaPoliza {
 		sumaFormattedTextField.setBounds(1060, 240, 197, 20);
 		marco1.getContentPane().add(sumaFormattedTextField);
 
-		modeloCombo.addItemListener(arg0 -> {
+		anioCombo.addItemListener(arg0 -> {
 			if (arg0.getStateChange() == ItemEvent.SELECTED) {
-				Modelo auxx = new Modelo();
-				auxx = (Modelo) modeloCombo.getSelectedItem();
-				sumaFormattedTextField.setValue(DAOAnio.obtenerSumaAsegurada(auxx));
+				String aux_anio = anioCombo.getSelectedItem().toString();
+				Modelo aux_modelo = new Modelo();
+				aux_modelo = (Modelo) modeloCombo.getSelectedItem();
+				sumaFormattedTextField.setValue(GestorParametros.obtenerSumaAsegurada(aux_modelo, aux_anio));
 			}
 		});
 
@@ -393,7 +391,7 @@ public class PantallaDarAltaPoliza {
 			motorTexto.addKeyListener(new KeyAdapter() { // EL MOTOR PUEDEN SER HASTA 12 CARACTERES
 				@Override
 				public void keyTyped(KeyEvent e) {
-					int max = 12;
+					int max = 11;
 					if(motorTexto.getText().length() > max+1) {
 						e.consume();
 						String shortened = motorTexto.getText().substring(0, max);
@@ -409,7 +407,7 @@ public class PantallaDarAltaPoliza {
 			motorTexto.addKeyListener(new KeyAdapter() { // EL MOTOR PUEDEN SER HASTA 12 CARACTERES
 				@Override
 				public void keyTyped(KeyEvent e) {
-					int max = 12;
+					int max = 11;
 					if(motorTexto.getText().length() > max+1) {
 						e.consume();
 						String shortened = motorTexto.getText().substring(0, max);
@@ -430,7 +428,7 @@ public class PantallaDarAltaPoliza {
 			chasisText.addKeyListener(new KeyAdapter() { // EL CHASIS PUEDEN SER HASTA 17 CARACTERES
 				@Override
 				public void keyTyped(KeyEvent e) {
-					int max = 17;
+					int max = 16;
 					if(e.getKeyChar()=='?' || e.getKeyChar()=='<' || e.getKeyChar()=='>' || e.getKeyChar()=='*' || e.getKeyChar()=='+' && e.getKeyChar()!='¡' && e.getKeyChar()!='_' && e.getKeyChar()!='|' && e.getKeyChar()!='¬' && e.getKeyChar()!='°' && e.getKeyChar()!='=') e.consume();
 					else if(chasisText.getText().length() > max+1) {
 						e.consume();
@@ -446,7 +444,7 @@ public class PantallaDarAltaPoliza {
 			chasisText.addKeyListener(new KeyAdapter() { // EL CHASIS PUEDEN SER HASTA 17 CARACTERES
 				@Override
 				public void keyTyped(KeyEvent e) {
-					int max = 17;
+					int max = 16;
 					if(chasisText.getText().length() > max+1) {
 						e.consume();
 						String shortened = chasisText.getText().substring(0, max);
@@ -469,7 +467,7 @@ public class PantallaDarAltaPoliza {
 			patenteText.addKeyListener(new KeyAdapter() { // LA PATENTE PUEDEN SER HASTA 7 CARACTERES
 				@Override
 				public void keyTyped(KeyEvent e) {
-					int max = 7;
+					int max = 6;
 					if(patenteText.getText().length() > max+1) {
 						e.consume();
 						String shortened = patenteText.getText().substring(0, max);
@@ -485,7 +483,7 @@ public class PantallaDarAltaPoliza {
 			patenteText.addKeyListener(new KeyAdapter() { // LA PATENTE PUEDEN SER HASTA 7 CARACTERES
 				@Override
 				public void keyTyped(KeyEvent e) {
-					int max = 7;
+					int max = 6;
 					if(patenteText.getText().length() > max+1) {
 						e.consume();
 						String shortened = patenteText.getText().substring(0, max);
@@ -704,7 +702,7 @@ public class PantallaDarAltaPoliza {
 			if (chasisText.getText().length() < 17) {
 				error += "El Número de Chasis debe tener 17 caracteres \n";
 			}
-			if (patenteText.getText().length() < 8) {
+			if (patenteText.getText().length() < 6) {
 				error += "La Patente debe tener 8 caracteres \n";
 			}
 
@@ -756,25 +754,27 @@ public class PantallaDarAltaPoliza {
 				VehiculoDTO vehiculodto = new VehiculoDTO();
 				ModeloDTO modelodto = new ModeloDTO();
 				MarcaDTO marcadto = new MarcaDTO();
-				Marca aux = new Marca();
-				aux=(Marca) marcaCombo.getSelectedItem();
+				Marca aux_marca = new Marca();
+				aux_marca=(Marca) marcaCombo.getSelectedItem();
 
-				marcadto.setIdmarca(aux.getIdMarca());
-				marcadto.setNombre(aux.getNombre());
+				marcadto.setIdmarca(aux_marca.getIdMarca());
+				marcadto.setNombre(aux_marca.getNombre());
 
-				Modelo aux1 = new Modelo();
-				aux1= (Modelo) modeloCombo.getSelectedItem();
+				Modelo aux_modelo = new Modelo();
+				aux_modelo= (Modelo) modeloCombo.getSelectedItem();
 
-				modelodto.setIdmodelo(aux1.getIdModelo());
-				modelodto.setNombre(aux1.getNombre());
+				modelodto.setIdmodelo(aux_modelo.getIdModelo());
+				modelodto.setNombre(aux_modelo.getNombre());
 				modelodto.setMarca(marcadto);
+				modelodto.setPorcentaje(aux_modelo.getPorcentaje());
 
 				vehiculodto.setAnio((int) anioCombo.getSelectedItem());
 				vehiculodto.setChasis(chasisText.getText());
 				vehiculodto.setModelo(modelodto);
 				vehiculodto.setMotor(motorTexto.getText());
 				vehiculodto.setPatente(patenteText.getText());
-				vehiculodto.setPorcentaje(aux1.getPorcentaje());
+
+				vehiculodto.setPorcentaje(modelodto.getPorcentaje());
 
 				String sumalocal= sumaFormattedTextField.getText();
 				int tamsuma = sumaFormattedTextField.getText().length();
@@ -787,9 +787,13 @@ public class PantallaDarAltaPoliza {
 				int valormil = Integer.parseInt(sumasinpuntos);
 				float valordivmil= valormil/1000;
 
+				vehiculodto.setPorcentaje(aux_modelo.getPorcentaje());
+
+				int sumaAsegurada = GestorParametros.castSumaAsegurada(sumaFormattedTextField.getText());
+
 				PolizaDTO pDTO = new PolizaDTO();
 				pDTO.setKmPorAnio((Integer) kmSpinner.getValue());
-				pDTO.setSumaasegurada(valordivmil);
+				pDTO.setSumaasegurada(sumaAsegurada);
 				pDTO.setSiniestro(SiniestroText.getText());
 
 				if (grupoAlarma.getSelection().getActionCommand() == "SI") { //ALARMA
@@ -805,15 +809,25 @@ public class PantallaDarAltaPoliza {
 					pDTO.setTuercas(true);
 				} else pDTO.setTuercas(false);
 
-				Localidad auxq = (Localidad) localidadCombo.getSelectedItem();
+				Localidad aux_localidad = (Localidad) localidadCombo.getSelectedItem();
+				Provincia aux_provincia = (Provincia) provinciaCombo.getSelectedItem();
+
+				ProvinciaDTO provdto= new ProvinciaDTO();
+				provdto.setId_provincia(aux_provincia.getId_provincia());
+				provdto.setNombre(aux_provincia.getNombre());
+				provdto.setPais(aux_provincia.getPais());
 
 				LocalidadDTO locdto = new LocalidadDTO();
-				locdto.setId_localidad(auxq.getId_localidad());
+				locdto.setId_localidad(aux_localidad.getId_localidad());
+				locdto.setCodigoPostal(aux_localidad.getCodigoPostal());
+				locdto.setNombre(aux_localidad.getNombre());
+				locdto.setPorcentaje(aux_localidad.getPorcentaje());
+				locdto.setProvincia(provdto);
 
 				DomicilioRiesgoDTO domriesgodto = new DomicilioRiesgoDTO();
 
 				domriesgodto.setLocalidad(locdto);
-				domriesgodto.setPorcentajeDomicilio(auxq.getPorcentaje());
+				domriesgodto.setPorcentajeDomicilio(aux_localidad.getPorcentaje());
 
 				GestorPantallas.Pantalla2Alta(c, vehiculodto, listaHijos,  pDTO, domriesgodto);
 				marco1.dispose();
@@ -872,6 +886,12 @@ public class PantallaDarAltaPoliza {
 		lblNombreCliente.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblNombreCliente.setBounds(25, 103, 205, 31);
 		marco1.getContentPane().add(lblNombreCliente);
+
+		JLabel lblApellidoCliente = new JLabel("Apellido Cliente");
+		lblApellidoCliente.setFont(new Font("Serif", Font.PLAIN, 18));
+		lblApellidoCliente.setBounds(389, 103, 205, 31);
+		marco1.getContentPane().add(lblApellidoCliente);
+
 		// -----------------------------------------------------------------
 
 		// ------------------- CAMPOS DE TEXTO -----------------------------
@@ -936,7 +956,7 @@ public class PantallaDarAltaPoliza {
 		JButton botonBuscar = new JButton("BUSCAR");
 		botonBuscar.setFont(new Font("Serif", Font.BOLD, 12));
 		ActionListener accionBuscar = e -> {
-			//textNroCliente.getText(), comboTipoDoc.getSelectedItem().toString(), textNroDoc.getText(), textNombre.getText(), textApellido.getText()
+
 			lista = GestorCliente.buscarCliente(textNroCliente.getText(), comboTipoDoc.getSelectedItem().toString(), textNroDoc.getText(), textNombre.getText(), textApellido.getText());
 			int cantCliente = lista.size();
 			int fila =0;
@@ -1000,11 +1020,6 @@ public class PantallaDarAltaPoliza {
 		btnCancelar.addActionListener(e -> marco1.dispose());
 
 
-		JLabel lblApellidoCliente = new JLabel("Apellido Cliente");
-		lblApellidoCliente.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblApellidoCliente.setBounds(389, 103, 205, 31);
-		marco1.getContentPane().add(lblApellidoCliente);
-
 		marco1.setLocationRelativeTo(null);
 		marco1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		// -----------------------------------------------------------------
@@ -1037,6 +1052,7 @@ public class PantallaDarAltaPoliza {
 		lblEstadoCivil.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblEstadoCivil.setBounds(37, 227, 180, 33);
 		marco1.getContentPane().add(lblEstadoCivil);
+
 
 		// -----------------------------------------------------------------
 

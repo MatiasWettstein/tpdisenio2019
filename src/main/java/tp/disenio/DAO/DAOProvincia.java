@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import tp.disenio.clases.Localidad;
 import tp.disenio.clases.Provincia;
 import tp.disenio.gestores.GestorDB;
 
@@ -58,4 +59,52 @@ public class DAOProvincia {
 
 
 	}
+
+	public static Provincia obtenerProvincia(int idProv) {
+		Provincia retorno = new Provincia();
+		ResultSet rs = null;
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = null;
+		try {
+			con = gdb.crearConexion();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			String Consulta = "select * from provincia where id_provincia = " + idProv;
+
+
+			PreparedStatement st = con.prepareStatement(Consulta);
+			rs = st.executeQuery();
+			/*
+			 * id_localidad 1
+			 * nombre 2 string
+			 * pais string 
+			 */
+			
+			
+			while(rs.next()) {
+			retorno.setId_provincia(idProv);
+			retorno.setNombre(rs.getString("nombre"));
+			retorno.setPais();
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return retorno;
+	}
+	
 }

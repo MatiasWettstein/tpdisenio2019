@@ -3,7 +3,6 @@ package tp.disenio.clases;
 public class Anio {
 	//---------- Atributos
 	private int id_anio;
-	private double sumaAsegurada;
 	private int inicioFabricacion;
 	private int finFabricacion;
 
@@ -14,12 +13,7 @@ public class Anio {
 	public void setId_anio(int id_anio) {
 		this.id_anio = id_anio;
 	}
-	public double getSumaAsegurada() {
-		return sumaAsegurada;
-	}
-	public void setSumaAsegurada(double sumaAsegurada) {
-		this.sumaAsegurada = sumaAsegurada;
-	}
+	
 	public int getInicioFabricacion() {
 		return inicioFabricacion;
 	}

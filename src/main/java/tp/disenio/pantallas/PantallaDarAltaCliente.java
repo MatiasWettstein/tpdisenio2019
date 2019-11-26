@@ -35,6 +35,7 @@ import tp.disenio.enumerators.Sexo;
 import tp.disenio.enumerators.TipoDocumento;
 import tp.disenio.gestores.GestorCliente;
 import tp.disenio.gestores.GestorPantallas;
+import tp.disenio.gestores.GestorParametros;
 
 
 public class PantallaDarAltaCliente {
@@ -190,7 +191,7 @@ public class PantallaDarAltaCliente {
 		JComboBox comboBox_Provincia = new JComboBox();
 		comboBox_Provincia.setBounds(136, 381, 193, 20);
 		marco1.getContentPane().add(comboBox_Provincia);
-		comboBox_Provincia.setModel(new DefaultComboBoxModel(DAOProvincia.listaProvincia()));
+		comboBox_Provincia.setModel(new DefaultComboBoxModel(GestorParametros.obtenerProvincias()));
 
 		comboBox_Provincia.setRenderer(new MyComboBoxRenderer("SELECCIONE PROVINCIA"));
 		comboBox_Provincia.setSelectedIndex(-1);
@@ -202,7 +203,7 @@ public class PantallaDarAltaCliente {
 		comboBox_Provincia.addItemListener(arg0 -> {
 			if (arg0.getStateChange() == ItemEvent.SELECTED) {
 
-				DefaultComboBoxModel model = new DefaultComboBoxModel(DAOLocalidad.listaLocalidad((Provincia) comboBox_Provincia.getSelectedItem()));
+				DefaultComboBoxModel model = new DefaultComboBoxModel(GestorParametros.obtenerLocalidad((Provincia) comboBox_Provincia.getSelectedItem()));
 				comboBox_Localidad.setModel(model);
 				comboBox_Localidad.setRenderer(new MyComboBoxRenderer("SELECCIONE LOCALIDAD"));
 				comboBox_Localidad.setSelectedIndex(-1);

@@ -28,6 +28,7 @@ import tp.disenio.DTO.VehiculoDTO;
 import tp.disenio.enumerators.FormaPagoEnum;
 import tp.disenio.enumerators.TipoCoberturaEnum;
 import tp.disenio.gestores.GestorPantallas;
+import tp.disenio.gestores.GestorParametros;
 
 public class PantallaDarAltaPoliza2 {
 
@@ -175,20 +176,7 @@ public class PantallaDarAltaPoliza2 {
 			if (tipoCobertura && formaPago && fechaValida) {
 
 				p.setInicio_vigencia(fechaFormattedTextField.getText());
-
-				DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-yyyy");
-				Calendar cal1 = Calendar.getInstance();
-				try {
-					cal1.setTime(dateFormat1.parse(fechaFormattedTextField.getText()));
-				} catch (ParseException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-
-				cal1.add(Calendar.MONTH, 6);
-				String strDate1 = dateFormat.format(cal1.getTime());
-				p.setFin_vigencia(strDate1);
-
+				p.setFin_vigencia(GestorParametros.obtenerFechaFin(fechaFormattedTextField.getText()));
 				p.setTipoCobertura(tipoComboBox.getSelectedItem().toString());
 				p.setForma_pago(pagoComboBox.getSelectedItem().toString());
 

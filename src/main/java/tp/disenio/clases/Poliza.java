@@ -1,11 +1,10 @@
 package tp.disenio.clases;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class Poliza {
 
-	private int nroPoliza;
+	private long nroPoliza;
 	private Cliente cliente;
 	private DomicilioRiesgo domicilio_riesgo;
 	private Vehiculo vehiculo;
@@ -22,16 +21,16 @@ public class Poliza {
 	private Descuentos descuento;
 	private FormaDePago forma_pago;
 	private PolizaModificada poliza_modificada;
+	private Caracteristicas caracteristicas;
 
 
 
 
-
-	public int getNroPoliza() {
+	public long getNroPoliza() {
 		return nroPoliza;
 	}
-	public void setNroPoliza(int nroPoliza) {
-		this.nroPoliza = nroPoliza;
+	public void setNroPoliza(long nroPoliza2) {
+		this.nroPoliza = nroPoliza2;
 	}
 	public Cliente getCliente() {
 		return cliente;
@@ -128,6 +127,12 @@ public class Poliza {
 	}
 	public void setPoliza_modificada(PolizaModificada poliza_modificada) {
 		this.poliza_modificada = poliza_modificada;
+	}
+	public Caracteristicas getCaracteristicas() {
+		return caracteristicas;
+	}
+	public void setCaracteristicas(Caracteristicas caracteristicas) {
+		this.caracteristicas = caracteristicas;
 	}
 
 

@@ -6,67 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import tp.disenio.clases.Anio;
 import tp.disenio.clases.Modelo;
 import tp.disenio.gestores.GestorDB;
 
 public class DAOAnio {
-
-	public static Float obtenerSumaAsegurada(Modelo modelo){
-
-		float sumaAsegurada=0;
-		ResultSet rs = null;
-		ResultSet anio = null;
-		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-
-			int idModelo = modelo.getIdModelo();
-			String consulta1 = "select * from modelo where id_modelo = " + idModelo;
-
-			PreparedStatement st1 = con.prepareStatement(consulta1);
-			anio = st1.executeQuery();
-			int idAnio=0;
-
-			while (anio.next()) {
-				idAnio = anio.getInt("anio");
-			}
-
-			String consulta2 = "select suma_asegurada from anio where id_anio = " + idAnio;
-			PreparedStatement st2 = con.prepareStatement(consulta2);
-			rs = st2.executeQuery();
-
-			while(rs.next()) {
-				sumaAsegurada = rs.getFloat("suma_asegurada");
-			}
-
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println(sumaAsegurada);
-		sumaAsegurada = sumaAsegurada*1000;
-		System.out.println(sumaAsegurada);
-		return sumaAsegurada;
-	}
-
 
 	public static Object[] listaAnios(Modelo modelo){
 
@@ -139,4 +83,63 @@ public class DAOAnio {
 	}
 
 
+	public static Anio obtenerAnioModelo(Modelo modelo) {
+		
+		Anio retorno = new Anio();
+		ResultSet rs = null;
+		ResultSet anio = null;
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = null;
+
+		try {
+			con = gdb.crearConexion();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+
+			int idModelo = modelo.getIdModelo();
+			int idAnio=0;
+			
+			String consulta1 = "select id_anio from modelo where id_modelo = " + idModelo;
+			PreparedStatement st1 = con.prepareStatement(consulta1);
+			anio = st1.executeQuery();
+			
+			while (anio.next()) {
+				idAnio = anio.getInt("anio");
+			}
+
+
+			String consulta2 = "select * from anio where id_anio = " + idAnio;
+			PreparedStatement st2 = con.prepareStatement(consulta2);
+			rs = st2.executeQuery();
+
+			while(rs.next()) {
+				retorno.setId_anio(rs.getInt("id_anio"));
+				retorno.setInicioFabricacion(rs.getInt("inicio_fabricacion"));
+				retorno.setFinFabricacion(rs.getInt("fin_fabricacion"));;
+			}
+
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		return retorno;
+	}
+	
 }

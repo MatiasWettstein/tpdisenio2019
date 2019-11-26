@@ -71,7 +71,7 @@ public class PantallaPrincipal {
 		registrarP.setFont(new Font("Serif", Font.BOLD, 12));
 		registrarP.setBounds(536, 180, 250, 50);
 		ActionListener rpagoPoliza = e -> {
-			JOptionPane.showMessageDialog(null, "Proximamente. \nEn mantenimiento");
+			GestorPantallas.registrarPago(null);
 		};
 		registrarP.addActionListener(rpagoPoliza);
 

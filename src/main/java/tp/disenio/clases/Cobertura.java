@@ -4,7 +4,7 @@ public class Cobertura {
 	private int id_cobertura; 
 	private String nombre;
 	private float porcentajeTipoCobertura; 
-	private TipoCobertura acutal;
+	private int id_usuario; 
 	
 	
 	
@@ -26,12 +26,12 @@ public class Cobertura {
 	public void setPorcentajeTipoCobertura(float porcentajeTipoCobertura) {
 		this.porcentajeTipoCobertura = porcentajeTipoCobertura;
 	}
-	public TipoCobertura getAcutal() {
-		return acutal;
+	public int getId_usuario() {
+		return id_usuario;
 	}
-	public void setAcutal(TipoCobertura acutal) {
-		this.acutal = acutal;
-	} 
+	public void setId_usuario(int id_usuario) {
+		this.id_usuario = id_usuario;
+	}
 	
 
 }
