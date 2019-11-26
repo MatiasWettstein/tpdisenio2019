@@ -154,7 +154,6 @@ public class DAOCliente {
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
 
-
 		try {
 			con = gdb.crearConexion();
 		} catch (ClassNotFoundException e1) {
@@ -166,7 +165,7 @@ public class DAOCliente {
 		}
 		try {
 
-			int idDire = DAODireccion.guardarDireccion(c.getDireccion()); //me devuelve la id de la direccion asi lo asocio al cliente
+			int idDire = DAODireccion.guardarDireccion(c.getDireccion(), con); //me devuelve la id de la direccion asi lo asocio al cliente
 
 			//nro_cliente 1
 			//tipo_c, 2
@@ -347,20 +346,9 @@ public class DAOCliente {
 		return nroCliente;
 	}
 
-	public static Cliente recuperarCliente (String nroC) {
+	public static Cliente recuperarCliente (String nroC, Connection con) {
 		Cliente retorno = new Cliente();
 		ResultSet rs = null;
-		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		try {
 			String Consulta = "select * from cliente where nro_cliente = '" + nroC +"'" ;
 
@@ -383,7 +371,7 @@ public class DAOCliente {
 			//anio_registro 14
 			//direccion 15
 			//tipo_doc 16
-			
+
 			GestorCliente gc = GestorCliente.getInstance();
 			while(rs.next()) {
 				retorno.setNroCliente(nroC);
@@ -402,24 +390,17 @@ public class DAOCliente {
 				retorno.setAnioRegistro(rs.getInt("anio_registro"));
 				retorno.setTipoDocumento(rs.getString("tipo_doc"));
 				Direccion aux_dire = new Direccion();
-				aux_dire = gc.recuperarDireccion(rs.getInt("direccion"));
+				aux_dire = gc.recuperarDireccion(rs.getInt("direccion"), con);
 				retorno.setDireccion(aux_dire);
-				
+
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return retorno; 
+		return retorno;
 	}
-	
+
 }

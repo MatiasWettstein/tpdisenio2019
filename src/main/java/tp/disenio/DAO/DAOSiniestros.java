@@ -10,21 +10,10 @@ import tp.disenio.gestores.GestorDB;
 
 public class DAOSiniestros {
 
-	public static void  guardarSiniestro (Siniestros s) {
+	public static void  guardarSiniestro (Siniestros s, Connection con) {
 
 		int id_siniestro = 0;
-		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
 
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		try {
 
 			PreparedStatement st = con.prepareStatement("INSERT INTO SINIESTROS VALUES (?, ?, ?)");
@@ -35,13 +24,6 @@ public class DAOSiniestros {
 			st.executeUpdate();
 			st.close();
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try {
-			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -148,22 +130,9 @@ public class DAOSiniestros {
 
 	}
 
-	public static Siniestros recuperarSiniestro(int idSiniestro) {
+	public static Siniestros recuperarSiniestro(int idSiniestro, Connection con) {
 		Siniestros retorno = new Siniestros();
-		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
 		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select * from siniestros where id_siniestro = " + idSiniestro;
@@ -182,12 +151,6 @@ public class DAOSiniestros {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		return retorno;
 

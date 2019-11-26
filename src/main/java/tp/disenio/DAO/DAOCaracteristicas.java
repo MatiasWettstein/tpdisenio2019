@@ -33,7 +33,7 @@ public class DAOCaracteristicas {
 			 double porcentaje 3
 			 int nro_poliza4
 			 */
-			int id_carac = DAOCaracteristicas.recupearUltimoNID();
+			int id_carac = DAOCaracteristicas.recupearUltimoNID(con);
 			id_carac +=1;
 
 			if (p.getHijos_declarados().isEmpty()) { //si no tiene hijos cargo solo los KM
@@ -83,23 +83,10 @@ public class DAOCaracteristicas {
 
 	}
 
-	public static int recupearUltimoNID() {
+	public static int recupearUltimoNID(Connection con) {
 
 		int retorno = 0;
-		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
 		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select max(id_caracteristicas) from caracteristicas";
@@ -113,13 +100,6 @@ public class DAOCaracteristicas {
 
 		}
 		catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try {
-			con.close();
-		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -213,21 +193,11 @@ public class DAOCaracteristicas {
 		return retorno;
 	}
 
-	public static Caracteristicas recuperarCaracteristicas (long nroPoliza) {
+	public static Caracteristicas recuperarCaracteristicas (long nroPoliza, Connection con) {
 		Caracteristicas retorno = new Caracteristicas();
 		ResultSet rs_km = null;
 		ResultSet rs_hijo = null;
-		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+
 		try {
 
 			String Consulta_km = "select * from caracteristicas where nro_poliza = " + nroPoliza + " and nombre = 'PORCENTAJE KM'";
@@ -252,12 +222,7 @@ public class DAOCaracteristicas {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 		return retorno;
 	}
 }

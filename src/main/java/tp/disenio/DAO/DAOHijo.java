@@ -111,23 +111,9 @@ public class DAOHijo {
 		return retorno;
 	}
 
-	public static ArrayList<Hijo> recuperarHijos(long nroPoliza) {
+	public static ArrayList<Hijo> recuperarHijos(long nroPoliza, Connection con) {
 		ArrayList<Hijo> retorno = new ArrayList<>();
-
-		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
 		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 
@@ -152,12 +138,6 @@ public class DAOHijo {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		return retorno;
 

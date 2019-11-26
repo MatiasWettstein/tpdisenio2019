@@ -1,5 +1,6 @@
 package tp.disenio.gestores;
 
+import java.sql.Connection;
 import java.util.ArrayList;
 
 import tp.disenio.DAO.DAOCliente;
@@ -120,9 +121,9 @@ public class GestorCliente {
 		//ACORDARSE DE MOSTRAR UN OPTION PANE CON EL MSJ "CLIENTE GENERADO CON EXITO" --> el DAO Tiene uqe devolver un bool para saber si se pudo guardar bien
 	}
 
-	
+
 	public static Cliente generarInstanciaCliente(ClienteDTO c) {
-		
+
 		Provincia provCliente = new Provincia();
 		provCliente.setNombre(c.getDireccion().getLocalidad().getProvincia().getNombre());
 		provCliente.setId_provincia(c.getDireccion().getLocalidad().getProvincia().getId_provincia());
@@ -150,7 +151,7 @@ public class GestorCliente {
 
 		Cliente clienteFinal = new Cliente();
 		clienteFinal.setNroCliente(c.getNroCliente());
-		clienteFinal.setApellido(c.getApellido());	
+		clienteFinal.setApellido(c.getApellido());
 		clienteFinal.setFechaNac(c.getFechaNac());
 		clienteFinal.setNombre(c.getNombre());
 		clienteFinal.setTipoDocumento(c.getTipoDoc());
@@ -165,10 +166,10 @@ public class GestorCliente {
 		clienteFinal.setCondicionIVA(c.getCondicionIVA());
 		clienteFinal.setEstadoCivil(c.getEstadoCivil());
 		clienteFinal.setTipo(c.getTipoC());
-		
-		
+
+
 		return clienteFinal;
-		
+
 	}
 
 	public static int cantidadPoliza(ClienteDTO c) {
@@ -186,17 +187,17 @@ public class GestorCliente {
 		}
 		return retorno;
 	}
-	
-	
-	public static Cliente recuperarCliente (String nroC) {
+
+
+	public static Cliente recuperarCliente (String nroC, Connection con) {
 		Cliente retorno = new Cliente();
-		retorno = DAOCliente.recuperarCliente(nroC);
+		retorno = DAOCliente.recuperarCliente(nroC, con);
 		return retorno;
 	}
-	
-	public static Direccion recuperarDireccion (int idDire) {
+
+	public static Direccion recuperarDireccion (int idDire, Connection con ) {
 		Direccion retorno = new Direccion();
-		retorno = DAODireccion.recuperarDireccion(idDire);
+		retorno = DAODireccion.recuperarDireccion(idDire, con);
 		return retorno;
 	}
 }
