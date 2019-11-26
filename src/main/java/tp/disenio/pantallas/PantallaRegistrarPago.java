@@ -226,10 +226,10 @@ public class PantallaRegistrarPago {
 			textPatente.setText(p.getVehiculo().getPatente());
 			
 			if  (p.getForma_pago().getNombre() == "MENSUAL") {
-				
+				//List 
 			}
 			else if (p.getForma_pago().getNombre() == "SEMESTRAL") {
-				
+				//MOSTRAR CUOTA UNICA
 			}
 			
 		}
