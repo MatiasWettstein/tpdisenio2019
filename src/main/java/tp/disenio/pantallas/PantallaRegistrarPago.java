@@ -11,7 +11,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import tp.disenio.clases.Mensual;
 import tp.disenio.clases.Poliza;
+import tp.disenio.clases.Semestral;
 import tp.disenio.gestores.GestorPantallas;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -143,34 +145,34 @@ public class PantallaRegistrarPago {
 	
 	textNCliente = new JTextField();
 	textNCliente.setEnabled(true);
-	textNCliente.setEditable(true);
+	textNCliente.setEditable(false);
 	textNCliente.setBounds(131, 181, 196, 20);
 	marco1.getContentPane().add(textNCliente);
 	textNCliente.setColumns(10);
 	
 	textNombreC = new JTextField();
-	textNombreC.setEnabled(false);
+	textNombreC.setEnabled(true);
 	textNombreC.setEditable(false);
 	textNombreC.setColumns(10);
 	textNombreC.setBounds(449, 181, 196, 20);
 	marco1.getContentPane().add(textNombreC);
 	
 	textApellidoC = new JTextField();
-	textApellidoC.setEnabled(false);
+	textApellidoC.setEnabled(true);
 	textApellidoC.setEditable(false);
 	textApellidoC.setColumns(10);
 	textApellidoC.setBounds(806, 181, 196, 20);
 	marco1.getContentPane().add(textApellidoC);
 	
 	textMarca = new JTextField();
-	textMarca.setEnabled(false);
+	textMarca.setEnabled(true);
 	textMarca.setEditable(false);
 	textMarca.setColumns(10);
 	textMarca.setBounds(131, 277, 196, 20);
 	marco1.getContentPane().add(textMarca);
 	
 	textModelo = new JTextField();
-	textModelo.setEnabled(false);
+	textModelo.setEnabled(true);
 	textModelo.setEditable(false);
 	textModelo.setColumns(10);
 	textModelo.setBounds(449, 277, 196, 20);
@@ -178,7 +180,7 @@ public class PantallaRegistrarPago {
 	
 	
 	textPatente = new JTextField();
-	textPatente.setEnabled(false);
+	textPatente.setEnabled(true);
 	textPatente.setEditable(false);
 	textPatente.setColumns(10);
 	textPatente.setBounds(806, 277, 196, 20);
@@ -216,6 +218,19 @@ public class PantallaRegistrarPago {
 	////////////////////////////////////CUANDO YA BUSCO EL CLIENTE
 		
 		if (p != null) {
+			textNCliente.setText(p.getCliente().getNroCliente());
+			textNombreC.setText(p.getCliente().getNombre());
+			textApellidoC.setText(p.getCliente().getApellido());
+			textMarca.setText(p.getVehiculo().getModelo().getMarca().getNombre());
+			textModelo.setText(p.getVehiculo().getModelo().getNombre());
+			textPatente.setText(p.getVehiculo().getPatente());
+			
+			if  (p.getForma_pago().getNombre() == "MENSUAL") {
+				
+			}
+			else if (p.getForma_pago().getNombre() == "SEMESTRAL") {
+				
+			}
 			
 		}
 		
