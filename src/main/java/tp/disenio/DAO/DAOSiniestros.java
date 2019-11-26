@@ -5,14 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import tp.disenio.clases.Premio;
 import tp.disenio.clases.Siniestros;
 import tp.disenio.gestores.GestorDB;
 
 public class DAOSiniestros {
 
-public static void  guardarSiniestro (Siniestros s) {
-		
+	public static void  guardarSiniestro (Siniestros s) {
+
 		int id_siniestro = 0;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
@@ -27,12 +26,12 @@ public static void  guardarSiniestro (Siniestros s) {
 			e1.printStackTrace();
 		}
 		try {
-			
+
 			PreparedStatement st = con.prepareStatement("INSERT INTO SINIESTROS VALUES (?, ?, ?)");
-			st.setInt(1, s.getId_siniestro());//id_siniestro 1 
+			st.setInt(1, s.getId_siniestro());//id_siniestro 1
 			st.setString(2, s.getNombre());//nombre, 2
 			st.setFloat(3, s.getPorcentaje());//porcentaje 3
-			
+
 			st.executeUpdate();
 			st.close();
 
@@ -51,9 +50,9 @@ public static void  guardarSiniestro (Siniestros s) {
 
 	}
 
-	
-public static int recupearUltimoNID() {
-		
+
+	public static int recupearUltimoNID() {
+
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
@@ -95,8 +94,8 @@ public static int recupearUltimoNID() {
 
 		return retorno;
 	}
-	
-	
+
+
 	public static Siniestros obtenerSiniestro(String nombre) {
 		Siniestros retorno = new Siniestros();
 		GestorDB gdb = GestorDB.getInstance();
@@ -118,18 +117,19 @@ public static int recupearUltimoNID() {
 			String Consulta = "select * from porcentajes where nombre = '" + nombre + "'";
 			PreparedStatement st = con.prepareStatement(Consulta);
 			rs = st.executeQuery();
- //TIENE QUE ESTAR ESCRITO IGUAL QUE EN LA BD 
-
-			while(rs.next()) {
-				retorno.setPorcentaje(rs.getFloat("valor")); 
-				retorno.setId_usuario(rs.getInt("id_usuario"));
-				retorno.setNombre(nombre);
-			}
-			
+			//TIENE QUE ESTAR ESCRITO IGUAL QUE EN LA BD
 			int id_siniestro = DAOSiniestros.recupearUltimoNID();
 			id_siniestro +=1;
 			retorno.setId_siniestro(id_siniestro);
-			
+
+			while(rs.next()) {
+				retorno.setPorcentaje(rs.getFloat("valor"));
+				retorno.setId_usuario(rs.getInt("id_usuario"));
+				retorno.setNombre(nombre);
+			}
+
+
+
 
 		}
 		catch (SQLException e) {
@@ -145,9 +145,9 @@ public static int recupearUltimoNID() {
 		}
 
 		return retorno;
-		
+
 	}
-	
+
 	public static Siniestros recuperarSiniestro(int idSiniestro) {
 		Siniestros retorno = new Siniestros();
 		GestorDB gdb = GestorDB.getInstance();
@@ -171,7 +171,7 @@ public static int recupearUltimoNID() {
 			rs = st.executeQuery();
 
 			while(rs.next()) {
-				retorno.setPorcentaje((float) rs.getDouble("porcentaje")); 
+				retorno.setPorcentaje((float) rs.getDouble("porcentaje"));
 				retorno.setNombre(rs.getString("nombre"));
 				retorno.setId_siniestro(idSiniestro);
 			}
@@ -190,10 +190,10 @@ public static int recupearUltimoNID() {
 		}
 
 		return retorno;
-		
+
 	}
-	
-	
-	
-	
+
+
+
+
 }

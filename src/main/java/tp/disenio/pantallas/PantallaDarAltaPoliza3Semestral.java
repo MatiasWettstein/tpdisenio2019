@@ -159,16 +159,6 @@ public class PantallaDarAltaPoliza3Semestral {
 		premio.setPrima(gp.calcularPrima(p.getSumaasegurada()*1000));
 		premio.setMontoTotal(gp.calcularPremio(gp.calcularPrima(p.getSumaasegurada()*1000), gp.calcularDerecho(p.getSumaasegurada()*1000)));
 
-		JTextField textField_2 = new JTextField();
-		textField_2.setEditable(false);
-		double montototalapagar = gp.calcularMontoTotalAPagar(premiodto, c)*0.90;
-
-		textField_2.setText(String.valueOf(montototalapagar));
-		textField_2.setColumns(10);
-		textField_2.setBounds(224, 499, 196, 20);
-		marco1.getContentPane().add(textField_2);
-
-
 
 		//no creo que esto halla que hacerlo acá
 		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-yyyy");
@@ -181,12 +171,6 @@ public class PantallaDarAltaPoliza3Semestral {
 		}
 		cal1.add(Calendar.DAY_OF_MONTH,-1);
 		String fechaultimopago = dateFormat1.format(cal1.getTime());
-
-
-		CuotaDTO cuota = new CuotaDTO();
-		cuota.setMonto(montototalapagar);
-		cuota.setVencimiento(fechaultimopago);
-		cuota.setPagado(false);
 
 		JTextField textField_1 = new JTextField();
 		textField_1.setEditable(false);
@@ -247,6 +231,20 @@ public class PantallaDarAltaPoliza3Semestral {
 		});
 		scrollPane_1.setViewportView(tableDescuentos);
 
+
+		JTextField textField_2 = new JTextField();
+		textField_2.setEditable(false);
+		double montototalapagar = gp.calcularMontoTotalAPagar(premiodto, c)*0.90;
+		textField_2.setText(String.valueOf(montototalapagar));
+		textField_2.setColumns(10);
+		textField_2.setBounds(224, 499, 196, 20);
+		marco1.getContentPane().add(textField_2);
+
+
+		CuotaDTO cuota = new CuotaDTO();
+		cuota.setMonto(montototalapagar);
+		cuota.setVencimiento(fechaultimopago);
+		cuota.setPagado(false);
 		// -----------------------------------------------------------------
 
 		// --------------- BOTONES -----------------------------------------

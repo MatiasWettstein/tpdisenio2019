@@ -3,12 +3,8 @@ package tp.disenio.pantallas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.text.DateFormat;
 import java.text.DecimalFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,8 +23,6 @@ import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.DTO.PremioDTO;
 import tp.disenio.DTO.VehiculoDTO;
-import tp.disenio.clases.Descuentos;
-import tp.disenio.gestores.GestorCliente;
 import tp.disenio.gestores.GestorPantallas;
 import tp.disenio.gestores.GestorPoliza;
 
@@ -139,27 +133,19 @@ public class PantallaDarAltaPoliza3Mensual {
 		JTextField textField_Premio = new JTextField();
 		textField_Premio.setEditable(false);
 		GestorPoliza gp = GestorPoliza.getInstance();
-		
+
 		PremioDTO premiodto = new PremioDTO();
 
 		premiodto.setDerechoEmision(gp.calcularDerecho(p.getSumaasegurada()));
 		premiodto.setPrima(gp.calcularPrima(p.getSumaasegurada()));
 		premiodto.setMontoTotal(gp.calcularPremio(premiodto.getPrima(), premiodto.getDerechoEmision()));
 
-		
+
 		textField_Premio.setText(String.valueOf(premiodto.getMontoTotal()));
 		textField_Premio.setColumns(10);
 		textField_Premio.setBounds(913, 288, 196, 20);
 		marco1.getContentPane().add(textField_Premio);
 
-		
-		JTextField textField_montoTotalAPagar = new JTextField();
-		textField_montoTotalAPagar.setEditable(false);
-		double montototalapagar= gp.calcularMontoTotalAPagar(premiodto, c);
-		textField_montoTotalAPagar.setText(String.valueOf(montototalapagar));
-		textField_montoTotalAPagar.setColumns(10);
-		textField_montoTotalAPagar.setBounds(218, 425, 196, 20);
-		marco1.getContentPane().add(textField_montoTotalAPagar);
 
 		// -----------------------------------------------------------------
 
@@ -193,12 +179,12 @@ public class PantallaDarAltaPoliza3Mensual {
 		marco1.getContentPane().add(scrollPane_1);
 
 		JTable tableDescuentos = new JTable();
-		
-		
-		
+
+
+
 		final DescuentosDTO descuentosdto =  gp.setDescuentos(c);
 		String desc = Double.toString(descuentosdto.getDescPorUnidadAdicional())  + "%";
-	
+
 		tableDescuentos.setModel(new DefaultTableModel(
 				new Object[][] {
 					{desc},
@@ -249,6 +235,15 @@ public class PantallaDarAltaPoliza3Mensual {
 			}
 		});
 		scrollPane_2.setViewportView(tableCuotas);
+
+
+		JTextField textField_montoTotalAPagar = new JTextField();
+		textField_montoTotalAPagar.setEditable(false);
+		double montototalapagar= gp.calcularMontoTotalAPagar(premiodto, c);
+		textField_montoTotalAPagar.setText(String.valueOf(montototalapagar));
+		textField_montoTotalAPagar.setColumns(10);
+		textField_montoTotalAPagar.setBounds(218, 425, 196, 20);
+		marco1.getContentPane().add(textField_montoTotalAPagar);
 		// -----------------------------------------------------------------
 
 		// ----------------- BOTONES ---------------------------------------
@@ -268,13 +263,13 @@ public class PantallaDarAltaPoliza3Mensual {
 		marco1.getContentPane().add(btnAceptar);
 		ActionListener aceptar = e -> {
 			//aca hace el dar alta poliza+
-			
+
 			boolean flag = gp.cargarPolizaMensual(c,p,v,listahijos,dom, descuentosdto, premiodto, listacuotas);
-			//FALTA SETEAR CARACTERSITICAS - NO SE LO PASAMOS EN NINGUN LADO. 
+			//FALTA SETEAR CARACTERSITICAS - NO SE LO PASAMOS EN NINGUN LADO.
 			if (flag) {
 				JOptionPane.showMessageDialog(null, "Poliza generada con éxito");
 			}
-			
+
 			GestorPantallas.PantallaPrincipal();
 			marco1.dispose();
 
