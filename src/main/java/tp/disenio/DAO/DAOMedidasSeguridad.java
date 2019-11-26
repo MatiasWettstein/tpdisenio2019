@@ -438,7 +438,7 @@ public class DAOMedidasSeguridad {
 
 	}
 
-	public static MedidasSeguridad recuperarMedidasSeguridad(int nroPoliza) {
+	public static MedidasSeguridad recuperarMedidasSeguridad(long nroPoliza) {
 		MedidasSeguridad retorno = new MedidasSeguridad();
 		Alarma aux_alarma = new Alarma();
 		DispRastreo aux_dis = new DispRastreo();

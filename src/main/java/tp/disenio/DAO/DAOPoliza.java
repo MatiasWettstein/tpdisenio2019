@@ -111,7 +111,7 @@ public class DAOPoliza {
 		ResultSet rs = null;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
-		int nroPoliza = Integer.parseInt(nroP);
+		long nroPoliza = Long.parseLong(nroP);
 		try {
 			con = gdb.crearConexion();
 		} catch (ClassNotFoundException e1) {
@@ -148,7 +148,7 @@ public class DAOPoliza {
 				GestorPoliza gp = GestorPoliza.getInstance();
 				GestorCliente gc = GestorCliente.getInstance();
 
-				retorno.setNroPoliza(rs.getInt("nro_poliza"));
+				retorno.setNroPoliza(rs.getLong("nro_poliza"));
 				retorno.setKmPorAnio(rs.getInt("km_por_anio"));
 				retorno.setSumaasegurada( (float) rs.getDouble("suma_asegurada"));
 				retorno.setInicio_vigencia(rs.getString("inicio_vigencia"));
@@ -156,13 +156,13 @@ public class DAOPoliza {
 				if (rs.getString("forma_pago") == "MENSUAL") {
 					Mensual aux_mens = new Mensual();
 					aux_mens.setNombre(rs.getString("forma_pago"));
-					aux_mens.setCuotas(gp.recuperarListaCuotas(rs.getInt("nro_poliza")));
+					aux_mens.setCuotas(gp.recuperarListaCuotas(rs.getLong("nro_poliza")));
 					//no hago el set de monto total
 				}
 				else {
 					Semestral aux_sem = new Semestral();
 					Cuota aux_cuota = new Cuota();
-					aux_cuota=gp.recupearCuota(rs.getInt("nro_poliza"));
+					aux_cuota=gp.recupearCuota(rs.getLong("nro_poliza"));
 					aux_sem.setCuota1(aux_cuota);
 					aux_sem.setNombre(rs.getString("forma_pago"));
 					aux_sem.setFecha_Vencimiento(aux_cuota.getFecha_vencimiento());
@@ -198,28 +198,28 @@ public class DAOPoliza {
 
 				//CLIENTE
 				Cliente aux_cliente = new Cliente();
-				aux_cliente = gc.recuperarCliente(rs.getNString("cliente"));
+				aux_cliente = gc.recuperarCliente(rs.getString("cliente")); ///////
 				retorno.setCliente(aux_cliente);
 
 
 				//MEDIDAS SEGURIDAD
 				MedidasSeguridad aux_medS = new MedidasSeguridad();
-				aux_medS = gp.recuperarMedidasSeguridad(rs.getInt("nro_poliza"));
+				aux_medS = gp.recuperarMedidasSeguridad(rs.getLong("nro_poliza"));
 				retorno.setSeguridad(aux_medS);
 
 				//DESCUENTOS
 				Descuentos aux_desc = new Descuentos();
-				aux_desc = gp.recuperarDescuentos(rs.getInt("nro_poliza"));
+				aux_desc = gp.recuperarDescuentos(rs.getLong("nro_poliza"));
 				retorno.setDescuento(aux_desc);
 
 				//HIJOS
 				ArrayList<Hijo> aux_hijos = new ArrayList<>();
-				aux_hijos = gp.recuperarHijos(rs.getInt("nro_poliza"));
+				aux_hijos = gp.recuperarHijos(rs.getLong("nro_poliza"));
 				retorno.setHijos_declarados(aux_hijos);
 
 				//CARACTERISTICAS
 				Caracteristicas aux_car = new Caracteristicas();
-				aux_car = gp.recuperarCaracteristicas(rs.getInt("nro_poliza"));
+				aux_car = gp.recuperarCaracteristicas(rs.getLong("nro_poliza"));
 				retorno.setCaracteristicas(aux_car);
 
 				retorno.setPoliza_modificada(new PolizaModificada());

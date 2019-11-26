@@ -111,7 +111,7 @@ public class DAOHijo {
 		return retorno;
 	}
 
-	public static ArrayList<Hijo> recuperarHijos(int nroPoliza) {
+	public static ArrayList<Hijo> recuperarHijos(long nroPoliza) {
 		ArrayList<Hijo> retorno = new ArrayList<>();
 
 		GestorDB gdb = GestorDB.getInstance();

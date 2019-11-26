@@ -60,11 +60,11 @@ public class DAOProvincia {
 
 	}
 
-	public static Provincia obtenerProvincia(int idProv) {
+	public static Provincia obtenerProvincia(int idProv, Connection con) {
 		Provincia retorno = new Provincia();
 		ResultSet rs = null;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		//Connection con = null;
 		try {
 			con = gdb.crearConexion();
 		} catch (ClassNotFoundException e1) {
@@ -98,12 +98,12 @@ public class DAOProvincia {
 			e.printStackTrace();
 		}
 
-		try {
+		/*try {
 			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
 		return retorno;
 	}
 	

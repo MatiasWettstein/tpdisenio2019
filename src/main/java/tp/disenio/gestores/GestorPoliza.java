@@ -409,13 +409,13 @@ public class GestorPoliza {
 		return retorno;
 	}
 
-	public static ArrayList<Cuota> recuperarListaCuotas(int nroPoliza){
+	public static ArrayList<Cuota> recuperarListaCuotas(long nroPoliza){
 		ArrayList<Cuota> retorno = new ArrayList<>();
 		retorno = DAOCuota.recuperarListaCuotas(nroPoliza);
 		return retorno;
 	}
 
-	public static Cuota recupearCuota(int nroPoliza) {
+	public static Cuota recupearCuota(long nroPoliza) {
 		Cuota retorno = new Cuota();
 		retorno = DAOCuota.recupearCuota(nroPoliza);
 		return retorno;
@@ -515,7 +515,7 @@ public class GestorPoliza {
 	}
 
 
-	public static MedidasSeguridad recuperarMedidasSeguridad(int nroPoliza) {
+	public static MedidasSeguridad recuperarMedidasSeguridad(long nroPoliza) {
 		MedidasSeguridad retorno = new MedidasSeguridad();
 		retorno = DAOMedidasSeguridad.recuperarMedidasSeguridad(nroPoliza);
 		return retorno;
@@ -554,19 +554,19 @@ public class GestorPoliza {
 
 	}
 
-	public Descuentos recuperarDescuentos(int nroPoliza) {
+	public Descuentos recuperarDescuentos(long nroPoliza) {
 		Descuentos retorno = new Descuentos();
 		retorno = DAODescuentos.recuperarDescuentos(nroPoliza);
 		return retorno;
 	}
 
-	public static ArrayList<Hijo> recuperarHijos(int nroPoliza) {
+	public static ArrayList<Hijo> recuperarHijos(long nroPoliza) {
 		ArrayList<Hijo> retorno = new ArrayList<>();
 		retorno = DAOHijo.recuperarHijos(nroPoliza);
 		return retorno;
 	}
 
-	public static Caracteristicas recuperarCaracteristicas (int nroPoliza) {
+	public static Caracteristicas recuperarCaracteristicas (long nroPoliza) {
 		Caracteristicas retorno = new Caracteristicas();
 		retorno = DAOCaracteristicas.recuperarCaracteristicas(nroPoliza);
 		return retorno;

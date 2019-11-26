@@ -139,7 +139,7 @@ public class DAOCuota {
 		return retorno;
 	}
 
-	public static ArrayList<Cuota> recuperarListaCuotas(int nroPoliza) {
+	public static ArrayList<Cuota> recuperarListaCuotas(long nroPoliza) {
 
 		ArrayList<Cuota> retorno = new ArrayList<>();
 		ResultSet rs = null;
@@ -195,7 +195,7 @@ public class DAOCuota {
 		return retorno;
 	}
 
-	public static Cuota recupearCuota(int nroPoliza) {
+	public static Cuota recupearCuota(long nroPoliza) {
 		Cuota retorno = new Cuota();
 		ResultSet rs = null;
 		GestorDB gdb = GestorDB.getInstance();
