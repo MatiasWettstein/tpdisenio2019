@@ -133,4 +133,38 @@ public class GestorParametros {
 		return aux_mod;
 	}
 	
+	public static Localidad obtenerLocalidad(int idLoc) {
+		Localidad retorno = new Localidad();
+		retorno = DAOLocalidad.obtenerLocalidad(idLoc);
+		return retorno;
+	}
+	
+	public static Provincia obtenerProvincia(int idProv) {
+		Provincia retorno = new Provincia();
+		retorno = DAOProvincia.obtenerProvincia(idProv);
+		return retorno;
+	}
+	
+	
+	public static Modelo obtenerModelo (int idModelo) {
+		Modelo retorno = new Modelo();
+		retorno = DAOModelo.obtenerModelo(idModelo);
+		return retorno;
+	}
+
+	public Marca recuperarMarca(int idMarca) {
+		Marca retorno = new Marca();
+		retorno = DAOMarca.obtenerMarca(idMarca);
+		return retorno;
+	}
+
+	public Anio recuperarAnio(Modelo m) {
+		Anio retorno = new Anio();
+		retorno = DAOAnio.obtenerAnioModelo(m);
+		return retorno;
+	}
+	
+	
+	
+	
 }

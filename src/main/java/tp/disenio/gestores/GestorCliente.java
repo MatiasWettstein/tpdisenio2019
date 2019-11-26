@@ -3,6 +3,7 @@ package tp.disenio.gestores;
 import java.util.ArrayList;
 
 import tp.disenio.DAO.DAOCliente;
+import tp.disenio.DAO.DAODireccion;
 import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.DTO.DireccionDTO;
 import tp.disenio.DTO.LocalidadDTO;
@@ -183,6 +184,19 @@ public class GestorCliente {
 		if (!DAOCliente.clienteExistente(tipoD, doc).isEmpty()) {
 			retorno = true;
 		}
+		return retorno;
+	}
+	
+	
+	public static Cliente recuperarCliente (String nroC) {
+		Cliente retorno = new Cliente();
+		retorno = DAOCliente.recuperarCliente(nroC);
+		return retorno;
+	}
+	
+	public static Direccion recuperarDireccion (int idDire) {
+		Direccion retorno = new Direccion();
+		retorno = DAODireccion.recuperarDireccion(idDire);
 		return retorno;
 	}
 }

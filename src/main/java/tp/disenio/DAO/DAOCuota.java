@@ -140,4 +140,113 @@ public static int recupearUltimoNID() {
 		return retorno;
 	}
 
+public static ArrayList<Cuota> recuperarListaCuotas(int nroPoliza) {
+	
+	ArrayList<Cuota> retorno = new ArrayList<>();
+	ResultSet rs = null;
+	GestorDB gdb = GestorDB.getInstance();
+	Connection con = null;
+	try {
+		con = gdb.crearConexion();
+	} catch (ClassNotFoundException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	} catch (SQLException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	try {
+		String Consulta = "select * from cuota where nro_poliza = " + nroPoliza;
+
+
+		PreparedStatement st = con.prepareStatement(Consulta);
+		rs = st.executeQuery();
+		/*
+		 int id_cuota 1
+		 String vencimiento 
+		 boolean pagada 
+		 double monto 
+		 int nro_poliza
+		 int id_cobro 
+		 */
+		
+		
+		while(rs.next()) {
+			Cuota cuota = new Cuota();
+			cuota.setId_cuota(rs.getInt("id_cuota")); //id_cuota
+			cuota.setFecha_vencimiento(rs.getString("vencimiento")); // vencimiento STRING 
+			cuota.setPagada(rs.getBoolean("pagada")); //pagada boolean
+			cuota.setMonto(rs.getDouble("monto")); //monto --- double
+			retorno.add(cuota);
+		}
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
+	try {
+		con.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	
+	return retorno;
+}
+
+public static Cuota recupearCuota(int nroPoliza) {
+	Cuota retorno = new Cuota();
+	ResultSet rs = null;
+	GestorDB gdb = GestorDB.getInstance();
+	Connection con = null;
+	try {
+		con = gdb.crearConexion();
+	} catch (ClassNotFoundException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	} catch (SQLException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	try {
+		String Consulta = "select * from cuota where nro_poliza = " + nroPoliza;
+
+
+		PreparedStatement st = con.prepareStatement(Consulta);
+		rs = st.executeQuery();
+		/*
+		 int id_cuota 1
+		 String vencimiento 
+		 boolean pagada 
+		 double monto 
+		 int nro_poliza
+		 int id_cobro 
+		 */
+		
+		
+		while(rs.next()) {
+			retorno.setId_cuota(rs.getInt("id_cuota")); //id_cuota
+			retorno.setFecha_vencimiento(rs.getString("vencimiento")); // vencimiento STRING 
+			retorno.setPagada(rs.getBoolean("pagada")); //pagada boolean
+			retorno.setMonto(rs.getDouble("monto")); //monto --- double
+		}
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
+	try {
+		con.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	
+	
+	return retorno;
+}
+
 }

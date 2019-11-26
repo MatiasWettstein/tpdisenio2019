@@ -877,6 +877,12 @@ public class PantallaDarAltaPoliza {
 		lblNombreCliente.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblNombreCliente.setBounds(25, 103, 205, 31);
 		marco1.getContentPane().add(lblNombreCliente);
+
+		JLabel lblApellidoCliente = new JLabel("Apellido Cliente");
+		lblApellidoCliente.setFont(new Font("Serif", Font.PLAIN, 18));
+		lblApellidoCliente.setBounds(389, 103, 205, 31);
+		marco1.getContentPane().add(lblApellidoCliente);
+
 		// -----------------------------------------------------------------
 
 		// ------------------- CAMPOS DE TEXTO -----------------------------
@@ -941,7 +947,7 @@ public class PantallaDarAltaPoliza {
 		JButton botonBuscar = new JButton("BUSCAR");
 		botonBuscar.setFont(new Font("Serif", Font.BOLD, 12));
 		ActionListener accionBuscar = e -> {
-			//textNroCliente.getText(), comboTipoDoc.getSelectedItem().toString(), textNroDoc.getText(), textNombre.getText(), textApellido.getText()
+			
 			lista = GestorCliente.buscarCliente(textNroCliente.getText(), comboTipoDoc.getSelectedItem().toString(), textNroDoc.getText(), textNombre.getText(), textApellido.getText());
 			int cantCliente = lista.size();
 			int fila =0;
@@ -1005,11 +1011,6 @@ public class PantallaDarAltaPoliza {
 		btnCancelar.addActionListener(e -> marco1.dispose());
 
 
-		JLabel lblApellidoCliente = new JLabel("Apellido Cliente");
-		lblApellidoCliente.setFont(new Font("Serif", Font.PLAIN, 18));
-		lblApellidoCliente.setBounds(389, 103, 205, 31);
-		marco1.getContentPane().add(lblApellidoCliente);
-
 		marco1.setLocationRelativeTo(null);
 		marco1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		// -----------------------------------------------------------------
@@ -1042,6 +1043,7 @@ public class PantallaDarAltaPoliza {
 		lblEstadoCivil.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblEstadoCivil.setBounds(37, 227, 180, 33);
 		marco1.getContentPane().add(lblEstadoCivil);
+		
 
 		// -----------------------------------------------------------------
 

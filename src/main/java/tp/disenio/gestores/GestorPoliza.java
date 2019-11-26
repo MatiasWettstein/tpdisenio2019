@@ -329,6 +329,115 @@ public class GestorPoliza {
 		
 		return flag; 
 	}
+
+	public static Poliza  buscarPoliza(String nroP) {
+		Poliza retorno = new Poliza();
+		retorno = DAOPoliza.buscarPoliza(nroP);
+		return retorno;
+	}
+	
+	public static ArrayList<Cuota> recuperarListaCuotas(int nroPoliza){
+		ArrayList<Cuota> retorno = new ArrayList<>();
+		retorno = DAOCuota.recuperarListaCuotas(nroPoliza);
+		return retorno;
+	}
+	
+	public static Cuota recupearCuota(int nroPoliza) {
+		Cuota retorno = new Cuota();
+		retorno = DAOCuota.recupearCuota(nroPoliza);
+		return retorno;
+	}
+	
+	public static Premio recuperarPremio (int idPremio) {
+		Premio retorno = new Premio();
+		retorno = DAOPremio.recuperarPremio(idPremio);
+		return retorno;
+	}
+	
+	public static Vehiculo recuperarVehiculo(int idVeh) {
+		Vehiculo retorno = new Vehiculo();
+		retorno = DAOVehiculo.recuperarVehiculo(idVeh);
+		return retorno;
+	}
+	
+	public static int obtenerIDAlarma() {
+		int retorno = 0;
+		retorno = DAOMedidasSeguridad.obtenerIDAlarma();
+		return retorno;
+	}
+	
+	public static double obtenerPorcentajeAlarma() {
+		double retorno = 0;
+		retorno = DAOMedidasSeguridad. obtenerPorcentajeAlarma();
+		return retorno;
+	}
+	
+	public static int obtenerIDTuerca() {
+		int retorno = 0;
+		retorno = DAOMedidasSeguridad.obtenerIDTuerca();
+		return retorno;
+	}
+	
+	public static double obtenerPorcentajeTuerca () {
+		double retorno = 0;
+		retorno = DAOMedidasSeguridad.obtenerPorcentajeTuerca();
+		return retorno;
+	}
+	public static int obtenerIDDisp() {
+		int retorno = 0;
+		retorno = DAOMedidasSeguridad.obtenerIDDisp();
+		return retorno;
+	}
+	public static double obtenerPorcentajeDisp () {
+		double retorno = 0;
+		retorno = DAOMedidasSeguridad.obtenerPorcentajeDisp();
+		return retorno;
+	}
+	
+	public static int obtenerIDGarage() {
+		int retorno = 0;
+		retorno = DAOMedidasSeguridad.obtenerIDGarage();
+		return retorno;
+	}
+	public static double obtenerPorcentajeGarage() {
+		double retorno = 0;
+		retorno = DAOMedidasSeguridad.obtenerPorcentajeGarage();
+		return retorno;
+	}
+	
+	public static void guardarDomRiesgo (DomicilioRiesgo d) {
+		DAODomicilioRiesgo.guardarDomRiesgo(d);
+	}
+	public static void  guardarPremio (Premio p) {
+		DAOPremio.guardarPremio(p);
+	}
+	
+	public static void  guardarVehiculo (Vehiculo v) {
+		DAOVehiculo.guardarVehiculo(v);
+	}
+	public static void  guardarSiniestro(Siniestros s) {
+		DAOSiniestros.guardarSiniestro(s);
+	}
+	
+	public static void guardarTipo (Cobertura c) {
+		DAOTipoCobertura.guardarTipo(c);
+	}
+	public static Siniestros recuperarSiniestro(int idSiniestro) {
+		Siniestros retorno = new Siniestros();
+		retorno = DAOSiniestros.recuperarSiniestro(idSiniestro);
+		return retorno;
+	}
+	public static Cobertura recuperarCobertura(int idCobertura) {
+		Cobertura retorno = new Cobertura();
+		retorno = DAOTipoCobertura.recuperarCobertura(idCobertura);
+		return retorno;
+	}
+	public static DomicilioRiesgo recuperarDomicilioRiesgo(int idDom) {
+		DomicilioRiesgo retorno = new DomicilioRiesgo();
+		retorno = DAODomicilioRiesgo.recuperarDomicilioRiesgo(idDom);
+		return retorno;
+	}
+	
 	
 	
 }

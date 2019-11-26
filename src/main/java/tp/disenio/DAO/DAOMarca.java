@@ -7,7 +7,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import tp.disenio.clases.Marca;
+import tp.disenio.clases.Modelo;
 import tp.disenio.gestores.GestorDB;
+import tp.disenio.gestores.GestorParametros;
 
 public class DAOMarca {
 
@@ -55,5 +57,48 @@ public class DAOMarca {
 		return Marcas.toArray();
 
 
+	}
+
+	public static Marca obtenerMarca(int idMarca) {
+		Marca retorno = new Marca();
+		ResultSet rs = null;
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = null;
+		try {
+			con = gdb.crearConexion();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			
+			GestorParametros gpm = GestorParametros.getInstance();
+			String Consulta = "select * from marca where id_marca = " + idMarca;
+			PreparedStatement st = con.prepareStatement(Consulta);
+			rs = st.executeQuery();
+				
+			
+			while(rs.next()) {
+			retorno.setIdMarca(idMarca);
+			retorno.setNombre(rs.getString("nombre_marca"));
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return retorno;
 	}
 }

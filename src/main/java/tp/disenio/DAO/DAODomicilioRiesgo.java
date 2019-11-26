@@ -6,8 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import tp.disenio.clases.Cliente;
+import tp.disenio.clases.Cobertura;
 import tp.disenio.clases.DomicilioRiesgo;
+import tp.disenio.clases.Localidad;
 import tp.disenio.gestores.GestorDB;
+import tp.disenio.gestores.GestorParametros;
 
 public class DAODomicilioRiesgo {
 	
@@ -96,4 +99,55 @@ public class DAODomicilioRiesgo {
 		return retorno;
 	}
 
+	public static DomicilioRiesgo recuperarDomicilioRiesgo(int idDom) {
+		DomicilioRiesgo retorno = new DomicilioRiesgo();
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = null;
+		ResultSet rs = null;
+
+
+		try {
+			con = gdb.crearConexion();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		try {
+			String Consulta = "select * from domicilio_riesgo where id_domicilio = " + idDom;
+			PreparedStatement st = con.prepareStatement(Consulta);
+			rs = st.executeQuery();
+
+			while(rs.next()) {
+				retorno.setId_domicilioR(idDom);
+				retorno.setPorcentajeDomicilio((float) rs.getDouble("porcentaje"));
+				Localidad aux_loc = new Localidad();
+				GestorParametros gpm = GestorParametros.getInstance();
+				aux_loc = gpm.obtenerLocalidad(rs.getInt("localidad"));
+				retorno.setLocalidad(aux_loc);
+			}
+			
+			
+
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return retorno;
+		
+	}
+
+	
 }

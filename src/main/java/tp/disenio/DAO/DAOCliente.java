@@ -11,6 +11,7 @@ import tp.disenio.clases.Cliente;
 import tp.disenio.clases.Direccion;
 import tp.disenio.clases.Localidad;
 import tp.disenio.clases.Provincia;
+import tp.disenio.gestores.GestorCliente;
 import tp.disenio.gestores.GestorDB;
 
 public class DAOCliente {
@@ -346,4 +347,79 @@ public class DAOCliente {
 		return nroCliente;
 	}
 
+	public static Cliente recuperarCliente (String nroC) {
+		Cliente retorno = new Cliente();
+		ResultSet rs = null;
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = null;
+		try {
+			con = gdb.crearConexion();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		try {
+			String Consulta = "select * from cliente where nro_cliente = " + nroC;
+
+
+			PreparedStatement st = con.prepareStatement(Consulta);
+			rs = st.executeQuery();
+			//nro_cliente 1
+			//tipo_c, 2
+			//cuil 3
+			//fecha_nac, 4
+			//nrodoc 5
+			//nombre 6
+			//apellido 7
+			//email 8
+			//profesion 9
+			//estado_cliente 10
+			//sexo 11
+			//cond_iva 12
+			//estado_civil 13
+			//anio_registro 14
+			//direccion 15
+			//tipo_doc 16
+			
+			GestorCliente gc = GestorCliente.getInstance();
+			while(rs.next()) {
+				retorno.setNroCliente(nroC);
+				retorno.setTipo(rs.getString("tipo_c"));
+				retorno.setCuil(rs.getString("cuil"));
+				retorno.setFechaNac(rs.getString("fecha_nac"));
+				retorno.setDocumento(rs.getString("nrodoc"));
+				retorno.setNombre(rs.getString("nombre"));
+				retorno.setApellido(rs.getString("apellido"));
+				retorno.setCorreoElectronico(rs.getString("email"));
+				retorno.setProfesion(rs.getString("profesion"));
+				retorno.setEstado(rs.getString("estado_cliente"));
+				retorno.setSexo(rs.getString("sexo"));
+				retorno.setCondicionIVA(rs.getString("cond_iva"));
+				retorno.setEstadoCivil(rs.getString("estado_civil"));
+				retorno.setAnioRegistro(rs.getInt("anio_registro"));
+				retorno.setTipoDocumento(rs.getString("tipo_doc"));
+				Direccion aux_dire = new Direccion();
+				aux_dire = gc.recuperarDireccion(rs.getInt("direccion"));
+				retorno.setDireccion(aux_dire);
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return retorno; 
+	}
+	
 }

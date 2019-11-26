@@ -7,6 +7,7 @@ import tp.disenio.DTO.DomicilioRiesgoDTO;
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.DTO.VehiculoDTO;
+import tp.disenio.pantallas.PantallaBuscarPoliza;
 import tp.disenio.pantallas.PantallaDarAltaCliente;
 import tp.disenio.pantallas.PantallaDarAltaCliente2;
 import tp.disenio.pantallas.PantallaDarAltaPoliza;
@@ -16,6 +17,7 @@ import tp.disenio.pantallas.PantallaDarAltaPoliza3Semestral;
 import tp.disenio.pantallas.PantallaInicio;
 import tp.disenio.pantallas.PantallaLogin;
 import tp.disenio.pantallas.PantallaPrincipal;
+import tp.disenio.pantallas.PantallaRegistrarPago;
 
 public class GestorPantallas {
 
@@ -67,6 +69,17 @@ public class GestorPantallas {
 	public static void buscarcliente() {
 		PantallaDarAltaPoliza.buscarcliente();
 	}
+
+	public static void registrarPago() {
+		PantallaRegistrarPago.start();
+	}
+
+	public static void buscarPoliza() {
+		PantallaBuscarPoliza.start();
+		
+	}
+	
+	
 
 
 

@@ -11,7 +11,7 @@ import tp.disenio.gestores.GestorDB;
 
 public class DAOSiniestros {
 
-public static int  guardarSiniestro (Siniestros s) {
+public static void  guardarSiniestro (Siniestros s) {
 		
 		int id_siniestro = 0;
 		GestorDB gdb = GestorDB.getInstance();
@@ -28,7 +28,7 @@ public static int  guardarSiniestro (Siniestros s) {
 		}
 		try {
 			
-			PreparedStatement st = con.prepareStatement("INSERT INTO PREMIO VALUES (?, ?, ?)");
+			PreparedStatement st = con.prepareStatement("INSERT INTO SINIESTROS VALUES (?, ?, ?)");
 			st.setInt(1, s.getId_siniestro());//id_siniestro 1 
 			st.setString(2, s.getNombre());//nombre, 2
 			st.setFloat(3, s.getPorcentaje());//porcentaje 3
@@ -48,7 +48,6 @@ public static int  guardarSiniestro (Siniestros s) {
 			e.printStackTrace();
 		}
 
-		return id_siniestro; 
 
 	}
 
@@ -131,6 +130,51 @@ public static int recupearUltimoNID() {
 			id_siniestro +=1;
 			retorno.setId_siniestro(id_siniestro);
 			
+
+		}
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return retorno;
+		
+	}
+	
+	public static Siniestros recuperarSiniestro(int idSiniestro) {
+		Siniestros retorno = new Siniestros();
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = null;
+		ResultSet rs = null;
+
+
+		try {
+			con = gdb.crearConexion();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+		try {
+			String Consulta = "select * from siniestros where id_siniestro = " + idSiniestro;
+			PreparedStatement st = con.prepareStatement(Consulta);
+			rs = st.executeQuery();
+
+			while(rs.next()) {
+				retorno.setPorcentaje((float) rs.getDouble("porcentaje")); 
+				retorno.setNombre(rs.getString("nombre"));
+				retorno.setId_siniestro(idSiniestro);
+			}
 
 		}
 		catch (SQLException e) {

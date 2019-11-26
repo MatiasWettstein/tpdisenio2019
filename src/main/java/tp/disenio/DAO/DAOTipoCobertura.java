@@ -27,7 +27,7 @@ public static void guardarTipo (Cobertura c) {
 		}
 		try {
 			
-			PreparedStatement st = con.prepareStatement("INSERT INTO PREMIO VALUES (?, ?, ?)");
+			PreparedStatement st = con.prepareStatement("INSERT INTO TIPO_COBERTURA VALUES (?, ?, ?)");
 			st.setInt(1, c.getId_cobertura());//id_cob 1 
 			st.setString(2, c.getNombre());//nombre, 2
 			st.setFloat(3, c.getPorcentajeTipoCobertura());//porcentaje 3
@@ -144,6 +144,54 @@ public static Cobertura obtenerCobertura(String nombre) {
 	return retorno;
 	
 }
+
+public static Cobertura recuperarCobertura(int idCobertura) {
+	Cobertura retorno = new Cobertura();
+	GestorDB gdb = GestorDB.getInstance();
+	Connection con = null;
+	ResultSet rs = null;
+
+
+	try {
+		con = gdb.crearConexion();
+	} catch (ClassNotFoundException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	} catch (SQLException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+
+	try {
+		String Consulta = "select * from tipo_cobertura where id_tipo = " + idCobertura;
+		PreparedStatement st = con.prepareStatement(Consulta);
+		rs = st.executeQuery();
+
+		while(rs.next()) {
+			retorno.setId_cobertura(idCobertura);
+			retorno.setNombre(rs.getString("nombre"));
+			retorno.setPorcentajeTipoCobertura((float) rs.getDouble("porcentaje"));
+		}
+		
+		
+
+	}
+	catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
+	try {
+		con.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
+	return retorno;
+	
+}
+
 	
 	
 }

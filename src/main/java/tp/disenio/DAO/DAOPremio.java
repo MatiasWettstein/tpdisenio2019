@@ -5,9 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
-
+import tp.disenio.clases.Localidad;
 import tp.disenio.clases.Premio;
+import tp.disenio.clases.Provincia;
 import tp.disenio.gestores.GestorDB;
 
 public class DAOPremio {
@@ -95,6 +95,56 @@ public static int recupearUltimoNID() {
 		return retorno;
 	}
 
+public static Premio recuperarPremio (int idPremio) {
+	Premio retorno = new Premio();
+	ResultSet rs = null;
+	GestorDB gdb = GestorDB.getInstance();
+	Connection con = null;
+	try {
+		con = gdb.crearConexion();
+	} catch (ClassNotFoundException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	} catch (SQLException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+	try {
+		String Consulta = "select * from premio where id_premio = " + idPremio;
+
+
+		PreparedStatement st = con.prepareStatement(Consulta);
+		rs = st.executeQuery();
+		/*
+		 * id_premio 1
+		 * prima 2 double
+		 * derecho_emision 3 double 
+		 * monto_total 4 double 
+		 * 
+		 */
+		
+		
+		while(rs.next()) {
+		retorno.setIdPremio(idPremio);
+		retorno.setPrima((float) rs.getDouble("prima"));
+		retorno.setDerechoEmision((float) rs.getDouble("derecho_emision"));
+		retorno.setMontoTotal((float) rs.getDouble("monto_total") );
+			
+		}
+		
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
+	try {
+		con.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	return retorno;
+}
 
 	
 }
