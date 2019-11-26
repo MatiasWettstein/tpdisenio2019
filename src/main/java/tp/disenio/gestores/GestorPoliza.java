@@ -420,9 +420,9 @@ public class GestorPoliza {
 		return retorno;
 	}
 
-	public static ArrayList<Cuota> recuperarListaCuotas(long nroPoliza){
+	public static ArrayList<Cuota> recuperarListaCuotas(long nroPoliza, Connection con){
 		ArrayList<Cuota> retorno = new ArrayList<>();
-		retorno = DAOCuota.recuperarListaCuotas(nroPoliza);
+		retorno = DAOCuota.recuperarListaCuotas(nroPoliza, con);
 		return retorno;
 	}
 

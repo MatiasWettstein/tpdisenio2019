@@ -125,7 +125,6 @@ public class DAOPoliza {
 		try {
 			String Consulta = "select * from poliza where nro_poliza = " + nroPoliza;
 
-
 			PreparedStatement st = con.prepareStatement(Consulta);
 			rs = st.executeQuery();
 			/*
@@ -143,8 +142,6 @@ public class DAOPoliza {
 			 FK id domicilio_riesgo 12
 			 FK id cliente 13 */
 
-
-
 			while(rs.next()) {
 				GestorPoliza gp = GestorPoliza.getInstance();
 				GestorCliente gc = GestorCliente.getInstance();
@@ -157,7 +154,7 @@ public class DAOPoliza {
 				if (rs.getString("forma_pago") == "MENSUAL") {
 					Mensual aux_mens = new Mensual();
 					aux_mens.setNombre(rs.getString("forma_pago"));
-					aux_mens.setCuotas(gp.recuperarListaCuotas(rs.getLong("nro_poliza")));
+					aux_mens.setCuotas(gp.recuperarListaCuotas(rs.getLong("nro_poliza"), con));
 					//no hago el set de monto total
 				}
 				else {
