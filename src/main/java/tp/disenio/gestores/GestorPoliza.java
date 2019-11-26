@@ -87,11 +87,14 @@ public class GestorPoliza {
 
 	public static long generarNroPoliza() {
 		long nroPoliza = 0;
+		GestorPoliza gp = GestorPoliza.getInstance();
 		String aux_nroNuevo = "";
 		String n_sucursal = "1234";
-		//CAMBIAR EL NUMERO NUEVO QUE TIENE QUE SER SERIAL NO ALEATORIO
-		long aleatorio = (int) Math.floor(Math.random()*(9999999-1000000+1)+1000000); //genera el numero de 7 digitos para el vehiculo
-		String n_serial = Long.toString(aleatorio);
+		long serial = gp.recupearUltimoNIDPoliza();
+		serial = serial /100;
+		serial = serial %10000000;
+		serial ++;
+		String n_serial = Long.toString(serial);
 		String n_poliza = "01"; //porque es la primera poliza que registra
 
 		aux_nroNuevo = n_sucursal + n_serial + n_poliza;
@@ -570,5 +573,8 @@ public class GestorPoliza {
 		retorno = DAOCaracteristicas.recuperarCaracteristicas(nroPoliza);
 		return retorno;
 	}
-
+	public static long recupearUltimoNIDPoliza() {
+		long retorno = DAOPoliza.recupearUltimoNID();
+		return retorno;
+	}
 }
