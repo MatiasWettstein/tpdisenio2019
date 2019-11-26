@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import tp.disenio.clases.Descuentos;
 import tp.disenio.clases.Hijo;
 import tp.disenio.clases.Poliza;
 import tp.disenio.gestores.GestorDB;
@@ -16,8 +17,7 @@ public class DAOHijo {
 		
 		
 		Boolean retorno = false; 
-		int ultimoID = DAOHijo.recupearUltimoNID();
-		ultimoID += 1;
+		
 		
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
@@ -33,6 +33,8 @@ public class DAOHijo {
 		}
 
 		ArrayList<Hijo> hijos = p.getHijos_declarados();
+		int ultimoID = DAOHijo.recupearUltimoNID();
+		ultimoID += 1;
 		
 		for(Hijo h : hijos) {
 
@@ -110,6 +112,57 @@ public static int recupearUltimoNID() {
 		return retorno;
 	}
 	
+public static ArrayList<Hijo> recuperarHijos(int nroPoliza) {
+	ArrayList<Hijo> retorno = new ArrayList<>();
+	
+	GestorDB gdb = GestorDB.getInstance();
+	Connection con = null;
+	ResultSet rs = null;
+
+
+	try {
+		con = gdb.crearConexion();
+	} catch (ClassNotFoundException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	} catch (SQLException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+
+	try {
+		
+		String Consulta = "select * from hijo_declarado where nro_poliza = " + nroPoliza;
+		PreparedStatement st_pagoAdelantado = con.prepareStatement(Consulta);
+		rs = st_pagoAdelantado.executeQuery();
+
+		while(rs.next()) {
+			Hijo hijo = new Hijo();
+			hijo.setId_hijo(rs.getInt("id_hijo"));
+			hijo.setFechaNac(rs.getString("fecha_nac"));
+			hijo.setEstadoCivil(rs.getString("estado_civil"));
+			hijo.setSexo(rs.getString("sexo"));
+			
+			retorno.add(hijo);
+		}
+		
+
+	}
+	catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
+	try {
+		con.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
+	return retorno;
+	
+}
 	
 
 

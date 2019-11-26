@@ -12,6 +12,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import tp.disenio.DTO.ClienteDTO;
+import tp.disenio.clases.Poliza;
 import tp.disenio.gestores.GestorCliente;
 import tp.disenio.gestores.GestorPoliza;
 
@@ -59,6 +60,7 @@ private static JTable tablaPoliza = new JTable();
 				JScrollPane scrollPane = new JScrollPane();
 				scrollPane.setBounds(43, 263, 1063, 126);
 				marco1.getContentPane().add(scrollPane);
+				
 				tablaPoliza.setModel(modelPoliza);
 				scrollPane.setViewportView(tablaPoliza);
 		// ------------------------------------		
@@ -90,8 +92,33 @@ private static JTable tablaPoliza = new JTable();
 				marco1.getContentPane().add(btnBuscarPoliza);
 				
 				ActionListener accionBuscar = e -> {
+					//DEVUELVE UNA INSTANCIA DE POLIZA PARA MOSTRAR POR PANTALLA 
+					Poliza poliza_encontrada = new Poliza();
+					poliza_encontrada = GestorPoliza.buscarPoliza(textFieldNPoliza.getText());
 					
-					GestorPoliza.buscarPoliza(textFieldNPoliza.getText());
+					Object[][] listaMuestra = new Object[1][7];
+
+						listaMuestra[0][0] = poliza_encontrada.getNroPoliza();
+						listaMuestra[0][1] = poliza_encontrada.getCliente().getNroCliente();
+						listaMuestra[0][2] = poliza_encontrada.getCliente().getApellido();
+						listaMuestra[0][3] = poliza_encontrada.getCliente().getNombre();
+						listaMuestra[0][4] = poliza_encontrada.getCliente().getTipoDocumento();
+						listaMuestra[0][5] = poliza_encontrada.getCliente().getDocumento();
+						
+						// listaMuestra[0][6] = NO SE COMO MOSTRAR ULTIMO PAGO
+					
+
+						DefaultTableModel model = new DefaultTableModel(listaMuestra,new String[] { "Nro. Poliza", "Nro. Cliente", "Apellido", "Nombre", "Tipo documento", "Nro. Documento", "Ultimo pago"}) {
+
+							private static final long serialVersionUID = 1L;
+
+							@Override
+							public boolean isCellEditable(int i, int i1) {
+								return false;
+							}
+						};
+						tablaPoliza.setModel(model);
+					
 				
 				};
 

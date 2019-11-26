@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import tp.disenio.clases.Poliza;
 import tp.disenio.gestores.GestorPantallas;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
@@ -65,7 +66,7 @@ public class PantallaRegistrarPago {
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public static void start () {
+	public static void start (Poliza p) {
 	
 	// ---------- MARCO ------------
 	final Marco marco1 = new Marco(1333,730,"REGISTRAR PAGO POLIZA");
@@ -78,18 +79,20 @@ public class PantallaRegistrarPago {
 	scrollPanePoliza.setBounds(25, 62, 1267, 43);
 	marco1.getContentPane().add(scrollPanePoliza);
 	
-	tablaPoliza.setModel(modelPoliza);
-	scrollPanePoliza.setViewportView(tablaPoliza);
 	
 
 	JScrollPane scrollPaneCuotas = new JScrollPane();
 	scrollPaneCuotas.setBounds(25, 365, 977, 150);
 	marco1.getContentPane().add(scrollPaneCuotas);
 	
+	// ---------- TABLAS ------------
+	tablaPoliza.setModel(modelPoliza);
+	scrollPanePoliza.setViewportView(tablaPoliza);
+	
 	tablaCuotas.setModel(modelCuota);
 	scrollPaneCuotas.setViewportView(tablaCuotas);
 	
-	
+	// ---------------------------------
 	// ---------- ETIQUETAS ------------
 		JLabel lblTitular = new JLabel("Titular del seguro");
 		lblTitular.setBounds(25, 130, 192, 25);

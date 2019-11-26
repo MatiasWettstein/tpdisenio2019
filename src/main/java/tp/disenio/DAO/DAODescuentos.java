@@ -5,8 +5,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import tp.disenio.clases.Descuentos;
+import tp.disenio.clases.DomicilioRiesgo;
+import tp.disenio.clases.Localidad;
 import tp.disenio.clases.Poliza;
 import tp.disenio.gestores.GestorDB;
+import tp.disenio.gestores.GestorParametros;
 
 public class DAODescuentos {
 	
@@ -33,7 +37,8 @@ public class DAODescuentos {
 			//nombre 2
 			//porcentaje
 			//numeroPoliza
-			int id_descuento = p.getDescuento().getIdDescuentos();
+			int id_descuento = DAODescuentos.recupearUltimoNID();
+			id_descuento +=1; 
 			
 			PreparedStatement st_unidadAdicional = con.prepareStatement("INSERT INTO DESCUENTOS VALUES (?, ?, ?, ?)");
 			st_unidadAdicional.setInt(1, id_descuento);
@@ -127,5 +132,70 @@ public static int recupearUltimoNID() {
 		return retorno;
 	}
 	
+public static Descuentos recuperarDescuentos(int nroPoliza) {
+	Descuentos retorno = new Descuentos();
+	GestorDB gdb = GestorDB.getInstance();
+	Connection con = null;
+	ResultSet rs_unidadAdicional = null;
+	ResultSet rs_pagoSemestral = null;
+	ResultSet rs_pagoAdelantado = null;
+
+
+	try {
+		con = gdb.crearConexion();
+	} catch (ClassNotFoundException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	} catch (SQLException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	}
+
+	try {
+		//NO SETEO ID porque esta guardado diferente en la BD
+		
+		// "UNIDAD ADICIONAL"
+		String Consulta_unidadAdicional = "select * from descuentos where nro_poliza = " + nroPoliza + " and nombre = 'UNIDAD ADICIONAL'";
+		PreparedStatement st_unidadAdicional = con.prepareStatement(Consulta_unidadAdicional);
+		rs_unidadAdicional = st_unidadAdicional.executeQuery();
+
+		while(rs_unidadAdicional.next()) {
+			retorno.setDescPorUnidadAdicional(rs_unidadAdicional.getDouble("porcentaje"));
+		}
+		//PAGO SEMESTRAL
+		String Consulta_pagoSemestral = "select * from descuentos where nro_poliza = " + nroPoliza + " and nombre = 'PAGO SEMESTRAL'";
+		PreparedStatement st_pagoSemestral = con.prepareStatement(Consulta_pagoSemestral);
+		rs_pagoSemestral = st_pagoSemestral.executeQuery();
+
+		while(rs_pagoSemestral.next()) {
+			retorno.setDescPorPagoSemestral(rs_pagoSemestral.getDouble("porcentaje"));
+		}
+		//PAGO ADELANTADO
+		String Consulta_pagoAdelantado = "select * from descuentos where nro_poliza = " + nroPoliza + " and nombre = 'PAGO ADELANTADO'";
+		PreparedStatement st_pagoAdelantado = con.prepareStatement(Consulta_pagoAdelantado);
+		rs_pagoAdelantado = st_pagoAdelantado.executeQuery();
+
+		while(rs_pagoAdelantado.next()) {
+			retorno.setDescPorPagoAdelantado(rs_pagoAdelantado.getDouble("porcentaje"));
+		}
+		
+
+	}
+	catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
+	try {
+		con.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+
+	return retorno;
+	
+}
+
 	
 }

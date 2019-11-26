@@ -7,14 +7,19 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import tp.disenio.DTO.ClienteDTO;
+import tp.disenio.clases.Caracteristicas;
 import tp.disenio.clases.Cliente;
 import tp.disenio.clases.Cobertura;
 import tp.disenio.clases.Cuota;
+import tp.disenio.clases.Descuentos;
 import tp.disenio.clases.Direccion;
 import tp.disenio.clases.DomicilioRiesgo;
+import tp.disenio.clases.Hijo;
 import tp.disenio.clases.Localidad;
+import tp.disenio.clases.MedidasSeguridad;
 import tp.disenio.clases.Mensual;
 import tp.disenio.clases.Poliza;
+import tp.disenio.clases.PolizaModificada;
 import tp.disenio.clases.Premio;
 import tp.disenio.clases.Provincia;
 import tp.disenio.clases.Semestral;
@@ -103,81 +108,7 @@ public class DAOPoliza {
 		return retorno;
 	}
 
-	public static Boolean cargarPolizaTieneMDS(Poliza p) {
-		Boolean retorno = false;
-		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
-		
-		Boolean aux_alarma = p.getSeguridad().getAlarma().isPosee(); 
-		Boolean aux_dispR = p.getSeguridad().getRastreo().isPosee(); 
-		Boolean aux_garage = p.getSeguridad().getGarage().isPosee(); 
-		Boolean aux_tuercas = p.getSeguridad().getTuercas().isPosee(); 
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			/*
-			 int nro_poliza 1
-			 int id_mds
-			 double porcentaje actual;*/
-			GestorPoliza gp = GestorPoliza.getInstance();
-			if (aux_alarma) { // SI TIENE ALARMA
-				PreparedStatement st_alarma = con.prepareStatement("INSERT INTO POLIZA_TIENE_MDS VALUES (?, ?, ?)");
-				st_alarma.setInt(1, p.getNroPoliza()); //nro_poliza
-				st_alarma.setInt(2, gp.obtenerIDAlarma());
-				st_alarma.setFloat(3, (float) gp.obtenerPorcentajeAlarma());
-				st_alarma.executeUpdate();
-				st_alarma.close();
-			}
-			if (aux_garage) { //si tiene garage
-				PreparedStatement st_garage = con.prepareStatement("INSERT INTO POLIZA_TIENE_MDS VALUES (?, ?, ?)");
-				st_garage.setInt(1, p.getNroPoliza()); //nro_poliza
-				st_garage.setInt(2, gp.obtenerIDGarage());
-				st_garage.setFloat(3, (float) gp.obtenerPorcentajeGarage());
-				st_garage.executeUpdate();
-				st_garage.close();
-			}
-			if (aux_dispR) { //Si tiene disp R 
-				PreparedStatement st_dispR = con.prepareStatement("INSERT INTO POLIZA_TIENE_MDS VALUES (?, ?, ?)");
-				st_dispR.setInt(1, p.getNroPoliza()); //nro_poliza
-				st_dispR.setInt(2, gp.obtenerIDDisp());
-				st_dispR.setFloat(3, (float) gp.obtenerPorcentajeDisp());
-				st_dispR.executeUpdate();
-				st_dispR.close();
-			}
-			if (aux_tuercas) { //si tiene tueras
-				PreparedStatement st_tuercas = con.prepareStatement("INSERT INTO POLIZA_TIENE_MDS VALUES (?, ?, ?)");
-				st_tuercas.setInt(1, p.getNroPoliza()); //nro_poliza
-				st_tuercas.setInt(2, gp.obtenerIDTuerca());
-				st_tuercas.setFloat(3, (float) gp.obtenerPorcentajeTuerca());
-				st_tuercas.executeUpdate();
-				st_tuercas.close();
-			}
-			
-			retorno = true;
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return retorno;
-		
-	}
+	
 
 	public static Poliza buscarPoliza(String nroP) {
 		Poliza retorno = new Poliza();
@@ -274,11 +205,28 @@ public class DAOPoliza {
 				aux_cliente = gc.recuperarCliente(rs.getNString("cliente"));
 				retorno.setCliente(aux_cliente);
 				 
-				falta terminar
 				
 				//MEDIDAS SEGURIDAD
+				MedidasSeguridad aux_medS = new MedidasSeguridad();
+				aux_medS = gp.recuperarMedidasSeguridad(rs.getInt("nro_poliza"));
+				retorno.setSeguridad(aux_medS);
+				
 				//DESCUENTOS 
+				Descuentos aux_desc = new Descuentos();
+				aux_desc = gp.recuperarDescuentos(rs.getInt("nro_poliza"));
+				retorno.setDescuento(aux_desc);
+				
 				//HIJOS
+				ArrayList<Hijo> aux_hijos = new ArrayList<>();
+				aux_hijos = gp.recuperarHijos(rs.getInt("nro_poliza"));
+				retorno.setHijos_declarados(aux_hijos);
+				
+				//CARACTERISTICAS
+				Caracteristicas aux_car = new Caracteristicas();
+				aux_car = gp.recuperarCaracteristicas(rs.getInt("nro_poliza"));
+				retorno.setCaracteristicas(aux_car);
+				
+				retorno.setPoliza_modificada(new PolizaModificada());
 				
 			}
 			

@@ -98,9 +98,29 @@ public class GestorPoliza {
 			aux_mens.setNombre("MENSUAL");
 			nueva_poliza.setForma_pago(aux_mens);
 
+			if (DAOPoliza.cargarPoliza(nueva_poliza)) {
+				/*cargar tablas: 
+				 * CUOTA - listo 
+				 * CATACTERISTICAS - listo
+				 * DESCUENTOS - LISTO
+				 * POLIZA TIENE MDS - listo
+				 * AGREGAR HIJO DECLARADO - listo 
+				 */
+				
+				//Si se pudo cargar todo eso se cargó bien la poliza 
+				Boolean poliza_tiene_mds = gp.cargarPolizaTieneMDS(nueva_poliza);
 
-		flag = DAOPoliza.cargarPoliza(nueva_poliza);
-		return flag; 
+				Boolean hijo_declarado = gp.cargarHijos(nueva_poliza);
+				
+				Boolean bool_cuota = gp.cargarCuota(nueva_poliza);
+				
+				Boolean bool_caracteristicas = gp.cargarCaracteristicas(nueva_poliza);
+				
+				Boolean bool_desc = gp.cargarDescuentos(nueva_poliza);
+				
+				if (poliza_tiene_mds && hijo_declarado && bool_cuota && bool_caracteristicas && bool_desc) flag = true; 
+			}
+			return flag;
 	}
 
 	public static boolean cargarPolizaSemestral (ClienteDTO c,PolizaDTO p,VehiculoDTO v,ArrayList<HijoDTO>listahijos,DomicilioRiesgoDTO dom,DescuentosDTO descuentos,PremioDTO premio, CuotaDTO cuota ) {
@@ -137,21 +157,45 @@ public class GestorPoliza {
 				 */
 				
 				//Si se pudo cargar todo eso se cargó bien la poliza 
-				Boolean poliza_tiene_mds = DAOPoliza.cargarPolizaTieneMDS(nueva_poliza);
+				Boolean poliza_tiene_mds = gp.cargarPolizaTieneMDS(nueva_poliza);
 
-				Boolean hijo_declarado = DAOHijo.cargarHijos(nueva_poliza);
+				Boolean hijo_declarado = gp.cargarHijos(nueva_poliza);
 				
-				Boolean bool_cuota = DAOCuota.cargarCuota(nueva_poliza);
+				Boolean bool_cuota = gp.cargarCuota(nueva_poliza);
 				
-				Boolean bool_caracteristicas = DAOCaracteristicas.cargarCaracteristicas(nueva_poliza);
+				Boolean bool_caracteristicas = gp.cargarCaracteristicas(nueva_poliza);
 				
-				Boolean bool_desc = DAODescuentos.cargarDescuentos(nueva_poliza);
+				Boolean bool_desc = gp.cargarDescuentos(nueva_poliza);
 				
 				if (poliza_tiene_mds && hijo_declarado && bool_cuota && bool_caracteristicas && bool_desc) flag = true; 
 			}
 		return flag;
 	}
 	
+	private Boolean cargarDescuentos(Poliza nueva_poliza) {
+		boolean retorno = DAODescuentos.cargarDescuentos(nueva_poliza);
+		return retorno;
+		
+	}
+
+	private Boolean cargarCaracteristicas(Poliza nueva_poliza) {
+		boolean retorno = DAOCaracteristicas.cargarCaracteristicas(nueva_poliza);
+		return retorno;
+		
+		 
+	}
+
+	private Boolean cargarCuota(Poliza nueva_poliza) {
+		boolean retorno = DAOCuota.cargarCuota(nueva_poliza);
+		return retorno;
+		
+	}
+
+	private Boolean cargarHijos(Poliza nueva_poliza) {
+		boolean retorno = DAOHijo.cargarHijos(nueva_poliza);
+		return retorno;
+	}
+
 	public static double calcularMontoTotalAPagar (PremioDTO premiodto, ClienteDTO c ) {
 		GestorCliente gc = GestorCliente.getInstance();
 		int cant = gc.cantidadPoliza(c);
@@ -204,15 +248,16 @@ public class GestorPoliza {
 	public static Poliza generarInstanciaPoliza (ClienteDTO c,PolizaDTO p,VehiculoDTO v,ArrayList<HijoDTO>listahijos,DomicilioRiesgoDTO dom,DescuentosDTO descuentos,PremioDTO premio) {
 		GestorParametros gpm= GestorParametros.getInstance();
 		GestorPoliza gp = GestorPoliza.getInstance();
+		GestorCliente gc =GestorCliente.getInstance();
 		
 		Cliente aux_cliente = new Cliente();
-		aux_cliente = GestorCliente.generarInstanciaCliente(c);
+		aux_cliente = gc.generarInstanciaCliente(c);
 
 		Localidad aux_Loc = new Localidad(); 
 		aux_Loc = gpm.setearLocalidad(dom);
 		
 		DomicilioRiesgo aux_domR = new DomicilioRiesgo();
-		int idDom = DAODomicilioRiesgo.recupearUltimoNID();
+		int idDom = gp.recupearUltimoNIDDomRiesgo();
 		idDom +=1;
 		aux_domR.setId_domicilioR(idDom);
 		aux_domR.setLocalidad(aux_Loc);
@@ -223,7 +268,7 @@ public class GestorPoliza {
 		
 		
 		Vehiculo aux_ve = new Vehiculo();
-		int idVehiculo = DAOVehiculo.recupearUltimoNID();
+		int idVehiculo = gp.recupearUltimoNIDVehiculo();
 		idVehiculo +=1;
 		aux_ve.setId_vehiculo(idVehiculo);
 		aux_ve.setPatente(v.getPatente());
@@ -254,7 +299,7 @@ public class GestorPoliza {
 
 		
 		Siniestros aux_siniestro = new Siniestros();
-		aux_siniestro = DAOSiniestros.obtenerSiniestro(p.getSiniestro());
+		aux_siniestro = gp.obtenerSiniestro(p.getSiniestro());
 		
 		ArrayList<Hijo> hijos = new ArrayList();
 		
@@ -271,10 +316,10 @@ public class GestorPoliza {
 		}
 		
 		Cobertura aux_cob = new Cobertura();
-		aux_cob = DAOTipoCobertura.obtenerCobertura(p.getTipoCobertura());
+		aux_cob = gp.obtenerCobertura(p.getTipoCobertura());
 
 		Premio aux_premio = new Premio();
-		int id_premio = DAOPremio.recupearUltimoNID();
+		int id_premio = gp.recupearUltimoNIDPremio();
 		id_premio +=1; 
 		aux_premio.setIdPremio(id_premio);
 		aux_premio.setPrima(premio.getPrima());
@@ -282,22 +327,19 @@ public class GestorPoliza {
 		aux_premio.setMontoTotal(premio.getMontoTotal());
 		
 		Descuentos aux_desc = new Descuentos();
-		int id_desc = DAODescuentos.recupearUltimoNID();
-		id_desc +=1; 
+		
 		aux_desc.setDescPorPagoAdelantado(descuentos.getDescPorPagoAdelantado());
 		aux_desc.setDescPorPagoSemestral(descuentos.getDescPorPagoSemestral());
 		aux_desc.setDescPorUnidadAdicional(descuentos.getDescPorUnidadAdicional());
-		aux_desc.setIdDescuentos(id_desc);
+		
 
 		Caracteristicas aux_car = new Caracteristicas();
-		int id_carac = DAOCaracteristicas.recupearUltimoNID();
-		id_carac +=1;
-		aux_car.setId_caracteristica(id_carac);
+		
 		if (!(hijos.isEmpty())) {
 			int tam_hijos = hijos.size();
-			aux_car.setPorcentajeHijo((DAOCaracteristicas.obtenerPorcentajeHijo())*tam_hijos); //lo multiplico por la cant de hijos
+			aux_car.setPorcentajeHijo((gp.obtenerPorcentajeHijo())*tam_hijos); //lo multiplico por la cant de hijos
 		} else aux_car.setPorcentajeHijo(0);
-		aux_car.setPorcentajeKm(DAOCaracteristicas.obtenerPorcentajeKM());
+		aux_car.setPorcentajeKm(gp.obtenerPorcentajeKM());
 		
 	
 		Poliza nueva_poliza = new Poliza();
@@ -325,7 +367,7 @@ public class GestorPoliza {
 	public static Boolean cargarPolizaTieneMDS (Poliza p) {
 		Boolean flag = false; 
 		
-		flag = DAOPoliza.cargarPolizaTieneMDS(p);
+		flag = DAOMedidasSeguridad.cargarPolizaTieneMDS(p);
 		
 		return flag; 
 	}
@@ -383,11 +425,13 @@ public class GestorPoliza {
 		retorno = DAOMedidasSeguridad.obtenerPorcentajeTuerca();
 		return retorno;
 	}
+	
 	public static int obtenerIDDisp() {
 		int retorno = 0;
 		retorno = DAOMedidasSeguridad.obtenerIDDisp();
 		return retorno;
 	}
+	
 	public static double obtenerPorcentajeDisp () {
 		double retorno = 0;
 		retorno = DAOMedidasSeguridad.obtenerPorcentajeDisp();
@@ -432,6 +476,7 @@ public class GestorPoliza {
 		retorno = DAOTipoCobertura.recuperarCobertura(idCobertura);
 		return retorno;
 	}
+	
 	public static DomicilioRiesgo recuperarDomicilioRiesgo(int idDom) {
 		DomicilioRiesgo retorno = new DomicilioRiesgo();
 		retorno = DAODomicilioRiesgo.recuperarDomicilioRiesgo(idDom);
@@ -439,5 +484,61 @@ public class GestorPoliza {
 	}
 	
 	
+	public static MedidasSeguridad recuperarMedidasSeguridad(int nroPoliza) {
+		MedidasSeguridad retorno = new MedidasSeguridad();
+		retorno = DAOMedidasSeguridad.recuperarMedidasSeguridad(nroPoliza);
+		return retorno;
+	}
+	
+	public static double obtenerPorcentajeHijo() {
+		double retorno = DAOCaracteristicas.obtenerPorcentajeHijo();
+		return retorno;
+	}
+	public static double obtenerPorcentajeKM() {
+		double retorno = DAOCaracteristicas.obtenerPorcentajeKM();
+		return retorno;
+	}
+	
+	public static int recupearUltimoNIDPremio() {
+		int retorno =DAOPremio.recupearUltimoNID();
+		return retorno;
+	}
+	public static Cobertura obtenerCobertura(String nombre) {
+		Cobertura retorno = new Cobertura();
+		retorno = DAOTipoCobertura.obtenerCobertura(nombre);
+		return retorno;
+	}
+	public static Siniestros obtenerSiniestro(String nombre) {
+		Siniestros retorno = new Siniestros();
+		retorno = DAOSiniestros.obtenerSiniestro(nombre);
+		return retorno;
+	}
+	public static int recupearUltimoNIDVehiculo() {
+		int retorno =DAOVehiculo.recupearUltimoNID();
+		return retorno;
+	}
+	public static int recupearUltimoNIDDomRiesgo() {
+		int retorno = DAODomicilioRiesgo.recupearUltimoNID();
+		return retorno;
+		
+	}
+
+	public Descuentos recuperarDescuentos(int nroPoliza) {
+		Descuentos retorno = new Descuentos();
+		retorno = DAODescuentos.recuperarDescuentos(nroPoliza);
+		return retorno;
+	}
+	
+	public static ArrayList<Hijo> recuperarHijos(int nroPoliza) {
+		ArrayList<Hijo> retorno = new ArrayList<>();
+		retorno = DAOHijo.recuperarHijos(nroPoliza);
+		return retorno;
+	}
+	
+	public static Caracteristicas recuperarCaracteristicas (int nroPoliza) {
+		Caracteristicas retorno = new Caracteristicas();
+		retorno = DAOCaracteristicas.recuperarCaracteristicas(nroPoliza);
+		return retorno;
+	}
 	
 }

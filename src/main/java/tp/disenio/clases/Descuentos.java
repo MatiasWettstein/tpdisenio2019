@@ -2,7 +2,7 @@ package tp.disenio.clases;
 
 public class Descuentos {
 
-	private int idDescuentos;
+
 	private double descPorUnidadAdicional;
 	private double descPorPagoSemestral;
 	private double descPorPagoAdelantado;
@@ -25,12 +25,7 @@ public class Descuentos {
 	public void setDescPorPagoAdelantado(double d) {
 		this.descPorPagoAdelantado = d;
 	}
-	public int getIdDescuentos() {
-		return idDescuentos;
-	}
-	public void setIdDescuentos(int idDescuentos) {
-		this.idDescuentos = idDescuentos;
-	}
+	
 
 
 }
