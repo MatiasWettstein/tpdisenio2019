@@ -11,6 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.clases.Mensual;
 import tp.disenio.clases.Poliza;
 import tp.disenio.clases.Semestral;
@@ -226,7 +227,18 @@ public class PantallaRegistrarPago {
 			textPatente.setText(p.getVehiculo().getPatente());
 			
 			if  (p.getForma_pago().getNombre() == "MENSUAL") {
-				//List 
+				int fila =0;
+				Object[][] listaMuestra = new Object[6][6];
+				for(ClienteDTO c:lista) {
+
+					listaMuestra[fila][0] = c.getNroCliente();
+					listaMuestra[fila][1] = c.getApellido();
+					listaMuestra[fila][2] = c.getNombre();
+					listaMuestra[fila][3] = c.getTipoDoc();
+					listaMuestra[fila][4] = c.getDocumento();
+					fila++;
+
+				}
 			}
 			else if (p.getForma_pago().getNombre() == "SEMESTRAL") {
 				//MOSTRAR CUOTA UNICA
