@@ -142,8 +142,8 @@ public class PantallaRegistrarPago {
 	// ---------- CAMPOS DE TEXTO ------------
 	
 	textNCliente = new JTextField();
-	textNCliente.setEnabled(false);
-	textNCliente.setEditable(false);
+	textNCliente.setEnabled(true);
+	textNCliente.setEditable(true);
 	textNCliente.setBounds(131, 181, 196, 20);
 	marco1.getContentPane().add(textNCliente);
 	textNCliente.setColumns(10);
@@ -212,9 +212,13 @@ public class PantallaRegistrarPago {
 		};
 		cancelar.addActionListener(cancel);
 		marco1.getContentPane().add(cancelar);
-	
-	
-
+		
+	////////////////////////////////////CUANDO YA BUSCO EL CLIENTE
+		
+		if (p != null) {
+			
+		}
+		
 	
 	}
 	

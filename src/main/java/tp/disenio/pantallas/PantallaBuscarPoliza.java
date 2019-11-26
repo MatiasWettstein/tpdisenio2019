@@ -14,6 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.clases.Poliza;
 import tp.disenio.gestores.GestorCliente;
+import tp.disenio.gestores.GestorPantallas;
 import tp.disenio.gestores.GestorPoliza;
 
 import javax.swing.JButton;
@@ -22,8 +23,6 @@ import javax.swing.JTable;
 
 public class PantallaBuscarPoliza {
 	private static JTextField textFieldNPoliza;
-
-	
 	/**
 	 * @wbp.parser.entryPoint
 	 */
@@ -48,7 +47,8 @@ private static JTable tablaPoliza = new JTable();
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public static void start() {
+		private static Poliza poliza_encontrada = new Poliza();
+	 public static void start() {
 		// --------------- MARCO --------------
 				final Marco marco1 = new Marco(1200,600,"BUSCAR POLIZA");
 				marco1.getContentPane().setLayout(null);
@@ -93,7 +93,6 @@ private static JTable tablaPoliza = new JTable();
 				
 				ActionListener accionBuscar = e -> {
 					//DEVUELVE UNA INSTANCIA DE POLIZA PARA MOSTRAR POR PANTALLA 
-					Poliza poliza_encontrada = new Poliza();
 					poliza_encontrada = GestorPoliza.buscarPoliza(textFieldNPoliza.getText());
 					
 					Object[][] listaMuestra = new Object[1][7];
@@ -134,6 +133,10 @@ private static JTable tablaPoliza = new JTable();
 				btnAceptar.setFont(new Font("Serif", Font.BOLD, 12));
 				btnAceptar.setBounds(888, 527, 143, 33);
 				marco1.getContentPane().add(btnAceptar);
+				ActionListener accionAceptar = e -> {
+					GestorPantallas.registrarPago(poliza_encontrada);
+				};
+				btnAceptar.addActionListener(accionAceptar);
 
 				
 		// -----------------------------------------------------------------
