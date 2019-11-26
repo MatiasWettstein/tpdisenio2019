@@ -30,11 +30,6 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
-import tp.disenio.DAO.DAOAnio;
-import tp.disenio.DAO.DAOLocalidad;
-import tp.disenio.DAO.DAOMarca;
-import tp.disenio.DAO.DAOModelo;
-import tp.disenio.DAO.DAOProvincia;
 import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.DTO.DomicilioRiesgoDTO;
 import tp.disenio.DTO.HijoDTO;
@@ -396,7 +391,7 @@ public class PantallaDarAltaPoliza {
 			motorTexto.addKeyListener(new KeyAdapter() { // EL MOTOR PUEDEN SER HASTA 12 CARACTERES
 				@Override
 				public void keyTyped(KeyEvent e) {
-					int max = 12;
+					int max = 11;
 					if(motorTexto.getText().length() > max+1) {
 						e.consume();
 						String shortened = motorTexto.getText().substring(0, max);
@@ -412,7 +407,7 @@ public class PantallaDarAltaPoliza {
 			motorTexto.addKeyListener(new KeyAdapter() { // EL MOTOR PUEDEN SER HASTA 12 CARACTERES
 				@Override
 				public void keyTyped(KeyEvent e) {
-					int max = 12;
+					int max = 11;
 					if(motorTexto.getText().length() > max+1) {
 						e.consume();
 						String shortened = motorTexto.getText().substring(0, max);
@@ -433,7 +428,7 @@ public class PantallaDarAltaPoliza {
 			chasisText.addKeyListener(new KeyAdapter() { // EL CHASIS PUEDEN SER HASTA 17 CARACTERES
 				@Override
 				public void keyTyped(KeyEvent e) {
-					int max = 17;
+					int max = 16;
 					if(e.getKeyChar()=='?' || e.getKeyChar()=='<' || e.getKeyChar()=='>' || e.getKeyChar()=='*' || e.getKeyChar()=='+' && e.getKeyChar()!='¡' && e.getKeyChar()!='_' && e.getKeyChar()!='|' && e.getKeyChar()!='¬' && e.getKeyChar()!='°' && e.getKeyChar()!='=') e.consume();
 					else if(chasisText.getText().length() > max+1) {
 						e.consume();
@@ -449,7 +444,7 @@ public class PantallaDarAltaPoliza {
 			chasisText.addKeyListener(new KeyAdapter() { // EL CHASIS PUEDEN SER HASTA 17 CARACTERES
 				@Override
 				public void keyTyped(KeyEvent e) {
-					int max = 17;
+					int max = 16;
 					if(chasisText.getText().length() > max+1) {
 						e.consume();
 						String shortened = chasisText.getText().substring(0, max);
@@ -472,7 +467,7 @@ public class PantallaDarAltaPoliza {
 			patenteText.addKeyListener(new KeyAdapter() { // LA PATENTE PUEDEN SER HASTA 7 CARACTERES
 				@Override
 				public void keyTyped(KeyEvent e) {
-					int max = 7;
+					int max = 6;
 					if(patenteText.getText().length() > max+1) {
 						e.consume();
 						String shortened = patenteText.getText().substring(0, max);
@@ -488,7 +483,7 @@ public class PantallaDarAltaPoliza {
 			patenteText.addKeyListener(new KeyAdapter() { // LA PATENTE PUEDEN SER HASTA 7 CARACTERES
 				@Override
 				public void keyTyped(KeyEvent e) {
-					int max = 7;
+					int max = 6;
 					if(patenteText.getText().length() > max+1) {
 						e.consume();
 						String shortened = patenteText.getText().substring(0, max);
@@ -707,7 +702,7 @@ public class PantallaDarAltaPoliza {
 			if (chasisText.getText().length() < 17) {
 				error += "El Número de Chasis debe tener 17 caracteres \n";
 			}
-			if (patenteText.getText().length() < 8) {
+			if (patenteText.getText().length() < 6) {
 				error += "La Patente debe tener 8 caracteres \n";
 			}
 
@@ -778,10 +773,24 @@ public class PantallaDarAltaPoliza {
 				vehiculodto.setModelo(modelodto);
 				vehiculodto.setMotor(motorTexto.getText());
 				vehiculodto.setPatente(patenteText.getText());
+
+				vehiculodto.setPorcentaje(modelodto.getPorcentaje());
+
+				String sumalocal= sumaFormattedTextField.getText();
+				int tamsuma = sumaFormattedTextField.getText().length();
+				String sumasinpuntos = "";
+				for(int i=0; i<tamsuma; i++) {
+					if(sumalocal.charAt(i) != '.') {
+						sumasinpuntos += sumalocal.charAt(i);
+					}
+				}
+				int valormil = Integer.parseInt(sumasinpuntos);
+				float valordivmil= valormil/1000;
+
 				vehiculodto.setPorcentaje(aux_modelo.getPorcentaje());
-				
+
 				int sumaAsegurada = GestorParametros.castSumaAsegurada(sumaFormattedTextField.getText());
-				
+
 				PolizaDTO pDTO = new PolizaDTO();
 				pDTO.setKmPorAnio((Integer) kmSpinner.getValue());
 				pDTO.setSumaasegurada(sumaAsegurada);
@@ -802,19 +811,19 @@ public class PantallaDarAltaPoliza {
 
 				Localidad aux_localidad = (Localidad) localidadCombo.getSelectedItem();
 				Provincia aux_provincia = (Provincia) provinciaCombo.getSelectedItem();
-				
+
 				ProvinciaDTO provdto= new ProvinciaDTO();
 				provdto.setId_provincia(aux_provincia.getId_provincia());
 				provdto.setNombre(aux_provincia.getNombre());
 				provdto.setPais(aux_provincia.getPais());
-				
+
 				LocalidadDTO locdto = new LocalidadDTO();
 				locdto.setId_localidad(aux_localidad.getId_localidad());
 				locdto.setCodigoPostal(aux_localidad.getCodigoPostal());
 				locdto.setNombre(aux_localidad.getNombre());
 				locdto.setPorcentaje(aux_localidad.getPorcentaje());
 				locdto.setProvincia(provdto);
-				
+
 				DomicilioRiesgoDTO domriesgodto = new DomicilioRiesgoDTO();
 
 				domriesgodto.setLocalidad(locdto);
@@ -947,7 +956,7 @@ public class PantallaDarAltaPoliza {
 		JButton botonBuscar = new JButton("BUSCAR");
 		botonBuscar.setFont(new Font("Serif", Font.BOLD, 12));
 		ActionListener accionBuscar = e -> {
-			
+
 			lista = GestorCliente.buscarCliente(textNroCliente.getText(), comboTipoDoc.getSelectedItem().toString(), textNroDoc.getText(), textNombre.getText(), textApellido.getText());
 			int cantCliente = lista.size();
 			int fila =0;
@@ -1043,7 +1052,7 @@ public class PantallaDarAltaPoliza {
 		lblEstadoCivil.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblEstadoCivil.setBounds(37, 227, 180, 33);
 		marco1.getContentPane().add(lblEstadoCivil);
-		
+
 
 		// -----------------------------------------------------------------
 

@@ -6,22 +6,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.clases.Caracteristicas;
 import tp.disenio.clases.Cliente;
 import tp.disenio.clases.Cobertura;
 import tp.disenio.clases.Cuota;
 import tp.disenio.clases.Descuentos;
-import tp.disenio.clases.Direccion;
 import tp.disenio.clases.DomicilioRiesgo;
 import tp.disenio.clases.Hijo;
-import tp.disenio.clases.Localidad;
 import tp.disenio.clases.MedidasSeguridad;
 import tp.disenio.clases.Mensual;
 import tp.disenio.clases.Poliza;
 import tp.disenio.clases.PolizaModificada;
 import tp.disenio.clases.Premio;
-import tp.disenio.clases.Provincia;
 import tp.disenio.clases.Semestral;
 import tp.disenio.clases.Siniestros;
 import tp.disenio.clases.Vehiculo;
@@ -31,7 +27,7 @@ import tp.disenio.gestores.GestorPoliza;
 
 public class DAOPoliza {
 
-	
+
 
 	public static Boolean cargarPoliza(Poliza poliza) {
 
@@ -64,25 +60,25 @@ public class DAOPoliza {
 			 FK id tipo_cobertura 11
 			 FK id domicilio_riesgo 12
 			 FK id cliente 13 */
-			
-			
+
+
 			GestorPoliza gp = GestorPoliza.getInstance();
 			gp.guardarDomRiesgo(poliza.getDomicilio_riesgo());
 			gp.guardarPremio(poliza.getPremio());
 			gp.guardarVehiculo(poliza.getVehiculo());
 			gp.guardarSiniestro(poliza.getSiniestro());
 			gp.guardarTipo(poliza.getTipo_cobertura());
-			
+
 			PreparedStatement st = con.prepareStatement("INSERT INTO POLIZA VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-		
-			st.setInt(1, poliza.getNroPoliza()); //nro_poliza
+
+			st.setLong(1, poliza.getNroPoliza()); //nro_poliza
 			st.setInt(2, poliza.getKmPorAnio()); //km_por_anio
 			st.setFloat(3, poliza.getSumaasegurada()); //suma_asegurada
 			st.setString(4, poliza.getInicio_vigencia());//inicio_vigencia
 			st.setString(5, poliza.getFin_vigencia());//fin__vigencia
 			st.setString(6, poliza.getForma_pago().getNombre());//Forma_Pago
 			st.setString(7, poliza.getEstado_poliza());//estado_poliza
-			st.setInt(8, poliza.getPremio().getIdPremio());//FK id premio 
+			st.setInt(8, poliza.getPremio().getIdPremio());//FK id premio
 			st.setInt(9, poliza.getVehiculo().getId_vehiculo());//FK id vehiculo
 			st.setInt(10, poliza.getSiniestro().getId_siniestro());// FK id siniestros
 			st.setInt(11, poliza.getTipo_cobertura().getId_cobertura());// FK id tipo_cobertura
@@ -90,9 +86,9 @@ public class DAOPoliza {
 			st.setString(13, poliza.getCliente().getNroCliente());//FK id cliente
 			st.executeUpdate();
 			st.close();
-				
+
 			retorno = true;
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -108,7 +104,7 @@ public class DAOPoliza {
 		return retorno;
 	}
 
-	
+
 
 	public static Poliza buscarPoliza(String nroP) {
 		Poliza retorno = new Poliza();
@@ -145,13 +141,13 @@ public class DAOPoliza {
 			 FK id tipo_cobertura 11
 			 FK id domicilio_riesgo 12
 			 FK id cliente 13 */
-			
-			
-			
+
+
+
 			while(rs.next()) {
 				GestorPoliza gp = GestorPoliza.getInstance();
 				GestorCliente gc = GestorCliente.getInstance();
-				
+
 				retorno.setNroPoliza(rs.getInt("nro_poliza"));
 				retorno.setKmPorAnio(rs.getInt("km_por_anio"));
 				retorno.setSumaasegurada( (float) rs.getDouble("suma_asegurada"));
@@ -172,64 +168,64 @@ public class DAOPoliza {
 					aux_sem.setFecha_Vencimiento(aux_cuota.getFecha_vencimiento());
 					aux_sem.setMontoTotal(aux_cuota.getMonto());
 				}
-				
+
 				retorno.setEstado_poliza(rs.getString("estado_poliza"));
 				//PREMIO
 				Premio aux_premio = new Premio();
 				aux_premio = gp.recuperarPremio(rs.getInt("premio"));
 				retorno.setPremio(aux_premio);
-				
+
 				//VEHICULO
 				Vehiculo aux_veh = new Vehiculo();
 				aux_veh = gp.recuperarVehiculo(rs.getInt("vehiculo"));
 				retorno.setVehiculo(aux_veh);
-				
+
 				//SINIESTROS
 				Siniestros aux_siniestro = new Siniestros();
 				aux_siniestro = gp.recuperarSiniestro(rs.getInt("siniestros"));
 				retorno.setSiniestro(aux_siniestro);
-			
+
 				//TIPO DE COBERTURA
 				Cobertura aux_cob = new Cobertura();
 				aux_cob = gp.recuperarCobertura(rs.getInt("siniestros"));
 				retorno.setTipo_cobertura(aux_cob);
-				
-				
+
+
 				//DOMICILIO RIESGO
 				DomicilioRiesgo aux_dom = new DomicilioRiesgo();
 				aux_dom = gp.recuperarDomicilioRiesgo(rs.getInt("domicilio_riesgo"));
 				retorno.setDomicilio_riesgo(aux_dom);
-				
-				//CLIENTE 
+
+				//CLIENTE
 				Cliente aux_cliente = new Cliente();
 				aux_cliente = gc.recuperarCliente(rs.getNString("cliente"));
 				retorno.setCliente(aux_cliente);
-				 
-				
+
+
 				//MEDIDAS SEGURIDAD
 				MedidasSeguridad aux_medS = new MedidasSeguridad();
 				aux_medS = gp.recuperarMedidasSeguridad(rs.getInt("nro_poliza"));
 				retorno.setSeguridad(aux_medS);
-				
-				//DESCUENTOS 
+
+				//DESCUENTOS
 				Descuentos aux_desc = new Descuentos();
 				aux_desc = gp.recuperarDescuentos(rs.getInt("nro_poliza"));
 				retorno.setDescuento(aux_desc);
-				
+
 				//HIJOS
 				ArrayList<Hijo> aux_hijos = new ArrayList<>();
 				aux_hijos = gp.recuperarHijos(rs.getInt("nro_poliza"));
 				retorno.setHijos_declarados(aux_hijos);
-				
+
 				//CARACTERISTICAS
 				Caracteristicas aux_car = new Caracteristicas();
 				aux_car = gp.recuperarCaracteristicas(rs.getInt("nro_poliza"));
 				retorno.setCaracteristicas(aux_car);
-				
+
 				retorno.setPoliza_modificada(new PolizaModificada());
-				
+
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -241,12 +237,12 @@ public class DAOPoliza {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		return retorno;
 	}
 
-	
+
 
 
 

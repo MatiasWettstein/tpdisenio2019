@@ -26,8 +26,6 @@ import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.DTO.PremioDTO;
 import tp.disenio.DTO.VehiculoDTO;
-import tp.disenio.clases.Descuentos;
-import tp.disenio.gestores.GestorCliente;
 import tp.disenio.gestores.GestorPantallas;
 import tp.disenio.gestores.GestorPoliza;
 
@@ -141,26 +139,29 @@ public class PantallaDarAltaPoliza3Semestral {
 		JTextField textField_Premio = new JTextField();
 		textField_Premio.setEditable(false);
 		GestorPoliza gp = GestorPoliza.getInstance();
-		
+
 		PremioDTO premiodto = new PremioDTO();
 
 		premiodto.setDerechoEmision(gp.calcularDerecho(p.getSumaasegurada()));
 		premiodto.setPrima(gp.calcularPrima(p.getSumaasegurada()));
 		premiodto.setMontoTotal(gp.calcularPremio(premiodto.getPrima(), premiodto.getDerechoEmision()));
 
-		
+
 		textField_Premio.setText(String.valueOf(premiodto.getMontoTotal()));
 		textField_Premio.setColumns(10);
 		textField_Premio.setBounds(915, 288, 196, 20);
 		marco1.getContentPane().add(textField_Premio);
 
-		
+
+		PremioDTO premio = new PremioDTO();
+		//responsabilidad gestor
+		premio.setDerechoEmision(gp.calcularDerecho(p.getSumaasegurada()*1000));
+		premio.setPrima(gp.calcularPrima(p.getSumaasegurada()*1000));
+		premio.setMontoTotal(gp.calcularPremio(gp.calcularPrima(p.getSumaasegurada()*1000), gp.calcularDerecho(p.getSumaasegurada()*1000)));
 
 		JTextField textField_2 = new JTextField();
 		textField_2.setEditable(false);
-		GestorCliente gc = GestorCliente.getInstance();
-		int cant= gc.cantidadPoliza(c);
-		double montototalapagar = gp.calcularMontoTotalAPagar(premiodto, c);
+		double montototalapagar = gp.calcularMontoTotalAPagar(premiodto, c)*0.90;
 
 		textField_2.setText(String.valueOf(montototalapagar));
 		textField_2.setColumns(10);
@@ -169,7 +170,7 @@ public class PantallaDarAltaPoliza3Semestral {
 
 
 
-		//no creo que esto halla que hacerlo acá 
+		//no creo que esto halla que hacerlo acá
 		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-yyyy");
 		Calendar cal1 = Calendar.getInstance();
 		try {
@@ -186,7 +187,7 @@ public class PantallaDarAltaPoliza3Semestral {
 		cuota.setMonto(montototalapagar);
 		cuota.setVencimiento(fechaultimopago);
 		cuota.setPagado(false);
-		
+
 		JTextField textField_1 = new JTextField();
 		textField_1.setEditable(false);
 		textField_1.setText(fechaultimopago);
@@ -224,10 +225,10 @@ public class PantallaDarAltaPoliza3Semestral {
 		marco1.getContentPane().add(scrollPane_1);
 
 		JTable tableDescuentos = new JTable();
-		
+
 		final DescuentosDTO descuentosdto =  gp.setDescuentos(c);
 		String desc = Double.toString(descuentosdto.getDescPorUnidadAdicional())  + "%";
-	
+
 		tableDescuentos.setModel(new DefaultTableModel(
 				new Object[][] {
 					{desc, "10%"},
@@ -266,14 +267,14 @@ public class PantallaDarAltaPoliza3Semestral {
 		ActionListener aceptar = e -> {
 
 			//aca va el dar alta poliza
-		
+
 			boolean flag = gp.cargarPolizaSemestral(c,p,v,listahijos,dom, descuentosdto, premiodto, cuota);
-			//FALTA SETEAR CARACTERSITICAS - NO SE LO PASAMOS EN NINGUN LADO. 
+			//FALTA SETEAR CARACTERSITICAS - NO SE LO PASAMOS EN NINGUN LADO.
 
 			if (flag) {
 				JOptionPane.showMessageDialog(null, "Poliza generada con éxito");
 			}
-			
+
 			GestorPantallas.PantallaPrincipal();
 			marco1.dispose();
 
