@@ -213,7 +213,7 @@ public class DAOCaracteristicas {
 		return retorno;
 	}
 
-	public static Caracteristicas recuperarCaracteristicas (int nroPoliza) {
+	public static Caracteristicas recuperarCaracteristicas (long nroPoliza) {
 		Caracteristicas retorno = new Caracteristicas();
 		ResultSet rs_km = null;
 		ResultSet rs_hijo = null;

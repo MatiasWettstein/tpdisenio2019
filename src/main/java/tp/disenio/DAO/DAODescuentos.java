@@ -129,7 +129,7 @@ public class DAODescuentos {
 		return retorno;
 	}
 
-	public static Descuentos recuperarDescuentos(int nroPoliza) {
+	public static Descuentos recuperarDescuentos(long nroPoliza) {
 		Descuentos retorno = new Descuentos();
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;

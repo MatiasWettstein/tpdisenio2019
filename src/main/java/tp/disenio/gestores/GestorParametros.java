@@ -1,5 +1,6 @@
 package tp.disenio.gestores;
 
+import java.sql.Connection;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -139,9 +140,9 @@ public class GestorParametros {
 		return retorno;
 	}
 	
-	public static Provincia obtenerProvincia(int idProv) {
+	public static Provincia obtenerProvincia(int idProv, Connection con) {
 		Provincia retorno = new Provincia();
-		retorno = DAOProvincia.obtenerProvincia(idProv);
+		retorno = DAOProvincia.obtenerProvincia(idProv, con);
 		return retorno;
 	}
 	

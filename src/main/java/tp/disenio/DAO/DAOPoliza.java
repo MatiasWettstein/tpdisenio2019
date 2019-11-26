@@ -198,28 +198,28 @@ public class DAOPoliza {
 
 				//CLIENTE
 				Cliente aux_cliente = new Cliente();
-				aux_cliente = gc.recuperarCliente(rs.getNString("cliente"));
+				aux_cliente = gc.recuperarCliente(rs.getString("cliente")); ///////
 				retorno.setCliente(aux_cliente);
 
 
 				//MEDIDAS SEGURIDAD
 				MedidasSeguridad aux_medS = new MedidasSeguridad();
-				aux_medS = gp.recuperarMedidasSeguridad(rs.getInt("nro_poliza"));
+				aux_medS = gp.recuperarMedidasSeguridad(rs.getLong("nro_poliza"));
 				retorno.setSeguridad(aux_medS);
 
 				//DESCUENTOS
 				Descuentos aux_desc = new Descuentos();
-				aux_desc = gp.recuperarDescuentos(rs.getInt("nro_poliza"));
+				aux_desc = gp.recuperarDescuentos(rs.getLong("nro_poliza"));
 				retorno.setDescuento(aux_desc);
 
 				//HIJOS
 				ArrayList<Hijo> aux_hijos = new ArrayList<>();
-				aux_hijos = gp.recuperarHijos(rs.getInt("nro_poliza"));
+				aux_hijos = gp.recuperarHijos(rs.getLong("nro_poliza"));
 				retorno.setHijos_declarados(aux_hijos);
 
 				//CARACTERISTICAS
 				Caracteristicas aux_car = new Caracteristicas();
-				aux_car = gp.recuperarCaracteristicas(rs.getInt("nro_poliza"));
+				aux_car = gp.recuperarCaracteristicas(rs.getLong("nro_poliza"));
 				retorno.setCaracteristicas(aux_car);
 
 				retorno.setPoliza_modificada(new PolizaModificada());

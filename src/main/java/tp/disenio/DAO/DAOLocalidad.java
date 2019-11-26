@@ -101,7 +101,7 @@ public class DAOLocalidad {
 			retorno.setPorcentaje((float) rs.getDouble("porcentaje"));
 			retorno.setCodigoPostal(rs.getString("codigo_postal"));
 			Provincia aux_prov = new Provincia();
-			aux_prov = gpm.obtenerProvincia(rs.getInt("provincia"));
+			aux_prov = gpm.obtenerProvincia(rs.getInt("provincia"),con);
 			retorno.setProvincia(aux_prov);
 				
 			}

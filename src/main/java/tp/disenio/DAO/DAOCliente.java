@@ -362,7 +362,7 @@ public class DAOCliente {
 			e1.printStackTrace();
 		}
 		try {
-			String Consulta = "select * from cliente where nro_cliente = " + nroC;
+			String Consulta = "select * from cliente where nro_cliente = '" + nroC +"'" ;
 
 
 			PreparedStatement st = con.prepareStatement(Consulta);
