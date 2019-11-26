@@ -89,15 +89,22 @@ public class GestorPoliza {
 		long nroPoliza = 0;
 		GestorPoliza gp = GestorPoliza.getInstance();
 		String aux_nroNuevo = "";
-		String n_sucursal = "1234";
 		long serial = gp.recupearUltimoNIDPoliza();
-		serial = serial /100;
-		serial = serial %10000000;
-		serial ++;
+		if (serial == 0) { //Crea la primera
+			serial = 1234*10000000;
+			serial ++;
+		} 
+		else {
+			serial = serial /100;
+			serial ++;
+			serial = serial *100;
+			serial++;
+		}
+
 		String n_serial = Long.toString(serial);
 		String n_poliza = "01"; //porque es la primera poliza que registra
 
-		aux_nroNuevo = n_sucursal + n_serial + n_poliza;
+		aux_nroNuevo =n_serial + n_poliza;
 		nroPoliza = Long.parseLong(aux_nroNuevo);
 
 		return nroPoliza;
