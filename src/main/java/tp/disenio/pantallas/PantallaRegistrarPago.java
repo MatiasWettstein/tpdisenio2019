@@ -227,6 +227,7 @@ public class PantallaRegistrarPago {
 			textPatente.setText(p.getVehiculo().getPatente());
 			
 			if  (p.getForma_pago().getNombre() == "MENSUAL") {
+		/*		list 
 				int fila =0;
 				Object[][] listaMuestra = new Object[6][6];
 				for(ClienteDTO c:lista) {
@@ -238,7 +239,7 @@ public class PantallaRegistrarPago {
 					listaMuestra[fila][4] = c.getDocumento();
 					fila++;
 
-				}
+				}*/
 			}
 			else if (p.getForma_pago().getNombre() == "SEMESTRAL") {
 				//MOSTRAR CUOTA UNICA

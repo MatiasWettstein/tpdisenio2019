@@ -47,7 +47,7 @@ private static JTable tablaPoliza = new JTable();
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-		private static Poliza poliza_encontrada = new Poliza();
+	private static Poliza poliza_encontrada = new Poliza();
 	 public static void start() {
 		// --------------- MARCO --------------
 				final Marco marco1 = new Marco(1200,600,"BUSCAR POLIZA");
