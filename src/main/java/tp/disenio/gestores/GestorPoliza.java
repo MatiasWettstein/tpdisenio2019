@@ -75,13 +75,13 @@ public class GestorPoliza {
 
 	public double descuentos(int cant) {
 		if(cant <=1) {
-			return 1;
+			return 0;
 		} else if(cant > 1 && cant <= 3) {
-			return 0.90;
+			return 0.10;
 		} else if(cant > 3) {
-			return 0.75;
+			return 0.25;
 		}
-		return 1;
+		return 0;
 	}
 
 
@@ -230,7 +230,7 @@ public class GestorPoliza {
 		GestorCliente gc = GestorCliente.getInstance();
 		int cant = gc.cantidadPoliza(c);
 		GestorPoliza gp = GestorPoliza.getInstance();
-		double montototalapagar = premiodto.getMontoTotal()* gp.descuentos(cant);
+		double montototalapagar = premiodto.getMontoTotal()*(1-gp.descuentos(cant));
 		return montototalapagar;
 
 	}
@@ -240,7 +240,7 @@ public class GestorPoliza {
 		int cant = gc.cantidadPoliza(c);
 		GestorPoliza gp = GestorPoliza.getInstance();
 		DescuentosDTO descuentos = new DescuentosDTO();
-		descuentos.setDescPorUnidadAdicional(100-gp.descuentos(cant)*100);
+		descuentos.setDescPorUnidadAdicional(gp.descuentos(cant));
 		descuentos.setDescPorPagoAdelantado(0.05);
 		descuentos.setDescPorPagoSemestral(0.10);
 

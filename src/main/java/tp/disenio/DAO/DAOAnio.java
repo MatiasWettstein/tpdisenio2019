@@ -84,7 +84,7 @@ public class DAOAnio {
 
 
 	public static Anio obtenerAnioModelo(Modelo modelo) {
-		
+
 		Anio retorno = new Anio();
 		ResultSet rs = null;
 		ResultSet anio = null;
@@ -104,11 +104,11 @@ public class DAOAnio {
 
 			int idModelo = modelo.getIdModelo();
 			int idAnio=0;
-			
-			String consulta1 = "select id_anio from modelo where id_modelo = " + idModelo;
+
+			String consulta1 = "select anio from modelo where id_modelo = " + idModelo;
 			PreparedStatement st1 = con.prepareStatement(consulta1);
 			anio = st1.executeQuery();
-			
+
 			while (anio.next()) {
 				idAnio = anio.getInt("anio");
 			}
@@ -137,9 +137,9 @@ public class DAOAnio {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
+
+
 		return retorno;
 	}
-	
+
 }
