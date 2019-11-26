@@ -408,13 +408,13 @@ public class GestorPoliza {
 		return retorno;
 	}
 
-	public static ArrayList<Cuota> recuperarListaCuotas(int nroPoliza){
+	public static ArrayList<Cuota> recuperarListaCuotas(long nroPoliza){
 		ArrayList<Cuota> retorno = new ArrayList<>();
 		retorno = DAOCuota.recuperarListaCuotas(nroPoliza);
 		return retorno;
 	}
 
-	public static Cuota recupearCuota(int nroPoliza) {
+	public static Cuota recupearCuota(long nroPoliza) {
 		Cuota retorno = new Cuota();
 		retorno = DAOCuota.recupearCuota(nroPoliza);
 		return retorno;

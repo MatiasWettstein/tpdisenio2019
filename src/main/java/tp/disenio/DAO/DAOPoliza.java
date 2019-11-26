@@ -111,7 +111,7 @@ public class DAOPoliza {
 		ResultSet rs = null;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
-		int nroPoliza = Integer.parseInt(nroP);
+		long nroPoliza = Long.parseLong(nroP);
 		try {
 			con = gdb.crearConexion();
 		} catch (ClassNotFoundException e1) {
@@ -148,7 +148,7 @@ public class DAOPoliza {
 				GestorPoliza gp = GestorPoliza.getInstance();
 				GestorCliente gc = GestorCliente.getInstance();
 
-				retorno.setNroPoliza(rs.getInt("nro_poliza"));
+				retorno.setNroPoliza(rs.getLong("nro_poliza"));
 				retorno.setKmPorAnio(rs.getInt("km_por_anio"));
 				retorno.setSumaasegurada( (float) rs.getDouble("suma_asegurada"));
 				retorno.setInicio_vigencia(rs.getString("inicio_vigencia"));
@@ -156,13 +156,13 @@ public class DAOPoliza {
 				if (rs.getString("forma_pago") == "MENSUAL") {
 					Mensual aux_mens = new Mensual();
 					aux_mens.setNombre(rs.getString("forma_pago"));
-					aux_mens.setCuotas(gp.recuperarListaCuotas(rs.getInt("nro_poliza")));
+					aux_mens.setCuotas(gp.recuperarListaCuotas(rs.getLong("nro_poliza")));
 					//no hago el set de monto total
 				}
 				else {
 					Semestral aux_sem = new Semestral();
 					Cuota aux_cuota = new Cuota();
-					aux_cuota=gp.recupearCuota(rs.getInt("nro_poliza"));
+					aux_cuota=gp.recupearCuota(rs.getLong("nro_poliza"));
 					aux_sem.setCuota1(aux_cuota);
 					aux_sem.setNombre(rs.getString("forma_pago"));
 					aux_sem.setFecha_Vencimiento(aux_cuota.getFecha_vencimiento());
