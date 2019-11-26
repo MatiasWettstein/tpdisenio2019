@@ -61,14 +61,12 @@ public class DAOPoliza {
 			 FK id domicilio_riesgo 12
 			 FK id cliente 13 */
 
-
 			GestorPoliza gp = GestorPoliza.getInstance();
-			gp.guardarDomRiesgo(poliza.getDomicilio_riesgo());
-			gp.guardarPremio(poliza.getPremio());
-			gp.guardarVehiculo(poliza.getVehiculo());
-			gp.guardarSiniestro(poliza.getSiniestro());
-			gp.guardarTipo(poliza.getTipo_cobertura());
-
+			gp.guardarDomRiesgo(poliza.getDomicilio_riesgo(),con);
+			gp.guardarPremio(poliza.getPremio(),con);
+			gp.guardarVehiculo(poliza.getVehiculo(),con);
+			gp.guardarSiniestro(poliza.getSiniestro(),con);
+			gp.guardarTipo(poliza.getTipo_cobertura(),con);
 			PreparedStatement st = con.prepareStatement("INSERT INTO POLIZA VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 			st.setLong(1, poliza.getNroPoliza()); //nro_poliza
@@ -107,6 +105,7 @@ public class DAOPoliza {
 
 
 	public static Poliza buscarPoliza(String nroP) {
+
 		Poliza retorno = new Poliza();
 		ResultSet rs = null;
 		GestorDB gdb = GestorDB.getInstance();
@@ -121,6 +120,8 @@ public class DAOPoliza {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
+
+
 		try {
 			String Consulta = "select * from poliza where nro_poliza = " + nroPoliza;
 
@@ -162,7 +163,7 @@ public class DAOPoliza {
 				else {
 					Semestral aux_sem = new Semestral();
 					Cuota aux_cuota = new Cuota();
-					aux_cuota=gp.recupearCuota(rs.getLong("nro_poliza"));
+					aux_cuota=gp.recupearCuota(rs.getLong("nro_poliza"), con);
 					aux_sem.setCuota1(aux_cuota);
 					aux_sem.setNombre(rs.getString("forma_pago"));
 					aux_sem.setFecha_Vencimiento(aux_cuota.getFecha_vencimiento());
@@ -172,54 +173,54 @@ public class DAOPoliza {
 				retorno.setEstado_poliza(rs.getString("estado_poliza"));
 				//PREMIO
 				Premio aux_premio = new Premio();
-				aux_premio = gp.recuperarPremio(rs.getInt("premio"));
+				aux_premio = gp.recuperarPremio(rs.getInt("premio"),con);
 				retorno.setPremio(aux_premio);
 
 				//VEHICULO
 				Vehiculo aux_veh = new Vehiculo();
-				aux_veh = gp.recuperarVehiculo(rs.getInt("vehiculo"));
+				aux_veh = gp.recuperarVehiculo(rs.getInt("vehiculo"), con);
 				retorno.setVehiculo(aux_veh);
 
 				//SINIESTROS
 				Siniestros aux_siniestro = new Siniestros();
-				aux_siniestro = gp.recuperarSiniestro(rs.getInt("siniestros"));
+				aux_siniestro = gp.recuperarSiniestro(rs.getInt("siniestros"), con);
 				retorno.setSiniestro(aux_siniestro);
 
 				//TIPO DE COBERTURA
 				Cobertura aux_cob = new Cobertura();
-				aux_cob = gp.recuperarCobertura(rs.getInt("siniestros"));
+				aux_cob = gp.recuperarCobertura(rs.getInt("siniestros"), con);
 				retorno.setTipo_cobertura(aux_cob);
 
 
 				//DOMICILIO RIESGO
 				DomicilioRiesgo aux_dom = new DomicilioRiesgo();
-				aux_dom = gp.recuperarDomicilioRiesgo(rs.getInt("domicilio_riesgo"));
+				aux_dom = gp.recuperarDomicilioRiesgo(rs.getInt("domicilio_riesgo"), con);
 				retorno.setDomicilio_riesgo(aux_dom);
 
 				//CLIENTE
 				Cliente aux_cliente = new Cliente();
-				aux_cliente = gc.recuperarCliente(rs.getString("cliente")); ///////
+				aux_cliente = gc.recuperarCliente(rs.getString("cliente"), con); ///////
 				retorno.setCliente(aux_cliente);
 
 
 				//MEDIDAS SEGURIDAD
 				MedidasSeguridad aux_medS = new MedidasSeguridad();
-				aux_medS = gp.recuperarMedidasSeguridad(rs.getLong("nro_poliza"));
+				aux_medS = gp.recuperarMedidasSeguridad(rs.getLong("nro_poliza"), con);
 				retorno.setSeguridad(aux_medS);
 
 				//DESCUENTOS
 				Descuentos aux_desc = new Descuentos();
-				aux_desc = gp.recuperarDescuentos(rs.getLong("nro_poliza"));
+				aux_desc = gp.recuperarDescuentos(rs.getLong("nro_poliza"), con);
 				retorno.setDescuento(aux_desc);
 
 				//HIJOS
 				ArrayList<Hijo> aux_hijos = new ArrayList<>();
-				aux_hijos = gp.recuperarHijos(rs.getLong("nro_poliza"));
+				aux_hijos = gp.recuperarHijos(rs.getLong("nro_poliza"), con);
 				retorno.setHijos_declarados(aux_hijos);
 
 				//CARACTERISTICAS
 				Caracteristicas aux_car = new Caracteristicas();
-				aux_car = gp.recuperarCaracteristicas(rs.getLong("nro_poliza"));
+				aux_car = gp.recuperarCaracteristicas(rs.getLong("nro_poliza"), con);
 				retorno.setCaracteristicas(aux_car);
 
 				retorno.setPoliza_modificada(new PolizaModificada());
@@ -285,9 +286,6 @@ public class DAOPoliza {
 
 		return retorno;
 	}
-
-
-
 
 }
 

@@ -5,34 +5,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import tp.disenio.clases.Localidad;
 import tp.disenio.clases.Premio;
-import tp.disenio.clases.Provincia;
 import tp.disenio.gestores.GestorDB;
 
 public class DAOPremio {
-	
-	public static void  guardarPremio (Premio p) {
-		
-		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+
+	public static void  guardarPremio (Premio p,Connection con) {
 
 		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
 			PreparedStatement st = con.prepareStatement("INSERT INTO PREMIO VALUES (?, ?, ?, ?)");
-			st.setInt(1, p.getIdPremio());//id_premio 1 
+			st.setInt(1, p.getIdPremio());//id_premio 1
 			st.setFloat(2, p.getPrima());//prima, 2
 			st.setFloat(3, p.getDerechoEmision());//derecho 3
-			st.setFloat(4, p.getMontoTotal());//monto, 4 
-		
+			st.setFloat(4, p.getMontoTotal());//monto, 4
+
 			st.executeUpdate();
 			st.close();
 
@@ -41,18 +27,12 @@ public class DAOPremio {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 	}
 
-	
-public static int recupearUltimoNID() {
-		
+
+	public static int recupearUltimoNID() {
+
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = null;
@@ -95,56 +75,41 @@ public static int recupearUltimoNID() {
 		return retorno;
 	}
 
-public static Premio recuperarPremio (int idPremio) {
-	Premio retorno = new Premio();
-	ResultSet rs = null;
-	GestorDB gdb = GestorDB.getInstance();
-	Connection con = null;
-	try {
-		con = gdb.crearConexion();
-	} catch (ClassNotFoundException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	} catch (SQLException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
-	try {
-		String Consulta = "select * from premio where id_premio = " + idPremio;
+	public static Premio recuperarPremio (int idPremio, Connection con) {
+		Premio retorno = new Premio();
+		ResultSet rs = null;
+
+		try {
+			String Consulta = "select * from premio where id_premio = " + idPremio;
 
 
-		PreparedStatement st = con.prepareStatement(Consulta);
-		rs = st.executeQuery();
-		/*
-		 * id_premio 1
-		 * prima 2 double
-		 * derecho_emision 3 double 
-		 * monto_total 4 double 
-		 * 
-		 */
-		
-		
-		while(rs.next()) {
-		retorno.setIdPremio(idPremio);
-		retorno.setPrima((float) rs.getDouble("prima"));
-		retorno.setDerechoEmision((float) rs.getDouble("derecho_emision"));
-		retorno.setMontoTotal((float) rs.getDouble("monto_total") );
-			
+			PreparedStatement st = con.prepareStatement(Consulta);
+			rs = st.executeQuery();
+			/*
+			 * id_premio 1
+			 * prima 2 double
+			 * derecho_emision 3 double
+			 * monto_total 4 double
+			 *
+			 */
+
+
+			while(rs.next()) {
+				retorno.setIdPremio(idPremio);
+				retorno.setPrima((float) rs.getDouble("prima"));
+				retorno.setDerechoEmision((float) rs.getDouble("derecho_emision"));
+				retorno.setMontoTotal((float) rs.getDouble("monto_total") );
+
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		
-	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+
+
+		return retorno;
 	}
 
-	try {
-		con.close();
-	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-	return retorno;
-}
 
-	
 }

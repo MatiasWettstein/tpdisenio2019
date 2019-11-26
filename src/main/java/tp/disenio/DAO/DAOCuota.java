@@ -195,20 +195,10 @@ public class DAOCuota {
 		return retorno;
 	}
 
-	public static Cuota recupearCuota(long nroPoliza) {
+	public static Cuota recupearCuota(long nroPoliza, Connection con) {
 		Cuota retorno = new Cuota();
 		ResultSet rs = null;
-		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+
 		try {
 			String Consulta = "select * from cuota where nro_poliza = " + nroPoliza;
 
@@ -224,7 +214,6 @@ public class DAOCuota {
 		 int id_cobro
 			 */
 
-
 			while(rs.next()) {
 				retorno.setId_cuota(rs.getInt("id_cuota")); //id_cuota
 				retorno.setFecha_vencimiento(rs.getString("vencimiento")); // vencimiento STRING
@@ -236,14 +225,6 @@ public class DAOCuota {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 
 		return retorno;
 	}

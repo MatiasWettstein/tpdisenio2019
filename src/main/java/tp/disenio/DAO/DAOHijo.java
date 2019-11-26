@@ -38,13 +38,13 @@ public class DAOHijo {
 		for(Hijo h : hijos) {
 
 			try {
-				PreparedStatement st = con.prepareStatement("INSERT INTO hijo_declarado VALUES (?, ?, ?, ?)");
+				PreparedStatement st = con.prepareStatement("INSERT INTO hijo_declarado VALUES (?, ?, ?, ?, ?, ?)");
 				st.setInt(1, ultimoID); //idHijo
 				st.setString(2, h.getFechaNac()); //fechaNac
 				st.setString(3, h.getEstadoCivil()); //EstadoCivil
 				st.setString(4, h.getSexo()); //sexo
-				st.setLong(4, p.getNroPoliza());//nro_poliza
-				st.setInt(5, p.getPoliza_modificada().getId_polizaMod());//poliza_mod
+				st.setLong(5, p.getNroPoliza());//nro_poliza
+				st.setInt(6, p.getPoliza_modificada().getId_polizaMod());//poliza_mod
 
 				st.executeUpdate();
 				st.close();
@@ -111,23 +111,9 @@ public class DAOHijo {
 		return retorno;
 	}
 
-	public static ArrayList<Hijo> recuperarHijos(long nroPoliza) {
+	public static ArrayList<Hijo> recuperarHijos(long nroPoliza, Connection con) {
 		ArrayList<Hijo> retorno = new ArrayList<>();
-
-		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
 		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 
@@ -152,12 +138,6 @@ public class DAOHijo {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		return retorno;
 

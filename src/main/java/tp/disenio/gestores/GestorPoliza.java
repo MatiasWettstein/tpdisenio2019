@@ -1,5 +1,6 @@
 package tp.disenio.gestores;
 
+import java.sql.Connection;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -93,7 +94,7 @@ public class GestorPoliza {
 		if (serial == 0) { //Crea la primera
 			serial = 1234*10000000;
 			serial ++;
-		} 
+		}
 		else {
 			serial = serial /100;
 			serial ++;
@@ -399,6 +400,7 @@ public class GestorPoliza {
 		nueva_poliza.setPremio(aux_premio);
 		nueva_poliza.setDescuento(aux_desc);
 		nueva_poliza.setPoliza_modificada(new PolizaModificada());
+		nueva_poliza.setSiniestro(aux_siniestro);
 		nueva_poliza.setCaracteristicas(aux_car);
 
 		return nueva_poliza;
@@ -424,21 +426,21 @@ public class GestorPoliza {
 		return retorno;
 	}
 
-	public static Cuota recupearCuota(long nroPoliza) {
+	public static Cuota recupearCuota(long nroPoliza, Connection con) {
 		Cuota retorno = new Cuota();
-		retorno = DAOCuota.recupearCuota(nroPoliza);
+		retorno = DAOCuota.recupearCuota(nroPoliza, con);
 		return retorno;
 	}
 
-	public static Premio recuperarPremio (int idPremio) {
+	public static Premio recuperarPremio (int idPremio, Connection con) {
 		Premio retorno = new Premio();
-		retorno = DAOPremio.recuperarPremio(idPremio);
+		retorno = DAOPremio.recuperarPremio(idPremio, con);
 		return retorno;
 	}
 
-	public static Vehiculo recuperarVehiculo(int idVeh) {
+	public static Vehiculo recuperarVehiculo(int idVeh, Connection con) {
 		Vehiculo retorno = new Vehiculo();
-		retorno = DAOVehiculo.recuperarVehiculo(idVeh);
+		retorno = DAOVehiculo.recuperarVehiculo(idVeh, con);
 		return retorno;
 	}
 
@@ -489,44 +491,44 @@ public class GestorPoliza {
 		return retorno;
 	}
 
-	public static void guardarDomRiesgo (DomicilioRiesgo d) {
-		DAODomicilioRiesgo.guardarDomRiesgo(d);
+	public static void guardarDomRiesgo (DomicilioRiesgo d, Connection con) {
+		DAODomicilioRiesgo.guardarDomRiesgo(d,con);
 	}
-	public static void  guardarPremio (Premio p) {
-		DAOPremio.guardarPremio(p);
-	}
-
-	public static void  guardarVehiculo (Vehiculo v) {
-		DAOVehiculo.guardarVehiculo(v);
-	}
-	public static void  guardarSiniestro(Siniestros s) {
-		DAOSiniestros.guardarSiniestro(s);
+	public static void  guardarPremio (Premio p,Connection con) {
+		DAOPremio.guardarPremio(p,con);
 	}
 
-	public static void guardarTipo (Cobertura c) {
-		DAOTipoCobertura.guardarTipo(c);
+	public static void  guardarVehiculo (Vehiculo v, Connection con) {
+		DAOVehiculo.guardarVehiculo(v, con);
 	}
-	public static Siniestros recuperarSiniestro(int idSiniestro) {
+	public static void  guardarSiniestro(Siniestros s, Connection con) {
+		DAOSiniestros.guardarSiniestro(s,con);
+	}
+
+	public static void guardarTipo (Cobertura c, Connection con) {
+		DAOTipoCobertura.guardarTipo(c,con);
+	}
+	public static Siniestros recuperarSiniestro(int idSiniestro, Connection con) {
 		Siniestros retorno = new Siniestros();
-		retorno = DAOSiniestros.recuperarSiniestro(idSiniestro);
+		retorno = DAOSiniestros.recuperarSiniestro(idSiniestro, con);
 		return retorno;
 	}
-	public static Cobertura recuperarCobertura(int idCobertura) {
+	public static Cobertura recuperarCobertura(int idCobertura, Connection con) {
 		Cobertura retorno = new Cobertura();
-		retorno = DAOTipoCobertura.recuperarCobertura(idCobertura);
+		retorno = DAOTipoCobertura.recuperarCobertura(idCobertura, con);
 		return retorno;
 	}
 
-	public static DomicilioRiesgo recuperarDomicilioRiesgo(int idDom) {
+	public static DomicilioRiesgo recuperarDomicilioRiesgo(int idDom, Connection con) {
 		DomicilioRiesgo retorno = new DomicilioRiesgo();
-		retorno = DAODomicilioRiesgo.recuperarDomicilioRiesgo(idDom);
+		retorno = DAODomicilioRiesgo.recuperarDomicilioRiesgo(idDom, con);
 		return retorno;
 	}
 
 
-	public static MedidasSeguridad recuperarMedidasSeguridad(long nroPoliza) {
+	public static MedidasSeguridad recuperarMedidasSeguridad(long nroPoliza, Connection con) {
 		MedidasSeguridad retorno = new MedidasSeguridad();
-		retorno = DAOMedidasSeguridad.recuperarMedidasSeguridad(nroPoliza);
+		retorno = DAOMedidasSeguridad.recuperarMedidasSeguridad(nroPoliza, con);
 		return retorno;
 	}
 
@@ -563,25 +565,27 @@ public class GestorPoliza {
 
 	}
 
-	public Descuentos recuperarDescuentos(long nroPoliza) {
+	public Descuentos recuperarDescuentos(long nroPoliza, Connection con) {
 		Descuentos retorno = new Descuentos();
-		retorno = DAODescuentos.recuperarDescuentos(nroPoliza);
+		retorno = DAODescuentos.recuperarDescuentos(nroPoliza, con);
 		return retorno;
 	}
 
-	public static ArrayList<Hijo> recuperarHijos(long nroPoliza) {
+	public static ArrayList<Hijo> recuperarHijos(long nroPoliza, Connection con) {
 		ArrayList<Hijo> retorno = new ArrayList<>();
-		retorno = DAOHijo.recuperarHijos(nroPoliza);
+		retorno = DAOHijo.recuperarHijos(nroPoliza, con);
 		return retorno;
 	}
 
-	public static Caracteristicas recuperarCaracteristicas (long nroPoliza) {
+	public static Caracteristicas recuperarCaracteristicas (long nroPoliza, Connection con) {
 		Caracteristicas retorno = new Caracteristicas();
-		retorno = DAOCaracteristicas.recuperarCaracteristicas(nroPoliza);
+		retorno = DAOCaracteristicas.recuperarCaracteristicas(nroPoliza, con);
 		return retorno;
 	}
+
 	public static long recupearUltimoNIDPoliza() {
 		long retorno = DAOPoliza.recupearUltimoNID();
 		return retorno;
 	}
+
 }

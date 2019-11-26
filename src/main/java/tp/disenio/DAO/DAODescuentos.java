@@ -104,7 +104,7 @@ public class DAODescuentos {
 		}
 
 		try {
-			String Consulta = "select max(id_descuentos) from descuentos";
+			String Consulta = "select max(id_descuento) from descuentos";
 			PreparedStatement st = con.prepareStatement(Consulta);
 			rs = st.executeQuery();
 
@@ -129,24 +129,13 @@ public class DAODescuentos {
 		return retorno;
 	}
 
-	public static Descuentos recuperarDescuentos(long nroPoliza) {
+	public static Descuentos recuperarDescuentos(long nroPoliza, Connection con) {
 		Descuentos retorno = new Descuentos();
-		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
 		ResultSet rs_unidadAdicional = null;
 		ResultSet rs_pagoSemestral = null;
 		ResultSet rs_pagoAdelantado = null;
 
 
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			//NO SETEO ID porque esta guardado diferente en la BD
@@ -183,12 +172,6 @@ public class DAODescuentos {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		return retorno;
 

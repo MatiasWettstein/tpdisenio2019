@@ -438,7 +438,7 @@ public class DAOMedidasSeguridad {
 
 	}
 
-	public static MedidasSeguridad recuperarMedidasSeguridad(long nroPoliza) {
+	public static MedidasSeguridad recuperarMedidasSeguridad(long nroPoliza, Connection con) {
 		MedidasSeguridad retorno = new MedidasSeguridad();
 		Alarma aux_alarma = new Alarma();
 		DispRastreo aux_dis = new DispRastreo();
@@ -446,20 +446,8 @@ public class DAOMedidasSeguridad {
 		Tuercas aux_tuercas = new Tuercas();
 
 		GestorPoliza gp = GestorPoliza.getInstance();
-		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
 		ResultSet rs = null;
 
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select * from poliza_tiene_mds where nro_poliza = " + nroPoliza;
@@ -502,14 +490,6 @@ public class DAOMedidasSeguridad {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return retorno;
 
 	}
