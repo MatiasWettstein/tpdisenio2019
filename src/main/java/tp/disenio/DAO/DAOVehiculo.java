@@ -110,7 +110,7 @@ public class DAOVehiculo {
 				retorno.setAnio(rs.getInt("anio"));
 				GestorParametros gpm = GestorParametros.getInstance();
 				Modelo aux_mod = new Modelo();
-				aux_mod = gpm.obtenerModelo(rs.getInt("modelo"));
+				aux_mod = gpm.obtenerModelo(rs.getInt("modelo"), con);
 				retorno.setModelo(aux_mod);
 				retorno.setPorcentaje((float) rs.getDouble("porcentaje_actual"));
 

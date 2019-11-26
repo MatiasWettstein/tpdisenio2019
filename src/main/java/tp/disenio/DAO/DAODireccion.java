@@ -88,7 +88,7 @@ public class DAODireccion {
 				retorno.setNumero(Integer.toString(rs.getInt("numero")));
 				retorno.setDpto(rs.getString("dpto"));
 				Localidad aux_loc = new Localidad();
-				aux_loc = gpm.obtenerLocalidad(rs.getInt("localidad"));
+				aux_loc = gpm.obtenerLocalidad(rs.getInt("localidad"), con);
 				retorno.setLocalidad(aux_loc);
 				retorno.setPiso(rs.getInt("piso"));
 

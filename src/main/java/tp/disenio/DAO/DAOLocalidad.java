@@ -66,20 +66,9 @@ public class DAOLocalidad {
 
 	}
 
-	public static Localidad obtenerLocalidad(int idLoc) {
+	public static Localidad obtenerLocalidad(int idLoc, Connection con) {
 		Localidad retorno = new Localidad();
 		ResultSet rs = null;
-		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		try {
 			String Consulta = "select * from localidad where id_localidad = " + idLoc;
 
@@ -89,34 +78,28 @@ public class DAOLocalidad {
 			/*
 			 * id_localidad 1
 			 * nombre 2 string
-			 * porcentaje 3 double 
-			 * codigo_postal 4 string 
-			 * provincia 5 	fk 
+			 * porcentaje 3 double
+			 * codigo_postal 4 string
+			 * provincia 5 	fk
 			 */
-			
+
 			GestorParametros gpm = GestorParametros.getInstance();
 			while(rs.next()) {
-			retorno.setId_localidad(idLoc);
-			retorno.setNombre(rs.getString("nombre"));
-			retorno.setPorcentaje((float) rs.getDouble("porcentaje"));
-			retorno.setCodigoPostal(rs.getString("codigo_postal"));
-			Provincia aux_prov = new Provincia();
-			aux_prov = gpm.obtenerProvincia(rs.getInt("provincia"),con);
-			retorno.setProvincia(aux_prov);
-				
+				retorno.setId_localidad(idLoc);
+				retorno.setNombre(rs.getString("nombre"));
+				retorno.setPorcentaje((float) rs.getDouble("porcentaje"));
+				retorno.setCodigoPostal(rs.getString("codigo_postal"));
+				Provincia aux_prov = new Provincia();
+				aux_prov = gpm.obtenerProvincia(rs.getInt("provincia"),con);
+				retorno.setProvincia(aux_prov);
+
 			}
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return retorno;
 	}
 

@@ -91,7 +91,7 @@ public class DAODomicilioRiesgo {
 				retorno.setPorcentajeDomicilio((float) rs.getDouble("porcentaje"));
 				Localidad aux_loc = new Localidad();
 				GestorParametros gpm = GestorParametros.getInstance();
-				aux_loc = gpm.obtenerLocalidad(rs.getInt("localidad"));
+				aux_loc = gpm.obtenerLocalidad(rs.getInt("localidad"), con);
 				retorno.setLocalidad(aux_loc);
 			}
 

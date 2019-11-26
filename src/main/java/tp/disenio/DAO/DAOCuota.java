@@ -139,21 +139,10 @@ public class DAOCuota {
 		return retorno;
 	}
 
-	public static ArrayList<Cuota> recuperarListaCuotas(long nroPoliza) {
+	public static ArrayList<Cuota> recuperarListaCuotas(long nroPoliza, Connection con) {
 
 		ArrayList<Cuota> retorno = new ArrayList<>();
 		ResultSet rs = null;
-		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		try {
 			String Consulta = "select * from cuota where nro_poliza = " + nroPoliza;
 
@@ -183,14 +172,6 @@ public class DAOCuota {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 
 		return retorno;
 	}
