@@ -3,6 +3,8 @@ package tp.disenio.pantallas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.Calendar;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -12,6 +14,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import tp.disenio.DTO.ClienteDTO;
+import tp.disenio.clases.Cuota;
 import tp.disenio.clases.Mensual;
 import tp.disenio.clases.Poliza;
 import tp.disenio.clases.Semestral;
@@ -216,6 +219,15 @@ public class PantallaRegistrarPago {
 		cancelar.addActionListener(cancel);
 		marco1.getContentPane().add(cancelar);
 		
+		ActionListener accionaceptar = e ->{
+			int seleccionadas [];
+			seleccionadas = tablaCuotas.getSelectedRows();
+			if (seleccionadas.length > 0) {
+				//CON GESTOR COBROS, CAMBIAR A PAGAS
+			}
+		};
+		aceptar.addActionListener(accionaceptar);
+		
 	////////////////////////////////////CUANDO YA BUSCO EL CLIENTE
 		
 		if (p != null) {
@@ -226,26 +238,38 @@ public class PantallaRegistrarPago {
 			textModelo.setText(p.getVehiculo().getModelo().getNombre());
 			textPatente.setText(p.getVehiculo().getPatente());
 			
+			Calendar cal = Calendar.getInstance();
 			if  (p.getForma_pago().getNombre() == "MENSUAL") {
-		/*		list 
+				
+				ArrayList<Cuota> lista = new ArrayList<>();
+				lista = ((Mensual)p.getForma_pago()).getCuotas();
 				int fila =0;
 				Object[][] listaMuestra = new Object[6][6];
-				for(ClienteDTO c:lista) {
+				for(Cuota c : lista) {
+					 if(!(c.isPagada())) {
+						 
+							listaMuestra[fila][0] = c.getId_cuota();
+							listaMuestra[fila][1] = c.getFecha_vencimiento();
+							listaMuestra[fila][2] = c.getMonto();
+							int diaV = Integer.parseInt(c.getFecha_vencimiento().substring(0, 1));
+							int mesV = Integer.parseInt(c.getFecha_vencimiento().substring(3, 4));
+							int anioV = Integer.parseInt(c.getFecha_vencimiento().substring(6, 9));
+							listaMuestra[fila][3] = c.getMonto();// FALTA COMPARAR FECHAS Y DETERMINAR SI ESTA VENCIDA 
+							fila++;	 
+					 }
+					
+				}
 
-					listaMuestra[fila][0] = c.getNroCliente();
-					listaMuestra[fila][1] = c.getApellido();
-					listaMuestra[fila][2] = c.getNombre();
-					listaMuestra[fila][3] = c.getTipoDoc();
-					listaMuestra[fila][4] = c.getDocumento();
-					fila++;
 
-				}*/
+				
 			}
 			else if (p.getForma_pago().getNombre() == "SEMESTRAL") {
 				//MOSTRAR CUOTA UNICA
 			}
 			
 		}
+		
+		//
 		
 	
 	}
