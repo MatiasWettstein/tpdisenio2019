@@ -10,8 +10,9 @@ import tp.disenio.gestores.GestorDB;
 
 public class DAOPremio {
 
-	public static void  guardarPremio (Premio p,Connection con) {
-
+	public static void  guardarPremio (Premio p) {
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 		try {
 			PreparedStatement st = con.prepareStatement("INSERT INTO PREMIO VALUES (?, ?, ?, ?)");
 			st.setInt(1, p.getIdPremio());//id_premio 1
@@ -35,19 +36,8 @@ public class DAOPremio {
 
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select max(id_premio) from premio";
@@ -65,17 +55,12 @@ public class DAOPremio {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return retorno;
 	}
 
-	public static Premio recuperarPremio (int idPremio, Connection con) {
+	public static Premio recuperarPremio (int idPremio) {
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 		Premio retorno = new Premio();
 		ResultSet rs = null;
 

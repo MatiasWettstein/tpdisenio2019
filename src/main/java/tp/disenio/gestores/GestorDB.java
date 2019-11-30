@@ -11,15 +11,30 @@ public class GestorDB {
 	static final String USER = "mmvdwfly";
 	static final String PASS = "ZBlqwzDu5ne0a1vx96EfwzOtemDW4FCr";
 
+	public Connection conec; 
+	
+	
 
 	private static GestorDB GDB ; // Patron Singleton -- Unica instancia tipo gestor creada.
 
 	private GestorDB(){ // Patron Singleton -- Constructor privatizado para no permitir su uso.
+	
+		try {
+			this.conec = this.crearConexion();
+		} catch (ClassNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		
 	}
 
 	public static GestorDB getInstance() { // Patron Singleton -- Devuelve la instancia, si no existe la crea
 		if ( GDB == null) {
-			GDB = new GestorDB();
+			GDB = new GestorDB();	
 		}
 		return GDB;
 	}

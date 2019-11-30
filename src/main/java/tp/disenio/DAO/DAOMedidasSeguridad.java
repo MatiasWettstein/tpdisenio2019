@@ -20,20 +20,9 @@ public class DAOMedidasSeguridad {
 	public static int obtenerIDAlarma() {
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
+
 		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
 		try {
 			String Consulta = "select id_mds from medidas_seguridad where nombre = 'ALARMA'";
 			PreparedStatement st = con.prepareStatement(Consulta);
@@ -50,13 +39,6 @@ public class DAOMedidasSeguridad {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return retorno;
 
 	}
@@ -64,19 +46,9 @@ public class DAOMedidasSeguridad {
 	public static double obtenerPorcentajeAlarma() {
 		double retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
+
 		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select porcentaje from medidas_seguridad where nombre = 'ALARMA'";
@@ -94,32 +66,16 @@ public class DAOMedidasSeguridad {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return retorno;
 	}
 
 	public static int obtenerIDTuerca() {
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
+
 		ResultSet rs = null;
 
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select id_mds from medidas_seguridad where nombre = 'TUERCAS'";
@@ -137,32 +93,17 @@ public class DAOMedidasSeguridad {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return retorno;
 	}
 
 	public static double obtenerPorcentajeTuerca () {
 		double retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
+
 		ResultSet rs = null;
 
 
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select porcentaje from medidas_seguridad where nombre = 'TUERCA'";
@@ -180,12 +121,6 @@ public class DAOMedidasSeguridad {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		return retorno;
 	}
@@ -193,19 +128,9 @@ public class DAOMedidasSeguridad {
 	public static int obtenerIDDisp() {
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
+
 		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select id_mds from medidas_seguridad where nombre = 'DISPOSITIVO RASTREO'";
@@ -223,32 +148,15 @@ public class DAOMedidasSeguridad {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return retorno;
 	}
 
 	public static double obtenerPorcentajeDisp () {
 		double retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
+
 		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select porcentaje from medidas_seguridad where nombre = 'DISPOSITIVO RASTREO'";
@@ -266,32 +174,17 @@ public class DAOMedidasSeguridad {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return retorno;
 	}
 
 	public static int obtenerIDGarage() {
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
+
 		ResultSet rs = null;
 
 
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select id_mds from medidas_seguridad where nombre = 'GARAGE'";
@@ -309,12 +202,6 @@ public class DAOMedidasSeguridad {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		return retorno;
 	}
@@ -322,19 +209,10 @@ public class DAOMedidasSeguridad {
 	public static double obtenerPorcentajeGarage() {
 		double retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
+
 		ResultSet rs = null;
 
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select porcentaje from medidas_seguridad where nombre = 'GARAGE'";
@@ -352,35 +230,22 @@ public class DAOMedidasSeguridad {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+		
 		return retorno;
 	}
 
 	public static Boolean cargarPolizaTieneMDS(Poliza p) {
 		Boolean retorno = false;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
+
 
 		Boolean aux_alarma = p.getSeguridad().getAlarma().isPosee();
 		Boolean aux_dispR = p.getSeguridad().getRastreo().isPosee();
 		Boolean aux_garage = p.getSeguridad().getGarage().isPosee();
 		Boolean aux_tuercas = p.getSeguridad().getTuercas().isPosee();
 
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
 		try {
 			/*
 			 int nro_poliza 1
@@ -427,23 +292,19 @@ public class DAOMedidasSeguridad {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		return retorno;
 
 	}
 
-	public static MedidasSeguridad recuperarMedidasSeguridad(long nroPoliza, Connection con) {
+	public static MedidasSeguridad recuperarMedidasSeguridad(long nroPoliza) {
 		MedidasSeguridad retorno = new MedidasSeguridad();
 		Alarma aux_alarma = new Alarma();
 		DispRastreo aux_dis = new DispRastreo();
 		Garage aux_garage = new Garage();
 		Tuercas aux_tuercas = new Tuercas();
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 
 		GestorPoliza gp = GestorPoliza.getInstance();
 		ResultSet rs = null;

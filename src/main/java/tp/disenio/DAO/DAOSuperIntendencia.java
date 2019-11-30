@@ -15,17 +15,9 @@ public class DAOSuperIntendencia {
 	float sumaAsegurada=0;
 	ResultSet rs = null;
 	GestorDB gdb = GestorDB.getInstance();
-	Connection con = null;
+	Connection con = gdb.conec;
 
-	try {
-		con = gdb.crearConexion();
-	} catch (ClassNotFoundException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	} catch (SQLException e1) {
-		// TODO Auto-generated catch block
-		e1.printStackTrace();
-	}
+
 	try {
 
 		int idModelo = modelo.getIdModelo();
@@ -45,13 +37,6 @@ public class DAOSuperIntendencia {
 		e.printStackTrace();
 	}
 
-
-	try {
-		con.close();
-	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
 	
 	return sumaAsegurada;
 }

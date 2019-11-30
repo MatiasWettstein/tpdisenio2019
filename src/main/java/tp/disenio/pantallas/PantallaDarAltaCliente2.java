@@ -3,6 +3,7 @@ package tp.disenio.pantallas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.text.ParseException;
 
 import javax.swing.JButton;
@@ -14,6 +15,7 @@ import javax.swing.text.MaskFormatter;
 
 import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.gestores.GestorCliente;
+import tp.disenio.gestores.GestorDB;
 import tp.disenio.gestores.GestorPantallas;
 
 public class PantallaDarAltaCliente2 {
@@ -80,6 +82,15 @@ public class PantallaDarAltaCliente2 {
 			boolean flag = GestorCliente.guardarCliente(cliente);
 			if (flag) {
 				JOptionPane.showMessageDialog(null, "Cliente generado con éxito");
+				GestorDB gdb = GestorDB.getInstance();
+				try {
+					gdb.conec.close();
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
+				
+				//ACA FALTA AGREGAR QUE VUELVA A LA PANTALLA ALTA POLIZA A DONDE FUE LLAMADO 
 				marco1.dispose();
 			}else {
 				JOptionPane.showMessageDialog(null, "ERROR CRITICO, no se pudo guardar el cliente.");

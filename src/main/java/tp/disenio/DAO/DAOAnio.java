@@ -18,19 +18,11 @@ public class DAOAnio {
 		ResultSet rs = null;
 		ResultSet anio = null;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 		int inicio = 0 ;
 		int fin = 0;
 
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
 		try {
 
 			int idModelo = modelo.getIdModelo();
@@ -72,13 +64,6 @@ public class DAOAnio {
 			e.printStackTrace();
 		}
 
-
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return anios.toArray();
 	}
 
@@ -89,17 +74,9 @@ public class DAOAnio {
 		ResultSet rs = null;
 		ResultSet anio = null;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+	
 		try {
 
 			int idModelo = modelo.getIdModelo();
@@ -125,14 +102,6 @@ public class DAOAnio {
 			}
 
 
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-
-		try {
-			con.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

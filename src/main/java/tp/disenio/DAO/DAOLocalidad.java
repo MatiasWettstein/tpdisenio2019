@@ -19,18 +19,8 @@ public class DAOLocalidad {
 		ResultSet rs = null;
 		ResultSet provincia = null;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		try {
 
 			int idProv = prov.getId_provincia();
@@ -53,20 +43,13 @@ public class DAOLocalidad {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return Localidades.toArray();
-
 
 	}
 
-	public static Localidad obtenerLocalidad(int idLoc, Connection con) {
+	public static Localidad obtenerLocalidad(int idLoc) {
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 		Localidad retorno = new Localidad();
 		ResultSet rs = null;
 		try {
@@ -90,7 +73,7 @@ public class DAOLocalidad {
 				retorno.setPorcentaje((float) rs.getDouble("porcentaje"));
 				retorno.setCodigoPostal(rs.getString("codigo_postal"));
 				Provincia aux_prov = new Provincia();
-				aux_prov = gpm.obtenerProvincia(rs.getInt("provincia"),con);
+				aux_prov = gpm.obtenerProvincia(rs.getInt("provincia"));
 				retorno.setProvincia(aux_prov);
 
 			}

@@ -17,18 +17,8 @@ public class DAOCuota {
 	public static Boolean cargarCuota(Poliza p) {
 		Boolean retorno = false;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		try {
 			/*
 			 int id_cuota 1
@@ -83,14 +73,6 @@ public class DAOCuota {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return retorno;
 
 	}
@@ -99,19 +81,8 @@ public class DAOCuota {
 
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select max(id_cuota) from cuota";
@@ -129,18 +100,13 @@ public class DAOCuota {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		return retorno;
 	}
 
-	public static ArrayList<Cuota> recuperarListaCuotas(long nroPoliza, Connection con) {
-
+	public static ArrayList<Cuota> recuperarListaCuotas(long nroPoliza) {
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 		ArrayList<Cuota> retorno = new ArrayList<>();
 		ResultSet rs = null;
 		try {
@@ -176,7 +142,9 @@ public class DAOCuota {
 		return retorno;
 	}
 
-	public static Cuota recupearCuota(long nroPoliza, Connection con) {
+	public static Cuota recupearCuota(long nroPoliza) {
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 		Cuota retorno = new Cuota();
 		ResultSet rs = null;
 

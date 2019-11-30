@@ -33,18 +33,8 @@ public class DAOPoliza {
 
 		boolean retorno = false;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		try {
 			/*
 			 int nro_poliza 1
@@ -62,16 +52,16 @@ public class DAOPoliza {
 			 FK id cliente 13 */
 
 			GestorPoliza gp = GestorPoliza.getInstance();
-			gp.guardarDomRiesgo(poliza.getDomicilio_riesgo(),con);
-			gp.guardarPremio(poliza.getPremio(),con);
-			gp.guardarVehiculo(poliza.getVehiculo(),con);
-			gp.guardarSiniestro(poliza.getSiniestro(),con);
-			gp.guardarTipo(poliza.getTipo_cobertura(),con);
+			gp.guardarDomRiesgo(poliza.getDomicilio_riesgo());
+			gp.guardarPremio(poliza.getPremio());
+			gp.guardarVehiculo(poliza.getVehiculo());
+			gp.guardarSiniestro(poliza.getSiniestro());
+			gp.guardarTipo(poliza.getTipo_cobertura());
 			PreparedStatement st = con.prepareStatement("INSERT INTO POLIZA VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 			st.setLong(1, poliza.getNroPoliza()); //nro_poliza
 			st.setInt(2, poliza.getKmPorAnio()); //km_por_anio
-			st.setFloat(3, poliza.getSumaasegurada()); //suma_asegurada
+			st.setDouble(3, poliza.getSumaasegurada()); //suma_asegurada
 			st.setString(4, poliza.getInicio_vigencia());//inicio_vigencia
 			st.setString(5, poliza.getFin_vigencia());//fin__vigencia
 			st.setString(6, poliza.getForma_pago().getNombre());//Forma_Pago
@@ -92,13 +82,6 @@ public class DAOPoliza {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return retorno;
 	}
 
@@ -109,17 +92,10 @@ public class DAOPoliza {
 		Poliza retorno = new Poliza();
 		ResultSet rs = null;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
+
 		long nroPoliza = Long.parseLong(nroP);
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
 
 
 		try {
@@ -154,13 +130,13 @@ public class DAOPoliza {
 				if (rs.getString("forma_pago") == "MENSUAL") {
 					Mensual aux_mens = new Mensual();
 					aux_mens.setNombre(rs.getString("forma_pago"));
-					aux_mens.setCuotas(gp.recuperarListaCuotas(rs.getLong("nro_poliza"), con));
+					aux_mens.setCuotas(gp.recuperarListaCuotas(rs.getLong("nro_poliza")));
 					//no hago el set de monto total
 				}
 				else {
 					Semestral aux_sem = new Semestral();
 					Cuota aux_cuota = new Cuota();
-					aux_cuota=gp.recupearCuota(rs.getLong("nro_poliza"), con);
+					aux_cuota=gp.recupearCuota(rs.getLong("nro_poliza"));
 					aux_sem.setCuota1(aux_cuota);
 					aux_sem.setNombre(rs.getString("forma_pago"));
 					aux_sem.setFecha_Vencimiento(aux_cuota.getFecha_vencimiento());
@@ -170,54 +146,54 @@ public class DAOPoliza {
 				retorno.setEstado_poliza(rs.getString("estado_poliza"));
 				//PREMIO
 				Premio aux_premio = new Premio();
-				aux_premio = gp.recuperarPremio(rs.getInt("premio"),con);
+				aux_premio = gp.recuperarPremio(rs.getInt("premio"));
 				retorno.setPremio(aux_premio);
 
 				//VEHICULO
 				Vehiculo aux_veh = new Vehiculo();
-				aux_veh = gp.recuperarVehiculo(rs.getInt("vehiculo"), con);
+				aux_veh = gp.recuperarVehiculo(rs.getInt("vehiculo"));
 				retorno.setVehiculo(aux_veh);
 
 				//SINIESTROS
 				Siniestros aux_siniestro = new Siniestros();
-				aux_siniestro = gp.recuperarSiniestro(rs.getInt("siniestros"), con);
+				aux_siniestro = gp.recuperarSiniestro(rs.getInt("siniestros"));
 				retorno.setSiniestro(aux_siniestro);
 
 				//TIPO DE COBERTURA
 				Cobertura aux_cob = new Cobertura();
-				aux_cob = gp.recuperarCobertura(rs.getInt("siniestros"), con);
+				aux_cob = gp.recuperarCobertura(rs.getInt("siniestros"));
 				retorno.setTipo_cobertura(aux_cob);
 
 
 				//DOMICILIO RIESGO
 				DomicilioRiesgo aux_dom = new DomicilioRiesgo();
-				aux_dom = gp.recuperarDomicilioRiesgo(rs.getInt("domicilio_riesgo"), con);
+				aux_dom = gp.recuperarDomicilioRiesgo(rs.getInt("domicilio_riesgo"));
 				retorno.setDomicilio_riesgo(aux_dom);
 
 				//CLIENTE
 				Cliente aux_cliente = new Cliente();
-				aux_cliente = gc.recuperarCliente(rs.getString("cliente"), con); ///////
+				aux_cliente = gc.recuperarCliente(rs.getString("cliente")); ///////
 				retorno.setCliente(aux_cliente);
 
 
 				//MEDIDAS SEGURIDAD
 				MedidasSeguridad aux_medS = new MedidasSeguridad();
-				aux_medS = gp.recuperarMedidasSeguridad(rs.getLong("nro_poliza"), con);
+				aux_medS = gp.recuperarMedidasSeguridad(rs.getLong("nro_poliza"));
 				retorno.setSeguridad(aux_medS);
 
 				//DESCUENTOS
 				Descuentos aux_desc = new Descuentos();
-				aux_desc = gp.recuperarDescuentos(rs.getLong("nro_poliza"), con);
+				aux_desc = gp.recuperarDescuentos(rs.getLong("nro_poliza"));
 				retorno.setDescuento(aux_desc);
 
 				//HIJOS
 				ArrayList<Hijo> aux_hijos = new ArrayList<>();
-				aux_hijos = gp.recuperarHijos(rs.getLong("nro_poliza"), con);
+				aux_hijos = gp.recuperarHijos(rs.getLong("nro_poliza"));
 				retorno.setHijos_declarados(aux_hijos);
 
 				//CARACTERISTICAS
 				Caracteristicas aux_car = new Caracteristicas();
-				aux_car = gp.recuperarCaracteristicas(rs.getLong("nro_poliza"), con);
+				aux_car = gp.recuperarCaracteristicas(rs.getLong("nro_poliza"));
 				retorno.setCaracteristicas(aux_car);
 
 				retorno.setPoliza_modificada(new PolizaModificada());
@@ -229,14 +205,6 @@ public class DAOPoliza {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-
 		return retorno;
 	}
 
@@ -244,19 +212,10 @@ public class DAOPoliza {
 
 		long retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 		ResultSet rs = null;
 
 
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select max(nro_poliza) from poliza";
@@ -270,13 +229,6 @@ public class DAOPoliza {
 
 		}
 		catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		try {
-			con.close();
-		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

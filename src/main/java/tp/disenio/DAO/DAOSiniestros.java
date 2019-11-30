@@ -10,8 +10,9 @@ import tp.disenio.gestores.GestorDB;
 
 public class DAOSiniestros {
 
-	public static void  guardarSiniestro (Siniestros s, Connection con) {
-
+	public static void  guardarSiniestro (Siniestros s) {
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 		int id_siniestro = 0;
 
 		try {
@@ -22,7 +23,7 @@ public class DAOSiniestros {
 			st.setFloat(3, s.getPorcentaje());//porcentaje 3
 
 			st.executeUpdate();
-			st.close();
+			//st.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -37,20 +38,8 @@ public class DAOSiniestros {
 
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
 		try {
 			String Consulta = "select max(id_siniestro) from siniestros";
 			PreparedStatement st = con.prepareStatement(Consulta);
@@ -66,14 +55,6 @@ public class DAOSiniestros {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return retorno;
 	}
 
@@ -81,20 +62,8 @@ public class DAOSiniestros {
 	public static Siniestros obtenerSiniestro(String nombre) {
 		Siniestros retorno = new Siniestros();
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
 		try {
 			String Consulta = "select * from porcentajes where nombre = '" + nombre + "'";
 			PreparedStatement st = con.prepareStatement(Consulta);
@@ -119,20 +88,15 @@ public class DAOSiniestros {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return retorno;
 
 	}
 
-	public static Siniestros recuperarSiniestro(int idSiniestro, Connection con) {
+	public static Siniestros recuperarSiniestro(int idSiniestro) {
 		Siniestros retorno = new Siniestros();
 		ResultSet rs = null;
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 
 		try {
 			String Consulta = "select * from siniestros where id_siniestro = " + idSiniestro;

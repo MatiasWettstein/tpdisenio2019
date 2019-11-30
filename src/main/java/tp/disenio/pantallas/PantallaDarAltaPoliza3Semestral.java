@@ -3,6 +3,7 @@ package tp.disenio.pantallas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,6 +27,7 @@ import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.DTO.PremioDTO;
 import tp.disenio.DTO.VehiculoDTO;
+import tp.disenio.gestores.GestorDB;
 import tp.disenio.gestores.GestorPantallas;
 import tp.disenio.gestores.GestorPoliza;
 
@@ -271,6 +273,14 @@ public class PantallaDarAltaPoliza3Semestral {
 
 			if (flag) {
 				JOptionPane.showMessageDialog(null, "Poliza generada con éxito");
+				//cierro la conexion a la BDS
+				GestorDB gdb = GestorDB.getInstance();
+				try {
+					gdb.conec.close();
+				} catch (SQLException e2) {
+					// TODO Auto-generated catch block
+					e2.printStackTrace();
+				}
 			}
 
 			GestorPantallas.PantallaPrincipal();

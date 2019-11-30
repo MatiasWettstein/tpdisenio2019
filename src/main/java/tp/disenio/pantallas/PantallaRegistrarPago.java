@@ -276,4 +276,7 @@ public class PantallaRegistrarPago {
 	
 	
 	
+	
+	
+	
 }

@@ -7,12 +7,14 @@ import java.sql.SQLException;
 
 import tp.disenio.clases.Direccion;
 import tp.disenio.clases.Localidad;
+import tp.disenio.gestores.GestorDB;
 import tp.disenio.gestores.GestorParametros;
 
 public class DAODireccion {
 
-	public static int  guardarDireccion (Direccion d, Connection con) {
-
+	public static int  guardarDireccion (Direccion d) {
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 		int numeroDire =0;
 		int idDire = 0;
 		ResultSet rsDire = null;
@@ -63,7 +65,9 @@ public class DAODireccion {
 
 	}
 
-	public static Direccion recuperarDireccion (int idDire, Connection con) {
+	public static Direccion recuperarDireccion (int idDire) {
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 		Direccion retorno = new Direccion();
 		ResultSet rs = null;
 
@@ -88,7 +92,7 @@ public class DAODireccion {
 				retorno.setNumero(Integer.toString(rs.getInt("numero")));
 				retorno.setDpto(rs.getString("dpto"));
 				Localidad aux_loc = new Localidad();
-				aux_loc = gpm.obtenerLocalidad(rs.getInt("localidad"), con);
+				aux_loc = gpm.obtenerLocalidad(rs.getInt("localidad"));
 				retorno.setLocalidad(aux_loc);
 				retorno.setPiso(rs.getInt("piso"));
 

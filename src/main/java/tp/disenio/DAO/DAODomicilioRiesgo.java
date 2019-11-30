@@ -12,8 +12,9 @@ import tp.disenio.gestores.GestorParametros;
 
 public class DAODomicilioRiesgo {
 
-	public static void guardarDomRiesgo (DomicilioRiesgo d, Connection con) { //DEVUELVE EL ID DEL DOM CARGADO
-
+	public static void guardarDomRiesgo (DomicilioRiesgo d) { //DEVUELVE EL ID DEL DOM CARGADO
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 		try {
 
 			PreparedStatement st = con.prepareStatement("INSERT INTO DOMICILIO_RIESGO VALUES (?, ?, ?)");
@@ -30,33 +31,16 @@ public class DAODomicilioRiesgo {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-
 	}
 
 	public static int recupearUltimoNID() {
 
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 		ResultSet rs = null;
 
 
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select max(id_domicilio) from domicilio_riesgo";
@@ -77,9 +61,11 @@ public class DAODomicilioRiesgo {
 		return retorno;
 	}
 
-	public static DomicilioRiesgo recuperarDomicilioRiesgo(int idDom, Connection con) {
+	public static DomicilioRiesgo recuperarDomicilioRiesgo(int idDom) {
 		DomicilioRiesgo retorno = new DomicilioRiesgo();
 		ResultSet rs = null;
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 
 		try {
 			String Consulta = "select * from domicilio_riesgo where id_domicilio = " + idDom;
@@ -91,7 +77,7 @@ public class DAODomicilioRiesgo {
 				retorno.setPorcentajeDomicilio((float) rs.getDouble("porcentaje"));
 				Localidad aux_loc = new Localidad();
 				GestorParametros gpm = GestorParametros.getInstance();
-				aux_loc = gpm.obtenerLocalidad(rs.getInt("localidad"), con);
+				aux_loc = gpm.obtenerLocalidad(rs.getInt("localidad"));
 				retorno.setLocalidad(aux_loc);
 			}
 

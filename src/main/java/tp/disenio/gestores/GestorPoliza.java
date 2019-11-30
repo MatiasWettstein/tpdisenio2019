@@ -420,27 +420,27 @@ public class GestorPoliza {
 		return retorno;
 	}
 
-	public static ArrayList<Cuota> recuperarListaCuotas(long nroPoliza, Connection con){
+	public static ArrayList<Cuota> recuperarListaCuotas(long nroPoliza){
 		ArrayList<Cuota> retorno = new ArrayList<>();
-		retorno = DAOCuota.recuperarListaCuotas(nroPoliza, con);
+		retorno = DAOCuota.recuperarListaCuotas(nroPoliza);
 		return retorno;
 	}
 
-	public static Cuota recupearCuota(long nroPoliza, Connection con) {
+	public static Cuota recupearCuota(long nroPoliza) {
 		Cuota retorno = new Cuota();
-		retorno = DAOCuota.recupearCuota(nroPoliza, con);
+		retorno = DAOCuota.recupearCuota(nroPoliza);
 		return retorno;
 	}
 
-	public static Premio recuperarPremio (int idPremio, Connection con) {
+	public static Premio recuperarPremio (int idPremio) {
 		Premio retorno = new Premio();
-		retorno = DAOPremio.recuperarPremio(idPremio, con);
+		retorno = DAOPremio.recuperarPremio(idPremio);
 		return retorno;
 	}
 
-	public static Vehiculo recuperarVehiculo(int idVeh, Connection con) {
+	public static Vehiculo recuperarVehiculo(int idVeh) {
 		Vehiculo retorno = new Vehiculo();
-		retorno = DAOVehiculo.recuperarVehiculo(idVeh, con);
+		retorno = DAOVehiculo.recuperarVehiculo(idVeh);
 		return retorno;
 	}
 
@@ -491,44 +491,44 @@ public class GestorPoliza {
 		return retorno;
 	}
 
-	public static void guardarDomRiesgo (DomicilioRiesgo d, Connection con) {
-		DAODomicilioRiesgo.guardarDomRiesgo(d,con);
+	public static void guardarDomRiesgo (DomicilioRiesgo d) {
+		DAODomicilioRiesgo.guardarDomRiesgo(d);
 	}
-	public static void  guardarPremio (Premio p,Connection con) {
-		DAOPremio.guardarPremio(p,con);
-	}
-
-	public static void  guardarVehiculo (Vehiculo v, Connection con) {
-		DAOVehiculo.guardarVehiculo(v, con);
-	}
-	public static void  guardarSiniestro(Siniestros s, Connection con) {
-		DAOSiniestros.guardarSiniestro(s,con);
+	public static void  guardarPremio (Premio p) {
+		DAOPremio.guardarPremio(p);
 	}
 
-	public static void guardarTipo (Cobertura c, Connection con) {
-		DAOTipoCobertura.guardarTipo(c,con);
+	public static void  guardarVehiculo (Vehiculo v) {
+		DAOVehiculo.guardarVehiculo(v);
 	}
-	public static Siniestros recuperarSiniestro(int idSiniestro, Connection con) {
+	public static void  guardarSiniestro(Siniestros s) {
+		DAOSiniestros.guardarSiniestro(s);
+	}
+
+	public static void guardarTipo (Cobertura c) {
+		DAOTipoCobertura.guardarTipo(c);
+	}
+	public static Siniestros recuperarSiniestro(int idSiniestro) {
 		Siniestros retorno = new Siniestros();
-		retorno = DAOSiniestros.recuperarSiniestro(idSiniestro, con);
+		retorno = DAOSiniestros.recuperarSiniestro(idSiniestro);
 		return retorno;
 	}
-	public static Cobertura recuperarCobertura(int idCobertura, Connection con) {
+	public static Cobertura recuperarCobertura(int idCobertura) {
 		Cobertura retorno = new Cobertura();
-		retorno = DAOTipoCobertura.recuperarCobertura(idCobertura, con);
+		retorno = DAOTipoCobertura.recuperarCobertura(idCobertura);
 		return retorno;
 	}
 
-	public static DomicilioRiesgo recuperarDomicilioRiesgo(int idDom, Connection con) {
+	public static DomicilioRiesgo recuperarDomicilioRiesgo(int idDom) {
 		DomicilioRiesgo retorno = new DomicilioRiesgo();
-		retorno = DAODomicilioRiesgo.recuperarDomicilioRiesgo(idDom, con);
+		retorno = DAODomicilioRiesgo.recuperarDomicilioRiesgo(idDom);
 		return retorno;
 	}
 
 
-	public static MedidasSeguridad recuperarMedidasSeguridad(long nroPoliza, Connection con) {
+	public static MedidasSeguridad recuperarMedidasSeguridad(long nroPoliza) {
 		MedidasSeguridad retorno = new MedidasSeguridad();
-		retorno = DAOMedidasSeguridad.recuperarMedidasSeguridad(nroPoliza, con);
+		retorno = DAOMedidasSeguridad.recuperarMedidasSeguridad(nroPoliza);
 		return retorno;
 	}
 
@@ -565,21 +565,21 @@ public class GestorPoliza {
 
 	}
 
-	public Descuentos recuperarDescuentos(long nroPoliza, Connection con) {
+	public Descuentos recuperarDescuentos(long nroPoliza) {
 		Descuentos retorno = new Descuentos();
-		retorno = DAODescuentos.recuperarDescuentos(nroPoliza, con);
+		retorno = DAODescuentos.recuperarDescuentos(nroPoliza);
 		return retorno;
 	}
 
-	public static ArrayList<Hijo> recuperarHijos(long nroPoliza, Connection con) {
+	public static ArrayList<Hijo> recuperarHijos(long nroPoliza) {
 		ArrayList<Hijo> retorno = new ArrayList<>();
-		retorno = DAOHijo.recuperarHijos(nroPoliza, con);
+		retorno = DAOHijo.recuperarHijos(nroPoliza);
 		return retorno;
 	}
 
-	public static Caracteristicas recuperarCaracteristicas (long nroPoliza, Connection con) {
+	public static Caracteristicas recuperarCaracteristicas (long nroPoliza) {
 		Caracteristicas retorno = new Caracteristicas();
-		retorno = DAOCaracteristicas.recuperarCaracteristicas(nroPoliza, con);
+		retorno = DAOCaracteristicas.recuperarCaracteristicas(nroPoliza);
 		return retorno;
 	}
 

@@ -10,8 +10,9 @@ import tp.disenio.gestores.GestorDB;
 
 public class DAOTipoCobertura {
 
-	public static void guardarTipo (Cobertura c, Connection con) {
-
+	public static void guardarTipo (Cobertura c) {
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 		try {
 
 			PreparedStatement st = con.prepareStatement("INSERT INTO TIPO_COBERTURA VALUES (?, ?, ?)");
@@ -20,7 +21,7 @@ public class DAOTipoCobertura {
 			st.setFloat(3, c.getPorcentajeTipoCobertura());//porcentaje 3
 
 			st.executeUpdate();
-			st.close();
+			//st.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -34,19 +35,8 @@ public class DAOTipoCobertura {
 
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select max(id_tipo) from tipo_cobertura";
@@ -64,32 +54,14 @@ public class DAOTipoCobertura {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return retorno;
 	}
 
 	public static Cobertura obtenerCobertura(String nombre) {
 		Cobertura retorno = new Cobertura();
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select * from porcentajes where nombre = '" + nombre + "'";
@@ -114,20 +86,16 @@ public class DAOTipoCobertura {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		return retorno;
 
 	}
 
-	public static Cobertura recuperarCobertura(int idCobertura, Connection con) {
+	public static Cobertura recuperarCobertura(int idCobertura) {
 		Cobertura retorno = new Cobertura();
 		ResultSet rs = null;
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 
 
 		try {

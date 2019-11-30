@@ -24,16 +24,8 @@ public class DAOCliente {
 		ResultSet locrs = null;
 		ResultSet provrs = null;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		Connection con = gdb.conec;
+		
 		try {
 			String Consulta = "select * from cliente";
 
@@ -137,12 +129,7 @@ public class DAOCliente {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	
 		return Clientes;
 
 
@@ -152,20 +139,12 @@ public class DAOCliente {
 	public static boolean guardarCliente (Cliente c) {
 		boolean retorno = false;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+	
 		try {
 
-			int idDire = DAODireccion.guardarDireccion(c.getDireccion(), con); //me devuelve la id de la direccion asi lo asocio al cliente
+			int idDire = DAODireccion.guardarDireccion(c.getDireccion()); //me devuelve la id de la direccion asi lo asocio al cliente
 
 			//nro_cliente 1
 			//tipo_c, 2
@@ -212,13 +191,7 @@ public class DAOCliente {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
+	
 		return retorno;
 
 	}
@@ -227,20 +200,11 @@ public class DAOCliente {
 	public static String recuperarUltimoNroCliente () {
 		String retorno = null;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 		ResultSet rs = null;
 
 
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
+	
 		try {
 			String Consulta = "select max(nro_cliente) from cliente";
 			PreparedStatement st = con.prepareStatement(Consulta);
@@ -257,30 +221,15 @@ public class DAOCliente {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return retorno;
 	}
 
 	public static int cantPoliza(ClienteDTO cliente) {
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 		ResultSet rs = null;
 		int retorno=0;
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
 		try {
 
 			String Consulta = "SELECT DISTINCT vehiculo FROM poliza where cliente = " + "'" + cliente.getNroCliente() + "'";
@@ -295,12 +244,7 @@ public class DAOCliente {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		return retorno;
 	}
 
@@ -309,17 +253,9 @@ public class DAOCliente {
 		//devuelve nroCliente si encuentra un cliente con esos datos sino null
 		ResultSet rs = null;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
 		try {
 
 			String aux = "'" + tipoD+ "'";
@@ -336,18 +272,14 @@ public class DAOCliente {
 		}
 
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		return nroCliente;
 	}
 
-	public static Cliente recuperarCliente (String nroC, Connection con) {
+	public static Cliente recuperarCliente (String nroC) {
 		Cliente retorno = new Cliente();
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 		ResultSet rs = null;
 		try {
 			String Consulta = "select * from cliente where nro_cliente = '" + nroC +"'" ;
@@ -390,7 +322,7 @@ public class DAOCliente {
 				retorno.setAnioRegistro(rs.getInt("anio_registro"));
 				retorno.setTipoDocumento(rs.getString("tipo_doc"));
 				Direccion aux_dire = new Direccion();
-				aux_dire = gc.recuperarDireccion(rs.getInt("direccion"), con);
+				aux_dire = gc.recuperarDireccion(rs.getInt("direccion"));
 				retorno.setDireccion(aux_dire);
 
 			}

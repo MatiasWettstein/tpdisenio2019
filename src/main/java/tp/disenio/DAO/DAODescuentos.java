@@ -15,18 +15,7 @@ public class DAODescuentos {
 
 		boolean retorno = false;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		Connection con = gdb.conec;
 		try {
 
 
@@ -72,14 +61,6 @@ public class DAODescuentos {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return retorno;
 
 	}
@@ -89,19 +70,8 @@ public class DAODescuentos {
 
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select max(id_descuento) from descuentos";
@@ -119,17 +89,12 @@ public class DAODescuentos {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return retorno;
 	}
 
-	public static Descuentos recuperarDescuentos(long nroPoliza, Connection con) {
+	public static Descuentos recuperarDescuentos(long nroPoliza) {
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 		Descuentos retorno = new Descuentos();
 		ResultSet rs_unidadAdicional = null;
 		ResultSet rs_pagoSemestral = null;

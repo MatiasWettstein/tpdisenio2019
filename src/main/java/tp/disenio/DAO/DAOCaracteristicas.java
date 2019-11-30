@@ -14,18 +14,8 @@ public class DAOCaracteristicas {
 	public static Boolean cargarCaracteristicas(Poliza p) {
 		Boolean retorno = false;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		try {
 			/*
 			 int id_caracteristicas 1
@@ -33,7 +23,7 @@ public class DAOCaracteristicas {
 			 double porcentaje 3
 			 int nro_poliza4
 			 */
-			int id_carac = DAOCaracteristicas.recupearUltimoNID(con);
+			int id_carac = DAOCaracteristicas.recupearUltimoNID();
 			id_carac +=1;
 
 			if (p.getHijos_declarados().isEmpty()) { //si no tiene hijos cargo solo los KM
@@ -72,19 +62,13 @@ public class DAOCaracteristicas {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return retorno;
 
 	}
 
-	public static int recupearUltimoNID(Connection con) {
-
+	public static int recupearUltimoNID() {
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 		int retorno = 0;
 		ResultSet rs = null;
 
@@ -110,19 +94,8 @@ public class DAOCaracteristicas {
 	public static double obtenerPorcentajeHijo() {
 		double retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select valor from porcentajes where nombre = 'PORCENTAJE HIJO'";
@@ -140,12 +113,6 @@ public class DAOCaracteristicas {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		return retorno;
 	}
@@ -193,7 +160,9 @@ public class DAOCaracteristicas {
 		return retorno;
 	}
 
-	public static Caracteristicas recuperarCaracteristicas (long nroPoliza, Connection con) {
+	public static Caracteristicas recuperarCaracteristicas (long nroPoliza) {
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 		Caracteristicas retorno = new Caracteristicas();
 		ResultSet rs_km = null;
 		ResultSet rs_hijo = null;

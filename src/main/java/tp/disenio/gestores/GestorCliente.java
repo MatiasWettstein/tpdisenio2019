@@ -189,15 +189,15 @@ public class GestorCliente {
 	}
 
 
-	public static Cliente recuperarCliente (String nroC, Connection con) {
+	public static Cliente recuperarCliente (String nroC) {
 		Cliente retorno = new Cliente();
-		retorno = DAOCliente.recuperarCliente(nroC, con);
+		retorno = DAOCliente.recuperarCliente(nroC);
 		return retorno;
 	}
 
-	public static Direccion recuperarDireccion (int idDire, Connection con ) {
+	public static Direccion recuperarDireccion (int idDire) {
 		Direccion retorno = new Direccion();
-		retorno = DAODireccion.recuperarDireccion(idDire, con);
+		retorno = DAODireccion.recuperarDireccion(idDire);
 		return retorno;
 	}
 }

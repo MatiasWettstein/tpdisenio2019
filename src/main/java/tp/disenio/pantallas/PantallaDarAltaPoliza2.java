@@ -76,7 +76,7 @@ public class PantallaDarAltaPoliza2 {
 
 		//VALIDO SI TIENE MAS DE 10 AÑOS EL VEHICULO
 		if (anioActual - anioVehiculo>10) {
-			String labels[] = { "RESPONSABILIDAD CIVIL" };
+			String labels[] = { "Responsabilidad_Civil" };
 			final DefaultComboBoxModel model = new DefaultComboBoxModel(labels);
 			tipoComboBox.setModel(model);
 			tipoComboBox.setRenderer(new MyComboBoxRenderer("SELECCIONE TIPO DE COBERTURA"));

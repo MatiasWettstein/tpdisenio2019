@@ -19,17 +19,9 @@ public class DAOHijo {
 
 
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 		ResultSet rs = null;
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		
 
 		ArrayList<Hijo> hijos = p.getHijos_declarados();
 		int ultimoID = DAOHijo.recupearUltimoNID();
@@ -56,14 +48,6 @@ public class DAOHijo {
 			}
 			retorno = true;
 		}
-
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return retorno;
 	}
 
@@ -71,19 +55,8 @@ public class DAOHijo {
 
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select max(id_hijo) from hijo_declarado";
@@ -101,17 +74,13 @@ public class DAOHijo {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 
 		return retorno;
 	}
 
-	public static ArrayList<Hijo> recuperarHijos(long nroPoliza, Connection con) {
+	public static ArrayList<Hijo> recuperarHijos(long nroPoliza) {
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 		ArrayList<Hijo> retorno = new ArrayList<>();
 		ResultSet rs = null;
 

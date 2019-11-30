@@ -20,18 +20,7 @@ public class DAOModelo {
 		ResultSet rs = null;
 		ResultSet provincia = null;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		Connection con = gdb.conec;
 		try {
 
 			int idMarca = marca.getIdMarca();
@@ -51,22 +40,16 @@ public class DAOModelo {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return modelos.toArray();
 
 
 	}
 
-	public static Modelo obtenerModelo(int idModelo, Connection con) {
+	public static Modelo obtenerModelo(int idModelo) {
 		Modelo retorno = new Modelo();
 		ResultSet rs = null;
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 
 		try {
 
@@ -88,7 +71,7 @@ public class DAOModelo {
 				retorno.setPorcentaje((float) rs.getDouble("porcentaje"));
 				retorno.setNombre(rs.getString("nombre"));
 				Marca aux_marca = new Marca();
-				aux_marca = gpm.recuperarMarca(rs.getInt("marca"), con);
+				aux_marca = gpm.recuperarMarca(rs.getInt("marca"));
 				retorno.setMarca(aux_marca);
 				Anio aux_anio = new Anio();
 				aux_anio = gpm.recuperarAnio(retorno);

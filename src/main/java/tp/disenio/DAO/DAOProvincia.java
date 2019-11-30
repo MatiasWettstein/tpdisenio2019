@@ -18,18 +18,8 @@ public class DAOProvincia {
 		ArrayList<Provincia> Provincias= new ArrayList<>();
 		ResultSet rs = null;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		try {
 
 			PreparedStatement st = con.prepareStatement("select id_provincia, nombre from provincia");
@@ -46,22 +36,16 @@ public class DAOProvincia {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return Provincias.toArray();
 
 
 	}
 
-	public static Provincia obtenerProvincia(int idProv, Connection con) {
+	public static Provincia obtenerProvincia(int idProv) {
 		Provincia retorno = new Provincia();
 		ResultSet rs = null;
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 		try {
 			String Consulta = "select * from provincia where id_provincia = " + idProv;
 

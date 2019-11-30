@@ -12,8 +12,9 @@ import tp.disenio.gestores.GestorParametros;
 
 public class DAOVehiculo {
 
-	public static void  guardarVehiculo (Vehiculo v, Connection con) {
-
+	public static void  guardarVehiculo (Vehiculo v) {
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 		try {
 
 			PreparedStatement st = con.prepareStatement("INSERT INTO VEHICULO VALUES (?, ?, ?, ?, ?, ?, ?)");
@@ -26,7 +27,7 @@ public class DAOVehiculo {
 			st.setFloat(7, v.getPorcentaje()); //porcentaje_actual
 
 			st.executeUpdate();
-			st.close();
+			//st.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -40,19 +41,8 @@ public class DAOVehiculo {
 
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
+		Connection con = gdb.conec;
 		ResultSet rs = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 
 		try {
 			String Consulta = "select max(id_vehiculo) from vehiculo";
@@ -70,18 +60,13 @@ public class DAOVehiculo {
 			e.printStackTrace();
 		}
 
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
 		return retorno;
 	}
 
 
-	public static Vehiculo recuperarVehiculo(int idVeh, Connection con) {
+	public static Vehiculo recuperarVehiculo(int idVeh) {
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 		Vehiculo retorno = new Vehiculo();
 		ResultSet rs = null;
 
@@ -110,7 +95,7 @@ public class DAOVehiculo {
 				retorno.setAnio(rs.getInt("anio"));
 				GestorParametros gpm = GestorParametros.getInstance();
 				Modelo aux_mod = new Modelo();
-				aux_mod = gpm.obtenerModelo(rs.getInt("modelo"), con);
+				aux_mod = gpm.obtenerModelo(rs.getInt("modelo"));
 				retorno.setModelo(aux_mod);
 				retorno.setPorcentaje((float) rs.getDouble("porcentaje_actual"));
 

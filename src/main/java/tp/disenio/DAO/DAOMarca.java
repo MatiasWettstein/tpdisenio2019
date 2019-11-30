@@ -17,18 +17,7 @@ public class DAOMarca {
 		ArrayList<Marca> Marcas= new ArrayList<>();
 		ResultSet rs = null;
 		GestorDB gdb = GestorDB.getInstance();
-		Connection con = null;
-
-
-		try {
-			con = gdb.crearConexion();
-		} catch (ClassNotFoundException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		Connection con = gdb.conec;
 		try {
 
 			PreparedStatement st = con.prepareStatement("select id_marca, nombre_marca from marca");
@@ -45,19 +34,15 @@ public class DAOMarca {
 			e.printStackTrace();
 		}
 
-
-		try {
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		return Marcas.toArray();
 
 
 	}
 
-	public static Marca obtenerMarca(int idMarca, Connection con) {
+	public static Marca obtenerMarca(int idMarca) {
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
+
 		Marca retorno = new Marca();
 		ResultSet rs = null;
 
