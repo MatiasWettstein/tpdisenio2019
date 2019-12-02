@@ -277,12 +277,7 @@ public class PantallaDarAltaPoliza3Semestral {
 				JOptionPane.showMessageDialog(null, "Poliza generada con éxito");
 				//cierro la conexion a la BDS
 				GestorDB gdb = GestorDB.getInstance();
-				try {
-					gdb.conec.close();
-				} catch (SQLException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
+				gdb.cerrarConexion();
 			}else {
 				JOptionPane.showMessageDialog(null, "ERROR");
 			}
@@ -298,6 +293,8 @@ public class PantallaDarAltaPoliza3Semestral {
 		ActionListener cancel = e -> {
 
 			GestorPantallas.PantallaPrincipal();
+			GestorDB gdb = GestorDB.getInstance();
+			gdb.cerrarConexion();
 			marco1.dispose();
 
 		};

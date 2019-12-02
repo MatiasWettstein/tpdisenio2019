@@ -48,6 +48,7 @@ import tp.disenio.enumerators.EstadoCivil;
 import tp.disenio.enumerators.Sexo;
 import tp.disenio.enumerators.TipoDocumento;
 import tp.disenio.gestores.GestorCliente;
+import tp.disenio.gestores.GestorDB;
 import tp.disenio.gestores.GestorPantallas;
 import tp.disenio.gestores.GestorParametros;
 
@@ -843,7 +844,9 @@ public class PantallaDarAltaPoliza {
 		cancelar.setSize(143, 33);
 		cancelar.setLocation(1174, 627);
 		ActionListener cancel = e -> {
-			GestorPantallas.PantallaPrincipal(); // si cancelo vuelvo a la pantalla de MENU
+			GestorPantallas.PantallaPrincipal(); // si cancelo vuelvo a la pantalla de MENU.
+			GestorDB gdb = GestorDB.getInstance();
+			gdb.cerrarConexion();
 			marco1.dispose();
 		};
 		cancelar.addActionListener(cancel);
