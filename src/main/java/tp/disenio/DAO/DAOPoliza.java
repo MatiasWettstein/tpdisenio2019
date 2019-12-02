@@ -128,7 +128,7 @@ public class DAOPoliza {
 				retorno.setSumaasegurada( (float) rs.getDouble("suma_asegurada"));
 				retorno.setInicio_vigencia(rs.getString("inicio_vigencia"));
 				retorno.setFin_vigencia(rs.getString("fin_vigencia"));
-				if (rs.getString("forma_pago") == "MENSUAL") {
+				if (rs.getString("forma_pago") == "MENSUAL") { //ACA ESTA EL PROBLEMA, NO ENTRA A MENSUAL
 					Mensual aux_mens = new Mensual();
 					aux_mens.setNombre(rs.getString("forma_pago"));
 					aux_mens.setCuotas(gp.recuperarListaCuotas(rs.getLong("nro_poliza")));

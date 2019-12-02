@@ -3,7 +3,6 @@ package tp.disenio.pantallas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.text.ParseException;
 
 import javax.swing.JButton;
@@ -81,13 +80,13 @@ public class PantallaDarAltaCliente2 {
 			cliente.setTipoC("NORMAL");
 			cliente.setEstadoCliente("ACTIVO");
 			GestorCliente gc = GestorCliente.getInstance();
-			boolean flag = GestorCliente.guardarCliente(cliente);
+			boolean flag = gc.guardarCliente(cliente);
 			if (flag) {
 				JOptionPane.showMessageDialog(null, "Cliente generado con éxito");
+				GestorPantallas.PantallaDarAltaPoliza(cliente, null, null,null, null);
 				GestorDB gdb = GestorDB.getInstance();
 				gdb.cerrarConexion();
-				
-				//ACA FALTA AGREGAR QUE VUELVA A LA PANTALLA ALTA POLIZA A DONDE FUE LLAMADO 
+				//ACA FALTA AGREGAR QUE VUELVA A LA PANTALLA ALTA POLIZA A DONDE FUE LLAMADO
 				marco1.dispose();
 			}else {
 				JOptionPane.showMessageDialog(null, "ERROR CRITICO, no se pudo guardar el cliente.");
