@@ -488,7 +488,7 @@ public class PantallaDarAltaCliente {
 			//las validaciones estan hechas con excepciones porque si el campo no se completó sale una NullPointerException
 			//VALIDO APELLIDO
 			String apellido = textField_Apellido.getText();
-			if (apellido.matches("[0-9.@_~#+%&/()]+")== true ) {
+			if (apellido.matches("[A-Za-z0-9]+")== false  ) {
 				errores += "El campo 'Apellido' no puede contenter números \n";
 				f_apellido = false;
 			}
@@ -499,8 +499,8 @@ public class PantallaDarAltaCliente {
 
 			//VALIDO NOMBRE
 			String nombre = textField_Nombre.getText();
-			if (nombre.matches("[0-9.@_~#+%&/()]+")== true ) {
-				errores += "El campo 'Nombre' no puede contenter números  \n";
+			if (nombre.matches("[A-Za-z0-9]+")== false  ) {
+				errores += "El campo 'Nombre' no puede contenter números ni caracteres especiales   \n";
 				f_nombre = false;
 			}
 			if(nombre.isEmpty()) {

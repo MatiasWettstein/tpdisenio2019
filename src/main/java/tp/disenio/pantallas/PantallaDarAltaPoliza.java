@@ -700,11 +700,20 @@ public class PantallaDarAltaPoliza {
 			if (motorTexto.getText().length() < 12) {
 				error += "El Número de Motor debe tener 12 caracteres \n";
 			}
+			if (motorTexto.getText().matches("[A-Za-z0-9]+")== false ) {
+				error += "El campo 'Motor' no puede contenter caracteres especiales   \n";
+			}
 			if (chasisText.getText().length() < 17) {
 				error += "El Número de Chasis debe tener 17 caracteres \n";
 			}
+			if (chasisText.getText().matches("[A-Za-z0-9]+")== false ) {
+				error += "El campo 'Chasis' no puede contenter caracteres especiales   \n";
+			}
 			if (patenteText.getText().length() < 6) {
-				error += "La Patente debe tener 8 caracteres \n";
+				error += "La Patente debe tener entre 6 y 7 caracteres \n";
+			}
+			if (patenteText.getText().matches("[A-Za-z0-9]+")== false  ) {
+				error += "El campo 'Patente' no puede contenter caracteres especiales   \n";
 			}
 
 			//VALIDO ALARMA
