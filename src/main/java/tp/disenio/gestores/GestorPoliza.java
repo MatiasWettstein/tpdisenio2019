@@ -594,5 +594,9 @@ public class GestorPoliza {
 		long retorno = DAOPoliza.recupearUltimoNID();
 		return retorno;
 	}
+	public Boolean polizaExiste(String nroP) {
+		Boolean retorno = DAOPoliza.polizaExiste(nroP);
+		return retorno;
+	}
 
 }

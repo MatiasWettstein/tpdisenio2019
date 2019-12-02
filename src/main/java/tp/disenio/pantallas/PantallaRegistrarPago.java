@@ -3,6 +3,9 @@ package tp.disenio.pantallas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -268,44 +271,71 @@ public class PantallaRegistrarPago {
 			textModelo.setText(p.getVehiculo().getModelo().getNombre());
 			textPatente.setText(p.getVehiculo().getPatente());
 			
-			System.out.println(p.getForma_pago().getNombre()); //BORRAR
-			System.out.println("TIPO" +p.getForma_pago().getClass()); //BORRAR ACA ESTA EL PROBLEMA; LO LEVANTA COMO SEMESTRAL
 			if  (p.getForma_pago().getNombre().equals("MENSUAL")) {
 				System.out.println("Entro1");
 				ArrayList<Cuota> lista = new ArrayList<>();
 				lista = ((Mensual)p.getForma_pago()).getCuotas();
 				int fila =0;
+				int i =1;
 				boolean sinVencer = false;
 				Object[][] listaMuestra = new Object[6][6];
 				for(Cuota c : lista) {
 					if(!c.isPagada()) {
 
-						listaMuestra[fila][0] = c.getId_cuota();
+						listaMuestra[fila][0] =  i++; //acá se muestra el numero de cuotas - NO LA ID DE LA CUOTA 
 						listaMuestra[fila][1] = c.getFecha_vencimiento();
 						listaMuestra[fila][2] = c.getMonto();
+						
+						DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+						LocalDate vencimiento = LocalDate.parse(c.getFecha_vencimiento(), fmt);
+						LocalDate ahora = LocalDate.now();
+						Period periodo = Period.between(vencimiento, ahora);
+						
+						if (sinVencer) { //Si la cuota anterior no esta vencida, entonces la siguiente seria pagada por adelantado
+							listaMuestra[fila][3] = c.getMonto()-(c.getMonto()*(descuento));
+						}
+						if (ahora.isBefore(vencimiento)) { //si la fecha de vencimiento es posterior a la actual
+							listaMuestra[fila][3] = c.getMonto();
+						}
+						else {
+						
+								if (periodo.getYears()>0) { //si está vencida por un año o mas  
+									listaMuestra[fila][3] =  c.getMonto()-(c.getMonto()*(interes));
+								}
+								else if (periodo.getMonths()>0 || periodo.getMonths()<12) {//Vencida por mes
+									listaMuestra[fila][3] = c.getMonto()-(c.getMonto()*(interes));
+								}
+								else if (periodo.getDays()<31) {//Vencida por dia
+									listaMuestra[fila][3] = c.getMonto()-(c.getMonto()*(interes));
+								}
+								else {
+									sinVencer = true; 
+									listaMuestra[fila][3] = c.getMonto();
+								}
+						}
+						/*
+						 * ESTO ES LO QUE HIZO CRISTIAN Y NO FUNCIONABA
 						int diaV = Integer.parseInt(c.getFecha_vencimiento().substring(0, 2));
 						int mesV = Integer.parseInt(c.getFecha_vencimiento().substring(3, 5));
 						int anioV = Integer.parseInt(c.getFecha_vencimiento().substring(6, 10));
 						
-						if (sinVencer) { //Si la cuota anterior no esta vencida, entonces la siguiente seria pagada por adelantado
-							listaMuestra[fila][3] = c.getMonto()*(1-descuento);
-						}
+						
 						else {
 							if (cal.YEAR > anioV) { //Vencida por año
-								listaMuestra[fila][3] = anioV/*c.getMonto()*(1+interes)*/;
+								listaMuestra[fila][3] = anioV//c.getMonto()*(1+interes);
 							}
 							else if  (cal.MONTH > mesV){ //Vencida por mes
-								listaMuestra[fila][3] = mesV/*c.getMonto()*(1+interes)*/;
+								listaMuestra[fila][3] = anioV//c.getMonto()*(1+interes);
 							}
 							else if (cal.DAY_OF_MONTH > diaV) {//Vencida por dia
-								listaMuestra[fila][3] = diaV/*c.getMonto()*(1+interes)*/;
+								listaMuestra[fila][3] = diaV//c.getMonto()*(1+interes);
 							}
 							else { //AL DIA 
 								sinVencer = true; 
 								listaMuestra[fila][3] = c.getMonto();
 							}
 						}
-						
+						*/
 						fila++;
 					}
 
@@ -328,28 +358,50 @@ public class PantallaRegistrarPago {
 				scrollPaneCuotas.setViewportView(tablaCuotas);
 
 			}else {
-				System.out.println("Entro2");
 				Cuota unica;
 				unica = ((Semestral)p.getForma_pago()).getCuota1();
 				Object[][] listaMuestra = new Object[6][6];	
-				int diaV = Integer.parseInt(unica.getFecha_vencimiento().substring(0, 2));
-				int mesV = Integer.parseInt(unica.getFecha_vencimiento().substring(3, 5));
-				int anioV = Integer.parseInt(unica.getFecha_vencimiento().substring(6, 10));
+				double montoOriginal = ((Semestral)p.getForma_pago()).getCuota1().getMonto();
 				listaMuestra[0][0]="Unica Cuota";
 				listaMuestra[0][1]=((Semestral)p.getForma_pago()).getFecha_Vencimiento();
-				listaMuestra[0][2]=((Semestral)p.getForma_pago()).getCuota1().getMonto();
+				listaMuestra[0][2]= montoOriginal;
+				DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+				LocalDate vencimiento = LocalDate.parse(((Semestral)p.getForma_pago()).getFecha_Vencimiento(), fmt);
+				LocalDate ahora = LocalDate.now();
+				Period periodo = Period.between(vencimiento, ahora);
+				
+				if (ahora.isBefore(vencimiento)) { //si la fecha de vencimiento es posterior a la actual
+					listaMuestra[0][3] = montoOriginal;
+				}
+				else {
+				
+						if (periodo.getYears()>0) { //si está vencida por un año o mas  
+							listaMuestra[0][3] =  montoOriginal-(montoOriginal*(interes));
+						}
+						else if (periodo.getMonths()>0 || periodo.getMonths()<12) {//Vencida por mes
+							listaMuestra[0][3] = montoOriginal-(montoOriginal*(interes));
+						}
+						else if (periodo.getDays()<31) {//Vencida por dia
+							listaMuestra[0][3] = montoOriginal-(montoOriginal*(interes));
+						}
+				}
+				/*
+				 * int diaV = Integer.parseInt(unica.getFecha_vencimiento().substring(0, 2));
+				int mesV = Integer.parseInt(unica.getFecha_vencimiento().substring(3, 5));
+				int anioV = Integer.parseInt(unica.getFecha_vencimiento().substring(6, 10));
+				
 				if (cal.YEAR > anioV) { //Vencida por año
-					listaMuestra[0][3] = 2/*unica.getMonto()*(1+interes)*/;
+					listaMuestra[0][3] = 2;
 				}
 				else if  (cal.MONTH > mesV){ //Vencida por mes
-					listaMuestra[0][3] = 3/*unica.getMonto()*(1+interes)*/;
+					listaMuestra[0][3] = 3;
 				}
 				else if (cal.DAY_OF_MONTH > diaV) {//Vencida por dia
-					listaMuestra[0][3] = 4/*unica.getMonto()*(1+interes)*/;
+					listaMuestra[0][3] = 4;
 				}
 				else { //AL DIA 
 					listaMuestra[0][3] = unica.getMonto();
-				}
+				}*/
 	
 
 				modelCuota =new DefaultTableModel(

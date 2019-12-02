@@ -22,7 +22,7 @@ public class PantallaPrincipal {
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(new Color (0, 128, 128));
 		marco1.setLocationRelativeTo(null);
-		marco1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		marco1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// ------------------------
 
 		// ------ BOTONES -------

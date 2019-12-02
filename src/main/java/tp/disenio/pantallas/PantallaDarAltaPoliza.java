@@ -11,6 +11,8 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -654,6 +656,7 @@ public class PantallaDarAltaPoliza {
 			String error = "";
 			boolean anio1 = true;
 			boolean errores = false;
+			boolean patente_valida = false;
 
 			//valido la provincia -- Estos try y catch son para NullPointerException o sea para cuando no se completó el campo.
 			try {
@@ -715,6 +718,15 @@ public class PantallaDarAltaPoliza {
 			if (patenteText.getText().matches("[A-Za-z0-9]+")== false  ) {
 				error += "El campo 'Patente' no puede contenter caracteres especiales   \n";
 			}
+			
+			
+			if (Pattern.matches("[a-zA-Z]{3,3}[0-9]{3,3}", patenteText.getText()) || Pattern.matches("[a-zA-Z]{2,2}[0-9]{3,3}[a-zA-Z]{2,2}", patenteText.getText())) { //formato patentes viejas 
+				patente_valida =true;
+			}
+			else {
+				error += "La patente ingresada es inválida   \n";
+			}
+			
 
 			//VALIDO ALARMA
 			try {
@@ -758,7 +770,7 @@ public class PantallaDarAltaPoliza {
 				JOptionPane.showMessageDialog(null, error);
 			}
 
-			if (errores == false) {
+			if (errores == false && patente_valida) {
 
 
 				VehiculoDTO vehiculodto = new VehiculoDTO();
@@ -782,7 +794,7 @@ public class PantallaDarAltaPoliza {
 				vehiculodto.setChasis(chasisText.getText());
 				vehiculodto.setModelo(modelodto);
 				vehiculodto.setMotor(motorTexto.getText());
-				vehiculodto.setPatente(patenteText.getText());
+				vehiculodto.setPatente(patenteText.getText().toUpperCase()); //LAS PATENTES SE GUARDAN EN MAYUSCULA 
 
 				vehiculodto.setPorcentaje(modelodto.getPorcentaje());
 
