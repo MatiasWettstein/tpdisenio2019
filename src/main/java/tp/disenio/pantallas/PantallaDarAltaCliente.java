@@ -34,6 +34,7 @@ import tp.disenio.enumerators.EstadoCivil;
 import tp.disenio.enumerators.Sexo;
 import tp.disenio.enumerators.TipoDocumento;
 import tp.disenio.gestores.GestorCliente;
+import tp.disenio.gestores.GestorDB;
 import tp.disenio.gestores.GestorPantallas;
 import tp.disenio.gestores.GestorParametros;
 
@@ -730,6 +731,8 @@ public class PantallaDarAltaCliente {
 		JButton btnCancelar = new JButton("CANCELAR");
 		btnCancelar.addActionListener(arg0 -> {
 			GestorPantallas.PantallaPrincipal();
+			GestorDB gdb = GestorDB.getInstance();
+			gdb.cerrarConexion();
 			marco1.dispose();
 		});
 		btnCancelar.setFont(new Font("Serif", Font.BOLD, 12));

@@ -64,6 +64,8 @@ public class PantallaDarAltaCliente2 {
 		btnCancelar.setBounds(541, 327, 143, 33);
 		ActionListener cancel = e -> {
 			GestorPantallas.PantallaPrincipal(); // si cancelo vuelvo a la pantalla de MENU
+			GestorDB gdb = GestorDB.getInstance();
+			gdb.cerrarConexion();
 			marco1.dispose();
 		};
 		btnCancelar.addActionListener(cancel);
@@ -83,12 +85,7 @@ public class PantallaDarAltaCliente2 {
 			if (flag) {
 				JOptionPane.showMessageDialog(null, "Cliente generado con éxito");
 				GestorDB gdb = GestorDB.getInstance();
-				try {
-					gdb.conec.close();
-				} catch (SQLException e2) {
-					// TODO Auto-generated catch block
-					e2.printStackTrace();
-				}
+				gdb.cerrarConexion();
 				
 				//ACA FALTA AGREGAR QUE VUELVA A LA PANTALLA ALTA POLIZA A DONDE FUE LLAMADO 
 				marco1.dispose();

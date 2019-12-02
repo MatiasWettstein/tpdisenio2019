@@ -11,7 +11,7 @@ public class GestorDB {
 	private static final String USER = "mmvdwfly";
 	private static final String PASS = "ZBlqwzDu5ne0a1vx96EfwzOtemDW4FCr";
 
-	public Connection conec;
+	public static  Connection conec;
 
 
 
@@ -36,10 +36,29 @@ public class GestorDB {
 		if ( GDB == null) {
 			GDB = new GestorDB();
 		}
+		
+		try {
+			if (conec.isClosed()) {
+				try {
+					conec = crearConexion();
+				} catch (ClassNotFoundException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return GDB;
 	}
 
-	public Connection crearConexion() throws ClassNotFoundException, SQLException{
+	public static Connection crearConexion() throws ClassNotFoundException, SQLException{
 
 		Class.forName("org.postgresql.Driver");
 
@@ -51,6 +70,15 @@ public class GestorDB {
 		}
 		return null;
 
+	}
+	
+	public void cerrarConexion () {
+		try {
+			this.conec.close();
+		} catch (SQLException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 	}
 
 
