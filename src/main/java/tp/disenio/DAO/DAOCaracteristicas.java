@@ -123,6 +123,7 @@ public class DAOCaracteristicas {
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = gdb.conec;
 		ResultSet rs = null;
+
 		try {
 			String Consulta = "select valor from porcentajes where nombre = 'PORCENTAJE KM'";
 			PreparedStatement st = con.prepareStatement(Consulta);
