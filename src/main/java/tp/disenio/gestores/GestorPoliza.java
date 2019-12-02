@@ -254,7 +254,7 @@ public class GestorPoliza {
 		int cant = gc.cantidadPoliza(c);
 		GestorPoliza gp = GestorPoliza.getInstance();
 		DescuentosDTO descuentos = new DescuentosDTO();
-		descuentos.setDescPorUnidadAdicional(gp.descuentos(cant));
+		descuentos.setDescPorUnidadAdicional(gp.descuentos(cant)*100);
 		descuentos.setDescPorPagoAdelantado(0.05);
 		descuentos.setDescPorPagoSemestral(0.10);
 
