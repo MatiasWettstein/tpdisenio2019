@@ -5,7 +5,6 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -45,7 +44,7 @@ public class PantallaBuscarPoliza {
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	private static ArrayList<Poliza> poliza_encontrada = new ArrayList<>();
+	private static Poliza poliza_encontrada = new Poliza();
 	public static void start() {
 		// --------------- MARCO --------------
 		final Marco marco1 = new Marco(1200,600,"BUSCAR POLIZA");
@@ -92,20 +91,18 @@ public class PantallaBuscarPoliza {
 		ActionListener accionBuscar = e -> {
 			//DEVUELVE UNA INSTANCIA DE POLIZA PARA MOSTRAR POR PANTALLA
 			poliza_encontrada = GestorPoliza.buscarPoliza(textFieldNPoliza.getText());
+			Object[][] listaMuestra = new Object[1][6];
 
-			Object[][] listaMuestra = new Object[1][7];
 
-			int fila =0;
-			for(Poliza p : poliza_encontrada) {
-				listaMuestra[fila][0] = p.getNroPoliza();
-				listaMuestra[fila][1] = p.getCliente().getNroCliente();
-				listaMuestra[fila][2] = p.getCliente().getApellido();
-				listaMuestra[fila][3] = p.getCliente().getNombre();
-				listaMuestra[fila][4] = p.getCliente().getTipoDocumento();
-				listaMuestra[fila][5] = p.getCliente().getDocumento();
-				fila++;
-				// listaMuestra[0][6] = NO SE COMO MOSTRAR ULTIMO PAGO
-			}
+			System.out.println(poliza_encontrada.getNroPoliza());
+			listaMuestra[0][0] = poliza_encontrada.getNroPoliza();
+			listaMuestra[0][1] = poliza_encontrada.getCliente().getNroCliente();
+			listaMuestra[0][2] = poliza_encontrada.getCliente().getApellido();
+			listaMuestra[0][3] = poliza_encontrada.getCliente().getNombre();
+			listaMuestra[0][4] = poliza_encontrada.getCliente().getTipoDocumento();
+			listaMuestra[0][5] = poliza_encontrada.getCliente().getDocumento();
+			// listaMuestra[0][6] = NO SE COMO MOSTRAR ULTIMO PAGO
+
 
 			DefaultTableModel model = new DefaultTableModel(listaMuestra,new String[] { "Nro. Poliza", "Nro. Cliente", "Apellido", "Nombre", "Tipo documento", "Nro. Documento", "Ultimo pago"}) {
 
@@ -137,7 +134,7 @@ public class PantallaBuscarPoliza {
 			if(tablaPoliza.getSelectedRow()<0) {
 				marco1.dispose();
 			}else {
-				GestorPantallas.registrarPago(poliza_encontrada.get(tablaPoliza.getSelectedRow()));
+				GestorPantallas.registrarPago(poliza_encontrada);
 				marco1.dispose();
 			}
 		};

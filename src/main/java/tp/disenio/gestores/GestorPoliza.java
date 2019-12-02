@@ -421,8 +421,8 @@ public class GestorPoliza {
 		return flag;
 	}
 
-	public static ArrayList<Poliza>  buscarPoliza(String nroP) {
-		ArrayList<Poliza> retorno = new ArrayList<>();
+	public static Poliza  buscarPoliza(String nroP) {
+		Poliza retorno = new Poliza();
 		retorno = DAOPoliza.buscarPoliza(nroP);
 		return retorno;
 	}

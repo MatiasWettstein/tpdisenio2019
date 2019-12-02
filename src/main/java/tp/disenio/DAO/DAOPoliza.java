@@ -85,9 +85,9 @@ public class DAOPoliza {
 		return retorno;
 	}
 
-	public static ArrayList<Poliza> buscarPoliza(String nroP) {
+	public static Poliza buscarPoliza(String nroP) {
 
-		ArrayList<Poliza> retorno1 = new ArrayList<>();
+		Poliza retorno = new Poliza();
 		ResultSet rs = null;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = gdb.conec;
@@ -96,12 +96,8 @@ public class DAOPoliza {
 
 
 		try {
-			if(nroP.isEmpty()) {
-				Consulta = "select * from poliza";
-			}else {
-				long nroPoliza = Long.parseLong(nroP);
-				Consulta = "select * from poliza where nro_poliza = " + nroPoliza;
-			}
+			long nroPoliza = Long.parseLong(nroP);
+			Consulta = "select * from poliza where nro_poliza = " + nroPoliza;
 			PreparedStatement st = con.prepareStatement(Consulta);
 			rs = st.executeQuery();
 			/*
@@ -122,13 +118,12 @@ public class DAOPoliza {
 			while(rs.next()) {
 				GestorPoliza gp = GestorPoliza.getInstance();
 				GestorCliente gc = GestorCliente.getInstance();
-				Poliza retorno = new Poliza();
 				retorno.setNroPoliza(rs.getLong("nro_poliza"));
 				retorno.setKmPorAnio(rs.getInt("km_por_anio"));
 				retorno.setSumaasegurada( (float) rs.getDouble("suma_asegurada"));
 				retorno.setInicio_vigencia(rs.getString("inicio_vigencia"));
 				retorno.setFin_vigencia(rs.getString("fin_vigencia"));
-				if (rs.getString("forma_pago") == "MENSUAL") { //ACA ESTA EL PROBLEMA, NO ENTRA A MENSUAL
+				if (rs.getString("forma_pago").equalsIgnoreCase("MENSUAL")) { //ACA ESTA EL PROBLEMA, NO ENTRA A MENSUAL
 					Mensual aux_mens = new Mensual();
 					aux_mens.setNombre(rs.getString("forma_pago"));
 					aux_mens.setCuotas(gp.recuperarListaCuotas(rs.getLong("nro_poliza")));
@@ -200,15 +195,16 @@ public class DAOPoliza {
 				retorno.setCaracteristicas(aux_car);
 
 				retorno.setPoliza_modificada(new PolizaModificada());
-				retorno1.add(retorno);
 			}
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} catch(Exception e) {
+			//hacer algo
 		}
 
-		return retorno1;
+		return retorno;
 	}
 
 	public static long recupearUltimoNID() {
