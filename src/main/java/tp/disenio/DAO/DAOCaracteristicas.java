@@ -31,7 +31,7 @@ public class DAOCaracteristicas {
 				st_km.setInt(1, id_carac); //id_caracteristicas
 				st_km.setString(2, "PORCENTAJE KM"); //nombre
 				st_km.setFloat(3, (float) p.getCaracteristicas().getPorcentajeKm());//porcentaje
-				st_km.setLong(5, p.getNroPoliza());//nro poliza
+				st_km.setLong(4, p.getNroPoliza());//nro poliza
 				st_km.executeUpdate();
 				st_km.close();
 			}

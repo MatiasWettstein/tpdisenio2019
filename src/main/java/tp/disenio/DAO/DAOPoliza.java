@@ -85,22 +85,23 @@ public class DAOPoliza {
 		return retorno;
 	}
 
+	public static ArrayList<Poliza> buscarPoliza(String nroP) {
 
-
-	public static Poliza buscarPoliza(String nroP) {
-
-		Poliza retorno = new Poliza();
+		ArrayList<Poliza> retorno1 = new ArrayList<>();
 		ResultSet rs = null;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = gdb.conec;
 
-		long nroPoliza = Long.parseLong(nroP);
-		
+		String Consulta;
 
 
 		try {
-			String Consulta = "select * from poliza where nro_poliza = " + nroPoliza;
-
+			if(nroP.isEmpty()) {
+				Consulta = "select * from poliza";
+			}else {
+				long nroPoliza = Long.parseLong(nroP);
+				Consulta = "select * from poliza where nro_poliza = " + nroPoliza;
+			}
 			PreparedStatement st = con.prepareStatement(Consulta);
 			rs = st.executeQuery();
 			/*
@@ -121,7 +122,7 @@ public class DAOPoliza {
 			while(rs.next()) {
 				GestorPoliza gp = GestorPoliza.getInstance();
 				GestorCliente gc = GestorCliente.getInstance();
-
+				Poliza retorno = new Poliza();
 				retorno.setNroPoliza(rs.getLong("nro_poliza"));
 				retorno.setKmPorAnio(rs.getInt("km_por_anio"));
 				retorno.setSumaasegurada( (float) rs.getDouble("suma_asegurada"));
@@ -131,6 +132,7 @@ public class DAOPoliza {
 					Mensual aux_mens = new Mensual();
 					aux_mens.setNombre(rs.getString("forma_pago"));
 					aux_mens.setCuotas(gp.recuperarListaCuotas(rs.getLong("nro_poliza")));
+					retorno.setForma_pago(aux_mens);
 					//no hago el set de monto total
 				}
 				else {
@@ -141,6 +143,7 @@ public class DAOPoliza {
 					aux_sem.setNombre(rs.getString("forma_pago"));
 					aux_sem.setFecha_Vencimiento(aux_cuota.getFecha_vencimiento());
 					aux_sem.setMontoTotal(aux_cuota.getMonto());
+					retorno.setForma_pago(aux_sem);
 				}
 
 				retorno.setEstado_poliza(rs.getString("estado_poliza"));
@@ -197,7 +200,7 @@ public class DAOPoliza {
 				retorno.setCaracteristicas(aux_car);
 
 				retorno.setPoliza_modificada(new PolizaModificada());
-
+				retorno1.add(retorno);
 			}
 
 		} catch (SQLException e) {
@@ -205,7 +208,7 @@ public class DAOPoliza {
 			e.printStackTrace();
 		}
 
-		return retorno;
+		return retorno1;
 	}
 
 	public static long recupearUltimoNID() {

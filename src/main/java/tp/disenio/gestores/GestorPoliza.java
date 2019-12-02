@@ -1,11 +1,12 @@
 package tp.disenio.gestores;
 
-import java.sql.Connection;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+
+import javax.swing.JOptionPane;
 
 import tp.disenio.DAO.DAOCaracteristicas;
 import tp.disenio.DAO.DAOCuota;
@@ -91,22 +92,18 @@ public class GestorPoliza {
 		GestorPoliza gp = GestorPoliza.getInstance();
 		String aux_nroNuevo = "";
 		long serial = gp.recupearUltimoNIDPoliza();
-		if (serial == 0) { //Crea la primera
-			serial = 1234*10000000;
-			serial ++;
+
+		if(serial == 1234999999901L ) {
+			JOptionPane.showMessageDialog(null, "No hay mas espacio para polizas nuevas.", "Error", JOptionPane.WARNING_MESSAGE);
+			return 0;
+		} else {
+			serial = serial + 100;
 		}
-		else {
-			serial = serial /100;
-			serial ++;
-			serial = serial *100;
-			serial++;
-		}
+
 
 		String n_serial = Long.toString(serial);
-		String n_poliza = "01"; //porque es la primera poliza que registra
 
-		aux_nroNuevo =n_serial + n_poliza;
-		nroPoliza = Long.parseLong(aux_nroNuevo);
+		nroPoliza = Long.parseLong(n_serial);
 
 		return nroPoliza;
 	}
@@ -118,6 +115,9 @@ public class GestorPoliza {
 		Poliza nueva_poliza = new Poliza();
 		nueva_poliza = gp.generarInstanciaPoliza(c, p, v, listahijos, dom, descuentos, premio);
 
+		if(nueva_poliza==null) {
+			return flag;
+		}
 		Mensual aux_mens = new Mensual();
 
 		ArrayList<Cuota> listacuotas = new ArrayList<>();
@@ -159,7 +159,7 @@ public class GestorPoliza {
 
 			Boolean bool_desc = gp.cargarDescuentos(nueva_poliza);
 
-			if (poliza_tiene_mds && hijo_declarado && bool_cuota && bool_caracteristicas && bool_desc) flag = true;
+			if (poliza_tiene_mds && bool_cuota && bool_caracteristicas && bool_desc) flag = true;
 		}
 		return flag;
 	}
@@ -171,6 +171,9 @@ public class GestorPoliza {
 		Poliza nueva_poliza = new Poliza();
 		nueva_poliza = gp.generarInstanciaPoliza(c, p, v, listahijos, dom, descuentos, premio);
 
+		if(nueva_poliza==null) {
+			return flag;
+		}
 		int id_cuota = DAOCuota.recupearUltimoNID();
 		id_cuota +=1;
 
@@ -208,7 +211,7 @@ public class GestorPoliza {
 
 			Boolean bool_desc = gp.cargarDescuentos(nueva_poliza);
 
-			if (poliza_tiene_mds && hijo_declarado && bool_cuota && bool_caracteristicas && bool_desc) flag = true;
+			if (poliza_tiene_mds && bool_cuota && bool_caracteristicas && bool_desc) flag = true;
 		}
 		return flag;
 	}
@@ -385,23 +388,27 @@ public class GestorPoliza {
 
 		Poliza nueva_poliza = new Poliza();
 		long nroPoliza = gp.generarNroPoliza();
-		nueva_poliza.setNroPoliza(nroPoliza); //nroPoliza
-		nueva_poliza.setCliente(aux_cliente); //CLIENTE
-		nueva_poliza.setDomicilio_riesgo(aux_domR);
-		nueva_poliza.setVehiculo(aux_ve);
-		nueva_poliza.setKmPorAnio(p.getKmPorAnio());
-		nueva_poliza.setSeguridad(aux_MS);
-		nueva_poliza.setSumaasegurada(p.getSumaasegurada());
-		nueva_poliza.setHijos_declarados(hijos);
-		nueva_poliza.setTipo_cobertura(aux_cob);
-		nueva_poliza.setInicio_vigencia(p.getInicio_vigencia());
-		nueva_poliza.setFin_vigencia(p.getFin_vigencia());
-		nueva_poliza.setEstado_poliza("GENERADA");
-		nueva_poliza.setPremio(aux_premio);
-		nueva_poliza.setDescuento(aux_desc);
-		nueva_poliza.setPoliza_modificada(new PolizaModificada());
-		nueva_poliza.setSiniestro(aux_siniestro);
-		nueva_poliza.setCaracteristicas(aux_car);
+		if(nroPoliza==0) {
+			nueva_poliza=null;
+		} else {
+			nueva_poliza.setNroPoliza(nroPoliza); //nroPoliza
+			nueva_poliza.setCliente(aux_cliente); //CLIENTE
+			nueva_poliza.setDomicilio_riesgo(aux_domR);
+			nueva_poliza.setVehiculo(aux_ve);
+			nueva_poliza.setKmPorAnio(p.getKmPorAnio());
+			nueva_poliza.setSeguridad(aux_MS);
+			nueva_poliza.setSumaasegurada(p.getSumaasegurada());
+			nueva_poliza.setHijos_declarados(hijos);
+			nueva_poliza.setTipo_cobertura(aux_cob);
+			nueva_poliza.setInicio_vigencia(p.getInicio_vigencia());
+			nueva_poliza.setFin_vigencia(p.getFin_vigencia());
+			nueva_poliza.setEstado_poliza("GENERADA");
+			nueva_poliza.setPremio(aux_premio);
+			nueva_poliza.setDescuento(aux_desc);
+			nueva_poliza.setPoliza_modificada(new PolizaModificada());
+			nueva_poliza.setSiniestro(aux_siniestro);
+			nueva_poliza.setCaracteristicas(aux_car);
+		}
 
 		return nueva_poliza;
 	}
@@ -414,8 +421,8 @@ public class GestorPoliza {
 		return flag;
 	}
 
-	public static Poliza  buscarPoliza(String nroP) {
-		Poliza retorno = new Poliza();
+	public static ArrayList<Poliza>  buscarPoliza(String nroP) {
+		ArrayList<Poliza> retorno = new ArrayList<>();
 		retorno = DAOPoliza.buscarPoliza(nroP);
 		return retorno;
 	}

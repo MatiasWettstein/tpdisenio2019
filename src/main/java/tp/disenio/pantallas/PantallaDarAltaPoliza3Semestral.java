@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -236,8 +237,9 @@ public class PantallaDarAltaPoliza3Semestral {
 
 		JTextField textField_2 = new JTextField();
 		textField_2.setEditable(false);
+		DecimalFormat dec = new DecimalFormat("#0.00");
 		double montototalapagar = gp.calcularMontoTotalAPagar(premiodto, c)*0.90;
-		textField_2.setText(String.valueOf(montototalapagar));
+		textField_2.setText(String.valueOf(dec.format(montototalapagar)));
 		textField_2.setColumns(10);
 		textField_2.setBounds(224, 499, 196, 20);
 		marco1.getContentPane().add(textField_2);
@@ -281,6 +283,8 @@ public class PantallaDarAltaPoliza3Semestral {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
+			}else {
+				JOptionPane.showMessageDialog(null, "ERROR");
 			}
 
 			GestorPantallas.PantallaPrincipal();

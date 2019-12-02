@@ -3,7 +3,6 @@ package tp.disenio.pantallas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -243,7 +242,7 @@ public class PantallaDarAltaPoliza3Mensual {
 		JTextField textField_montoTotalAPagar = new JTextField();
 		textField_montoTotalAPagar.setEditable(false);
 		double montototalapagar= gp.calcularMontoTotalAPagar(premiodto, c);
-		textField_montoTotalAPagar.setText(String.valueOf(montototalapagar));
+		textField_montoTotalAPagar.setText(String.valueOf(dec.format(montototalapagar)));
 		textField_montoTotalAPagar.setColumns(10);
 		textField_montoTotalAPagar.setBounds(218, 425, 196, 20);
 		marco1.getContentPane().add(textField_montoTotalAPagar);
@@ -279,7 +278,9 @@ public class PantallaDarAltaPoliza3Mensual {
 					// TODO Auto-generated catch block
 					e2.printStackTrace();
 				}
-				
+
+			} else {
+				JOptionPane.showMessageDialog(null, "ERROR");
 			}
 
 			GestorPantallas.PantallaPrincipal();
