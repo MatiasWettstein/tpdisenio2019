@@ -85,7 +85,7 @@ public class PantallaRegistrarPago {
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(new Color (192, 192, 192));
 		marco1.setLocationRelativeTo(null);
-		marco1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		marco1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 		JScrollPane scrollPanePoliza = new JScrollPane();
 		scrollPanePoliza.setBounds(25, 62, 1267, 43);
