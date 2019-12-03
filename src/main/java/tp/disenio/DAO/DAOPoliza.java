@@ -123,7 +123,7 @@ public class DAOPoliza {
 				retorno.setSumaasegurada( (float) rs.getDouble("suma_asegurada"));
 				retorno.setInicio_vigencia(rs.getString("inicio_vigencia"));
 				retorno.setFin_vigencia(rs.getString("fin_vigencia"));
-				if (rs.getString("forma_pago").equalsIgnoreCase("MENSUAL")) { //ACA ESTA EL PROBLEMA, NO ENTRA A MENSUAL
+				if (rs.getString("forma_pago").equalsIgnoreCase("MENSUAL")) { //ACA EgitSTA EL PROBLEMA, NO ENTRA A MENSUAL
 					Mensual aux_mens = new Mensual();
 					aux_mens.setNombre(rs.getString("forma_pago"));
 					aux_mens.setCuotas(gp.recuperarListaCuotas(rs.getLong("nro_poliza")));
@@ -231,7 +231,7 @@ public class DAOPoliza {
 
 		return retorno;
 	}
-	
+
 	public static Boolean polizaExiste(String nroP) {
 
 		Boolean retorno = false;
@@ -247,7 +247,7 @@ public class DAOPoliza {
 			Consulta = "select * from poliza where nro_poliza = " + nroPoliza;
 			PreparedStatement st = con.prepareStatement(Consulta);
 			rs = st.executeQuery();
-		
+
 			if(rs.next()==true) { //si la encuentra retorna true
 				retorno = true;
 			}

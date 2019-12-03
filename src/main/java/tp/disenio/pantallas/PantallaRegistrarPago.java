@@ -456,13 +456,8 @@ public class PantallaRegistrarPago {
 						}
 						montoaPagar_mensual = gc.calcularMontoTotal(montoSeleccionado);
 						GestorPantallas.registrarPago2(p, cuotasAPagar, null, montoaPagar_mensual);
+						marco1.dispose();
 
-						/*EL SISTEMA CALCULA LOS IMPORTES PARCIALES Y TOTALES Y MUESTRA LOS RESULTADOS POR PANTALLA
-						A LA PANTALLA 2 hay que pasarle:
-						-ArrayList con las cuotas que se quieren pagar
-						-Cuota sola si es la que se quiere pagar
-						-el calculo del monto total a pagar
-						 */
 					}
 				}
 			}
@@ -474,7 +469,10 @@ public class PantallaRegistrarPago {
 				cuota.setId_cuota(((Semestral)p.getForma_pago()).getCuota1().getId_cuota());
 
 				GestorPantallas.registrarPago2(p, null, cuota, montoaPagar_semestral);
+				marco1.dispose();
 			}
+
+
 		};
 		aceptar.addActionListener(accionaceptar);
 

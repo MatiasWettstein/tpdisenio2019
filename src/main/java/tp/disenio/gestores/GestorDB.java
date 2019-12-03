@@ -36,7 +36,7 @@ public class GestorDB {
 		if ( GDB == null) {
 			GDB = new GestorDB();
 		}
-		
+
 		try {
 			if (conec.isClosed()) {
 				try {
@@ -54,7 +54,7 @@ public class GestorDB {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		return GDB;
 	}
 
@@ -71,10 +71,11 @@ public class GestorDB {
 		return null;
 
 	}
-	
+
 	public void cerrarConexion () {
 		try {
 			this.conec.close();
+			System.out.println("conexion cerrada...");
 		} catch (SQLException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();

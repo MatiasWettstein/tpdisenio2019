@@ -11,7 +11,6 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.ButtonGroup;
@@ -718,15 +717,15 @@ public class PantallaDarAltaPoliza {
 			if (patenteText.getText().matches("[A-Za-z0-9]+")== false  ) {
 				error += "El campo 'Patente' no puede contenter caracteres especiales   \n";
 			}
-			
-			
-			if (Pattern.matches("[a-zA-Z]{3,3}[0-9]{3,3}", patenteText.getText()) || Pattern.matches("[a-zA-Z]{2,2}[0-9]{3,3}[a-zA-Z]{2,2}", patenteText.getText())) { //formato patentes viejas 
+
+
+			if (Pattern.matches("[a-zA-Z]{3,3}[0-9]{3,3}", patenteText.getText()) || Pattern.matches("[a-zA-Z]{2,2}[0-9]{3,3}[a-zA-Z]{2,2}", patenteText.getText())) { //formato patentes viejas
 				patente_valida =true;
 			}
 			else {
 				error += "La patente ingresada es inválida   \n";
 			}
-			
+
 
 			//VALIDO ALARMA
 			try {
@@ -794,7 +793,7 @@ public class PantallaDarAltaPoliza {
 				vehiculodto.setChasis(chasisText.getText());
 				vehiculodto.setModelo(modelodto);
 				vehiculodto.setMotor(motorTexto.getText());
-				vehiculodto.setPatente(patenteText.getText().toUpperCase()); //LAS PATENTES SE GUARDAN EN MAYUSCULA 
+				vehiculodto.setPatente(patenteText.getText().toUpperCase()); //LAS PATENTES SE GUARDAN EN MAYUSCULA
 
 				vehiculodto.setPorcentaje(modelodto.getPorcentaje());
 

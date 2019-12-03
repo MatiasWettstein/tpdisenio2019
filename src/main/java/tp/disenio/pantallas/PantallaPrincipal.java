@@ -3,7 +3,6 @@ package tp.disenio.pantallas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -161,13 +160,10 @@ public class PantallaPrincipal {
 		GestorDB gdb = GestorDB.getInstance();
 		if (JOptionPane.showConfirmDialog(null, "¿Desea realmente salir del sistema?",
 				"Salir del sistema", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-			try {
-				gdb.conec.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			System.exit(0);
+
+			gdb.cerrarConexion();
+
+		System.exit(0);
 	}
 
 
