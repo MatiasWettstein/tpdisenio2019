@@ -30,7 +30,7 @@ public class DAOCaracteristicas {
 				PreparedStatement st_km = con.prepareStatement("INSERT INTO caracteristicas VALUES (?, ?, ?, ?)");
 				st_km.setInt(1, id_carac); //id_caracteristicas
 				st_km.setString(2, "PORCENTAJE KM"); //nombre
-				st_km.setFloat(3, (float) p.getCaracteristicas().getPorcentajeKm());//porcentaje
+				st_km.setDouble(3, (float) p.getCaracteristicas().getPorcentajeKm());//porcentaje
 				st_km.setLong(4, p.getNroPoliza());//nro poliza
 				st_km.executeUpdate();
 				st_km.close();
@@ -39,7 +39,7 @@ public class DAOCaracteristicas {
 				PreparedStatement st_hijo = con.prepareStatement("INSERT INTO caracteristicas VALUES (?, ?, ?, ?)");
 				st_hijo.setInt(1, id_carac); //id_caracteristicas
 				st_hijo.setString(2, "PORCENTAJE HIJO"); //nombre
-				st_hijo.setFloat(3, (float) p.getCaracteristicas().getPorcentajeHijo());//porcentaje
+				st_hijo.setDouble(3, (float) p.getCaracteristicas().getPorcentajeHijo());//porcentaje
 				st_hijo.setLong(4, p.getNroPoliza());//nro poliza
 				st_hijo.executeUpdate();
 				st_hijo.close();
@@ -48,7 +48,7 @@ public class DAOCaracteristicas {
 				id_carac +=1;
 				st_km.setInt(1, id_carac); //id_caracteristicas
 				st_km.setString(2, "PORCENTAJE KM"); //nombre
-				st_km.setFloat(3, (float) p.getCaracteristicas().getPorcentajeKm());//porcentaje
+				st_km.setDouble(3, (float) p.getCaracteristicas().getPorcentajeKm());//porcentaje
 				st_km.setLong(4, p.getNroPoliza());//nro poliza
 				st_km.executeUpdate();
 				st_km.close();
@@ -105,7 +105,7 @@ public class DAOCaracteristicas {
 
 
 			while(rs.next()) {
-				retorno = rs.getInt("valor");
+				retorno = rs.getDouble("valor");
 			}
 
 		}
@@ -131,7 +131,7 @@ public class DAOCaracteristicas {
 
 
 			while(rs.next()) {
-				retorno = rs.getInt("valor");
+				retorno = rs.getDouble("valor");
 			}
 
 		}

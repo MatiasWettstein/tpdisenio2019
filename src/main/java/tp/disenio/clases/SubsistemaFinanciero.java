@@ -2,19 +2,18 @@ package tp.disenio.clases;
 
 public class SubsistemaFinanciero {
 
-	public static float tasaInteres () {
-		
-		float retorno=0;
+	public static double tasaInteres () {
+		double retorno=0;
 		int aleatorio = (int) (Math.random()*4);
 		
 		switch(aleatorio) {
-		case 0: retorno = 10;
+		case 0: retorno =  0.10;
 			break;
-		case 1: retorno = 15;
+		case 1: retorno = 0.15;
 			break;
-		case 2: retorno = 20;
+		case 2: retorno = 0.20;
 			break;
-		case 3: retorno = 25;
+		case 3: retorno = 0.25;
 			break;
 		}
 		
@@ -22,19 +21,19 @@ public class SubsistemaFinanciero {
 		
 	}
 	
-	public static float descuentoPorAdelanto () {
+	public static double descuentoPorAdelanto () {
 		
-		float retorno=0;
+		double retorno=0;
 		int aleatorio = (int) (Math.random()*4);
 		
 		switch(aleatorio) {
-		case 0: retorno = 10;
+		case 0: retorno = 0.10;
 			break;
-		case 1: retorno = 15;
+		case 1: retorno = 0.15;
 			break;
-		case 2: retorno = 20;
+		case 2: retorno = 0.20;
 			break;
-		case 3: retorno = 25;
+		case 3: retorno = 0.25;
 			break;
 		}
 		

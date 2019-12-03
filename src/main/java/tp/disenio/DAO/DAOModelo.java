@@ -32,7 +32,7 @@ public class DAOModelo {
 				Modelo mod = new Modelo();
 				mod.setIdModelo(rs.getInt("id_modelo"));
 				mod.setNombre(rs.getString("nombre"));
-				mod.setPorcentaje(rs.getFloat(2));
+				mod.setPorcentaje((float) rs.getDouble(2));
 				mod.setMarca(marca);
 				modelos.add(mod);
 			}

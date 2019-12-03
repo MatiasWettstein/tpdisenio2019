@@ -22,6 +22,7 @@ import tp.disenio.clases.Mensual;
 import tp.disenio.clases.Poliza;
 import tp.disenio.clases.Semestral;
 import tp.disenio.gestores.GestorCobro;
+import tp.disenio.gestores.GestorDB;
 import tp.disenio.gestores.GestorPantallas;
 
 public class PantallaRegistrarPago {
@@ -217,53 +218,13 @@ public class PantallaRegistrarPago {
 		textPatente.setBounds(806, 277, 196, 20);
 		marco1.getContentPane().add(textPatente);
 
-		// ---------- BOTONES ------------
-		JButton buscarP = new JButton("BUSCAR POLIZA");
-		ActionListener buscarCliente = e -> {
-			GestorPantallas.buscarPoliza();
-			marco1.dispose();
-		};
+		
 
-		buscarP.addActionListener(buscarCliente);
-		buscarP.setFont(new Font("Serif", Font.BOLD, 12));
-		buscarP.setBounds(25, 10, 222, 33);
-		marco1.getContentPane().add(buscarP);
-
-
-		JButton aceptar = new JButton("ACEPTAR");
-		aceptar.setFont(new Font("Serif", Font.BOLD, 12));
-		aceptar.setSize(143, 33);
-		aceptar.setLocation(1021, 627);
-		marco1.getContentPane().add(aceptar);
-
-		JButton cancelar = new JButton("CANCELAR");
-		cancelar.setFont(new Font("Serif", Font.BOLD, 12));
-		cancelar.setSize(143, 33);
-		cancelar.setLocation(1174, 627);
-		ActionListener cancel = e -> {
-			GestorPantallas.PantallaPrincipal(); // si cancelo vuelvo a la pantalla de MENU
-			marco1.dispose();
-		};
-		cancelar.addActionListener(cancel);
-		marco1.getContentPane().add(cancelar);
-
-		ActionListener accionaceptar = e ->{
-			int seleccionadas [];
-			seleccionadas = tablaCuotas.getSelectedRows();
-			if (seleccionadas.length > 0) {
-				//CON GESTOR COBROS, CAMBIAR A PAGAS
-			}
-		};
-		aceptar.addActionListener(accionaceptar);
-
-		////////////////////////////////////CUANDO YA BUSCO EL CLIENTE
-
-		if (p != null) {
-			GestorCobro gc = GestorCobro.getInstance();
-			Calendar cal = Calendar.getInstance();
-			float descuento = gc.obtenerDescuentoPorAdelanto()/100;
-			float interes = gc.obtenerTasaInteres() /100;
-			
+		////////////////////////////////////CUANDO YA BUSCO LA POLIZA 
+		GestorCobro gc = GestorCobro.getInstance();
+		LocalDate ahora = LocalDate.now();
+	
+		if (p != null) {	
 			textNCliente.setText(p.getCliente().getNroCliente());
 			textNombreC.setText(p.getCliente().getNombre());
 			textApellidoC.setText(p.getCliente().getApellido());
@@ -272,7 +233,6 @@ public class PantallaRegistrarPago {
 			textPatente.setText(p.getVehiculo().getPatente());
 			
 			if  (p.getForma_pago().getNombre().equals("MENSUAL")) {
-				System.out.println("Entro1");
 				ArrayList<Cuota> lista = new ArrayList<>();
 				lista = ((Mensual)p.getForma_pago()).getCuotas();
 				int fila =0;
@@ -288,54 +248,31 @@ public class PantallaRegistrarPago {
 						
 						DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 						LocalDate vencimiento = LocalDate.parse(c.getFecha_vencimiento(), fmt);
-						LocalDate ahora = LocalDate.now();
 						Period periodo = Period.between(vencimiento, ahora);
 						
 						if (sinVencer) { //Si la cuota anterior no esta vencida, entonces la siguiente seria pagada por adelantado
-							listaMuestra[fila][3] = c.getMonto()-(c.getMonto()*(descuento));
+							listaMuestra[fila][3] = gc.aplicarDescuento((float) c.getMonto());
 						}
 						if (ahora.isBefore(vencimiento)) { //si la fecha de vencimiento es posterior a la actual
-							listaMuestra[fila][3] = c.getMonto();
+							listaMuestra[fila][3] = gc.aplicarDescuento((float) c.getMonto());
 						}
 						else {
 						
 								if (periodo.getYears()>0) { //si está vencida por un año o mas  
-									listaMuestra[fila][3] =  c.getMonto()-(c.getMonto()*(interes));
+									listaMuestra[fila][3] =  gc.aplicarInteres((float) c.getMonto());
 								}
 								else if (periodo.getMonths()>0 || periodo.getMonths()<12) {//Vencida por mes
-									listaMuestra[fila][3] = c.getMonto()-(c.getMonto()*(interes));
+									listaMuestra[fila][3] = gc.aplicarInteres((float) c.getMonto());
 								}
 								else if (periodo.getDays()<31) {//Vencida por dia
-									listaMuestra[fila][3] = c.getMonto()-(c.getMonto()*(interes));
+									listaMuestra[fila][3] =  gc.aplicarInteres((float) c.getMonto());
 								}
 								else {
 									sinVencer = true; 
 									listaMuestra[fila][3] = c.getMonto();
 								}
 						}
-						/*
-						 * ESTO ES LO QUE HIZO CRISTIAN Y NO FUNCIONABA
-						int diaV = Integer.parseInt(c.getFecha_vencimiento().substring(0, 2));
-						int mesV = Integer.parseInt(c.getFecha_vencimiento().substring(3, 5));
-						int anioV = Integer.parseInt(c.getFecha_vencimiento().substring(6, 10));
-						
-						
-						else {
-							if (cal.YEAR > anioV) { //Vencida por año
-								listaMuestra[fila][3] = anioV//c.getMonto()*(1+interes);
-							}
-							else if  (cal.MONTH > mesV){ //Vencida por mes
-								listaMuestra[fila][3] = anioV//c.getMonto()*(1+interes);
-							}
-							else if (cal.DAY_OF_MONTH > diaV) {//Vencida por dia
-								listaMuestra[fila][3] = diaV//c.getMonto()*(1+interes);
-							}
-							else { //AL DIA 
-								sinVencer = true; 
-								listaMuestra[fila][3] = c.getMonto();
-							}
-						}
-						*/
+					
 						fila++;
 					}
 
@@ -359,49 +296,34 @@ public class PantallaRegistrarPago {
 
 			}else {
 				Cuota unica;
+				
+				
 				unica = ((Semestral)p.getForma_pago()).getCuota1();
-				Object[][] listaMuestra = new Object[6][6];	
+				Object[][] listaMuestra = new Object[1][6];	
 				double montoOriginal = ((Semestral)p.getForma_pago()).getCuota1().getMonto();
 				listaMuestra[0][0]="Unica Cuota";
 				listaMuestra[0][1]=((Semestral)p.getForma_pago()).getFecha_Vencimiento();
 				listaMuestra[0][2]= montoOriginal;
 				DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 				LocalDate vencimiento = LocalDate.parse(((Semestral)p.getForma_pago()).getFecha_Vencimiento(), fmt);
-				LocalDate ahora = LocalDate.now();
 				Period periodo = Period.between(vencimiento, ahora);
 				
 				if (ahora.isBefore(vencimiento)) { //si la fecha de vencimiento es posterior a la actual
-					listaMuestra[0][3] = montoOriginal;
+					listaMuestra[0][3] = gc.aplicarDescuento((float) montoOriginal);
 				}
 				else {
 				
 						if (periodo.getYears()>0) { //si está vencida por un año o mas  
-							listaMuestra[0][3] =  montoOriginal-(montoOriginal*(interes));
+							listaMuestra[0][3] =  gc.aplicarInteres((float) montoOriginal);
 						}
 						else if (periodo.getMonths()>0 || periodo.getMonths()<12) {//Vencida por mes
-							listaMuestra[0][3] = montoOriginal-(montoOriginal*(interes));
+							listaMuestra[0][3] =  gc.aplicarInteres((float) montoOriginal);
 						}
 						else if (periodo.getDays()<31) {//Vencida por dia
-							listaMuestra[0][3] = montoOriginal-(montoOriginal*(interes));
+							listaMuestra[0][3] =  gc.aplicarInteres((float) montoOriginal);
 						}
 				}
-				/*
-				 * int diaV = Integer.parseInt(unica.getFecha_vencimiento().substring(0, 2));
-				int mesV = Integer.parseInt(unica.getFecha_vencimiento().substring(3, 5));
-				int anioV = Integer.parseInt(unica.getFecha_vencimiento().substring(6, 10));
 				
-				if (cal.YEAR > anioV) { //Vencida por año
-					listaMuestra[0][3] = 2;
-				}
-				else if  (cal.MONTH > mesV){ //Vencida por mes
-					listaMuestra[0][3] = 3;
-				}
-				else if (cal.DAY_OF_MONTH > diaV) {//Vencida por dia
-					listaMuestra[0][3] = 4;
-				}
-				else { //AL DIA 
-					listaMuestra[0][3] = unica.getMonto();
-				}*/
 	
 
 				modelCuota =new DefaultTableModel(
@@ -426,7 +348,62 @@ public class PantallaRegistrarPago {
 
 		}
 
-		//
+		// ---------- BOTONES ------------
+				
+		
+				JButton buscarP = new JButton("BUSCAR POLIZA");
+				ActionListener buscarCliente = e -> {
+					GestorPantallas.buscarPoliza();
+					marco1.dispose();
+				};
+
+				buscarP.addActionListener(buscarCliente);
+				buscarP.setFont(new Font("Serif", Font.BOLD, 12));
+				buscarP.setBounds(25, 10, 222, 33);
+				marco1.getContentPane().add(buscarP);
+				
+				JButton cancelar = new JButton("CANCELAR");
+				cancelar.setFont(new Font("Serif", Font.BOLD, 12));
+				cancelar.setSize(143, 33);
+				cancelar.setLocation(1174, 627);
+				ActionListener cancel = e -> {
+					GestorPantallas.PantallaPrincipal(); // si cancelo vuelvo a la pantalla de MENU
+					GestorDB gdb = GestorDB.getInstance();
+					gdb.cerrarConexion(); //cierro la conexion cuando vuelvo a la pantalla principal 
+					marco1.dispose();
+				};
+				cancelar.addActionListener(cancel);
+				marco1.getContentPane().add(cancelar);
+
+				JButton aceptar = new JButton("ACEPTAR");
+				aceptar.setFont(new Font("Serif", Font.BOLD, 12));
+				aceptar.setSize(143, 33);
+				aceptar.setLocation(1021, 627);
+				marco1.getContentPane().add(aceptar);
+				ActionListener accionaceptar = e ->{
+					if(p.getForma_pago().getNombre().equals("MENSUAL")) {
+						int seleccionadas [];
+					seleccionadas = tablaCuotas.getSelectedRows();
+					if (seleccionadas.length > 0) {
+						 //FALTA HACER LA VALIDACION DEL PASO 5 del caso de uso 
+						
+						//EL SISTEMA CALCULA LOS IMPORTES PARCIALES Y TOTALES Y MUESTRA LOS RESULTADOS POR PANTALLA 
+						
+					}
+					}
+					else { //si es de forma semestral solo tengo una cuota que pagar 
+						//TODO ESTO NO VA ACA VA EN LA REGISTRAR PAGO 2 
+						
+						Cuota aux_cuota = new Cuota();
+						aux_cuota =((Semestral)p.getForma_pago()).getCuota1();
+						
+						//AHI DONDE DICE CERO HAY QUE PASARLE EL MONTO TOTAL C
+						gc.registrarPagoCuotaSemestral(aux_cuota, 	ahora.format(DateTimeFormatter.ofPattern("dd-MM-yyyy")), 0);
+					}
+					
+					
+				};
+				aceptar.addActionListener(accionaceptar);
 
 
 	}

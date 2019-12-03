@@ -18,7 +18,7 @@ public class DAOTipoCobertura {
 			PreparedStatement st = con.prepareStatement("INSERT INTO TIPO_COBERTURA VALUES (?, ?, ?)");
 			st.setInt(1, c.getId_cobertura());//id_cob 1
 			st.setString(2, c.getNombre());//nombre, 2
-			st.setFloat(3, c.getPorcentajeTipoCobertura());//porcentaje 3
+			st.setDouble(3, c.getPorcentajeTipoCobertura());//porcentaje 3
 
 			st.executeUpdate();
 			//st.close();
@@ -70,7 +70,7 @@ public class DAOTipoCobertura {
 			//TIENE QUE ESTAR ESCRITO IGUAL QUE EN LA BD
 
 			while(rs.next()) {
-				retorno.setPorcentajeTipoCobertura(rs.getFloat("valor"));
+				retorno.setPorcentajeTipoCobertura((float) rs.getDouble("valor"));
 				retorno.setId_usuario(rs.getInt("id_usuario"));
 				retorno.setNombre(nombre);
 			}

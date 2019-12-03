@@ -57,7 +57,7 @@ public class DAOMedidasSeguridad {
 
 
 			while(rs.next()) {
-				retorno = rs.getInt("porcentaje");
+				retorno = rs.getDouble("porcentaje");
 			}
 
 		}
@@ -112,7 +112,7 @@ public class DAOMedidasSeguridad {
 
 
 			while(rs.next()) {
-				retorno = rs.getInt("porcentaje");
+				retorno = rs.getDouble("porcentaje");
 			}
 
 		}
@@ -165,7 +165,7 @@ public class DAOMedidasSeguridad {
 
 
 			while(rs.next()) {
-				retorno = rs.getInt("porcentaje");
+				retorno = rs.getDouble("porcentaje");
 			}
 
 		}
@@ -221,7 +221,7 @@ public class DAOMedidasSeguridad {
 
 
 			while(rs.next()) {
-				retorno = rs.getInt("porcentaje");
+				retorno = rs.getDouble("porcentaje");
 			}
 
 		}
@@ -256,7 +256,7 @@ public class DAOMedidasSeguridad {
 				PreparedStatement st_alarma = con.prepareStatement("INSERT INTO POLIZA_TIENE_MDS VALUES (?, ?, ?)");
 				st_alarma.setLong(1, p.getNroPoliza()); //nro_poliza
 				st_alarma.setInt(2, gp.obtenerIDAlarma());
-				st_alarma.setFloat(3, (float) gp.obtenerPorcentajeAlarma());
+				st_alarma.setDouble(3, gp.obtenerPorcentajeAlarma());
 				st_alarma.executeUpdate();
 				st_alarma.close();
 			}
@@ -264,7 +264,7 @@ public class DAOMedidasSeguridad {
 				PreparedStatement st_garage = con.prepareStatement("INSERT INTO POLIZA_TIENE_MDS VALUES (?, ?, ?)");
 				st_garage.setLong(1, p.getNroPoliza()); //nro_poliza
 				st_garage.setInt(2, gp.obtenerIDGarage());
-				st_garage.setFloat(3, (float) gp.obtenerPorcentajeGarage());
+				st_garage.setDouble(3, gp.obtenerPorcentajeGarage());
 				st_garage.executeUpdate();
 				st_garage.close();
 			}
@@ -272,7 +272,7 @@ public class DAOMedidasSeguridad {
 				PreparedStatement st_dispR = con.prepareStatement("INSERT INTO POLIZA_TIENE_MDS VALUES (?, ?, ?)");
 				st_dispR.setLong(1, p.getNroPoliza()); //nro_poliza
 				st_dispR.setInt(2, gp.obtenerIDDisp());
-				st_dispR.setFloat(3, (float) gp.obtenerPorcentajeDisp());
+				st_dispR.setDouble(3, gp.obtenerPorcentajeDisp());
 				st_dispR.executeUpdate();
 				st_dispR.close();
 			}
@@ -280,7 +280,7 @@ public class DAOMedidasSeguridad {
 				PreparedStatement st_tuercas = con.prepareStatement("INSERT INTO POLIZA_TIENE_MDS VALUES (?, ?, ?)");
 				st_tuercas.setLong(1, p.getNroPoliza()); //nro_poliza
 				st_tuercas.setInt(2, gp.obtenerIDTuerca());
-				st_tuercas.setFloat(3, (float) gp.obtenerPorcentajeTuerca());
+				st_tuercas.setDouble(3, gp.obtenerPorcentajeTuerca());
 				st_tuercas.executeUpdate();
 				st_tuercas.close();
 			}

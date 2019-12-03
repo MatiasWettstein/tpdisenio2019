@@ -29,7 +29,7 @@ public class DAOSuperIntendencia {
 		rs = st.executeQuery();
 
 		while(rs.next()) {
-			sumaAsegurada = rs.getFloat("suma_asegurada");
+			sumaAsegurada = (float) rs.getDouble("suma_asegurada");
 		}
 
 	} catch (SQLException e) {

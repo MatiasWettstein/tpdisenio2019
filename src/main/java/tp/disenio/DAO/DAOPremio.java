@@ -16,9 +16,9 @@ public class DAOPremio {
 		try {
 			PreparedStatement st = con.prepareStatement("INSERT INTO PREMIO VALUES (?, ?, ?, ?)");
 			st.setInt(1, p.getIdPremio());//id_premio 1
-			st.setFloat(2, p.getPrima());//prima, 2
-			st.setFloat(3, p.getDerechoEmision());//derecho 3
-			st.setFloat(4, p.getMontoTotal());//monto, 4
+			st.setDouble(2, p.getPrima());//prima, 2
+			st.setDouble(3, p.getDerechoEmision());//derecho 3
+			st.setDouble(4, p.getMontoTotal());//monto, 4
 
 			st.executeUpdate();
 			st.close();

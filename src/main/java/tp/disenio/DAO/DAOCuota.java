@@ -41,7 +41,7 @@ public class DAOCuota {
 					st.setInt(1, c.getId_cuota()); //id_cuota
 					st.setString(2, c.getFecha_vencimiento()); //fech_vencimiento
 					st.setBoolean(3, c.isPagada()); //pagada
-					st.setFloat(4, (float) c.getMonto());//monto
+					st.setDouble(4, c.getMonto());//monto
 					st.setLong(5, p.getNroPoliza());//nro poliza
 					st.setNull(6, java.sql.Types.INTEGER); //id_cobro
 					st.executeUpdate();
@@ -58,7 +58,7 @@ public class DAOCuota {
 				st.setInt(1, aux_sem.getCuota1().getId_cuota()); //id_cuota
 				st.setString(2, aux_sem.getCuota1().getFecha_vencimiento()); //fech_vencimiento
 				st.setBoolean(3, aux_sem.getCuota1().isPagada()); //pagada
-				st.setFloat(4, (float) aux_sem.getCuota1().getMonto());//monto
+				st.setDouble(4, aux_sem.getCuota1().getMonto());//monto
 				st.setLong(5, p.getNroPoliza());//nro poliza
 				st.setNull(6, java.sql.Types.INTEGER); //id_cobro
 				st.executeUpdate();
@@ -178,4 +178,47 @@ public class DAOCuota {
 		return retorno;
 	}
 
+	
+	public static boolean pagarCuota(Cuota c, int nroRecibo) {
+		boolean retorno = false; 
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
+		
+
+		try {
+			/*
+			 int id_cuota 1
+			 String vencimiento
+			 boolean pagada
+			 double monto
+			 int nro_poliza
+			 int id_cobro
+			 */
+
+
+				Semestral aux_sem = new Semestral();
+				aux_sem = (Semestral) p.getForma_pago();
+
+				PreparedStatement st = con.prepareStatement("INSERT INTO CUOTA VALUES (?, ?, ?, ?, ?, ?)");
+				st.setInt(1, aux_sem.getCuota1().getId_cuota()); //id_cuota
+				st.setString(2, aux_sem.getCuota1().getFecha_vencimiento()); //fech_vencimiento
+				st.setBoolean(3, aux_sem.getCuota1().isPagada()); //pagada
+				st.setDouble(4, aux_sem.getCuota1().getMonto());//monto
+				st.setLong(5, p.getNroPoliza());//nro poliza
+				st.setNull(6, java.sql.Types.INTEGER); //id_cobro
+				st.executeUpdate();
+				st.close();
+	
+
+
+
+			retorno = true;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return retorno;
+	}
+	
 }

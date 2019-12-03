@@ -20,10 +20,10 @@ public class DAOSiniestros {
 			PreparedStatement st = con.prepareStatement("INSERT INTO SINIESTROS VALUES (?, ?, ?)");
 			st.setInt(1, s.getId_siniestro());//id_siniestro 1
 			st.setString(2, s.getNombre());//nombre, 2
-			st.setFloat(3, s.getPorcentaje());//porcentaje 3
+			st.setDouble(3, s.getPorcentaje());//porcentaje 3
 
 			st.executeUpdate();
-			//st.close();
+			st.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -74,7 +74,7 @@ public class DAOSiniestros {
 			retorno.setId_siniestro(id_siniestro);
 
 			while(rs.next()) {
-				retorno.setPorcentaje(rs.getFloat("valor"));
+				retorno.setPorcentaje((float) rs.getDouble("valor"));
 				retorno.setId_usuario(rs.getInt("id_usuario"));
 				retorno.setNombre(nombre);
 			}

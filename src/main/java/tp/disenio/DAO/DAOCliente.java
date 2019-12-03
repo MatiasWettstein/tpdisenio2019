@@ -92,7 +92,7 @@ public class DAOCliente {
 				Localidad localidad = new Localidad();
 
 				localidad.setNombre(locrs.getString(2));
-				localidad.setPorcentaje(locrs.getFloat(3));
+				localidad.setPorcentaje((float) locrs.getDouble(3));
 				localidad.setCodigoPostal(locrs.getString(4));
 				localidad.setProvincia(provincia);
 

@@ -19,7 +19,7 @@ public class DAODomicilioRiesgo {
 
 			PreparedStatement st = con.prepareStatement("INSERT INTO DOMICILIO_RIESGO VALUES (?, ?, ?)");
 			st.setInt(1, d.getId_domicilioR()); //id_domicilio
-			st.setFloat(2, d.getPorcentajeDomicilio() ); //porcentaje
+			st.setDouble(2, d.getPorcentajeDomicilio() ); //porcentaje
 			st.setInt(3, d.getLocalidad().getId_localidad());//FK LOCALIDAD
 
 			st.executeUpdate();

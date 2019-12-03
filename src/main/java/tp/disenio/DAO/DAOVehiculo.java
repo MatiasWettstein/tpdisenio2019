@@ -24,10 +24,10 @@ public class DAOVehiculo {
 			st.setString(4, v.getChasis()); //chasis 4
 			st.setInt(5, v.getAnio()); //anio 5 numeric
 			st.setInt(6, v.getModelo().getIdModelo()); //FK modelo
-			st.setFloat(7, v.getPorcentaje()); //porcentaje_actual
+			st.setDouble(7, v.getPorcentaje()); //porcentaje_actual
 
 			st.executeUpdate();
-			//st.close();
+			st.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

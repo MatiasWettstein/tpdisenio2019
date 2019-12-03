@@ -1,5 +1,8 @@
 package tp.disenio.gestores;
 
+import tp.disenio.DAO.DAOCuota;
+import tp.disenio.DAO.DAOReciboPago;
+import tp.disenio.clases.Cuota;
 import tp.disenio.clases.SubsistemaFinanciero;
 
 public class GestorCobro {
@@ -16,14 +19,14 @@ public class GestorCobro {
 		return GCobro;
 	}
 	
-	public float obtenerTasaInteres (){
-		float ret=0;
+	public double obtenerTasaInteres (){
+		double ret=0;
 		ret = SubsistemaFinanciero.tasaInteres();
 		return ret;
 	}
 	
-	public float obtenerDescuentoPorAdelanto (){
-		float ret=0;
+	public double obtenerDescuentoPorAdelanto (){
+		double ret=0;
 		ret = SubsistemaFinanciero.descuentoPorAdelanto();
 		return ret;
 	}
@@ -33,6 +36,41 @@ public class GestorCobro {
 	/*PreparedStatement st=  con.PrepareStatement ("UPDATE COUTA SET pagada=true WHERE id_cuota = ?")
 	 st.setInt(1, idCuota) */
 		;
+	}
+	
+	public float aplicarDescuento(float monto) {
+		float retorno =0; 
+		float descuento = (float) this.obtenerDescuentoPorAdelanto();
+		retorno = monto - (monto*descuento);
+		return retorno; 
+		
+	}
+	
+	public float aplicarInteres(float monto) {
+		float retorno =0; 
+		float interes = (float) this.obtenerTasaInteres();
+		retorno = monto + (monto*interes);
+		return retorno; 
+		
+	}
+	
+	public boolean registrarPagoCuotaSemestral(Cuota c, String fecha_pago, double monto_total ) { //UNICA CUOTA 
+		int nroRecibo = DAOReciboPago.cargarReciboPago(c, fecha_pago, monto_total);
+		boolean retorno = DAOCuota.pagarCuota(c, nroRecibo);
+		return retorno;
+	}
+	
+	
+	public int generarNumeroRecibo() {
+		int retorno =0;
+		int ultimoID = DAOReciboPago.recupearUltimoNID();
+		retorno = ultimoID +1;
+		return retorno; 
+	}
+	
+	public int obtenerUltimoNIDReciboPago() {
+		int retorno = DAOReciboPago.recupearUltimoNID();
+		return retorno; 
 	}
 
 }
