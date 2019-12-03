@@ -433,7 +433,6 @@ public class PantallaRegistrarPago {
 						flag = false;
 					}
 
-
 					if(flag==false) {
 
 						JOptionPane.showMessageDialog(null, "Falta cancelar cuota anteriores.", "Error", JOptionPane.WARNING_MESSAGE);
