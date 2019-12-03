@@ -41,6 +41,7 @@ public class PantallaRegistrarPago2 {
 		lblMontoTotalAPagar.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblMontoTotalAPagar.setBounds(71, 72, 180, 33);
 		marco1.getContentPane().add(lblMontoTotalAPagar);
+	
 
 		JLabel lblMontoAbonado = new JLabel("Monto abonado");
 		lblMontoAbonado.setFont(new Font("Serif", Font.PLAIN, 18));
@@ -54,6 +55,7 @@ public class PantallaRegistrarPago2 {
 		textMontoAPagar.setBounds(263, 80, 196, 23);
 		marco1.getContentPane().add(textMontoAPagar);
 		textMontoAPagar.setColumns(10);
+		textMontoAPagar.setText(Double.toString(montoTotal));
 
 		textMontoAbonado = new JTextField();
 		textMontoAbonado.setColumns(10);
