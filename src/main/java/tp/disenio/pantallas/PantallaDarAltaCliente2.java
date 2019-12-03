@@ -62,15 +62,13 @@ public class PantallaDarAltaCliente2 {
 		btnCancelar.setFont(new Font("Serif", Font.BOLD, 12));
 		btnCancelar.setBounds(541, 327, 143, 33);
 		ActionListener cancel = e -> {
-			GestorPantallas.PantallaPrincipal(); // si cancelo vuelvo a la pantalla de MENU
+			GestorPantallas.PantallaPrincipal();
 			GestorDB gdb = GestorDB.getInstance();
 			gdb.cerrarConexion();
 			marco1.dispose();
 		};
 		btnCancelar.addActionListener(cancel);
 		marco1.getContentPane().add(btnCancelar);
-
-
 
 		JButton btnAceptar = new JButton("ACEPTAR");
 		btnAceptar.setFont(new Font("Serif", Font.BOLD, 12));
@@ -86,7 +84,6 @@ public class PantallaDarAltaCliente2 {
 				GestorPantallas.PantallaDarAltaPoliza(cliente, null, null,null, null);
 				GestorDB gdb = GestorDB.getInstance();
 				gdb.cerrarConexion();
-				//ACA FALTA AGREGAR QUE VUELVA A LA PANTALLA ALTA POLIZA A DONDE FUE LLAMADO
 				marco1.dispose();
 			}else {
 				JOptionPane.showMessageDialog(null, "ERROR CRITICO, no se pudo guardar el cliente.");

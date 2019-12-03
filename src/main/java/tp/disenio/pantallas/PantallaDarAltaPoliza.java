@@ -93,7 +93,7 @@ public class PantallaDarAltaPoliza {
 	private static JTextField motorTexto;
 	private static JTextField chasisText;
 	private static JTextField patenteText;
-	private static JTextField textNroCliente;
+	private static JFormattedTextField textNroCliente;
 	private static JTextField textNroDoc;
 	private static JTextField textNombre;
 	private static JTable table;
@@ -907,7 +907,16 @@ public class PantallaDarAltaPoliza {
 		// -----------------------------------------------------------------
 
 		// ------------------- CAMPOS DE TEXTO -----------------------------
-		textNroCliente = new JTextField();
+
+		MaskFormatter mascaraNCLIENTE = null;
+		try {
+			mascaraNCLIENTE = new MaskFormatter("##-########");
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
+		mascaraNCLIENTE.setPlaceholderCharacter('_');
+		textNroCliente = new JFormattedTextField(mascaraNCLIENTE);
 		textNroCliente.setBounds(161, 43, 196, 20);
 		marco1.getContentPane().add(textNroCliente);
 		textNroCliente.setColumns(10);
