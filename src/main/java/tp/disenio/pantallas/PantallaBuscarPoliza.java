@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -16,6 +17,9 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import tp.disenio.clases.Poliza;
+import tp.disenio.clases.Semestral;
+import tp.disenio.clases.Cuota;
+import tp.disenio.clases.Mensual;
 import tp.disenio.gestores.GestorPantallas;
 import tp.disenio.gestores.GestorPoliza;
 
@@ -102,7 +106,7 @@ public class PantallaBuscarPoliza {
 				}
 				if (encontrada ) {
 					poliza_encontrada = gp.buscarPoliza(textFieldNPoliza.getText());
-					Object[][] listaMuestra = new Object[1][6];
+					Object[][] listaMuestra = new Object[1][7];
 
 					listaMuestra[0][0] = poliza_encontrada.getNroPoliza();
 					listaMuestra[0][1] = poliza_encontrada.getCliente().getNroCliente();
@@ -110,7 +114,42 @@ public class PantallaBuscarPoliza {
 					listaMuestra[0][3] = poliza_encontrada.getCliente().getNombre();
 					listaMuestra[0][4] = poliza_encontrada.getCliente().getTipoDocumento();
 					listaMuestra[0][5] = poliza_encontrada.getCliente().getDocumento();
-					// listaMuestra[0][6] = NO SE COMO MOSTRAR ULTIMO PAGO
+					if (poliza_encontrada.getForma_pago().getNombre().equals("MENSUAL")) {
+						ArrayList<Cuota> cuotas = new ArrayList<>();
+						cuotas = ((Mensual)poliza_encontrada.getForma_pago()).getCuotas();
+						boolean flag = true;
+						int i =0;
+						while (flag) {
+							if (!(cuotas.get(0).isPagada())) {
+								listaMuestra[0][6] = "aun no se han registrado pagos";
+								flag = false;
+							}
+							
+							else if (cuotas.get(i).isPagada()) {
+								i++;
+							}
+							else {
+								i -=1;
+								listaMuestra[0][6] = cuotas.get(i).getFecha_vencimiento();
+								flag = false;
+							}
+						}
+						
+					}
+					else {
+					
+							Cuota c = ((Semestral) poliza_encontrada.getForma_pago()).getCuota1();
+							if (c.isPagada()) {
+								listaMuestra[0][6] = c.getFecha_vencimiento();
+							}
+							else {
+								listaMuestra[0][6] = "aun no se han registrado pagos";
+							}
+							
+						
+						
+					}
+					
 
 
 					DefaultTableModel model = new DefaultTableModel(listaMuestra,new String[] { "Nro. Poliza", "Nro. Cliente", "Apellido", "Nombre", "Tipo documento", "Nro. Documento", "Ultimo pago"}) {
