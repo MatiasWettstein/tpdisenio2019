@@ -18,7 +18,7 @@ public class PantallaPrincipal {
 	public static void start() {
 
 		// -------- MARCO ----------
-		final Marco marco1 = new Marco(1200,600,"EL ASEGURADO - MENU");
+		final Marco marco1 = new Marco(900,580,"EL ASEGURADO - MENU");
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(new Color (0, 128, 128));
 		marco1.setLocationRelativeTo(null);

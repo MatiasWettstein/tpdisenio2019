@@ -2,25 +2,36 @@ package tp.disenio.pantallas;
 
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
+import tp.disenio.DTO.CuotaDTO;
+import tp.disenio.DTO.PolizaDTO;
+import tp.disenio.clases.Cuota;
+import tp.disenio.clases.Semestral;
+import tp.disenio.gestores.GestorCobro;
 import tp.disenio.gestores.GestorDB;
 import tp.disenio.gestores.GestorPantallas;
 
 public class PantallaRegistrarPago2 {
-	private JTextField textMontoAPagar;
-	private JTextField textMontoAbonado;
+	private static JTextField textMontoAPagar;
+	private static JTextField textMontoAbonado;
 
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public void start () {
+	public static void start (ArrayList<CuotaDTO> cuotas, CuotaDTO c, double montoTotal) {
 		final Marco marco1 = new Marco(700,600,"REGISTRAR PAGO POLIZA");
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(new Color (192, 192, 192));
@@ -64,12 +75,43 @@ public class PantallaRegistrarPago2 {
 		
 		// ---------------------------------------
 		// ------------ BOTONES ------------------
+		GestorCobro gc = GestorCobro.getInstance();
+		String fechaPago = new SimpleDateFormat("dd-MM-yyyy").format(new Date());
 		JButton btnAceptar = new JButton("ACEPTAR");
 		btnAceptar.setFont(new Font("Serif", Font.BOLD, 12));
 		btnAceptar.setBounds(383, 493, 143, 33);
 		marco1.getContentPane().add(btnAceptar);
-		//CUANDO DAN ACEPTAR HAY QUE CALCULAR EL VUELTO Y MOSTRARLO POR UN OPTION PANE 
+		ActionListener accionaceptar = e ->{	//CUANDO DAN ACEPTAR HAY QUE CALCULAR EL VUELTO Y MOSTRARLO POR UN OPTION PANE 
+			double montoAbonado = Double.parseDouble(textMontoAbonado.getText());
+			double vuelto = 0;
+			if(montoAbonado<montoTotal) {
+				JOptionPane.showMessageDialog(null, "El monto abonado es menor al monto a pagar, reingrese");
+			}
+			else {
+				vuelto = montoAbonado-montoTotal;
+				JOptionPane.showMessageDialog(null, "El vuelto del cliente es: " + vuelto);
+				if(cuotas.isEmpty()) {//si es de forma semestral solo tengo una cuota que pagar 
+					boolean flag = gc.registrarPagoCuotaSemestral(c, fechaPago, montoTotal);
+					if (flag ) {
+						JOptionPane.showMessageDialog(null, "Pago registrado con éxito");
+					}
+				}
+				else { //si es de forma mensual tengo que actualizar todas las cutoas 
+					boolean flag = gc.registrarPagoCuotaMensual(cuotas, fechaPago, montoTotal);
+					if (flag ) {
+						JOptionPane.showMessageDialog(null, "Pago registrado con éxito");
+					}
+					
+				}
+				
+				
+			}
+			
+		};
+		btnAceptar.addActionListener(accionaceptar);
 		
+		
+	
 		
 		
 		JButton btnCancelar = new JButton("CANCELAR");

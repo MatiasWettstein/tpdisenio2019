@@ -1,7 +1,11 @@
 package tp.disenio.gestores;
 
+import java.util.ArrayList;
+
 import tp.disenio.DAO.DAOCuota;
 import tp.disenio.DAO.DAOReciboPago;
+import tp.disenio.DTO.CuotaDTO;
+import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.clases.Cuota;
 import tp.disenio.clases.SubsistemaFinanciero;
 
@@ -54,8 +58,8 @@ public class GestorCobro {
 		
 	}
 	
-	public boolean registrarPagoCuotaSemestral(Cuota c, String fecha_pago, double monto_total ) { //UNICA CUOTA 
-		int nroRecibo = DAOReciboPago.cargarReciboPago(c, fecha_pago, monto_total);
+	public boolean registrarPagoCuotaSemestral(CuotaDTO c, String fecha_pago, double monto_total) { //UNICA CUOTA 
+		int nroRecibo = DAOReciboPago.cargarReciboPago(fecha_pago, monto_total);
 		boolean retorno = DAOCuota.pagarCuota(c, nroRecibo);
 		return retorno;
 	}
@@ -71,6 +75,12 @@ public class GestorCobro {
 	public int obtenerUltimoNIDReciboPago() {
 		int retorno = DAOReciboPago.recupearUltimoNID();
 		return retorno; 
+	}
+
+	public boolean registrarPagoCuotaMensual(ArrayList<CuotaDTO> cuotas, String fechaPago, Double montoTotal) {
+		int nroRecibo = DAOReciboPago.cargarReciboPago(fechaPago, montoTotal);
+		boolean retorno = DAOCuota.pagarCuotas(cuotas, nroRecibo);
+		return retorno;
 	}
 
 }

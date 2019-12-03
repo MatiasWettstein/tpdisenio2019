@@ -2,7 +2,7 @@ package tp.disenio.DTO;
 
 public class PolizaDTO {
 
-	private int nroPoliza; //
+	private long nroPoliza; //
 	private String inicio_vigencia;//
 	private String fin_vigencia; //
 	private String estado_poliza;//
@@ -60,10 +60,10 @@ public class PolizaDTO {
 	public void setDispRastreo(Boolean dispRastreo) {
 		DispRastreo = dispRastreo;
 	}
-	public int getNroPoliza() {
+	public long getNroPoliza() {
 		return nroPoliza;
 	}
-	public void setNroPoliza(int nroPoliza) {
+	public void setNroPoliza(long nroPoliza) {
 		this.nroPoliza = nroPoliza;
 	}
 	public String getInicio_vigencia() {

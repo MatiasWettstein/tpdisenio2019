@@ -14,7 +14,7 @@ import tp.disenio.gestores.GestorDB;
 
 public class DAOReciboPago {
 
-	public static int cargarReciboPago(Cuota c, String fechaPago, Double montoTotal) {
+	public static int cargarReciboPago(String fechaPago, Double montoTotal) {
 		int retorno = 0; 
 		GestorDB gdb = GestorDB.getInstance();
 		GestorCobro gc = GestorCobro.getInstance();

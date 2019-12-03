@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import tp.disenio.DTO.CuotaDTO;
+import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.clases.Cuota;
 import tp.disenio.clases.Mensual;
 import tp.disenio.clases.Poliza;
@@ -179,7 +181,7 @@ public class DAOCuota {
 	}
 
 	
-	public static boolean pagarCuota(Cuota c, int nroRecibo) {
+	public static boolean pagarCuota(CuotaDTO c, int nroRecibo) { //ACTUALIZA EL ESTADO DE LA CUOTA 
 		boolean retorno = false; 
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = gdb.conec;
@@ -195,21 +197,52 @@ public class DAOCuota {
 			 int id_cobro
 			 */
 
-
-				Semestral aux_sem = new Semestral();
-				aux_sem = (Semestral) p.getForma_pago();
-
-				PreparedStatement st = con.prepareStatement("INSERT INTO CUOTA VALUES (?, ?, ?, ?, ?, ?)");
-				st.setInt(1, aux_sem.getCuota1().getId_cuota()); //id_cuota
-				st.setString(2, aux_sem.getCuota1().getFecha_vencimiento()); //fech_vencimiento
-				st.setBoolean(3, aux_sem.getCuota1().isPagada()); //pagada
-				st.setDouble(4, aux_sem.getCuota1().getMonto());//monto
-				st.setLong(5, p.getNroPoliza());//nro poliza
-				st.setNull(6, java.sql.Types.INTEGER); //id_cobro
+				PreparedStatement st = con.prepareStatement("UPDATE CUOTA SET pagada = ?, id_cobro = ? WHERE id_cuota = ?");
+				st.setBoolean(1, true); //pagada
+				st.setInt(2, nroRecibo); //id_cobro
+				st.setInt(3, c.getId_cuota()); //id_cuota
 				st.executeUpdate();
 				st.close();
 	
 
+
+
+			retorno = true;
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return retorno;
+	}
+	
+	
+
+	public static boolean pagarCuotas(ArrayList<CuotaDTO> cuotas, int nroRecibo) {
+		boolean retorno = false; 
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
+		
+
+		try {
+			/*
+			 int id_cuota 1
+			 String vencimiento
+			 boolean pagada
+			 double monto
+			 int nro_poliza
+			 int id_cobro
+			 */
+			for (CuotaDTO c: cuotas) {
+
+				PreparedStatement st = con.prepareStatement("UPDATE CUOTA SET pagada = ?, id_cobro = ? WHERE id_cuota = ?");
+				st.setBoolean(1, true); //pagada
+				st.setInt(2, nroRecibo); //id_cobro
+				st.setInt(3, c.getId_cuota()); //id_cuota
+				st.executeUpdate();
+				st.close();
+	
+			}
 
 
 			retorno = true;

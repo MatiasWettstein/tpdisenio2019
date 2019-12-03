@@ -3,10 +3,12 @@ package tp.disenio.gestores;
 import java.util.ArrayList;
 
 import tp.disenio.DTO.ClienteDTO;
+import tp.disenio.DTO.CuotaDTO;
 import tp.disenio.DTO.DomicilioRiesgoDTO;
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.DTO.VehiculoDTO;
+import tp.disenio.clases.Cuota;
 import tp.disenio.clases.Poliza;
 import tp.disenio.pantallas.PantallaBuscarPoliza;
 import tp.disenio.pantallas.PantallaDarAltaCliente;
@@ -19,6 +21,7 @@ import tp.disenio.pantallas.PantallaInicio;
 import tp.disenio.pantallas.PantallaLogin;
 import tp.disenio.pantallas.PantallaPrincipal;
 import tp.disenio.pantallas.PantallaRegistrarPago;
+import tp.disenio.pantallas.PantallaRegistrarPago2;
 
 public class GestorPantallas {
 
@@ -78,6 +81,10 @@ public class GestorPantallas {
 	public static void buscarPoliza() {
 		PantallaBuscarPoliza.start();
 		
+	}
+	
+	public static void registrarPago2(ArrayList<CuotaDTO> cuotas, CuotaDTO c, double montoTotal) {
+		PantallaRegistrarPago2.start(cuotas, c, montoTotal);
 	}
 	
 	
