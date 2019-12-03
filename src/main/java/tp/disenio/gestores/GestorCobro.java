@@ -82,5 +82,13 @@ public class GestorCobro {
 		boolean retorno = DAOCuota.pagarCuotas(cuotas, nroRecibo);
 		return retorno;
 	}
+	
+	public double calcularMontoTotal(ArrayList<Double> montos) {
+		double retorno = 0;
+		for (Double d: montos) {
+			retorno +=d;
+		}
+		return retorno; 
+	}
 
 }

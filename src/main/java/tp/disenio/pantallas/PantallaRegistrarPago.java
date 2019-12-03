@@ -32,10 +32,10 @@ public class PantallaRegistrarPago {
 	 * @wbp.parser.entryPoint
 	 */
 
-	private static JTable tablaPoliza = new JTable();
-
 	static double  montoaPagar_semestral;
-
+	static double  montoaPagar_mensual;
+	
+	private static JTable tablaPoliza = new JTable();
 	static DefaultTableModel modelPoliza =new DefaultTableModel(
 			new Object[][] {},
 			new String[] {
@@ -85,14 +85,12 @@ public class PantallaRegistrarPago {
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(new Color (192, 192, 192));
 		marco1.setLocationRelativeTo(null);
-		marco1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		marco1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		JScrollPane scrollPanePoliza = new JScrollPane();
 		scrollPanePoliza.setBounds(25, 62, 1267, 43);
 		marco1.getContentPane().add(scrollPanePoliza);
-
-
-
+		
 		JScrollPane scrollPaneCuotas = new JScrollPane();
 		scrollPaneCuotas.setBounds(25, 365, 977, 150);
 		marco1.getContentPane().add(scrollPaneCuotas);
@@ -245,9 +243,8 @@ public class PantallaRegistrarPago {
 		ahora.format(fmt1);
 		Object[][] listaMuestraMensual = new Object[6][6];
 		Object[][] listaMuestraSemestral = new Object[1][6];
-
-
-
+		ArrayList<Double> montosActualizadosCuotas = new ArrayList<>();
+		
 
 		if (p == null) {
 
@@ -297,17 +294,22 @@ public class PantallaRegistrarPago {
 
 						if (ahora.isBefore(vencimiento)) { //si la fecha de vencimiento es posterior a la actual
 							listaMuestraMensual[fila][3] = gc.aplicarDescuento((float) c.getMonto());
+							montosActualizadosCuotas.add((double) gc.aplicarDescuento((float) c.getMonto()));
 
 						}else {
 
 							if (periodo.getYears()>0) { //si está vencida por un año o mas
 								listaMuestraMensual[fila][3] =  gc.aplicarInteres((float) c.getMonto());
+								montosActualizadosCuotas.add((double) gc.aplicarInteres((float) c.getMonto()));
+								
 							}
 							else if (periodo.getMonths()>0 || periodo.getMonths()<12) {//Vencida por mes
 								listaMuestraMensual[fila][3] = gc.aplicarInteres((float) c.getMonto());
+								montosActualizadosCuotas.add((double) gc.aplicarInteres((float) c.getMonto()));
 							}
 							else if (periodo.getDays()<31) {//Vencida por dia
 								listaMuestraMensual[fila][3] =  gc.aplicarInteres((float) c.getMonto());
+								montosActualizadosCuotas.add((double) gc.aplicarInteres((float) c.getMonto()));
 							}
 						}
 
@@ -421,17 +423,16 @@ public class PantallaRegistrarPago {
 		marco1.getContentPane().add(aceptar);
 		ActionListener accionaceptar = e ->{
 			if(p.getForma_pago().getNombre().equals("MENSUAL")) {
+				ArrayList<Cuota> listaCuotas=((Mensual)p.getForma_pago()).getCuotas();
 				int seleccionadas [];
 				seleccionadas = tablaCuotas.getSelectedRows();
 				if (seleccionadas.length > 0) {
-
-					ArrayList<Cuota> lista=((Mensual)p.getForma_pago()).getCuotas();
 					boolean flag=true;
-					int tam = lista.size();
+					int tam = listaCuotas.size();
 
-					for (int i =0 ; i<tam && flag ; i++) {
+					for (int i =0 ; i<tam && flag ; i++) { // VALIDACION CUOTA 
 
-						if(!lista.get(i).isPagada() && i<seleccionadas[i]) {
+						if(!listaCuotas.get(i).isPagada() && i<seleccionadas[i]) {
 							flag = false;
 						}
 
@@ -442,18 +443,29 @@ public class PantallaRegistrarPago {
 
 					} else {
 
-						//poner el registrar pago acá adentro
-
-					}
-
-					//FALTA HACER LA VALIDACION DEL PASO 5 del caso de uso
-
-					/*EL SISTEMA CALCULA LOS IMPORTES PARCIALES Y TOTALES Y MUESTRA LOS RESULTADOS POR PANTALLA
+						int cuotas_seleccionadas [];
+						cuotas_seleccionadas = tablaCuotas.getSelectedRows();
+						ArrayList<CuotaDTO> cuotasAPagar = new ArrayList<>();
+						if (cuotas_seleccionadas.length > 0) {
+							int tamSeleccionadas = cuotas_seleccionadas.length;
+							for (int i =0; i<tamSeleccionadas; i++) { //ARMO EL ARRAYLIST DE LAS CUOTAS A PAGAR 
+								CuotaDTO cuotaDTO = new CuotaDTO();
+								Cuota cuota = new Cuota();
+								cuota = listaCuotas.get(i);
+								cuotaDTO.setId_cuota(cuota.getId_cuota());
+								cuotasAPagar.add(cuotaDTO);
+							}
+						}
+						montoaPagar_mensual = gc.calcularMontoTotal(montosActualizadosCuotas);
+						GestorPantallas.registrarPago2(p, cuotasAPagar, null, montoaPagar_mensual);
+						
+						/*EL SISTEMA CALCULA LOS IMPORTES PARCIALES Y TOTALES Y MUESTRA LOS RESULTADOS POR PANTALLA
 						A LA PANTALLA 2 hay que pasarle:
 						-ArrayList con las cuotas que se quieren pagar
 						-Cuota sola si es la que se quiere pagar
 						-el calculo del monto total a pagar
-					 */
+					 */	
+					}
 				}
 			}
 			else { //si es de forma semestral solo tengo una cuota que pagar
@@ -464,8 +476,6 @@ public class PantallaRegistrarPago {
 				cuota.setId_cuota(((Semestral)p.getForma_pago()).getCuota1().getId_cuota());
 
 				GestorPantallas.registrarPago2(p, null, cuota, montoaPagar_semestral);
-
-
 			}
 		};
 		aceptar.addActionListener(accionaceptar);
