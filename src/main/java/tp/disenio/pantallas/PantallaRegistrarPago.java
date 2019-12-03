@@ -34,7 +34,7 @@ public class PantallaRegistrarPago {
 
 	static double  montoaPagar_semestral;
 	static double  montoaPagar_mensual;
-	
+
 	private static JTable tablaPoliza = new JTable();
 	static DefaultTableModel modelPoliza =new DefaultTableModel(
 			new Object[][] {},
@@ -90,7 +90,7 @@ public class PantallaRegistrarPago {
 		JScrollPane scrollPanePoliza = new JScrollPane();
 		scrollPanePoliza.setBounds(25, 62, 1267, 43);
 		marco1.getContentPane().add(scrollPanePoliza);
-		
+
 		JScrollPane scrollPaneCuotas = new JScrollPane();
 		scrollPaneCuotas.setBounds(25, 365, 977, 150);
 		marco1.getContentPane().add(scrollPaneCuotas);
@@ -244,7 +244,7 @@ public class PantallaRegistrarPago {
 		Object[][] listaMuestraMensual = new Object[6][6];
 		Object[][] listaMuestraSemestral = new Object[1][6];
 		ArrayList<Double> montosActualizadosCuotas = new ArrayList<>();
-		
+
 
 		if (p == null) {
 
@@ -301,7 +301,7 @@ public class PantallaRegistrarPago {
 							if (periodo.getYears()>0) { //si está vencida por un año o mas
 								listaMuestraMensual[fila][3] =  gc.aplicarInteres((float) c.getMonto());
 								montosActualizadosCuotas.add((double) gc.aplicarInteres((float) c.getMonto()));
-								
+
 							}
 							else if (periodo.getMonths()>0 || periodo.getMonths()<12) {//Vencida por mes
 								listaMuestraMensual[fila][3] = gc.aplicarInteres((float) c.getMonto());
@@ -428,15 +428,12 @@ public class PantallaRegistrarPago {
 				seleccionadas = tablaCuotas.getSelectedRows();
 				if (seleccionadas.length > 0) {
 					boolean flag=true;
-					int tam = listaCuotas.size();
 
-					for (int i =0 ; i<tam && flag ; i++) { // VALIDACION CUOTA 
-
-						if(!listaCuotas.get(i).isPagada() && i<seleccionadas[i]) {
-							flag = false;
-						}
-
+					if(seleccionadas[0]>0) {
+						flag = false;
 					}
+
+
 					if(flag==false) {
 
 						JOptionPane.showMessageDialog(null, "Falta cancelar cuota anteriores.", "Error", JOptionPane.WARNING_MESSAGE);
@@ -448,7 +445,7 @@ public class PantallaRegistrarPago {
 						ArrayList<CuotaDTO> cuotasAPagar = new ArrayList<>();
 						if (cuotas_seleccionadas.length > 0) {
 							int tamSeleccionadas = cuotas_seleccionadas.length;
-							for (int i =0; i<tamSeleccionadas; i++) { //ARMO EL ARRAYLIST DE LAS CUOTAS A PAGAR 
+							for (int i =0; i<tamSeleccionadas; i++) { //ARMO EL ARRAYLIST DE LAS CUOTAS A PAGAR
 								CuotaDTO cuotaDTO = new CuotaDTO();
 								Cuota cuota = new Cuota();
 								cuota = listaCuotas.get(i);
@@ -458,13 +455,13 @@ public class PantallaRegistrarPago {
 						}
 						montoaPagar_mensual = gc.calcularMontoTotal(montosActualizadosCuotas);
 						GestorPantallas.registrarPago2(p, cuotasAPagar, null, montoaPagar_mensual);
-						
+
 						/*EL SISTEMA CALCULA LOS IMPORTES PARCIALES Y TOTALES Y MUESTRA LOS RESULTADOS POR PANTALLA
 						A LA PANTALLA 2 hay que pasarle:
 						-ArrayList con las cuotas que se quieren pagar
 						-Cuota sola si es la que se quiere pagar
 						-el calculo del monto total a pagar
-					 */	
+						 */
 					}
 				}
 			}
