@@ -22,7 +22,15 @@ public class PantallaPrincipal {
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(new Color (0, 128, 128));
 		marco1.setLocationRelativeTo(null);
-		marco1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		marco1.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		marco1.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent evt) {
+				close();
+			}
+		});
+
 		// ------------------------
 
 		// ------ BOTONES -------
@@ -145,4 +153,14 @@ public class PantallaPrincipal {
 
 		// ------------------------------
 	}
+
+	protected static void close() {
+		// TODO Auto-generated method stub
+		if (JOptionPane.showConfirmDialog(null, "¿Desea realmente salir del sistema?",
+				"Salir del sistema", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
+
+			System.exit(0);
+	}
+
+
 }

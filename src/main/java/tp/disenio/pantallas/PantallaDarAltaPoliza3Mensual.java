@@ -3,7 +3,6 @@ package tp.disenio.pantallas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
@@ -214,6 +213,7 @@ public class PantallaDarAltaPoliza3Mensual {
 		ArrayList<CuotaDTO> listacuotas = gp.obtenerListaCuotas(premiodto, c, p);
 
 		DecimalFormat dec = new DecimalFormat("#0.00");
+
 		JTable tableCuotas = new JTable();
 		tableCuotas.setModel(new DefaultTableModel(
 				new Object[][] {
@@ -271,10 +271,10 @@ public class PantallaDarAltaPoliza3Mensual {
 			if (flag) {
 				JOptionPane.showMessageDialog(null, "Poliza generada con éxito");
 				//cierro la conexión a la base de datos
-			GestorDB gdb = GestorDB.getInstance();
-			gdb.cerrarConexion();
-			
-				
+				GestorDB gdb = GestorDB.getInstance();
+				gdb.cerrarConexion();
+
+
 
 			} else {
 				JOptionPane.showMessageDialog(null, "ERROR");
@@ -291,11 +291,11 @@ public class PantallaDarAltaPoliza3Mensual {
 		ActionListener cancel = e -> {
 
 			GestorPantallas.PantallaPrincipal();
-			
+
 			GestorDB gdb = GestorDB.getInstance();
 			gdb.cerrarConexion();
 			marco1.dispose();
-			
+
 
 		};
 		btnCancelar.setBounds(1174, 657, 143, 33);
