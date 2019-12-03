@@ -93,12 +93,16 @@ public class PantallaRegistrarPago2 {
 					boolean flag = gc.registrarPagoCuotaSemestral(c, fechaPago, montoTotal);
 					if (flag ) {
 						JOptionPane.showMessageDialog(null, "Pago registrado con éxito");
+						GestorDB gdb = GestorDB.getInstance();
+						gdb.cerrarConexion();
 					}
 				}
 				else { //si es de forma mensual tengo que actualizar todas las cutoas
 					boolean flag = gc.registrarPagoCuotaMensual(cuotas, fechaPago, montoTotal);
 					if (flag ) {
 						JOptionPane.showMessageDialog(null, "Pago registrado con éxito");
+						GestorDB gdb = GestorDB.getInstance();
+						gdb.cerrarConexion();
 					}
 
 				}
