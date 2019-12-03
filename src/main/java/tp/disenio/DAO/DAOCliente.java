@@ -25,15 +25,15 @@ public class DAOCliente {
 		ResultSet provrs = null;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = gdb.conec;
-		
+
 		try {
 			String Consulta = "select * from cliente";
 
-			if(!NroCliente.isEmpty() || TipoDoc != "SELECCIONE_TIPO_DOC" || !NroDoc.isEmpty() || !Nombre.isEmpty() || !Apellido.isEmpty()) {
+			if(!NroCliente.equals("__-________") || !TipoDoc.equals("SELECCIONE_TIPO_DOC") || !NroDoc.isEmpty() || !Nombre.isEmpty() || !Apellido.isEmpty()) {
 
 				Consulta += " where";
 
-				if(!NroCliente.isEmpty()) {
+				if(!NroCliente.equals("__-________")) {
 					String auxnc = "'"+ NroCliente + "'";
 					Consulta += " nro_cliente = " + auxnc ;
 				}
@@ -52,10 +52,10 @@ public class DAOCliente {
 					String auxnom = "'"+ Nombre + "'";
 					Consulta += " and nombre = " + auxnom ;
 				}
-				if(TipoDoc != "SELECCIONE_TIPO_DOC" && Consulta.equalsIgnoreCase("select * from cliente where")) {
+				if(!TipoDoc.equals("SELECCIONE_TIPO_DOC") && Consulta.equalsIgnoreCase("select * from cliente where")) {
 					String auxtd = "'"+ TipoDoc + "'";
 					Consulta += " tipo_doc = " + auxtd ;
-				}else if(TipoDoc != "SELECCIONE_TIPO_DOC" && !Consulta.equalsIgnoreCase("select * from cliente where")) {
+				}else if(!TipoDoc.equals("SELECCIONE_TIPO_DOC") && !Consulta.equalsIgnoreCase("select * from cliente where")) {
 					String auxtd = "'"+ TipoDoc + "'";
 					Consulta += " and tipo_doc = " + auxtd ;
 				}
@@ -129,7 +129,7 @@ public class DAOCliente {
 			e.printStackTrace();
 		}
 
-	
+
 		return Clientes;
 
 
@@ -141,7 +141,7 @@ public class DAOCliente {
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = gdb.conec;
 
-	
+
 		try {
 
 			int idDire = DAODireccion.guardarDireccion(c.getDireccion()); //me devuelve la id de la direccion asi lo asocio al cliente
@@ -191,7 +191,7 @@ public class DAOCliente {
 			e.printStackTrace();
 		}
 
-	
+
 		return retorno;
 
 	}
@@ -204,7 +204,7 @@ public class DAOCliente {
 		ResultSet rs = null;
 
 
-	
+
 		try {
 			String Consulta = "select max(nro_cliente) from cliente";
 			PreparedStatement st = con.prepareStatement(Consulta);
@@ -229,7 +229,7 @@ public class DAOCliente {
 		Connection con = gdb.conec;
 		ResultSet rs = null;
 		int retorno=0;
-		
+
 		try {
 
 			String Consulta = "SELECT DISTINCT vehiculo FROM poliza where cliente = " + "'" + cliente.getNroCliente() + "'";
@@ -244,7 +244,7 @@ public class DAOCliente {
 			e.printStackTrace();
 		}
 
-		
+
 		return retorno;
 	}
 
@@ -255,7 +255,7 @@ public class DAOCliente {
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = gdb.conec;
 
-		
+
 		try {
 
 			String aux = "'" + tipoD+ "'";
