@@ -8,7 +8,6 @@ import tp.disenio.DTO.DomicilioRiesgoDTO;
 import tp.disenio.DTO.HijoDTO;
 import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.DTO.VehiculoDTO;
-import tp.disenio.clases.Cuota;
 import tp.disenio.clases.Poliza;
 import tp.disenio.pantallas.PantallaBuscarPoliza;
 import tp.disenio.pantallas.PantallaDarAltaCliente;
@@ -74,20 +73,20 @@ public class GestorPantallas {
 		PantallaDarAltaPoliza.buscarcliente();
 	}
 
-	public static void registrarPago(Poliza p) {
-		PantallaRegistrarPago.start(p);
+	public static void registrarPago(Poliza p, ArrayList<CuotaDTO> cuotas, CuotaDTO c, double montoTotal) {
+		PantallaRegistrarPago.start(p, cuotas, c, montoTotal);
 	}
 
 	public static void buscarPoliza() {
 		PantallaBuscarPoliza.start();
-		
+
 	}
-	
-	public static void registrarPago2(ArrayList<CuotaDTO> cuotas, CuotaDTO c, double montoTotal) {
-		PantallaRegistrarPago2.start(cuotas, c, montoTotal);
+
+	public static void registrarPago2(Poliza p, ArrayList<CuotaDTO> cuotas, CuotaDTO c, double montoTotal) {
+		PantallaRegistrarPago2.start(p, cuotas, c, montoTotal);
 	}
-	
-	
+
+
 
 
 

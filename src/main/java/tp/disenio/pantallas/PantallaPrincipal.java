@@ -71,7 +71,7 @@ public class PantallaPrincipal {
 		registrarP.setFont(new Font("Serif", Font.BOLD, 12));
 		registrarP.setBounds(536, 180, 250, 50);
 		ActionListener rpagoPoliza = e -> {
-			GestorPantallas.registrarPago(null);
+			GestorPantallas.registrarPago(null,null,null,-1);
 		};
 		registrarP.addActionListener(rpagoPoliza);
 
@@ -109,7 +109,7 @@ public class PantallaPrincipal {
 		JButton informe = new JButton("GENERAR INFORME DE RESULTADO MENSUAL");
 		informe.setFont(new Font("Serif", Font.BOLD, 12));
 		informe.setBounds(436, 366, 350, 50);
-		
+
 		ActionListener informeRM = e -> {
 			JOptionPane.showMessageDialog(null, "Proximamente. \nEn mantenimiento");
 		};

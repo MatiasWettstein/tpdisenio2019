@@ -6,7 +6,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -17,9 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import tp.disenio.DTO.CuotaDTO;
-import tp.disenio.DTO.PolizaDTO;
-import tp.disenio.clases.Cuota;
-import tp.disenio.clases.Semestral;
+import tp.disenio.clases.Poliza;
 import tp.disenio.gestores.GestorCobro;
 import tp.disenio.gestores.GestorDB;
 import tp.disenio.gestores.GestorPantallas;
@@ -31,20 +28,20 @@ public class PantallaRegistrarPago2 {
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public static void start (ArrayList<CuotaDTO> cuotas, CuotaDTO c, double montoTotal) {
+	public static void start (Poliza p, ArrayList<CuotaDTO> cuotas, CuotaDTO c, double montoTotal) {
 		final Marco marco1 = new Marco(700,600,"REGISTRAR PAGO POLIZA");
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(new Color (192, 192, 192));
 		marco1.setLocationRelativeTo(null);
 		marco1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
-		
+
 		// ------------ ETIQUETAS ----------------
 		JLabel lblMontoTotalAPagar = new JLabel("Monto total a pagar");
 		lblMontoTotalAPagar.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblMontoTotalAPagar.setBounds(71, 72, 180, 33);
 		marco1.getContentPane().add(lblMontoTotalAPagar);
-		
+
 		JLabel lblMontoAbonado = new JLabel("Monto abonado");
 		lblMontoAbonado.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblMontoAbonado.setBounds(71, 174, 180, 33);
@@ -57,7 +54,7 @@ public class PantallaRegistrarPago2 {
 		textMontoAPagar.setBounds(263, 80, 196, 23);
 		marco1.getContentPane().add(textMontoAPagar);
 		textMontoAPagar.setColumns(10);
-		
+
 		textMontoAbonado = new JTextField();
 		textMontoAbonado.setColumns(10);
 		textMontoAbonado.setBounds(263, 182, 196, 23);
@@ -72,7 +69,7 @@ public class PantallaRegistrarPago2 {
 			}
 		});
 		marco1.getContentPane().add(textMontoAbonado);
-		
+
 		// ---------------------------------------
 		// ------------ BOTONES ------------------
 		GestorCobro gc = GestorCobro.getInstance();
@@ -81,7 +78,7 @@ public class PantallaRegistrarPago2 {
 		btnAceptar.setFont(new Font("Serif", Font.BOLD, 12));
 		btnAceptar.setBounds(383, 493, 143, 33);
 		marco1.getContentPane().add(btnAceptar);
-		ActionListener accionaceptar = e ->{	//CUANDO DAN ACEPTAR HAY QUE CALCULAR EL VUELTO Y MOSTRARLO POR UN OPTION PANE 
+		ActionListener accionaceptar = e ->{	//CUANDO DAN ACEPTAR HAY QUE CALCULAR EL VUELTO Y MOSTRARLO POR UN OPTION PANE
 			double montoAbonado = Double.parseDouble(textMontoAbonado.getText());
 			double vuelto = 0;
 			if(montoAbonado<montoTotal) {
@@ -90,30 +87,26 @@ public class PantallaRegistrarPago2 {
 			else {
 				vuelto = montoAbonado-montoTotal;
 				JOptionPane.showMessageDialog(null, "El vuelto del cliente es: " + vuelto);
-				if(cuotas.isEmpty()) {//si es de forma semestral solo tengo una cuota que pagar 
+				if(cuotas.isEmpty()) {//si es de forma semestral solo tengo una cuota que pagar
 					boolean flag = gc.registrarPagoCuotaSemestral(c, fechaPago, montoTotal);
 					if (flag ) {
 						JOptionPane.showMessageDialog(null, "Pago registrado con éxito");
 					}
 				}
-				else { //si es de forma mensual tengo que actualizar todas las cutoas 
+				else { //si es de forma mensual tengo que actualizar todas las cutoas
 					boolean flag = gc.registrarPagoCuotaMensual(cuotas, fechaPago, montoTotal);
 					if (flag ) {
 						JOptionPane.showMessageDialog(null, "Pago registrado con éxito");
 					}
-					
+
 				}
-				
-				
+
+
 			}
-			
+
 		};
 		btnAceptar.addActionListener(accionaceptar);
-		
-		
-	
-		
-		
+
 		JButton btnCancelar = new JButton("CANCELAR");
 		btnCancelar.setFont(new Font("Serif", Font.BOLD, 12));
 		btnCancelar.setBounds(536, 493, 143, 33);
@@ -124,17 +117,25 @@ public class PantallaRegistrarPago2 {
 			marco1.dispose();
 		});
 		marco1.getContentPane().add(btnCancelar);
-		
+
 		JButton btnSeleccionarOtrasCuotas = new JButton("SELECCIONAR OTRAS CUOTAS");
 		btnSeleccionarOtrasCuotas.setFont(new Font("Serif", Font.BOLD, 12));
 		btnSeleccionarOtrasCuotas.setBounds(10, 493, 239, 33);
+
+		ActionListener accionseleccionarotra = e ->{
+
+			GestorPantallas.registrarPago(p, cuotas, c, montoTotal);
+
+		};
+
+		btnSeleccionarOtrasCuotas.addActionListener(accionseleccionarotra);
 		marco1.getContentPane().add(btnSeleccionarOtrasCuotas);
-		//TIENE QUE VOLVER A LA PANTALLA ANTERIOR Y PERMITIRLE SELECCIONAR OTRAS CUOTAS 
-		
+		//TIENE QUE VOLVER A LA PANTALLA ANTERIOR Y PERMITIRLE SELECCIONAR OTRAS CUOTAS
+
 		// ------------------------------------------
-		
-		
-		
-		
+
+
+
+
 	}
 }

@@ -78,7 +78,7 @@ public class PantallaRegistrarPago {
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public static void start (Poliza p) {
+	public static void start (Poliza p, ArrayList<CuotaDTO> cuotas, CuotaDTO c1, double montoTotal) {
 
 		// ---------- MARCO ------------
 		final Marco marco1 = new Marco(1333,730,"REGISTRAR PAGO POLIZA");
@@ -101,6 +101,21 @@ public class PantallaRegistrarPago {
 
 
 		if(p==null) {
+			modelPoliza =new DefaultTableModel(
+					new Object[][] {},
+					new String[] {
+							"Nro.Poliza", "Inicio vigencia", "Fin vigencia", "Estado poliza"
+					}
+					){
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isCellEditable(int i, int i1) {
+					return false;
+				}
+			};
+
 			tablaPoliza.setModel(modelPoliza);
 			scrollPanePoliza.setViewportView(tablaPoliza);
 		} else {
@@ -225,14 +240,37 @@ public class PantallaRegistrarPago {
 
 		////////////////////////////////////CUANDO YA BUSCO LA POLIZA
 		GestorCobro gc = GestorCobro.getInstance();
+		DateTimeFormatter fmt1 = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		LocalDate ahora = LocalDate.now();
+		ahora.format(fmt1);
 		Object[][] listaMuestraMensual = new Object[6][6];
 		Object[][] listaMuestraSemestral = new Object[1][6];
 
 
 
 
-		if (p != null) {
+		if (p == null) {
+
+			modelCuota =new DefaultTableModel(
+					new Object[][] {},
+					new String[] {
+							"Cuota", "Fecha vencimiento", "Valor original", "Valor actual"
+					}
+					){
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public boolean isCellEditable(int i, int i1) {
+					return false;
+				}
+			};
+
+
+			tablaCuotas.setModel(modelCuota);
+			scrollPaneCuotas.setViewportView(tablaCuotas);
+		}
+		else{
 			textNCliente.setText(p.getCliente().getNroCliente());
 			textNombreC.setText(p.getCliente().getNombre());
 			textApellidoC.setText(p.getCliente().getApellido());
@@ -245,7 +283,6 @@ public class PantallaRegistrarPago {
 				lista = ((Mensual)p.getForma_pago()).getCuotas();
 				int fila =0;
 				int i =1;
-				boolean sinVencer = false;
 
 				for(Cuota c : lista) {
 					if(!c.isPagada()) {
@@ -258,14 +295,10 @@ public class PantallaRegistrarPago {
 						LocalDate vencimiento = LocalDate.parse(c.getFecha_vencimiento(), fmt);
 						Period periodo = Period.between(vencimiento, ahora);
 
-						if (sinVencer) { //Si la cuota anterior no esta vencida, entonces la siguiente seria pagada por adelantado
-							listaMuestraMensual[fila][3] = gc.aplicarDescuento((float) c.getMonto());
-						}
 						if (ahora.isBefore(vencimiento)) { //si la fecha de vencimiento es posterior a la actual
 							listaMuestraMensual[fila][3] = gc.aplicarDescuento((float) c.getMonto());
 
-						}
-						else {
+						}else {
 
 							if (periodo.getYears()>0) { //si está vencida por un año o mas
 								listaMuestraMensual[fila][3] =  gc.aplicarInteres((float) c.getMonto());
@@ -275,10 +308,6 @@ public class PantallaRegistrarPago {
 							}
 							else if (periodo.getDays()<31) {//Vencida por dia
 								listaMuestraMensual[fila][3] =  gc.aplicarInteres((float) c.getMonto());
-							}
-							else {
-								sinVencer = true;
-								listaMuestraMensual[fila][3] = c.getMonto();
 							}
 						}
 
@@ -399,10 +428,10 @@ public class PantallaRegistrarPago {
 					ArrayList<Cuota> lista=((Mensual)p.getForma_pago()).getCuotas();
 					boolean flag=true;
 					int tam = lista.size();
-					for (int i =0 ; i<tam ; i++) {
+
+					for (int i =0 ; i<tam && flag ; i++) {
 
 						if(!lista.get(i).isPagada() && i<seleccionadas[i]) {
-							i=tam;
 							flag = false;
 						}
 
@@ -434,7 +463,7 @@ public class PantallaRegistrarPago {
 
 				cuota.setId_cuota(((Semestral)p.getForma_pago()).getCuota1().getId_cuota());
 
-				GestorPantallas.registrarPago2(null, cuota, montoaPagar_semestral);
+				GestorPantallas.registrarPago2(p, null, cuota, montoaPagar_semestral);
 
 
 			}

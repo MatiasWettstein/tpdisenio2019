@@ -96,34 +96,34 @@ public class PantallaBuscarPoliza {
 				JOptionPane.showMessageDialog(null, "El Nro. de poliza ingresado es inválido");
 			}
 			else {
-			Boolean encontrada = gp.polizaExiste(textFieldNPoliza.getText());
-			if (!encontrada) {
-				JOptionPane.showMessageDialog(null, "No se encontró ninguna poliza bajo ese Nro");
-			}
-			if (encontrada ) {
-			poliza_encontrada = gp.buscarPoliza(textFieldNPoliza.getText());
-			Object[][] listaMuestra = new Object[1][6];
-
-			listaMuestra[0][0] = poliza_encontrada.getNroPoliza();
-			listaMuestra[0][1] = poliza_encontrada.getCliente().getNroCliente();
-			listaMuestra[0][2] = poliza_encontrada.getCliente().getApellido();
-			listaMuestra[0][3] = poliza_encontrada.getCliente().getNombre();
-			listaMuestra[0][4] = poliza_encontrada.getCliente().getTipoDocumento();
-			listaMuestra[0][5] = poliza_encontrada.getCliente().getDocumento();
-			// listaMuestra[0][6] = NO SE COMO MOSTRAR ULTIMO PAGO
-			
-
-			DefaultTableModel model = new DefaultTableModel(listaMuestra,new String[] { "Nro. Poliza", "Nro. Cliente", "Apellido", "Nombre", "Tipo documento", "Nro. Documento", "Ultimo pago"}) {
-
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public boolean isCellEditable(int i, int i1) {
-					return false;
+				Boolean encontrada = gp.polizaExiste(textFieldNPoliza.getText());
+				if (!encontrada) {
+					JOptionPane.showMessageDialog(null, "No se encontró ninguna poliza bajo ese Nro");
 				}
-			};
-			tablaPoliza.setModel(model);
-			}
+				if (encontrada ) {
+					poliza_encontrada = gp.buscarPoliza(textFieldNPoliza.getText());
+					Object[][] listaMuestra = new Object[1][6];
+
+					listaMuestra[0][0] = poliza_encontrada.getNroPoliza();
+					listaMuestra[0][1] = poliza_encontrada.getCliente().getNroCliente();
+					listaMuestra[0][2] = poliza_encontrada.getCliente().getApellido();
+					listaMuestra[0][3] = poliza_encontrada.getCliente().getNombre();
+					listaMuestra[0][4] = poliza_encontrada.getCliente().getTipoDocumento();
+					listaMuestra[0][5] = poliza_encontrada.getCliente().getDocumento();
+					// listaMuestra[0][6] = NO SE COMO MOSTRAR ULTIMO PAGO
+
+
+					DefaultTableModel model = new DefaultTableModel(listaMuestra,new String[] { "Nro. Poliza", "Nro. Cliente", "Apellido", "Nombre", "Tipo documento", "Nro. Documento", "Ultimo pago"}) {
+
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public boolean isCellEditable(int i, int i1) {
+							return false;
+						}
+					};
+					tablaPoliza.setModel(model);
+				}
 			}
 
 		};
@@ -144,7 +144,7 @@ public class PantallaBuscarPoliza {
 			if(tablaPoliza.getSelectedRow()<0) {
 				marco1.dispose();
 			}else {
-				GestorPantallas.registrarPago(poliza_encontrada);
+				GestorPantallas.registrarPago(poliza_encontrada,null,null,-1);
 				marco1.dispose();
 			}
 		};
