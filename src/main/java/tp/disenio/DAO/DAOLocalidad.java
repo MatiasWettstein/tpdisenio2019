@@ -33,7 +33,7 @@ public class DAOLocalidad {
 				Localidad loc = new Localidad();
 				loc.setNombre(rs.getString(2));
 				loc.setId_localidad(rs.getInt("id_localidad"));
-				loc.setPorcentaje(rs.getFloat("porcentaje"));
+				loc.setPorcentaje((float) rs.getDouble("porcentaje"));
 				loc.setCodigoPostal(rs.getString("codigo_postal"));
 				loc.setProvincia(prov);
 

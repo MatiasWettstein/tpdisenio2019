@@ -200,10 +200,7 @@ public class DAOPoliza {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch(Exception e) {
-			//hacer algo
 		}
-
 		return retorno;
 	}
 
@@ -232,6 +229,33 @@ public class DAOPoliza {
 			e.printStackTrace();
 		}
 
+		return retorno;
+	}
+	
+	public static Boolean polizaExiste(String nroP) {
+
+		Boolean retorno = false;
+		ResultSet rs = null;
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
+
+		String Consulta;
+
+
+		try {
+			long nroPoliza = Long.parseLong(nroP);
+			Consulta = "select * from poliza where nro_poliza = " + nroPoliza;
+			PreparedStatement st = con.prepareStatement(Consulta);
+			rs = st.executeQuery();
+		
+			if(rs.next()==true) { //si la encuentra retorna true
+				retorno = true;
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return retorno;
 	}
 

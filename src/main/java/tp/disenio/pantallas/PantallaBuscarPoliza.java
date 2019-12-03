@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -74,7 +75,7 @@ public class PantallaBuscarPoliza {
 		textFieldNPoliza.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyTyped(KeyEvent e) {
-				int max = 13;
+				int max = 12;
 				if(e.getKeyChar()!='1' && e.getKeyChar()!='2' && e.getKeyChar()!='3' && e.getKeyChar()!='4' && e.getKeyChar()!='5' && e.getKeyChar()!='6' && e.getKeyChar()!='7' && e.getKeyChar()!='8' && e.getKeyChar()!='9' && e.getKeyChar()!='0') e.consume();
 				else if(textFieldNPoliza.getText().length() > max) {
 					e.consume();
@@ -90,11 +91,19 @@ public class PantallaBuscarPoliza {
 
 		ActionListener accionBuscar = e -> {
 			//DEVUELVE UNA INSTANCIA DE POLIZA PARA MOSTRAR POR PANTALLA
-			poliza_encontrada = GestorPoliza.buscarPoliza(textFieldNPoliza.getText());
+			GestorPoliza gp = GestorPoliza.getInstance();
+			if(textFieldNPoliza.getText().length() != 13) {
+				JOptionPane.showMessageDialog(null, "El Nro. de poliza ingresado es inválido");
+			}
+			else {
+			Boolean encontrada = gp.polizaExiste(textFieldNPoliza.getText());
+			if (!encontrada) {
+				JOptionPane.showMessageDialog(null, "No se encontró ninguna poliza bajo ese Nro");
+			}
+			if (encontrada ) {
+			poliza_encontrada = gp.buscarPoliza(textFieldNPoliza.getText());
 			Object[][] listaMuestra = new Object[1][6];
 
-
-			System.out.println(poliza_encontrada.getNroPoliza());
 			listaMuestra[0][0] = poliza_encontrada.getNroPoliza();
 			listaMuestra[0][1] = poliza_encontrada.getCliente().getNroCliente();
 			listaMuestra[0][2] = poliza_encontrada.getCliente().getApellido();
@@ -102,7 +111,7 @@ public class PantallaBuscarPoliza {
 			listaMuestra[0][4] = poliza_encontrada.getCliente().getTipoDocumento();
 			listaMuestra[0][5] = poliza_encontrada.getCliente().getDocumento();
 			// listaMuestra[0][6] = NO SE COMO MOSTRAR ULTIMO PAGO
-
+			
 
 			DefaultTableModel model = new DefaultTableModel(listaMuestra,new String[] { "Nro. Poliza", "Nro. Cliente", "Apellido", "Nombre", "Tipo documento", "Nro. Documento", "Ultimo pago"}) {
 
@@ -114,7 +123,8 @@ public class PantallaBuscarPoliza {
 				}
 			};
 			tablaPoliza.setModel(model);
-
+			}
+			}
 
 		};
 
