@@ -442,6 +442,7 @@ public class PantallaRegistrarPago {
 						int cuotas_seleccionadas [];
 						cuotas_seleccionadas = tablaCuotas.getSelectedRows();
 						ArrayList<CuotaDTO> cuotasAPagar = new ArrayList<>();
+						ArrayList<Double> montoSeleccionado = new ArrayList<>();
 						if (cuotas_seleccionadas.length > 0) {
 							int tamSeleccionadas = cuotas_seleccionadas.length;
 							for (int i =0; i<tamSeleccionadas; i++) { //ARMO EL ARRAYLIST DE LAS CUOTAS A PAGAR
@@ -450,9 +451,10 @@ public class PantallaRegistrarPago {
 								cuota = listaCuotas.get(i);
 								cuotaDTO.setId_cuota(cuota.getId_cuota());
 								cuotasAPagar.add(cuotaDTO);
+								montoSeleccionado.add(montosActualizadosCuotas.get(i));
 							}
 						}
-						montoaPagar_mensual = gc.calcularMontoTotal(montosActualizadosCuotas);
+						montoaPagar_mensual = gc.calcularMontoTotal(montoSeleccionado);
 						GestorPantallas.registrarPago2(p, cuotasAPagar, null, montoaPagar_mensual);
 
 						/*EL SISTEMA CALCULA LOS IMPORTES PARCIALES Y TOTALES Y MUESTRA LOS RESULTADOS POR PANTALLA
