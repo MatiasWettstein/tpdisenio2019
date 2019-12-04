@@ -142,6 +142,44 @@ public class DAOCuota {
 		return retorno;
 	}
 
+
+	public static ArrayList<Cuota> recuperarTodasCuotas(long nroPoliza) {
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
+		ArrayList<Cuota> retorno = new ArrayList<>();
+		ResultSet rs = null;
+		try {
+			String Consulta = "select * from cuota where nro_poliza = " + nroPoliza + " order by id_cuota asc";
+
+
+			PreparedStatement st = con.prepareStatement(Consulta);
+			rs = st.executeQuery();
+			/*
+		 int id_cuota 1
+		 String vencimiento
+		 boolean pagada
+		 double monto
+		 int nro_poliza
+		 int id_cobro
+			 */
+			while(rs.next()) {
+				Cuota cuota = new Cuota();
+				cuota.setId_cuota(rs.getInt("id_cuota")); //id_cuota
+				cuota.setFecha_vencimiento(rs.getString("vencimiento")); // vencimiento STRING
+				cuota.setPagada(rs.getBoolean("pagada")); //pagada boolean
+				cuota.setMonto(rs.getDouble("monto")); //monto --- double
+				cuota.setRecibo(rs.getInt("id_cobro"));
+				retorno.add(cuota);
+			}
+			st.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return retorno;
+	}
+
 	public static Cuota recupearCuota(long nroPoliza) {
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = gdb.conec;

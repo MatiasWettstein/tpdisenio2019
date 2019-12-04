@@ -16,6 +16,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import tp.disenio.DAO.DAOCuota;
 import tp.disenio.DAO.DAOReciboPago;
 import tp.disenio.clases.Cuota;
 import tp.disenio.clases.Mensual;
@@ -123,21 +124,27 @@ public class PantallaBuscarPoliza {
 					if (poliza_encontrada.getForma_pago().getNombre().equals("MENSUAL")) {
 						ArrayList<Cuota> cuotas = new ArrayList<>();
 						cuotas = ((Mensual)poliza_encontrada.getForma_pago()).getCuotas();
+						ArrayList<Cuota> todascuotas = DAOCuota.recuperarTodasCuotas(poliza_encontrada.getNroPoliza());
 						boolean flag = true;
-						int i =0;
-						while (flag) {
-							if (!cuotas.get(0).isPagada()) {
-								listaMuestra[0][6] = "aun no se han registrado pagos";
-								flag = false;
-							}
+						int i =1;
 
-							else if (cuotas.get(i).isPagada()) {
+						if (!todascuotas.get(0).isPagada()) {
+							listaMuestra[0][6] = "aun no se han registrado pagos";
+							flag = false;
+						}
+
+						while (flag) {
+
+							if (todascuotas.get(i).isPagada()) {
+								listaMuestra[0][6] = DAOReciboPago.obtenerfechapago(todascuotas.get(i).getRecibo());
 								i++;
-							}
-							else {
+							}else {
 								i -=1;
-								listaMuestra[0][6] = DAOReciboPago.obtenerfechapago(cuotas.get(i).getRecibo());
+								listaMuestra[0][6] = DAOReciboPago.obtenerfechapago(todascuotas.get(i).getRecibo());
 								flag = false;
+							}
+							if(i==5) {
+								flag=false;
 							}
 						}
 
@@ -187,6 +194,7 @@ public class PantallaBuscarPoliza {
 		marco1.getContentPane().add(btnAceptar);
 		ActionListener accionAceptar = e -> {
 			if(tablaPoliza.getSelectedRow()<0) {
+				GestorPantallas.registrarPago(null,null,null,-1);
 				marco1.dispose();
 			}else {
 				GestorPantallas.registrarPago(poliza_encontrada,null,null,-1);
