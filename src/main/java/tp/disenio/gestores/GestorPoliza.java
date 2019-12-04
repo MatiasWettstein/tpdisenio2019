@@ -244,9 +244,8 @@ public class GestorPoliza {
 	public static double calcularMontoTotalAPagar (PremioDTO premiodto, ClienteDTO c ) {
 		GestorCliente gc = GestorCliente.getInstance();
 		int cant = gc.cantidadPoliza(c);
-		DecimalFormat dec = new DecimalFormat("#0.00");
 		GestorPoliza gp = GestorPoliza.getInstance();
-		double montototalapagar = Double.parseDouble(dec.format(premiodto.getMontoTotal()*(1-gp.descuentos(cant))));
+		double montototalapagar = premiodto.getMontoTotal()*(1-gp.descuentos(cant));
 		return montototalapagar;
 
 	}
