@@ -21,14 +21,21 @@ public class PantallaDarAltaCliente2 {
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public static void start(ClienteDTO cliente) {
+	public static void start(ClienteDTO cliente, boolean vienedepoliza) {
 
 		// --------- MARCO -------------------------------------------------
 		final Marco marco1 = new Marco(700,400,"DAR DE ALTA CLIENTE");
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(new Color (192, 192, 192));
 		marco1.setLocationRelativeTo(null);
-		marco1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		marco1.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		marco1.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent evt) {
+				close();
+			}
+		});
 		// -----------------------------------------------------------------
 
 		// ----------------- ETIQUETAS -------------------------------------
@@ -81,17 +88,34 @@ public class PantallaDarAltaCliente2 {
 			boolean flag = gc.guardarCliente(cliente);
 			if (flag) {
 				JOptionPane.showMessageDialog(null, "Cliente generado con éxito");
-				GestorPantallas.PantallaDarAltaPoliza(cliente, null, null,null, null);
-				GestorDB gdb = GestorDB.getInstance();
-				gdb.cerrarConexion();
-				marco1.dispose();
+
+
+				if(vienedepoliza) {
+					GestorPantallas.PantallaDarAltaPoliza(cliente, null, null,null, null);
+					GestorDB gdb = GestorDB.getInstance();
+					gdb.cerrarConexion();
+					marco1.dispose();
+				} else {
+					GestorPantallas.PantallaPrincipal();
+					GestorDB gdb = GestorDB.getInstance();
+					gdb.cerrarConexion();
+					marco1.dispose();
+				}
+
 			}else {
 				JOptionPane.showMessageDialog(null, "ERROR CRITICO, no se pudo guardar el cliente.");
+				GestorPantallas.PantallaDarAltaCliente(vienedepoliza);
+
 			}
 		};
 		btnAceptar.addActionListener(aceptarAccion);
 		marco1.getContentPane().add(btnAceptar);
 		// -----------------------------------------------------------------
 
+	}
+
+	protected static void close() {
+		// TODO Auto-generated method stub
+		GestorPantallas.PantallaPrincipal();
 	}
 }

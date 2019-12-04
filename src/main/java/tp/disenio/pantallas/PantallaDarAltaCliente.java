@@ -21,8 +21,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.MaskFormatter;
 
-import tp.disenio.DAO.DAOLocalidad;
-import tp.disenio.DAO.DAOProvincia;
 import tp.disenio.DTO.ClienteDTO;
 import tp.disenio.DTO.DireccionDTO;
 import tp.disenio.DTO.LocalidadDTO;
@@ -56,12 +54,20 @@ public class PantallaDarAltaCliente {
 	/**
 	 * @wbp.parser.entryPoint
 	 */
-	public static void start() {
+	public static void start(boolean vienedepoliza) {
 		ClienteDTO cDTO;
 		// --------------- MARCO ------------------------
 		final Marco marco1 = new Marco(1333,730,"DAR DE ALTA CLIENTE");
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(new Color (192, 192, 192));
+		marco1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		marco1.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent evt) {
+				close();
+			}
+		});
 		// ----------------------------------------------
 
 		// ------------- ETIQUETAS ---------------------
@@ -281,7 +287,7 @@ public class PantallaDarAltaCliente {
 		textField_Documento.addKeyListener(new KeyAdapter() { //el NRO DOCUMENTO SOLO PUEDE TENER 9 CARACTERES
 			@Override
 			public void keyTyped(KeyEvent e) {
-				int max = 9;
+				int max = 11;
 				if(textField_Documento.getText().length() > max) {
 					e.consume();
 				}
@@ -443,7 +449,6 @@ public class PantallaDarAltaCliente {
 		formattedTextField_NCliente.setBounds(204, 90, 193, 20);
 		marco1.getContentPane().add(formattedTextField_NCliente);
 		marco1.setLocationRelativeTo(null);
-		marco1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 
 
 		MaskFormatter mascara = null;
@@ -488,7 +493,7 @@ public class PantallaDarAltaCliente {
 			//las validaciones estan hechas con excepciones porque si el campo no se completó sale una NullPointerException
 			//VALIDO APELLIDO
 			String apellido = textField_Apellido.getText();
-			if (apellido.matches("[A-Za-z0-9]+")== false  ) {
+			if (apellido.matches("[A-Za-z' ']+")== false  ) {
 				errores += "El campo 'Apellido' no puede contenter números \n";
 				f_apellido = false;
 			}
@@ -499,7 +504,7 @@ public class PantallaDarAltaCliente {
 
 			//VALIDO NOMBRE
 			String nombre = textField_Nombre.getText();
-			if (nombre.matches("[A-Za-z0-9]+")== false  ) {
+			if (nombre.matches("[A-Za-z' ']+")== false  ) {
 				errores += "El campo 'Nombre' no puede contenter números ni caracteres especiales   \n";
 				f_nombre = false;
 			}
@@ -527,13 +532,13 @@ public class PantallaDarAltaCliente {
 
 			if (f_TDoc && f_nDOC) {
 				if (tipoDoc.getSelectedItem().toString() == "DNI" ) { //VALIDO QUE SI ES TIPO DNI NO TENGA LETRAS
-					if (doc.matches("[a-zA-Z.@_~#+%&/()]+")== true) {
+					if (doc.matches("[0-9]+")== false) {
 						errores += "El campo DNI no puede contener letras \n";
 						f_nDOC = false;
 					}
 				}
 				else { //valido que no tenga caracteres especiales
-					if (doc.matches("[.@_~#+%&/()]+")== true) {
+					if (doc.matches("[0-9A-Z]+")== false) {
 						errores += "El campo 'Documento' no puede contener caracteres especiales \n";
 						f_nDOC = false;
 					}
@@ -650,6 +655,10 @@ public class PantallaDarAltaCliente {
 
 			//VALIDO CORREO ELECTRONICO
 			String correo = textField_email.getText();
+			if (correo.matches("^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?!-)(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$")== false  ) {
+				errores += "No es un email valido\n";
+				f_apellido = false;
+			}
 			if (correo.isEmpty()) {
 				errores += "El campo 'Correo electrónico' es obligatorio  \n";
 				f_email = false;
@@ -720,7 +729,7 @@ public class PantallaDarAltaCliente {
 
 				clienteDTO.setDireccion(dire_auxDTO);
 
-				GestorPantallas.PantallaDarAltaCliente2(clienteDTO);
+				GestorPantallas.PantallaDarAltaCliente2(clienteDTO, vienedepoliza);
 				marco1.dispose();
 
 			}
@@ -743,6 +752,9 @@ public class PantallaDarAltaCliente {
 		//cuando esta pantalla es llamada desde DAR DE ALTA POLIZA debería retornar a esa pantalla exacta con los datos cargados
 		//cuando esta pantalla es llamada desde MENU debe retornar al menu
 	}
-
+	protected static void close() {
+		// TODO Auto-generated method stub
+		GestorPantallas.PantallaPrincipal();
+	}
 
 }

@@ -7,7 +7,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import tp.disenio.DTO.CuotaDTO;
-import tp.disenio.DTO.PolizaDTO;
 import tp.disenio.clases.Cuota;
 import tp.disenio.clases.Mensual;
 import tp.disenio.clases.Poliza;
@@ -95,7 +94,7 @@ public class DAOCuota {
 			while(rs.next()) {
 				retorno = rs.getInt("max");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -112,7 +111,7 @@ public class DAOCuota {
 		ArrayList<Cuota> retorno = new ArrayList<>();
 		ResultSet rs = null;
 		try {
-			String Consulta = "select * from cuota where nro_poliza = " + nroPoliza;
+			String Consulta = "select * from cuota where nro_poliza = " + nroPoliza + " and pagada = false order by id_cuota asc";
 
 
 			PreparedStatement st = con.prepareStatement(Consulta);
@@ -125,17 +124,16 @@ public class DAOCuota {
 		 int nro_poliza
 		 int id_cobro
 			 */
-
-
 			while(rs.next()) {
 				Cuota cuota = new Cuota();
 				cuota.setId_cuota(rs.getInt("id_cuota")); //id_cuota
 				cuota.setFecha_vencimiento(rs.getString("vencimiento")); // vencimiento STRING
 				cuota.setPagada(rs.getBoolean("pagada")); //pagada boolean
 				cuota.setMonto(rs.getDouble("monto")); //monto --- double
+				cuota.setRecibo(rs.getInt("id_cobro"));
 				retorno.add(cuota);
 			}
-
+			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -170,8 +168,9 @@ public class DAOCuota {
 				retorno.setFecha_vencimiento(rs.getString("vencimiento")); // vencimiento STRING
 				retorno.setPagada(rs.getBoolean("pagada")); //pagada boolean
 				retorno.setMonto(rs.getDouble("monto")); //monto --- double
+				retorno.setRecibo(rs.getInt("id_cobro"));
 			}
-
+			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -180,12 +179,12 @@ public class DAOCuota {
 		return retorno;
 	}
 
-	
-	public static boolean pagarCuota(CuotaDTO c, int nroRecibo) { //ACTUALIZA EL ESTADO DE LA CUOTA 
-		boolean retorno = false; 
+
+	public static boolean pagarCuota(CuotaDTO c, int nroRecibo) { //ACTUALIZA EL ESTADO DE LA CUOTA
+		boolean retorno = false;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = gdb.conec;
-		
+
 
 		try {
 			/*
@@ -197,13 +196,13 @@ public class DAOCuota {
 			 int id_cobro
 			 */
 
-				PreparedStatement st = con.prepareStatement("UPDATE CUOTA SET pagada = ?, id_cobro = ? WHERE id_cuota = ?");
-				st.setBoolean(1, true); //pagada
-				st.setInt(2, nroRecibo); //id_cobro
-				st.setInt(3, c.getId_cuota()); //id_cuota
-				st.executeUpdate();
-				st.close();
-	
+			PreparedStatement st = con.prepareStatement("UPDATE CUOTA SET pagada = ?, id_cobro = ? WHERE id_cuota = ?");
+			st.setBoolean(1, true); //pagada
+			st.setInt(2, nroRecibo); //id_cobro
+			st.setInt(3, c.getId_cuota()); //id_cuota
+			st.executeUpdate();
+			st.close();
+
 
 
 
@@ -215,14 +214,14 @@ public class DAOCuota {
 		}
 		return retorno;
 	}
-	
-	
+
+
 
 	public static boolean pagarCuotas(ArrayList<CuotaDTO> cuotas, int nroRecibo) {
-		boolean retorno = false; 
+		boolean retorno = false;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = gdb.conec;
-		
+
 
 		try {
 			/*
@@ -235,13 +234,13 @@ public class DAOCuota {
 			 */
 			for (CuotaDTO c: cuotas) {
 
-				PreparedStatement st = con.prepareStatement("UPDATE CUOTA SET pagada = ?, id_cobro = ? WHERE id_cuota = ?");
+				PreparedStatement st = con.prepareStatement("UPDATE CUOTA SET pagada = ?, id_cobro = ? WHERE id_cuota = ? and pagada = false");
 				st.setBoolean(1, true); //pagada
 				st.setInt(2, nroRecibo); //id_cobro
 				st.setInt(3, c.getId_cuota()); //id_cuota
 				st.executeUpdate();
 				st.close();
-	
+
 			}
 
 
@@ -253,5 +252,5 @@ public class DAOCuota {
 		}
 		return retorno;
 	}
-	
+
 }

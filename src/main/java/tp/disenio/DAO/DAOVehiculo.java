@@ -53,7 +53,7 @@ public class DAOVehiculo {
 			while(rs.next()) {
 				retorno = rs.getInt("max");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -85,8 +85,6 @@ public class DAOVehiculo {
 			 * modelo 6 int fk
 			 * porcentaje_actual 7 double
 			 */
-
-
 			while(rs.next()) {
 				retorno.setId_vehiculo(idVeh);
 				retorno.setPatente(rs.getString("patente"));
@@ -100,7 +98,7 @@ public class DAOVehiculo {
 				retorno.setPorcentaje((float) rs.getDouble("porcentaje_actual"));
 
 			}
-
+			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

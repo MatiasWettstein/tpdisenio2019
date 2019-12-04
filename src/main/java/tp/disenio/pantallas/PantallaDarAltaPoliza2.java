@@ -43,6 +43,13 @@ public class PantallaDarAltaPoliza2 {
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(Color.LIGHT_GRAY);
 		marco1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		marco1.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent evt) {
+				close();
+			}
+		});
 		// -----------------------------------------------------------------
 
 
@@ -213,6 +220,9 @@ public class PantallaDarAltaPoliza2 {
 		btnCancelar.addActionListener(cancelar);
 		// -----------------------------------------------------------------
 	}
-
+	protected static void close() {
+		// TODO Auto-generated method stub
+		GestorPantallas.PantallaPrincipal();
+	}
 
 }

@@ -36,6 +36,7 @@ public class DAOModelo {
 				mod.setMarca(marca);
 				modelos.add(mod);
 			}
+			st2.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -78,7 +79,7 @@ public class DAOModelo {
 				retorno.setAnio(aux_anio);
 
 			}
-
+			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

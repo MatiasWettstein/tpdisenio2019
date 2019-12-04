@@ -82,7 +82,7 @@ public class DAODescuentos {
 			while(rs.next()) {
 				retorno = rs.getInt("max");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -113,6 +113,7 @@ public class DAODescuentos {
 			while(rs_unidadAdicional.next()) {
 				retorno.setDescPorUnidadAdicional(rs_unidadAdicional.getDouble("porcentaje"));
 			}
+			st_unidadAdicional.close();
 			//PAGO SEMESTRAL
 			String Consulta_pagoSemestral = "select * from descuentos where nro_poliza = " + nroPoliza + " and nombre = 'PAGO SEMESTRAL'";
 			PreparedStatement st_pagoSemestral = con.prepareStatement(Consulta_pagoSemestral);
@@ -121,6 +122,7 @@ public class DAODescuentos {
 			while(rs_pagoSemestral.next()) {
 				retorno.setDescPorPagoSemestral(rs_pagoSemestral.getDouble("porcentaje"));
 			}
+
 			//PAGO ADELANTADO
 			String Consulta_pagoAdelantado = "select * from descuentos where nro_poliza = " + nroPoliza + " and nombre = 'PAGO ADELANTADO'";
 			PreparedStatement st_pagoAdelantado = con.prepareStatement(Consulta_pagoAdelantado);
@@ -130,6 +132,8 @@ public class DAODescuentos {
 				retorno.setDescPorPagoAdelantado(rs_pagoAdelantado.getDouble("porcentaje"));
 			}
 
+			st_pagoSemestral.close();
+			st_pagoAdelantado.close();
 
 		}
 		catch (SQLException e) {

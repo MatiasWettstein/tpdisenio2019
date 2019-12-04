@@ -81,7 +81,7 @@ public class DAOCaracteristicas {
 			while(rs.next()) {
 				retorno = rs.getInt("max");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -95,7 +95,7 @@ public class DAOCaracteristicas {
 		double retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = gdb.conec;
-		
+
 		ResultSet rs = null;
 
 		try {
@@ -107,7 +107,7 @@ public class DAOCaracteristicas {
 			while(rs.next()) {
 				retorno = rs.getDouble("valor");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -133,7 +133,7 @@ public class DAOCaracteristicas {
 			while(rs.next()) {
 				retorno = rs.getDouble("valor");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -166,6 +166,8 @@ public class DAOCaracteristicas {
 				retorno.setPorcentajeKm(rs_hijo.getDouble("porcentaje"));
 			}
 
+			st_km.close();
+			st_hijo.close();
 
 
 

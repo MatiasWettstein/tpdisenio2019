@@ -51,7 +51,7 @@ public class DAODomicilioRiesgo {
 			while(rs.next()) {
 				retorno = rs.getInt("max");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -81,7 +81,7 @@ public class DAODomicilioRiesgo {
 				retorno.setLocalidad(aux_loc);
 			}
 
-
+			st.close();
 
 		}
 		catch (SQLException e) {

@@ -32,6 +32,7 @@ public class DAOProvincia {
 				prov.setPais();
 				Provincias.add(prov);
 			}
+			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -64,7 +65,7 @@ public class DAOProvincia {
 				retorno.setNombre(rs.getString("nombre"));
 				retorno.setPais();
 			}
-
+			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

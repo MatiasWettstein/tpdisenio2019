@@ -25,7 +25,7 @@ public class DAODireccion {
 			String Consulta = "select max(id_direccion) from direccion";
 			PreparedStatement stDire = con.prepareStatement(Consulta);
 			rsDire = stDire.executeQuery();
-
+			stDire.close();
 			while(rsDire.next()) {
 				idDire = rsDire.getInt("max");
 			}
@@ -97,7 +97,7 @@ public class DAODireccion {
 				retorno.setPiso(rs.getInt("piso"));
 
 			}
-
+			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

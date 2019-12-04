@@ -1,6 +1,7 @@
 package tp.disenio.gestores;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -243,8 +244,9 @@ public class GestorPoliza {
 	public static double calcularMontoTotalAPagar (PremioDTO premiodto, ClienteDTO c ) {
 		GestorCliente gc = GestorCliente.getInstance();
 		int cant = gc.cantidadPoliza(c);
+		DecimalFormat dec = new DecimalFormat("#0.00");
 		GestorPoliza gp = GestorPoliza.getInstance();
-		double montototalapagar = premiodto.getMontoTotal()*(1-gp.descuentos(cant));
+		double montototalapagar = Double.parseDouble(dec.format(premiodto.getMontoTotal()*(1-gp.descuentos(cant))));
 		return montototalapagar;
 
 	}
@@ -274,11 +276,11 @@ public class GestorPoliza {
 		}
 		cal1.add(Calendar.MONTH, 1);
 		cal1.add(Calendar.DAY_OF_MONTH,1);
-
+		DecimalFormat dec = new DecimalFormat("#0.00");
 		for(int i=0; i<6; i++) {
 			CuotaDTO cuota = new CuotaDTO();
 			GestorPoliza gp = GestorPoliza.getInstance();
-			cuota.setMonto(gp.calcularMontoTotalAPagar(premiodto, c)/6);
+			cuota.setMonto(Double.parseDouble(dec.format(gp.calcularMontoTotalAPagar(premiodto, c)/6)));
 			cuota.setPagado(false);
 			String fechavencimiento = dateFormat1.format(cal1.getTime());
 			cuota.setVencimiento(fechavencimiento);

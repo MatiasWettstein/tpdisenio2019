@@ -29,6 +29,8 @@ public class DAOMarca {
 				marca_aux.setIdMarca(rs.getInt("id_marca"));
 				Marcas.add(marca_aux);
 			}
+
+			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -57,6 +59,9 @@ public class DAOMarca {
 				retorno.setNombre(rs.getString("nombre_marca"));
 
 			}
+
+			st.close();
+
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

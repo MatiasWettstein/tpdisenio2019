@@ -49,7 +49,7 @@ public class DAOSiniestros {
 			while(rs.next()) {
 				retorno = rs.getInt("max");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -79,7 +79,7 @@ public class DAOSiniestros {
 				retorno.setNombre(nombre);
 			}
 
-
+			st.close();
 
 
 		}
@@ -108,7 +108,7 @@ public class DAOSiniestros {
 				retorno.setNombre(rs.getString("nombre"));
 				retorno.setId_siniestro(idSiniestro);
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block

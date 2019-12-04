@@ -60,12 +60,12 @@ public class GestorPantallas {
 	}
 
 
-	public static void PantallaDarAltaCliente() {
-		PantallaDarAltaCliente.start();
+	public static void PantallaDarAltaCliente(boolean vienedepoliza) {
+		PantallaDarAltaCliente.start(vienedepoliza);
 	}
 
-	public static void PantallaDarAltaCliente2(ClienteDTO cliente) {
-		PantallaDarAltaCliente2.start(cliente);
+	public static void PantallaDarAltaCliente2(ClienteDTO cliente, boolean vienedepoliza) {
+		PantallaDarAltaCliente2.start(cliente, vienedepoliza);
 	}
 
 

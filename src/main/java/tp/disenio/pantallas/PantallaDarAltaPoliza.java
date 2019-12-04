@@ -113,7 +113,14 @@ public class PantallaDarAltaPoliza {
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(new Color (192, 192, 192));
 		marco1.setLocationRelativeTo(null);
-		marco1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		marco1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		marco1.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent evt) {
+				close();
+			}
+		});
 
 
 		JScrollPane scrollPaneCliente = new JScrollPane();
@@ -611,7 +618,7 @@ public class PantallaDarAltaPoliza {
 		JButton altaC = new JButton ("DAR DE ALTA CLIENTE");
 		ActionListener altaCliente = e -> {
 			if (SiniestroText.getText() == null) SiniestroText.setText(SubsistemaSiniestros.cantidadSiniestros());
-			GestorPantallas.PantallaDarAltaCliente(); //hay que ver si esta es la forma porque no se como hacer que te devuelva a esta pntalla desp
+			GestorPantallas.PantallaDarAltaCliente(true); //hay que ver si esta es la forma porque no se como hacer que te devuelva a esta pntalla desp
 			marco1.dispose();
 		};
 		altaC.addActionListener(altaCliente);
@@ -1208,5 +1215,10 @@ public class PantallaDarAltaPoliza {
 		btnCancelar.addActionListener(e -> marco1.dispose());
 		// -----------------------------------------------------------------
 
+	}
+
+	protected static void close() {
+		// TODO Auto-generated method stub
+		GestorPantallas.PantallaPrincipal();
 	}
 }

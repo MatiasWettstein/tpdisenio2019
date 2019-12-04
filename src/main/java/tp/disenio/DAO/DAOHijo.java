@@ -65,7 +65,7 @@ public class DAOHijo {
 			while(rs.next()) {
 				retorno = rs.getInt("max");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -98,7 +98,7 @@ public class DAOHijo {
 				retorno.add(hijo);
 			}
 
-
+			st_pagoAdelantado.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block

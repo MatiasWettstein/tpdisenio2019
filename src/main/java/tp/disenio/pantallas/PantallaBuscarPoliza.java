@@ -16,10 +16,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import tp.disenio.clases.Poliza;
-import tp.disenio.clases.Semestral;
+import tp.disenio.DAO.DAOReciboPago;
 import tp.disenio.clases.Cuota;
 import tp.disenio.clases.Mensual;
+import tp.disenio.clases.Poliza;
+import tp.disenio.clases.Semestral;
 import tp.disenio.gestores.GestorPantallas;
 import tp.disenio.gestores.GestorPoliza;
 
@@ -56,9 +57,14 @@ public class PantallaBuscarPoliza {
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(new Color (192, 192, 192));
 		marco1.setLocationRelativeTo(null);
-		marco1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		marco1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-
+		marco1.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent evt) {
+				close();
+			}
+		});
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(43, 263, 1063, 126);
 		marco1.getContentPane().add(scrollPane);
@@ -120,36 +126,36 @@ public class PantallaBuscarPoliza {
 						boolean flag = true;
 						int i =0;
 						while (flag) {
-							if (!(cuotas.get(0).isPagada())) {
+							if (!cuotas.get(0).isPagada()) {
 								listaMuestra[0][6] = "aun no se han registrado pagos";
 								flag = false;
 							}
-							
+
 							else if (cuotas.get(i).isPagada()) {
 								i++;
 							}
 							else {
 								i -=1;
-								listaMuestra[0][6] = cuotas.get(i).getFecha_vencimiento();
+								listaMuestra[0][6] = DAOReciboPago.obtenerfechapago(cuotas.get(i).getRecibo());
 								flag = false;
 							}
 						}
-						
+
 					}
 					else {
-					
-							Cuota c = ((Semestral) poliza_encontrada.getForma_pago()).getCuota1();
-							if (c.isPagada()) {
-								listaMuestra[0][6] = c.getFecha_vencimiento();
-							}
-							else {
-								listaMuestra[0][6] = "aun no se han registrado pagos";
-							}
-							
-						
-						
+
+						Cuota c = ((Semestral) poliza_encontrada.getForma_pago()).getCuota1();
+						if (c.isPagada()) {
+							listaMuestra[0][6] = DAOReciboPago.obtenerfechapago(c.getRecibo());
+						}
+						else {
+							listaMuestra[0][6] = "aun no se han registrado pagos";
+						}
+
+
+
 					}
-					
+
 
 
 					DefaultTableModel model = new DefaultTableModel(listaMuestra,new String[] { "Nro. Poliza", "Nro. Cliente", "Apellido", "Nombre", "Tipo documento", "Nro. Documento", "Ultimo pago"}) {
@@ -191,5 +197,9 @@ public class PantallaBuscarPoliza {
 
 
 		// -----------------------------------------------------------------
+	}
+	protected static void close() {
+		// TODO Auto-generated method stub
+		GestorPantallas.registrarPago(null, null, null, -1);
 	}
 }

@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,7 +34,14 @@ public class PantallaRegistrarPago2 {
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(new Color (192, 192, 192));
 		marco1.setLocationRelativeTo(null);
-		marco1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		marco1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		marco1.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent evt) {
+				close();
+			}
+		});
 
 
 		// ------------ ETIQUETAS ----------------
@@ -41,7 +49,7 @@ public class PantallaRegistrarPago2 {
 		lblMontoTotalAPagar.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblMontoTotalAPagar.setBounds(71, 72, 180, 33);
 		marco1.getContentPane().add(lblMontoTotalAPagar);
-	
+
 
 		JLabel lblMontoAbonado = new JLabel("Monto abonado");
 		lblMontoAbonado.setFont(new Font("Serif", Font.PLAIN, 18));
@@ -55,7 +63,8 @@ public class PantallaRegistrarPago2 {
 		textMontoAPagar.setBounds(263, 80, 196, 23);
 		marco1.getContentPane().add(textMontoAPagar);
 		textMontoAPagar.setColumns(10);
-		textMontoAPagar.setText(Double.toString(montoTotal));
+		DecimalFormat dec = new DecimalFormat("#.##");
+		textMontoAPagar.setText(dec.format(montoTotal));
 
 		textMontoAbonado = new JTextField();
 		textMontoAbonado.setColumns(10);
@@ -82,19 +91,26 @@ public class PantallaRegistrarPago2 {
 		marco1.getContentPane().add(btnAceptar);
 		ActionListener accionaceptar = e ->{	//CUANDO DAN ACEPTAR HAY QUE CALCULAR EL VUELTO Y MOSTRARLO POR UN OPTION PANE
 			double montoAbonado = Double.parseDouble(textMontoAbonado.getText());
+
+
+			String convertir = textMontoAPagar.getText().replace(',', '.');
+
+			double precio= Float.parseFloat(convertir);
 			double vuelto = 0;
-			if(montoAbonado<montoTotal) {
+			if(montoAbonado<precio) {
 				JOptionPane.showMessageDialog(null, "El monto abonado es menor al monto a pagar, reingrese");
 			}
 			else {
-				vuelto = montoAbonado-montoTotal;
-				JOptionPane.showMessageDialog(null, "El vuelto del cliente es: " + vuelto);
-				if(cuotas.isEmpty()) {//si es de forma semestral solo tengo una cuota que pagar
+				vuelto = montoAbonado-precio;
+				JOptionPane.showMessageDialog(null, "El vuelto del cliente es: " + dec.format(vuelto));
+				if(cuotas==null) {//si es de forma semestral solo tengo una cuota que pagar
 					boolean flag = gc.registrarPagoCuotaSemestral(c, fechaPago, montoTotal);
 					if (flag ) {
 						JOptionPane.showMessageDialog(null, "Pago registrado con éxito");
 						GestorDB gdb = GestorDB.getInstance();
 						gdb.cerrarConexion();
+						GestorPantallas.PantallaPrincipal();
+						marco1.dispose();
 					}
 				}
 				else { //si es de forma mensual tengo que actualizar todas las cutoas
@@ -103,11 +119,11 @@ public class PantallaRegistrarPago2 {
 						JOptionPane.showMessageDialog(null, "Pago registrado con éxito");
 						GestorDB gdb = GestorDB.getInstance();
 						gdb.cerrarConexion();
+						GestorPantallas.PantallaPrincipal();
+						marco1.dispose();
 					}
 
 				}
-
-
 			}
 
 		};
@@ -140,8 +156,9 @@ public class PantallaRegistrarPago2 {
 
 		// ------------------------------------------
 
-
-
-
+	}
+	protected static void close() {
+		// TODO Auto-generated method stub
+		GestorPantallas.PantallaPrincipal();
 	}
 }

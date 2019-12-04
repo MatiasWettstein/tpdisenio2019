@@ -3,7 +3,6 @@ package tp.disenio.pantallas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -38,7 +37,14 @@ public class PantallaDarAltaPoliza3Mensual {
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(new Color (192, 192, 192));
 		marco1.setLocationRelativeTo(null);
-		marco1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		marco1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		marco1.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent evt) {
+				close();
+			}
+		});
 		// -----------------------------------------------------------------
 
 		// --------------------- ETIQUETAS ---------------------------------
@@ -212,17 +218,15 @@ public class PantallaDarAltaPoliza3Mensual {
 
 		ArrayList<CuotaDTO> listacuotas = gp.obtenerListaCuotas(premiodto, c, p);
 
-		DecimalFormat dec = new DecimalFormat("#0.00");
-
 		JTable tableCuotas = new JTable();
 		tableCuotas.setModel(new DefaultTableModel(
 				new Object[][] {
-					{1, dec.format(listacuotas.get(0).getMonto()), listacuotas.get(0).getVencimiento()},
-					{2, dec.format(listacuotas.get(1).getMonto()), listacuotas.get(1).getVencimiento()},
-					{3, dec.format(listacuotas.get(2).getMonto()), listacuotas.get(2).getVencimiento()},
-					{4, dec.format(listacuotas.get(3).getMonto()), listacuotas.get(3).getVencimiento()},
-					{5, dec.format(listacuotas.get(4).getMonto()), listacuotas.get(4).getVencimiento()},
-					{6, dec.format(listacuotas.get(5).getMonto()), listacuotas.get(5).getVencimiento()},
+					{1, listacuotas.get(0).getMonto(), listacuotas.get(0).getVencimiento()},
+					{2, listacuotas.get(1).getMonto(), listacuotas.get(1).getVencimiento()},
+					{3, listacuotas.get(2).getMonto(), listacuotas.get(2).getVencimiento()},
+					{4, listacuotas.get(3).getMonto(), listacuotas.get(3).getVencimiento()},
+					{5, listacuotas.get(4).getMonto(), listacuotas.get(4).getVencimiento()},
+					{6, listacuotas.get(5).getMonto(), listacuotas.get(5).getVencimiento()},
 				},
 				new String[] {
 						"Cuota", "Monto a pagar", "\u00DAltimo d\u00EDa de pago"
@@ -242,7 +246,7 @@ public class PantallaDarAltaPoliza3Mensual {
 		JTextField textField_montoTotalAPagar = new JTextField();
 		textField_montoTotalAPagar.setEditable(false);
 		double montototalapagar= gp.calcularMontoTotalAPagar(premiodto, c);
-		textField_montoTotalAPagar.setText(String.valueOf(dec.format(montototalapagar)));
+		textField_montoTotalAPagar.setText(String.valueOf(montototalapagar));
 		textField_montoTotalAPagar.setColumns(10);
 		textField_montoTotalAPagar.setBounds(218, 425, 196, 20);
 		marco1.getContentPane().add(textField_montoTotalAPagar);
@@ -303,5 +307,10 @@ public class PantallaDarAltaPoliza3Mensual {
 		marco1.getContentPane().add(btnCancelar);
 		// -----------------------------------------------------------------
 
+	}
+
+	protected static void close() {
+		// TODO Auto-generated method stub
+		GestorPantallas.PantallaPrincipal();
 	}
 }

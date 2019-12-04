@@ -123,7 +123,7 @@ public class DAOPoliza {
 				retorno.setSumaasegurada( (float) rs.getDouble("suma_asegurada"));
 				retorno.setInicio_vigencia(rs.getString("inicio_vigencia"));
 				retorno.setFin_vigencia(rs.getString("fin_vigencia"));
-				if (rs.getString("forma_pago").equalsIgnoreCase("MENSUAL")) { //ACA EgitSTA EL PROBLEMA, NO ENTRA A MENSUAL
+				if (rs.getString("forma_pago").equals("MENSUAL")) {
 					Mensual aux_mens = new Mensual();
 					aux_mens.setNombre(rs.getString("forma_pago"));
 					aux_mens.setCuotas(gp.recuperarListaCuotas(rs.getLong("nro_poliza")));
@@ -196,7 +196,7 @@ public class DAOPoliza {
 
 				retorno.setPoliza_modificada(new PolizaModificada());
 			}
-
+			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -222,7 +222,7 @@ public class DAOPoliza {
 			while(rs.next()) {
 				retorno = rs.getLong("max");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -251,7 +251,7 @@ public class DAOPoliza {
 			if(rs.next()==true) { //si la encuentra retorna true
 				retorno = true;
 			}
-
+			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

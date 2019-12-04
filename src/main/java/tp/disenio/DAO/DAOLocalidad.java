@@ -39,6 +39,7 @@ public class DAOLocalidad {
 
 				Localidades.add(loc);
 			}
+			st2.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -77,7 +78,7 @@ public class DAOLocalidad {
 				retorno.setProvincia(aux_prov);
 
 			}
-
+			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -38,7 +38,7 @@ public class PantallaPrincipal {
 		JButton altaC = new JButton("ALTA CLIENTE");
 
 		ActionListener altaCliente = e -> {
-			GestorPantallas.PantallaDarAltaCliente();
+			GestorPantallas.PantallaDarAltaCliente(false);
 			marco1.dispose();
 		};
 		altaC.addActionListener(altaCliente);
@@ -81,6 +81,7 @@ public class PantallaPrincipal {
 		registrarP.setBounds(536, 180, 250, 50);
 		ActionListener rpagoPoliza = e -> {
 			GestorPantallas.registrarPago(null,null,null,-1);
+			marco1.dispose();
 		};
 		registrarP.addActionListener(rpagoPoliza);
 
@@ -159,11 +160,11 @@ public class PantallaPrincipal {
 		// TODO Auto-generated method stub
 		GestorDB gdb = GestorDB.getInstance();
 		if (JOptionPane.showConfirmDialog(null, "¿Desea realmente salir del sistema?",
-				"Salir del sistema", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION)
-
+				"Salir del sistema", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 			gdb.cerrarConexion();
 
-		System.exit(0);
+			System.exit(0);
+		}
 	}
 
 

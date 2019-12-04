@@ -3,6 +3,7 @@ package tp.disenio.pantallas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.Period;
 import java.time.format.DateTimeFormatter;
@@ -87,6 +88,13 @@ public class PantallaRegistrarPago {
 		marco1.setLocationRelativeTo(null);
 		marco1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
+		marco1.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent evt) {
+				close();
+			}
+		});
+
 		JScrollPane scrollPanePoliza = new JScrollPane();
 		scrollPanePoliza.setBounds(25, 62, 1267, 43);
 		marco1.getContentPane().add(scrollPanePoliza);
@@ -97,7 +105,8 @@ public class PantallaRegistrarPago {
 
 		// ---------- TABLAS ------------
 
-
+		montoaPagar_mensual=0;
+		montoaPagar_semestral=0;
 		if(p==null) {
 			modelPoliza =new DefaultTableModel(
 					new Object[][] {},
@@ -280,7 +289,7 @@ public class PantallaRegistrarPago {
 				lista = ((Mensual)p.getForma_pago()).getCuotas();
 				int fila =0;
 				int i =1;
-
+				DecimalFormat dec = new DecimalFormat("#.##");
 				for(Cuota c : lista) {
 					if(!c.isPagada()) {
 
@@ -293,22 +302,22 @@ public class PantallaRegistrarPago {
 						Period periodo = Period.between(vencimiento, ahora);
 
 						if (ahora.isBefore(vencimiento)) { //si la fecha de vencimiento es posterior a la actual
-							listaMuestraMensual[fila][3] = gc.aplicarDescuento((float) c.getMonto());
+							listaMuestraMensual[fila][3] = dec.format(gc.aplicarDescuento((float) c.getMonto()));
 							montosActualizadosCuotas.add((double) gc.aplicarDescuento((float) c.getMonto()));
 
 						}else {
 
 							if (periodo.getYears()>0) { //si está vencida por un año o mas
-								listaMuestraMensual[fila][3] =  gc.aplicarInteres((float) c.getMonto());
+								listaMuestraMensual[fila][3] =  dec.format(gc.aplicarInteres((float) c.getMonto()));
 								montosActualizadosCuotas.add((double) gc.aplicarInteres((float) c.getMonto()));
 
 							}
 							else if (periodo.getMonths()>0 || periodo.getMonths()<12) {//Vencida por mes
-								listaMuestraMensual[fila][3] = gc.aplicarInteres((float) c.getMonto());
+								listaMuestraMensual[fila][3] = dec.format(gc.aplicarInteres((float) c.getMonto()));
 								montosActualizadosCuotas.add((double) gc.aplicarInteres((float) c.getMonto()));
 							}
 							else if (periodo.getDays()<31) {//Vencida por dia
-								listaMuestraMensual[fila][3] =  gc.aplicarInteres((float) c.getMonto());
+								listaMuestraMensual[fila][3] =  dec.format(gc.aplicarInteres((float) c.getMonto()));
 								montosActualizadosCuotas.add((double) gc.aplicarInteres((float) c.getMonto()));
 							}
 						}
@@ -335,56 +344,56 @@ public class PantallaRegistrarPago {
 				scrollPaneCuotas.setViewportView(tablaCuotas);
 
 			}else {
+				DecimalFormat dec = new DecimalFormat("#.##");
 				Cuota unica;
 				unica = ((Semestral)p.getForma_pago()).getCuota1();
+				if(!unica.isPagada()) {
+					double montoOriginal = ((Semestral)p.getForma_pago()).getCuota1().getMonto();
+					listaMuestraSemestral[0][0]="Unica Cuota";
+					listaMuestraSemestral[0][1]=((Semestral)p.getForma_pago()).getFecha_Vencimiento();
+					listaMuestraSemestral[0][2]= montoOriginal;
+					DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+					LocalDate vencimiento = LocalDate.parse(((Semestral)p.getForma_pago()).getFecha_Vencimiento(), fmt);
+					Period periodo = Period.between(vencimiento, ahora);
 
-				double montoOriginal = ((Semestral)p.getForma_pago()).getCuota1().getMonto();
-				listaMuestraSemestral[0][0]="Unica Cuota";
-				listaMuestraSemestral[0][1]=((Semestral)p.getForma_pago()).getFecha_Vencimiento();
-				listaMuestraSemestral[0][2]= montoOriginal;
-				DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
-				LocalDate vencimiento = LocalDate.parse(((Semestral)p.getForma_pago()).getFecha_Vencimiento(), fmt);
-				Period periodo = Period.between(vencimiento, ahora);
-
-				if (ahora.isBefore(vencimiento)) { //si la fecha de vencimiento es posterior a la actual
-					listaMuestraSemestral[0][3] = gc.aplicarDescuento((float) montoOriginal);
-					montoaPagar_semestral = gc.aplicarDescuento((float) montoOriginal);
-				}
-				else {
-
-					if (periodo.getYears()>0) { //si está vencida por un año o mas
-						listaMuestraSemestral[0][3] =  gc.aplicarInteres((float) montoOriginal);
-						montoaPagar_semestral =  gc.aplicarInteres((float) montoOriginal);
+					if (ahora.isBefore(vencimiento)) { //si la fecha de vencimiento es posterior a la actual
+						listaMuestraSemestral[0][3] = dec.format(gc.aplicarDescuento((float) montoOriginal));
+						montoaPagar_semestral = gc.aplicarDescuento((float) montoOriginal);
 					}
-					else if (periodo.getMonths()>0 || periodo.getMonths()<12) {//Vencida por mes
-						listaMuestraSemestral[0][3] =  gc.aplicarInteres((float) montoOriginal);
-						montoaPagar_semestral =  gc.aplicarInteres((float) montoOriginal);
-					}
-					else if (periodo.getDays()<31) {//Vencida por dia
-						listaMuestraSemestral[0][3] =  gc.aplicarInteres((float) montoOriginal);
-						montoaPagar_semestral =  gc.aplicarInteres((float) montoOriginal);
-					}
-				}
-
-
-
-				modelCuota =new DefaultTableModel(
-						listaMuestraSemestral,
-						new String[] {
-								"Cuota", "Fecha vencimiento", "Valor original", "Valor actual"
+					else {
+						if (periodo.getYears()>0) { //si está vencida por un año o mas
+							listaMuestraSemestral[0][3] =  dec.format(gc.aplicarInteres((float) montoOriginal));
+							montoaPagar_semestral =  gc.aplicarInteres((float) montoOriginal);
 						}
-						){
-
-					private static final long serialVersionUID = 1L;
-
-					@Override
-					public boolean isCellEditable(int i, int i1) {
-						return false;
+						else if (periodo.getMonths()>0 || periodo.getMonths()<12) {//Vencida por mes
+							listaMuestraSemestral[0][3] =  dec.format(gc.aplicarInteres((float) montoOriginal));
+							montoaPagar_semestral =  gc.aplicarInteres((float) montoOriginal);
+						}
+						else if (periodo.getDays()<31) {//Vencida por dia
+							listaMuestraSemestral[0][3] =  dec.format(gc.aplicarInteres((float) montoOriginal));
+							montoaPagar_semestral =  gc.aplicarInteres((float) montoOriginal);
+						}
 					}
-				};
-				tablaCuotas.setModel(modelCuota);
-				scrollPaneCuotas.setViewportView(tablaCuotas);
 
+
+
+					modelCuota =new DefaultTableModel(
+							listaMuestraSemestral,
+							new String[] {
+									"Cuota", "Fecha vencimiento", "Valor original", "Valor actual"
+							}
+							){
+
+						private static final long serialVersionUID = 1L;
+
+						@Override
+						public boolean isCellEditable(int i, int i1) {
+							return false;
+						}
+					};
+					tablaCuotas.setModel(modelCuota);
+					scrollPaneCuotas.setViewportView(tablaCuotas);
+				}
 			}
 
 		}
@@ -478,7 +487,10 @@ public class PantallaRegistrarPago {
 
 
 	}
-
+	protected static void close() {
+		// TODO Auto-generated method stub
+		GestorPantallas.PantallaPrincipal();
+	}
 
 
 

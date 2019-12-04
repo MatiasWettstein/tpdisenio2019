@@ -124,6 +124,7 @@ public class DAOCliente {
 
 				Clientes.add(cliente);
 			}
+			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -173,7 +174,7 @@ public class DAOCliente {
 			st.setString(7, c.getApellido());
 			st.setString(8, c.getCorreoElectronico());
 			st.setString(9, c.getProfesion());
-			st.setString(10, c.getEstadoCivil());
+			st.setString(10, c.getEstado());
 			st.setString(11, c.getSexo());
 			st.setString(12, c.getCondicionIVA());
 			st.setString(13, c.getEstadoCivil());
@@ -214,7 +215,7 @@ public class DAOCliente {
 			while(rs.next()) {
 				retorno = rs.getString("max");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -239,6 +240,8 @@ public class DAOCliente {
 			while(rs.next()) {
 				retorno++;
 			}
+
+			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -266,6 +269,7 @@ public class DAOCliente {
 			while(rs.next()) {
 				nroCliente = rs.getString("nroCliente");
 			}
+			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -326,7 +330,7 @@ public class DAOCliente {
 				retorno.setDireccion(aux_dire);
 
 			}
-
+			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

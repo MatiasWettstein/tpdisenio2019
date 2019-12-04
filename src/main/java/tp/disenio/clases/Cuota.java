@@ -6,9 +6,15 @@ public class Cuota {
 	private String fecha_vencimiento;
 	private double monto;
 	private boolean pagada;
+	private int recibo;
 
 
-
+	public int getRecibo() {
+		return recibo;
+	}
+	public void setRecibo(int recibo) {
+		this.recibo = recibo;
+	}
 	public int getId_cuota() {
 		return id_cuota;
 	}

@@ -22,7 +22,7 @@ public class DAOAnio {
 		int inicio = 0 ;
 		int fin = 0;
 
-		
+
 		try {
 
 			int idModelo = modelo.getIdModelo();
@@ -58,7 +58,8 @@ public class DAOAnio {
 				}
 
 			}
-
+			st1.close();
+			st2.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -76,7 +77,7 @@ public class DAOAnio {
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = gdb.conec;
 
-	
+
 		try {
 
 			int idModelo = modelo.getIdModelo();
@@ -100,7 +101,8 @@ public class DAOAnio {
 				retorno.setInicioFabricacion(rs.getInt("inicio_fabricacion"));
 				retorno.setFinFabricacion(rs.getInt("fin_fabricacion"));;
 			}
-
+			st1.close();
+			st2.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block

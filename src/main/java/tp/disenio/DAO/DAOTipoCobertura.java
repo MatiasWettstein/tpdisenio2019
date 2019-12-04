@@ -21,7 +21,7 @@ public class DAOTipoCobertura {
 			st.setDouble(3, c.getPorcentajeTipoCobertura());//porcentaje 3
 
 			st.executeUpdate();
-			//st.close();
+			st.close();
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -47,7 +47,7 @@ public class DAOTipoCobertura {
 			while(rs.next()) {
 				retorno = rs.getInt("max");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -78,7 +78,7 @@ public class DAOTipoCobertura {
 			int id_cobertura = DAOTipoCobertura.recupearUltimoNID();
 			id_cobertura +=1;
 			retorno.setId_cobertura(id_cobertura);
-
+			st.close();
 
 		}
 		catch (SQLException e) {
@@ -110,7 +110,7 @@ public class DAOTipoCobertura {
 			}
 
 
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block

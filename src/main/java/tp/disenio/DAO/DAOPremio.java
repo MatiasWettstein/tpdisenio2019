@@ -48,7 +48,7 @@ public class DAOPremio {
 			while(rs.next()) {
 				retorno = rs.getInt("max");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -86,7 +86,7 @@ public class DAOPremio {
 				retorno.setMontoTotal((float) rs.getDouble("monto_total") );
 
 			}
-
+			st.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -3,7 +3,6 @@ package tp.disenio.pantallas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -43,6 +42,14 @@ public class PantallaDarAltaPoliza3Semestral {
 		final Marco marco1 = new Marco(1333,730,"DAR DE ALTA POLIZA");
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(new Color (192, 192, 192));
+		marco1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+		marco1.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent evt) {
+				close();
+			}
+		});
 		// -----------------------------------------------------------------
 
 		// ---------------- ETIQUETAS --------------------------------------
@@ -302,9 +309,13 @@ public class PantallaDarAltaPoliza3Semestral {
 		btnCancelar.addActionListener(cancel);
 		marco1.getContentPane().add(btnCancelar);
 		marco1.setLocationRelativeTo(null);
-		marco1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// -----------------------------------------------------------------
 
+	}
+
+	protected static void close() {
+		// TODO Auto-generated method stub
+		GestorPantallas.PantallaPrincipal();
 	}
 
 }

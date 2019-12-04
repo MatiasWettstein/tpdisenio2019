@@ -12,33 +12,33 @@ public class DAOSuperIntendencia {
 
 	public static Float obtenerSumaAsegurada(Modelo modelo, String anio){
 
-	float sumaAsegurada=0;
-	ResultSet rs = null;
-	GestorDB gdb = GestorDB.getInstance();
-	Connection con = gdb.conec;
+		float sumaAsegurada=0;
+		ResultSet rs = null;
+		GestorDB gdb = GestorDB.getInstance();
+		Connection con = gdb.conec;
 
 
-	try {
+		try {
 
-		int idModelo = modelo.getIdModelo();
-		int idMarca = modelo.getMarca().getIdMarca();
-		
-		String consulta = "select suma_asegurada from superintendencia_seguros where modelo = " + idModelo + " and marca = " + idMarca + " and anio = " + anio;
-				
-		PreparedStatement st = con.prepareStatement(consulta);
-		rs = st.executeQuery();
+			int idModelo = modelo.getIdModelo();
+			int idMarca = modelo.getMarca().getIdMarca();
 
-		while(rs.next()) {
-			sumaAsegurada = (float) rs.getDouble("suma_asegurada");
+			String consulta = "select suma_asegurada from superintendencia_seguros where modelo = " + idModelo + " and marca = " + idMarca + " and anio = " + anio;
+
+			PreparedStatement st = con.prepareStatement(consulta);
+			rs = st.executeQuery();
+
+			while(rs.next()) {
+				sumaAsegurada = (float) rs.getDouble("suma_asegurada");
+			}
+			st.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
-	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+
+		return sumaAsegurada;
 	}
 
-	
-	return sumaAsegurada;
-}
-	
 }

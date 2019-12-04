@@ -32,7 +32,7 @@ public class DAOMedidasSeguridad {
 			while(rs.next()) {
 				retorno = rs.getInt("id_mds");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -59,7 +59,7 @@ public class DAOMedidasSeguridad {
 			while(rs.next()) {
 				retorno = rs.getDouble("porcentaje");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -86,7 +86,7 @@ public class DAOMedidasSeguridad {
 			while(rs.next()) {
 				retorno = rs.getInt("id_mds");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -114,7 +114,7 @@ public class DAOMedidasSeguridad {
 			while(rs.next()) {
 				retorno = rs.getDouble("porcentaje");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -141,7 +141,7 @@ public class DAOMedidasSeguridad {
 			while(rs.next()) {
 				retorno = rs.getInt("id_mds");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -167,7 +167,7 @@ public class DAOMedidasSeguridad {
 			while(rs.next()) {
 				retorno = rs.getDouble("porcentaje");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -195,7 +195,7 @@ public class DAOMedidasSeguridad {
 			while(rs.next()) {
 				retorno = rs.getInt("id_mds");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -223,14 +223,14 @@ public class DAOMedidasSeguridad {
 			while(rs.next()) {
 				retorno = rs.getDouble("porcentaje");
 			}
-
+			st.close();
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		
+
 		return retorno;
 	}
 
@@ -245,7 +245,7 @@ public class DAOMedidasSeguridad {
 		Boolean aux_garage = p.getSeguridad().getGarage().isPosee();
 		Boolean aux_tuercas = p.getSeguridad().getTuercas().isPosee();
 
-		
+
 		try {
 			/*
 			 int nro_poliza 1
@@ -344,7 +344,7 @@ public class DAOMedidasSeguridad {
 
 			}
 
-
+			st.close();
 
 		}
 		catch (SQLException e) {

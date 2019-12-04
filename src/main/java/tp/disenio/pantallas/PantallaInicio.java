@@ -6,7 +6,9 @@ import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
+import tp.disenio.gestores.GestorDB;
 import tp.disenio.gestores.GestorPantallas;
 public class PantallaInicio {
 
@@ -22,7 +24,14 @@ public class PantallaInicio {
 		marco1.getContentPane().setLayout(null);
 		marco1.getContentPane().setBackground(new Color (0, 128, 128));
 		marco1.setLocationRelativeTo(null);
-		marco1.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		marco1.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+
+		marco1.addWindowListener(new java.awt.event.WindowAdapter() {
+			@Override
+			public void windowClosing(java.awt.event.WindowEvent evt) {
+				close();
+			}
+		});
 
 		//------- TITULO --------------------
 		JLabel titulo= new JLabel("BIENVENIDO");
@@ -49,5 +58,16 @@ public class PantallaInicio {
 		marco1.getContentPane().add(titulo);
 
 
+	}
+
+	protected static void close() {
+		// TODO Auto-generated method stub
+		GestorDB gdb = GestorDB.getInstance();
+		if (JOptionPane.showConfirmDialog(null, "¿Desea realmente salir del sistema?",
+				"Salir del sistema", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+			gdb.cerrarConexion();
+
+			System.exit(0);
+		}
 	}
 }
