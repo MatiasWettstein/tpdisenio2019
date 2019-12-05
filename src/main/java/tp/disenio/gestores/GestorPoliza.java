@@ -279,7 +279,9 @@ public class GestorPoliza {
 		for(int i=0; i<6; i++) {
 			CuotaDTO cuota = new CuotaDTO();
 			GestorPoliza gp = GestorPoliza.getInstance();
-			cuota.setMonto(Double.parseDouble(dec.format(gp.calcularMontoTotalAPagar(premiodto, c)/6)));
+			String monto= dec.format(gp.calcularMontoTotalAPagar(premiodto, c)/6);
+			monto= monto.replace(',', '.');
+			cuota.setMonto(Double.parseDouble(monto));
 			cuota.setPagado(false);
 			String fechavencimiento = dateFormat1.format(cal1.getTime());
 			cuota.setVencimiento(fechavencimiento);
