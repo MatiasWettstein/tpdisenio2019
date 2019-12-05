@@ -186,8 +186,13 @@ public class PantallaBuscarPoliza {
 		btnCancelar.setFont(new Font("Serif", Font.BOLD, 12));
 		btnCancelar.setBounds(1041, 527, 143, 33);
 		marco1.getContentPane().add(btnCancelar);
-		btnCancelar.addActionListener(e -> marco1.dispose());
+		ActionListener accionCancelar = e -> {
 
+			GestorPantallas.registrarPago(null, null, null, -1);
+			marco1.dispose();
+
+		};
+		btnCancelar.addActionListener(accionCancelar);
 		JButton btnAceptar = new JButton("ACEPTAR");
 		btnAceptar.setFont(new Font("Serif", Font.BOLD, 12));
 		btnAceptar.setBounds(888, 527, 143, 33);

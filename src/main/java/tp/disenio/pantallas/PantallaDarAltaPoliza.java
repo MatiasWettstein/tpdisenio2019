@@ -641,6 +641,8 @@ public class PantallaDarAltaPoliza {
 		quitarH.setSize(236, 33);
 		quitarH.setLocation(25, 515);
 		quitarH.addActionListener(e -> {
+
+			//validar que se selecciono un hijo de la tabla
 			HijoDTO H_aux = new HijoDTO();
 			H_aux = listaHijos.get(tablaHijos.getSelectedRow());
 			modelhijos.removeRow(tablaHijos.getSelectedRow());
@@ -1021,6 +1023,7 @@ public class PantallaDarAltaPoliza {
 				}
 			};
 			table.setModel(model);
+
 		};
 
 		botonBuscar.addActionListener(accionBuscar);
