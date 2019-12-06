@@ -127,6 +127,15 @@ public class PantallaDarAltaPoliza {
 		scrollPaneCliente.setBounds(25, 62, 1267, 43);
 		marco1.getContentPane().add(scrollPaneCliente);
 
+
+		tablaCliente.getTableHeader().setReorderingAllowed(false);
+		tablaCliente.getTableHeader().setResizingAllowed(false);
+
+
+		tablaHijos.getTableHeader().setReorderingAllowed(false);
+		tablaHijos.getTableHeader().setResizingAllowed(false);
+
+
 		if(c1==null) {
 			c = new ClienteDTO();
 			listaHijos = new ArrayList <>();
@@ -401,7 +410,9 @@ public class PantallaDarAltaPoliza {
 				@Override
 				public void keyTyped(KeyEvent e) {
 					int max = 11;
-					if(motorTexto.getText().length() > max+1) {
+					char c = e.getKeyChar();
+					if((c < '0' || c > '9') &&(c < 'a' || c > 'z') &&(c < 'A' || c > 'Z')) e.consume();
+					else if(motorTexto.getText().length() > max+1) {
 						e.consume();
 						String shortened = motorTexto.getText().substring(0, max);
 						motorTexto.setText(shortened);
@@ -417,7 +428,9 @@ public class PantallaDarAltaPoliza {
 				@Override
 				public void keyTyped(KeyEvent e) {
 					int max = 11;
-					if(motorTexto.getText().length() > max+1) {
+					char c = e.getKeyChar();
+					if((c < '0' || c > '9') &&(c < 'a' || c > 'z') &&(c < 'A' || c > 'Z')) e.consume();
+					else if(motorTexto.getText().length() > max+1) {
 						e.consume();
 						String shortened = motorTexto.getText().substring(0, max);
 						motorTexto.setText(shortened);
@@ -438,7 +451,8 @@ public class PantallaDarAltaPoliza {
 				@Override
 				public void keyTyped(KeyEvent e) {
 					int max = 16;
-					if(e.getKeyChar()=='?' || e.getKeyChar()=='<' || e.getKeyChar()=='>' || e.getKeyChar()=='*' || e.getKeyChar()=='+' && e.getKeyChar()!='¡' && e.getKeyChar()!='_' && e.getKeyChar()!='|' && e.getKeyChar()!='¬' && e.getKeyChar()!='°' && e.getKeyChar()!='=') e.consume();
+					char c = e.getKeyChar();
+					if((c < '0' || c > '9') &&(c < 'a' || c > 'z') &&(c < 'A' || c > 'Z')) e.consume();
 					else if(chasisText.getText().length() > max+1) {
 						e.consume();
 						String shortened = chasisText.getText().substring(0, max);
@@ -454,7 +468,9 @@ public class PantallaDarAltaPoliza {
 				@Override
 				public void keyTyped(KeyEvent e) {
 					int max = 16;
-					if(chasisText.getText().length() > max+1) {
+					char c = e.getKeyChar();
+					if((c < '0' || c > '9') &&(c < 'a' || c > 'z') &&(c < 'A' || c > 'Z')) e.consume();
+					else if(chasisText.getText().length() > max+1) {
 						e.consume();
 						String shortened = chasisText.getText().substring(0, max);
 						chasisText.setText(shortened);
@@ -476,8 +492,10 @@ public class PantallaDarAltaPoliza {
 			patenteText.addKeyListener(new KeyAdapter() { // LA PATENTE PUEDEN SER HASTA 7 CARACTERES
 				@Override
 				public void keyTyped(KeyEvent e) {
-					int max = 6;
-					if(patenteText.getText().length() > max+1) {
+					int max =6;
+					char c = e.getKeyChar();
+					if((c < '0' || c > '9') &&(c < 'a' || c > 'z') &&(c < 'A' || c > 'Z')) e.consume();
+					else if(patenteText.getText().length() > max+1) {
 						e.consume();
 						String shortened = patenteText.getText().substring(0, max);
 						patenteText.setText(shortened);
@@ -492,8 +510,10 @@ public class PantallaDarAltaPoliza {
 			patenteText.addKeyListener(new KeyAdapter() { // LA PATENTE PUEDEN SER HASTA 7 CARACTERES
 				@Override
 				public void keyTyped(KeyEvent e) {
-					int max = 6;
-					if(patenteText.getText().length() > max+1) {
+					int max =6;
+					char c = e.getKeyChar();
+					if((c < '0' || c > '9') &&(c < 'a' || c > 'z') &&(c < 'A' || c > 'Z')) e.consume();
+					else if(patenteText.getText().length() > max+1) {
 						e.consume();
 						String shortened = patenteText.getText().substring(0, max);
 						patenteText.setText(shortened);
@@ -502,7 +522,6 @@ public class PantallaDarAltaPoliza {
 					}
 				}
 			});
-
 		}
 
 		// ------- JSPINNER -----------------------
@@ -643,11 +662,12 @@ public class PantallaDarAltaPoliza {
 		quitarH.addActionListener(e -> {
 
 			//validar que se selecciono un hijo de la tabla
-			HijoDTO H_aux = new HijoDTO();
-			H_aux = listaHijos.get(tablaHijos.getSelectedRow());
-			modelhijos.removeRow(tablaHijos.getSelectedRow());
-			listaHijos.remove(H_aux);
-
+			if(tablaHijos.getSelectedRow()>=0) {
+				HijoDTO H_aux = new HijoDTO();
+				H_aux = listaHijos.get(tablaHijos.getSelectedRow());
+				modelhijos.removeRow(tablaHijos.getSelectedRow());
+				listaHijos.remove(H_aux);
+			}
 		});
 		marco1.getContentPane().add(quitarH);
 
@@ -950,11 +970,41 @@ public class PantallaDarAltaPoliza {
 		textNombre.setColumns(10);
 		textNombre.setBounds(162, 111, 196, 20);
 		marco1.getContentPane().add(textNombre);
+		textNombre.addKeyListener(new KeyAdapter() { // LA PATENTE PUEDEN SER HASTA 7 CARACTERES
+			@Override
+			public void keyTyped(KeyEvent e) {
+				int max =6;//aqui
+				char c = e.getKeyChar();
+				if((c < 'a' || c > 'z') &&(c < 'A' || c > 'Z')) e.consume();
+				else if(textNombre.getText().length() > max+1) {
+					e.consume();
+					String shortened = textNombre.getText().substring(0, max);
+					textNombre.setText(shortened);
+				}else if(textNombre.getText().length() > max) {
+					e.consume();
+				}
+			}
+		});
 
 		textApellido = new JTextField();
 		textApellido.setColumns(10);
 		textApellido.setBounds(534, 111, 196, 20);
 		marco1.getContentPane().add(textApellido);
+		textApellido.addKeyListener(new KeyAdapter() { // LA PATENTE PUEDEN SER HASTA 7 CARACTERES
+			@Override
+			public void keyTyped(KeyEvent e) {
+				int max =8;//aqui
+				char c = e.getKeyChar();
+				if((c < 'a' || c > 'z') &&(c < 'A' || c > 'Z')) e.consume();
+				else if(textApellido.getText().length() > max+1) {
+					e.consume();
+					String shortened = textApellido.getText().substring(0, max);
+					textApellido.setText(shortened);
+				}else if(textApellido.getText().length() > max) {
+					e.consume();
+				}
+			}
+		});
 		// -----------------------------------------------------------------
 
 		// --------------- COMBO BOX ---------------------------------------
@@ -990,6 +1040,8 @@ public class PantallaDarAltaPoliza {
 		}	);
 
 		scrollPane.setViewportView(table);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.getTableHeader().setResizingAllowed(false);
 		// -----------------------------------------------------------------
 
 		// ------------------------ BOTONES --------------------------------
@@ -1023,7 +1075,7 @@ public class PantallaDarAltaPoliza {
 				}
 			};
 			table.setModel(model);
-
+			textNroCliente.setText("");
 		};
 
 		botonBuscar.addActionListener(accionBuscar);

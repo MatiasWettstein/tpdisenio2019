@@ -34,15 +34,19 @@ public class DAODescuentos {
 			st_unidadAdicional.executeUpdate();
 			st_unidadAdicional.close();
 
-			id_descuento+=1;
+			if(p.getForma_pago().getNombre().equals("SEMESTRAL")) {
 
-			PreparedStatement st_PagoSemestral = con.prepareStatement("INSERT INTO DESCUENTOS VALUES (?, ?, ?, ?)");
-			st_PagoSemestral.setInt(1, id_descuento);
-			st_PagoSemestral.setString(2, "PAGO SEMESTRAL");
-			st_PagoSemestral.setDouble(3, p.getDescuento().getDescPorPagoSemestral());
-			st_PagoSemestral.setLong(4, p.getNroPoliza());
-			st_PagoSemestral.executeUpdate();
-			st_PagoSemestral.close();
+				id_descuento+=1;
+
+				PreparedStatement st_PagoSemestral = con.prepareStatement("INSERT INTO DESCUENTOS VALUES (?, ?, ?, ?)");
+				st_PagoSemestral.setInt(1, id_descuento);
+				st_PagoSemestral.setString(2, "PAGO SEMESTRAL");
+				st_PagoSemestral.setDouble(3, p.getDescuento().getDescPorPagoSemestral());
+				st_PagoSemestral.setLong(4, p.getNroPoliza());
+				st_PagoSemestral.executeUpdate();
+				st_PagoSemestral.close();
+
+			}
 
 			id_descuento+=1;
 

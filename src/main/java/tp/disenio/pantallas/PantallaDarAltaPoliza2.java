@@ -10,6 +10,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -168,17 +169,36 @@ public class PantallaDarAltaPoliza2 {
 
 			try {
 
+
+
 				DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 				LocalDate fechaInicio = LocalDate.parse(fechaIn, fmt);
+
+
+
+
 			}
 			catch (Exception exx) {
+				fechaValida = false;
+				error += "La fecha ingresada es inválida \n";
+			}
+
+			Date date1 = null;
+			Date date2 = null;
+			try {
+				date1=new SimpleDateFormat("dd-MM-yyyy").parse(fechaFormattedTextField.getText());
+				date2 = new SimpleDateFormat("dd-MM-yyyy").parse(strDate);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+			if(date1.before(date2)) {
 				fechaValida = false;
 				error += "La fecha ingresada es inválida \n";
 			}
 			if (error != "" ) {
 				JOptionPane.showMessageDialog(null, error);
 			}
-
 
 			if (tipoCobertura && formaPago && fechaValida) {
 

@@ -35,7 +35,7 @@ public class DAOHijo {
 				st.setString(2, h.getFechaNac()); //fechaNac
 				st.setString(3, h.getEstadoCivil()); //EstadoCivil
 				st.setString(4, h.getSexo()); //sexo
-				st.setLong(5, p.getNroPoliza());//nro_poliza
+				st.setLong(5, p.getNroPoliza()); //nro_poliza
 				st.executeUpdate();
 				st.close();
 

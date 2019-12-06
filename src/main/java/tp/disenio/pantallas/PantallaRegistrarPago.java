@@ -94,7 +94,10 @@ public class PantallaRegistrarPago {
 				close();
 			}
 		});
-
+		tablaCuotas.getTableHeader().setReorderingAllowed(false);
+		tablaCuotas.getTableHeader().setResizingAllowed(false);
+		tablaPoliza.getTableHeader().setReorderingAllowed(false);
+		tablaPoliza.getTableHeader().setResizingAllowed(false);
 		JScrollPane scrollPanePoliza = new JScrollPane();
 		scrollPanePoliza.setBounds(25, 62, 1267, 43);
 		marco1.getContentPane().add(scrollPanePoliza);

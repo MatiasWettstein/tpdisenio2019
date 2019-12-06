@@ -356,7 +356,7 @@ public class GestorPoliza {
 				Hijo aux_h = new Hijo();
 				aux_h.setEstadoCivil(h.getEstadoCivil());
 				aux_h.setFechaNac(h.getFechaNac());
-				aux_h.setSexo(h.getFechaNac());
+				aux_h.setSexo(h.getSexo());
 
 				hijos.add(aux_h);
 			}

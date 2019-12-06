@@ -72,6 +72,8 @@ public class PantallaBuscarPoliza {
 
 		tablaPoliza.setModel(modelPoliza);
 		scrollPane.setViewportView(tablaPoliza);
+		tablaPoliza.getTableHeader().setReorderingAllowed(false);
+		tablaPoliza.getTableHeader().setResizingAllowed(false);
 		// ------------------------------------
 		// --------------- ETIQUETAS --------------
 		JLabel lblNroPoliza = new JLabel("Nro Poliza");
