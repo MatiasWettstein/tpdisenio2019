@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 
 import tp.disenio.gestores.GestorDB;
 import tp.disenio.gestores.GestorPantallas;
+import javax.swing.JPanel;
 public class PantallaInicio {
 
 
@@ -56,6 +57,19 @@ public class PantallaInicio {
 
 		marco1.getContentPane().add(boton);
 		marco1.getContentPane().add(titulo);
+		
+		JPanel panelIcono = new JPanel();
+		panelIcono.setBackground(new Color(0, 128, 128));
+		panelIcono.setBounds(219, 174, 406, 219);
+		marco1.getContentPane().add(panelIcono);
+		
+		try {
+			Logotipo logo = new Logotipo();
+			logo.cargarImagen(panelIcono.getGraphics());
+		}
+		catch(Exception e){
+			e.printStackTrace();
+		}
 
 
 	}
