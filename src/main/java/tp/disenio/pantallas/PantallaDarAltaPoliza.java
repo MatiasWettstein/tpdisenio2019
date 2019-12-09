@@ -28,6 +28,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
@@ -943,6 +944,13 @@ public class PantallaDarAltaPoliza {
 		lblApellidoCliente.setFont(new Font("Serif", Font.PLAIN, 18));
 		lblApellidoCliente.setBounds(389, 103, 205, 31);
 		marco1.getContentPane().add(lblApellidoCliente);
+		
+		JLabel listaVacia = new JLabel("No se econtraron coincidencias con la busqueda");
+		listaVacia.setHorizontalAlignment(SwingConstants.CENTER);
+		listaVacia.setBounds(25, 220, 300, 25);
+		listaVacia.setFont(new Font("Serif", Font.PLAIN, 16));
+		listaVacia.setVisible(false);
+		marco1.getContentPane().add(listaVacia);
 
 		// -----------------------------------------------------------------
 
@@ -1064,6 +1072,13 @@ public class PantallaDarAltaPoliza {
 				fila++;
 
 			}
+			
+			if (cantCliente==0) {
+				listaVacia.setVisible(true);
+			}
+			else{
+				listaVacia.setVisible(false);
+			}
 
 			DefaultTableModel model = new DefaultTableModel(listaMuestra,new String[] {"Nro. Cliente", "Apellido", "Nombre", "Tipo Documento", "Nro. Documento"}) {
 
@@ -1112,7 +1127,6 @@ public class PantallaDarAltaPoliza {
 		btnCancelar.setBounds(1041, 527, 143, 33);
 		marco1.getContentPane().add(btnCancelar);
 		btnCancelar.addActionListener(e -> marco1.dispose());
-
 
 		marco1.setLocationRelativeTo(null);
 		marco1.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);

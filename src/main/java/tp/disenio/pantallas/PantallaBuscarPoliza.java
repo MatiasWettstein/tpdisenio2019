@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import tp.disenio.DAO.DAOCuota;
@@ -52,6 +53,9 @@ public class PantallaBuscarPoliza {
 	 * @wbp.parser.entryPoint
 	 */
 	private static Poliza poliza_encontrada = new Poliza();
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public static void start() {
 		// --------------- MARCO --------------
 		final Marco marco1 = new Marco(1200,600,"BUSCAR POLIZA");
@@ -80,6 +84,13 @@ public class PantallaBuscarPoliza {
 		lblNroPoliza.setBounds(43, 83, 142, 38);
 		lblNroPoliza.setFont(new Font("Serif", Font.PLAIN, 19));
 		marco1.getContentPane().add(lblNroPoliza);
+		
+		JLabel listaVacia = new JLabel("No se econtraron coincidencias con la busqueda");
+		listaVacia.setHorizontalAlignment(SwingConstants.CENTER);
+		listaVacia.setBounds(43, 220, 300, 25);
+		listaVacia.setFont(new Font("Serif", Font.PLAIN, 16));
+		listaVacia.setVisible(false);
+		marco1.getContentPane().add(listaVacia);
 		// --------------- CAMPOS DE TEXTO --------------
 		textFieldNPoliza = new JTextField();
 		textFieldNPoliza.setBounds(155, 96, 196, 20);
@@ -112,8 +123,10 @@ public class PantallaBuscarPoliza {
 				Boolean encontrada = gp.polizaExiste(textFieldNPoliza.getText());
 				if (!encontrada) {
 					JOptionPane.showMessageDialog(null, "No se encontró ninguna poliza bajo ese Nro");
+					listaVacia.setVisible(true);
 				}
 				if (encontrada ) {
+					listaVacia.setVisible(false);
 					poliza_encontrada = gp.buscarPoliza(textFieldNPoliza.getText());
 					Object[][] listaMuestra = new Object[1][7];
 

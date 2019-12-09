@@ -26,6 +26,7 @@ import tp.disenio.clases.Semestral;
 import tp.disenio.gestores.GestorCobro;
 import tp.disenio.gestores.GestorDB;
 import tp.disenio.gestores.GestorPantallas;
+import javax.swing.SwingConstants;
 
 public class PantallaRegistrarPago {
 
@@ -200,6 +201,13 @@ public class PantallaRegistrarPago {
 		lblCuotasPendientesDe.setFont(new Font("Serif", Font.BOLD, 19));
 		lblCuotasPendientesDe.setBounds(25, 329, 273, 25);
 		marco1.getContentPane().add(lblCuotasPendientesDe);
+		
+		JLabel listaVacia = new JLabel("Todas las coutas estan pagas");
+		listaVacia.setHorizontalAlignment(SwingConstants.CENTER);
+		listaVacia.setBounds(250, 331, 192, 25);
+		listaVacia.setFont(new Font("Serif", Font.PLAIN, 16));
+		listaVacia.setVisible(false);
+		marco1.getContentPane().add(listaVacia);
 
 		// ---------- CAMPOS DE TEXTO ------------
 
@@ -327,6 +335,9 @@ public class PantallaRegistrarPago {
 
 						fila++;
 					}
+					if (listaMuestraMensual.length==0) {
+						listaVacia.setVisible(true);
+					}
 
 				}
 				modelCuota =new DefaultTableModel(
@@ -397,6 +408,9 @@ public class PantallaRegistrarPago {
 					tablaCuotas.setModel(modelCuota);
 					scrollPaneCuotas.setViewportView(tablaCuotas);
 				}
+				else {
+					listaVacia.setVisible(true);
+				}
 			}
 
 		}
@@ -443,6 +457,13 @@ public class PantallaRegistrarPago {
 
 					if(seleccionadas[0]>0) {
 						flag = false;
+					}
+					else {
+						for (int i =0; i<seleccionadas.length;i++) {
+							if (seleccionadas[i]>=seleccionadas.length) {
+								flag = false;
+							}
+						}
 					}
 
 					if(flag==false) {
