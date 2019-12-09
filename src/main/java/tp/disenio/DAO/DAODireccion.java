@@ -25,11 +25,11 @@ public class DAODireccion {
 			String Consulta = "select max(id_direccion) from direccion";
 			PreparedStatement stDire = con.prepareStatement(Consulta);
 			rsDire = stDire.executeQuery();
-			stDire.close();
 			while(rsDire.next()) {
 				idDire = rsDire.getInt("max");
 			}
 			idDire++;
+			stDire.close();
 
 			numeroDire = Integer.parseInt(d.getNumero());
 
