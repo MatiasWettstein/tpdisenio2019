@@ -5,12 +5,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import tp.disenio.clases.ReciboPago;
 import tp.disenio.gestores.GestorCobro;
 import tp.disenio.gestores.GestorDB;
 
 public class DAOReciboPago {
 
-	public static int cargarReciboPago(String fechaPago, Double montoTotal) {
+	public static int cargarReciboPago(ReciboPago recibo) {
 		int retorno = 0;
 		GestorDB gdb = GestorDB.getInstance();
 		GestorCobro gc = GestorCobro.getInstance();
@@ -30,8 +31,8 @@ public class DAOReciboPago {
 
 			PreparedStatement st = con.prepareStatement("INSERT INTO recibo_pago VALUES (?, ?, ?, ?)");
 			st.setInt(1, id_cobro); //id_cobro
-			st.setString(2, fechaPago); //fecha
-			st.setDouble(3, montoTotal);//monto
+			st.setString(2, recibo.getFechacobro()); //fecha
+			st.setDouble(3, recibo.getMontototal());//monto
 			st.setLong(4, retorno);//nro_recibo
 			st.executeUpdate();
 			st.close();

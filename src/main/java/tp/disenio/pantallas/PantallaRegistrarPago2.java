@@ -101,7 +101,7 @@ public class PantallaRegistrarPago2 {
 				JOptionPane.showMessageDialog(null, "El monto abonado es menor al monto a pagar, reingrese");
 			}
 			else {
-				vuelto = montoAbonado-precio;
+				vuelto = gc.calcularVuelto(montoAbonado, precio);
 				JOptionPane.showMessageDialog(null, "El vuelto del cliente es: " + dec.format(vuelto));
 				if(cuotas==null) {//si es de forma semestral solo tengo una cuota que pagar
 					boolean flag = gc.registrarPagoCuotaSemestral(c, fechaPago, montoTotal);

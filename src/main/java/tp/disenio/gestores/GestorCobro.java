@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import tp.disenio.DAO.DAOCuota;
 import tp.disenio.DAO.DAOReciboPago;
 import tp.disenio.DTO.CuotaDTO;
+import tp.disenio.clases.ReciboPago;
 import tp.disenio.clases.SubsistemaFinanciero;
 
 public class GestorCobro {
@@ -55,13 +56,28 @@ public class GestorCobro {
 		return retorno;
 
 	}
+	
+	public double calcularVuelto(double montoAbonado, double precio) {
+		double retorno =0;
+		retorno = montoAbonado-precio;
+		return retorno;
+	}
 
 	public boolean registrarPagoCuotaSemestral(CuotaDTO c, String fecha_pago, double monto_total) { //UNICA CUOTA
-		int nroRecibo = DAOReciboPago.cargarReciboPago(fecha_pago, monto_total);
+		ReciboPago recibo = new ReciboPago();
+		recibo = generarInstanciaReciboPago(fecha_pago, monto_total);
+		int nroRecibo = DAOReciboPago.cargarReciboPago(recibo);
+		recibo.setNumerorecibo(nroRecibo);
 		boolean retorno = DAOCuota.pagarCuota(c, nroRecibo);
 		return retorno;
 	}
 
+	public ReciboPago generarInstanciaReciboPago(String fecha_pago, double monto_total) {
+		ReciboPago retorno = new ReciboPago();
+		retorno.setFechacobro(fecha_pago);
+		retorno.setMontototal(monto_total);
+				return retorno; 
+	}
 
 	public int generarNumeroRecibo() {
 		int retorno =0;
@@ -76,13 +92,10 @@ public class GestorCobro {
 	}
 
 	public boolean registrarPagoCuotaMensual(ArrayList<CuotaDTO> cuotas, String fechaPago, Double montoTotal) {
-		int nroRecibo = DAOReciboPago.cargarReciboPago(fechaPago, montoTotal);
-
-		for(CuotaDTO c: cuotas) {
-
-			System.out.println(c.getId_cuota());
-		}
-
+		ReciboPago recibo = new ReciboPago();
+		recibo = generarInstanciaReciboPago(fechaPago, montoTotal);
+		int nroRecibo = DAOReciboPago.cargarReciboPago(recibo);
+		recibo.setNumerorecibo(nroRecibo);
 		boolean retorno = DAOCuota.pagarCuotas(cuotas, nroRecibo);
 		return retorno;
 	}

@@ -32,6 +32,7 @@ public class DAOPoliza {
 	public static Boolean cargarPoliza(Poliza poliza) {
 
 		boolean retorno = false;
+		boolean flag_poliza=false; 
 		GestorDB gdb = GestorDB.getInstance();
 		Connection con = gdb.conec;
 
@@ -75,12 +76,52 @@ public class DAOPoliza {
 			st.executeUpdate();
 			st.close();
 
-			retorno = true;
+			flag_poliza = true;
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		boolean flag_mds = false; 
+		boolean flag_hijo = false; 
+		boolean flag_cuota = false; 
+		boolean flag_carac = false; 
+		boolean flag_desc= false;
+		if(flag_poliza) { //si pude cargar la poliza 
+			
+			/*cargar tablas:
+			 * CUOTA - listo
+			 * CATACTERISTICAS - listo
+			 * DESCUENTOS - LISTO
+			 * POLIZA TIENE MDS - listo
+			 * AGREGAR HIJO DECLARADO - listo
+			 *
+
+			//Si se pudo cargar todo eso se cargó bien la poliza
+			Boolean poliza_tiene_mds = gp.cargarPolizaTieneMDS(nueva_poliza);
+
+			Boolean hijo_declarado = gp.cargarHijos(nueva_poliza);
+
+			Boolean bool_cuota = gp.cargarCuota(nueva_poliza);
+
+			Boolean bool_caracteristicas = gp.cargarCaracteristicas(nueva_poliza);
+
+			Boolean bool_desc = gp.cargarDescuentos(nueva_poliza);*/
+			flag_mds = DAOMedidasSeguridad.cargarPolizaTieneMDS(poliza);
+			flag_hijo = DAOHijo.cargarHijos(poliza);
+			flag_cuota = DAOCuota.cargarCuota(poliza);
+			flag_carac = DAOCaracteristicas.cargarCaracteristicas(poliza);
+			flag_desc= DAODescuentos.cargarDescuentos(poliza);
+			
+			
+			if (flag_mds && flag_hijo && flag_cuota && flag_carac && flag_desc) {
+				retorno=true;
+			}
+		}
+		else retorno = false;
+		
+		
 
 		return retorno;
 	}

@@ -141,26 +141,7 @@ public class GestorPoliza {
 		nueva_poliza.setForma_pago(aux_mens);
 
 		if (DAOPoliza.cargarPoliza(nueva_poliza)) {
-			/*cargar tablas:
-			 * CUOTA - listo
-			 * CATACTERISTICAS - listo
-			 * DESCUENTOS - LISTO
-			 * POLIZA TIENE MDS - listo
-			 * AGREGAR HIJO DECLARADO - listo
-			 */
-
-			//Si se pudo cargar todo eso se cargó bien la poliza
-			Boolean poliza_tiene_mds = gp.cargarPolizaTieneMDS(nueva_poliza);
-
-			Boolean hijo_declarado = gp.cargarHijos(nueva_poliza);
-
-			Boolean bool_cuota = gp.cargarCuota(nueva_poliza);
-
-			Boolean bool_caracteristicas = gp.cargarCaracteristicas(nueva_poliza);
-
-			Boolean bool_desc = gp.cargarDescuentos(nueva_poliza);
-
-			if (poliza_tiene_mds && bool_cuota && bool_caracteristicas && bool_desc) flag = true;
+			 flag = true;
 		}
 		return flag;
 	}
@@ -193,52 +174,9 @@ public class GestorPoliza {
 
 
 		if (DAOPoliza.cargarPoliza(nueva_poliza)) {
-			/*cargar tablas:
-			 * CUOTA - listo
-			 * CATACTERISTICAS - listo
-			 * DESCUENTOS - LISTO
-			 * POLIZA TIENE MDS - listo
-			 * AGREGAR HIJO DECLARADO - listo
-			 */
-
-			//Si se pudo cargar todo eso se cargó bien la poliza
-			Boolean poliza_tiene_mds = gp.cargarPolizaTieneMDS(nueva_poliza);
-
-			Boolean hijo_declarado = gp.cargarHijos(nueva_poliza);
-
-			Boolean bool_cuota = gp.cargarCuota(nueva_poliza);
-
-			Boolean bool_caracteristicas = gp.cargarCaracteristicas(nueva_poliza);
-
-			Boolean bool_desc = gp.cargarDescuentos(nueva_poliza);
-
-			if (poliza_tiene_mds && bool_cuota && bool_caracteristicas && bool_desc) flag = true;
+			flag = true;
 		}
 		return flag;
-	}
-
-	private Boolean cargarDescuentos(Poliza nueva_poliza) {
-		boolean retorno = DAODescuentos.cargarDescuentos(nueva_poliza);
-		return retorno;
-
-	}
-
-	private Boolean cargarCaracteristicas(Poliza nueva_poliza) {
-		boolean retorno = DAOCaracteristicas.cargarCaracteristicas(nueva_poliza);
-		return retorno;
-
-
-	}
-
-	private Boolean cargarCuota(Poliza nueva_poliza) {
-		boolean retorno = DAOCuota.cargarCuota(nueva_poliza);
-		return retorno;
-
-	}
-
-	private Boolean cargarHijos(Poliza nueva_poliza) {
-		boolean retorno = DAOHijo.cargarHijos(nueva_poliza);
-		return retorno;
 	}
 
 	public static double calcularMontoTotalAPagar (PremioDTO premiodto, ClienteDTO c ) {
@@ -416,13 +354,7 @@ public class GestorPoliza {
 		return nueva_poliza;
 	}
 
-	public static Boolean cargarPolizaTieneMDS (Poliza p) {
-		Boolean flag = false;
-
-		flag = DAOMedidasSeguridad.cargarPolizaTieneMDS(p);
-
-		return flag;
-	}
+	
 
 	public static Poliza  buscarPoliza(String nroP) {
 		Poliza retorno = new Poliza();
