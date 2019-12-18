@@ -211,8 +211,7 @@ public class GestorPoliza {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		cal1.add(Calendar.MONTH, 1);
-		cal1.add(Calendar.DAY_OF_MONTH,1);
+		cal1.add(Calendar.DAY_OF_MONTH,-1);
 		DecimalFormat dec = new DecimalFormat("#0.00");
 		for(int i=0; i<6; i++) {
 			CuotaDTO cuota = new CuotaDTO();

@@ -174,7 +174,7 @@ public class PantallaDarAltaPoliza3Semestral {
 		DateFormat dateFormat1 = new SimpleDateFormat("dd-MM-yyyy");
 		Calendar cal1 = Calendar.getInstance();
 		try {
-			cal1.setTime(dateFormat1.parse(p.getFin_vigencia()));
+			cal1.setTime(dateFormat1.parse(p.getInicio_vigencia()));
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
